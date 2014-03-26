@@ -22,7 +22,7 @@
         "grunt-contrib-cssmin": "~0.6.1",
         "grunt-contrib-less": "~0.9.0",
         "grunt-contrib-coffee": "~0.7.0",
-        "lodash": "2.4.1"
+        "lodash": "~2.4.1"
     },
     "scripts": {
         "start": "node app.js",
@@ -31,7 +31,7 @@
     "main": "app.js",
     "repository": {
         "type": "git",
-        "url": "git://github.com/abhishekrakshit/Nirvana.git"
+        "url": "git://github.com/abhirakshit/Nirvana.git"
     },
     "author": "abhishekrakshit",
     "license": ""
