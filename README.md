@@ -1,3 +1,6 @@
-# Nirvana
+=======
+Nirvana
+=======
 
-a [Sails](http://sailsjs.org) application
+Playing with SailsJS
+
