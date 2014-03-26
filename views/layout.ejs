@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%- title %></title>
+
+    <!-- Viewport mobile tag for sensible mobile support -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    
+    <!--  
+        Stylesheets and Preprocessors
+        ==============================
+
+        You can always bring in CSS files manually with `link` tags, or asynchronously
+        on the client using a solution like AMD (RequireJS).  Or, if you like, you can
+        take advantage of Sails' boilerplate asset management.
+
+        By default, stylesheets from your `assets/linker/styles` folder are included
+        here automatically.  Both CSS (.css) and LESS (.less) are supported.
+        In production, your styles will be minified and concatenated into a single file.
+        
+        To customize any part of the built-in behavior, just edit your Gruntfile.
+        For example, here are a few things you could do:
+            
+            + Change the order of your CSS files
+            + Import stylesheets from other directories
+            + Use a different or additional preprocessor, like SASS, SCSS or Stylus
+    -->
+
+    <!--STYLES-->
+    <link rel="stylesheet" href="/styles/bootstrap/bootstrap.css">
+    <link rel="stylesheet" href="/styles/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/custom.css">
+    <link rel="stylesheet" href="/styles/importer.css">
+    <link rel="stylesheet" href="/styles/layout.css">
+    <!--STYLES END-->
+  </head>
+
+  <body>
+    <%- body %>
+
+
+
+    <!--
+        Client-side Templates
+        ========================
+
+    		HTML templates are important prerequisites of modern, rich client applications.
+        To work their magic, frameworks like Backbone, Angular, Ember, and Knockout require
+        that you load these templates client-side.
+
+        By default, your Gruntfile is configured to automatically load and precompile
+        client-side JST templates in your `assets/linker/templates` folder, then
+        include them here automatically.
+        
+        To customize this behavior to fit your needs, just edit your Gruntfile.
+        For example, here are a few things you could do:
+
+            + Import templates from other directories
+            + Use a different template engine (handlebars, jade, dust, etc.)
+            + Internationalize your templates using a server-side stringfile
+              before they're served.
+    -->
+
+    <!--TEMPLATES-->
+    
+    <!--TEMPLATES END-->
+
+
+    <!--
+
+      Client-side Javascript
+      ========================
+
+      You can always bring in JS files manually with `script` tags, or asynchronously
+      on the client using a solution like AMD (RequireJS).  Or, if you like, you can 
+      take advantage of Sails' boilerplate asset management.
+
+      By default, filesin your `assets/linker/js` folder are included here
+      automatically.  Both JavaScript (.js) and CoffeeScript (.coffee) are supported.
+      In production, your scripts will be minified and concatenated into a single file.
+      
+      To customize any part of the built-in behavior, just edit your Gruntfile.
+      For example, here are a few things you could do:
+          
+          + Change the order of your scripts
+          + Import scripts from other directories
+          + Use a different preprocessor, like TypeScript
+
+    -->
+
+    <!--SCRIPTS-->
+    <script src="/js/socket.io.js"></script>
+    <script src="/js/sails.io.js"></script>
+    <script src="/js/connection.example.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/js/config/app/config_app.js"></script>
+    <script src="/js/config/app/consts.js"></script>
+    <script src="/js/config/app/templateLoader/templateLoader.js"></script>
+    <script src="/js/config/app/utils.js"></script>
+    <script src="/js/config/backbone/sync.js"></script>
+    <script src="/js/config/marionette/application.js"></script>
+    <script src="/js/config/marionette/module.js"></script>
+    <script src="/js/config/marionette/renderer.js"></script>
+    <script src="/js/lib/backbone-validation/backbone-validation-amd-min.js"></script>
+    <script src="/js/lib/backbone-validation/backbone-validation-amd.js"></script>
+    <script src="/js/lib/backbone/backbone-min.js"></script>
+    <script src="/js/lib/backbone/backbone.js"></script>
+    <script src="/js/lib/bootstrap/bootstrap.js"></script>
+    <script src="/js/lib/bootstrap/bootstrap.min.js"></script>
+    <script src="/js/lib/jquery/jquery.js"></script>
+    <script src="/js/lib/jquery/jquery.min.js"></script>
+    <script src="/js/lib/marionette/backbone.marionette.js"></script>
+    <script src="/js/lib/marionette/backbone.marionette.min.js"></script>
+    <script src="/js/lib/require/require.js"></script>
+    <script src="/js/lib/spin/jquery.spin.js"></script>
+    <script src="/js/lib/spin/spin.js"></script>
+    <script src="/js/lib/spin/spin.min.js"></script>
+    <script src="/js/lib/underscore/underscore-min.js"></script>
+    <script src="/js/lib/underscore/underscore.js"></script>
+    <script src="/js/modules/controllers/base_controller.js"></script>
+    <script src="/js/modules/enquiries/enquiries_app.js"></script>
+    <script src="/js/modules/enquiries/enquiries_controller.js"></script>
+    <script src="/js/modules/enquiries/enquiries_setup.js"></script>
+    <script src="/js/modules/enquiries/enquiries_view.js"></script>
+    <script src="/js/modules/enquiries/navbar/navbar_app.js"></script>
+    <script src="/js/modules/enquiries/navbar/navbar_controller.js"></script>
+    <script src="/js/modules/enquiries/navbar/navbar_view.js"></script>
+    <script src="/js/modules/entities/base/_utilities.js"></script>
+    <script src="/js/modules/entities/base/collections.js"></script>
+    <script src="/js/modules/entities/base/models.js"></script>
+    <script src="/js/modules/entities/counselor.js"></script>
+    <script src="/js/modules/entities/country.js"></script>
+    <script src="/js/modules/entities/school.js"></script>
+    <script src="/js/modules/entities/user.js"></script>
+    <script src="/js/modules/footer/footer_app.js"></script>
+    <script src="/js/modules/footer/show/show_controller.js"></script>
+    <script src="/js/modules/footer/show/show_setup.js"></script>
+    <script src="/js/modules/footer/show/show_view.js"></script>
+    <script src="/js/modules/header/header_app.js"></script>
+    <script src="/js/modules/header/show/show_controller.js"></script>
+    <script src="/js/modules/header/show/show_setup.js"></script>
+    <script src="/js/modules/header/show/show_view.js"></script>
+    <script src="/js/modules/loading/loading_controller.js"></script>
+    <script src="/js/modules/loading/loading_view.js"></script>
+    <script src="/js/modules/main/main_app.js"></script>
+    <script src="/js/modules/profile/counselor/counselor_app.js"></script>
+    <script src="/js/modules/profile/counselor/counselor_controller.js"></script>
+    <script src="/js/modules/profile/counselor/counselor_view.js"></script>
+    <script src="/js/modules/profile/profile_app.js"></script>
+    <script src="/js/modules/profile/profile_controller.js"></script>
+    <script src="/js/modules/profile/profile_setup.js"></script>
+    <script src="/js/modules/profile/profile_view.js"></script>
+    <script src="/js/modules/settings/settings_app.js"></script>
+    <script src="/js/modules/settings/settings_controller.js"></script>
+    <script src="/js/modules/settings/settings_setup.js"></script>
+    <script src="/js/modules/settings/settings_view.js"></script>
+    <script src="/js/modules/sidebar/list/list_controller.js"></script>
+    <script src="/js/modules/sidebar/list/list_setup.js"></script>
+    <script src="/js/modules/sidebar/list/list_view.js"></script>
+    <script src="/js/modules/sidebar/sidebar_app.js"></script>
+    <script src="/js/modules/views/_view.js"></script>
+    <script src="/js/modules/views/collectionview.js"></script>
+    <script src="/js/modules/views/compositeview.js"></script>
+    <script src="/js/modules/views/itemview.js"></script>
+    <script src="/js/modules/views/layout.js"></script>
+    <script src="/js/modules/views/utils/utils.js"></script>
+    <script src="/js/modules/views/validation/validationMessages.js"></script>
+    <!--SCRIPTS END-->
+  </body>
+</html>

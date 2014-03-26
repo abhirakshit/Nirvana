@@ -1,0 +1,183 @@
+
+html {
+    /*Always show vertical scroll-bar so as not to jump content when it appears or disappears*/
+    overflow-y: scroll !important;
+}
+
+.navbar .beta {
+    font-size: 0.5em;
+    padding-left: 2px;
+}
+
+.beta {
+    font-size: 0.3em;
+    padding-left: 5px;
+}
+
+.wysihtml5 {
+    text-align: justify;
+}
+
+div.wysihtml5 img {
+    height: 200px;
+    float: right;
+    margin: 10px 0px 10px 10px;
+}
+
+.bulletHeader {
+    font-size: 1.1em;
+    font-weight: 700;
+    /*padding: 5px 0;*/
+}
+
+.sectionHeader {
+    font-size: 1.4em;
+    font-weight: 700;
+    padding: 5px 0;
+}
+
+h4 hr,h2 hr, .sectionHeader hr {
+    margin: 5px 0;
+    height: 8px;
+    border: 0;
+    box-shadow: inset 0 12px 12px -12px rgba(0,0,0,0.5);
+}
+
+.sectionDiv {
+    margin: 20px 0;
+}
+
+.ulNoBullet {
+    list-style-type: none;
+}
+
+.over {
+    border:1px solid #d3d3d3;
+    cursor:pointer;
+    /*margin-right: 11px !important;*/
+}
+
+.error {
+    color: red;
+}
+
+.primaryRightBtn {
+    float: right;
+}
+
+
+/*Specific*/
+.tableDiv {
+	margin-bottom: 30px;
+}
+
+.autoPopulatePills {
+	margin: 0px 3px 5px 0px;
+	display: inline-block;
+}
+
+form.autoPopulatePillContainer {
+	width: 206px;
+}
+
+
+.display-none {
+	display: none;
+}
+
+.primaryRightBtn {
+	text-align: right;
+}
+
+.encloseBox {
+    border: 1px solid #ddd;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: none;
+    width: 470px;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.encloseBoxTextArea {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+.encloseBoxHeader {
+    background-color: #dddddd;
+    margin-bottom: 20px;
+    padding: 10px 0 5px 10px;
+    color: dimgrey;
+}
+
+.encloseBoxControls {
+    margin: 0px 10px;
+    /*margin-left: 20px;*/
+}
+
+.pill-container {
+    margin-bottom: 20px;
+}
+
+.comment-container {
+    margin-bottom: 10px;
+}
+
+/*.streamLink {*/
+    /*margin: 5px 5px 5px 0;*/
+    /*padding: 3px 3px 8px 3px;*/
+    /*font-size: 1em;*/
+    /*display: inline-block;*/
+    /*word-wrap: normal;*/
+/*}*/
+.streamLink {
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 1.8em;
+    height: 60px;
+    /*background: #AA4E4E;*/
+    color: #FFF;
+    padding-top: 15px;
+}
+
+.streamLink.biology {
+    border: solid 1px #bd4848;
+    background: #bd4848;
+}
+.streamLink.commerce {
+    border: solid 1px #728231;
+    background: #728231;
+}
+.streamLink.engineering {
+    border: solid 1px #3e3eb3;
+    background: #3e3eb3;
+}
+.streamLink.arts {
+    border: solid 1px #8c4380;
+    background: #8c4380;
+}
+
+.streamLinkComposite {
+    margin: 20px 0;
+}
+
+.searchNav {
+    color: #DD1144;
+}
+
+.searchSelect {
+    cursor: pointer;
+}
+
+
+/*jGrowl theme*/
+
+div.jGrowlSuccess {
+    background: palegreen !important;
+}
+
+div.jGrowlError {
+    background: lightsalmon !important;
+}
