@@ -1,7 +1,7 @@
 
 html {
     /*Always show vertical scroll-bar so as not to jump content when it appears or disappears*/
-    overflow-y: scroll !important;
+    /*overflow-y: scroll !important;*/
 }
 
 .navbar .beta {

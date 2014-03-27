@@ -53,7 +53,7 @@ define([
             getUserDropDownOptions: function() {
                 return new Application.Entities.Collection([
                     new Application.Entities.Model({optionId:"profile", optionUrl: "#user/profile", optionText: "Profile", iconClass: "user"}),
-                    new Application.Entities.Model({optionId:"logout", optionUrl: Application.LOGOUT, optionText: "Logout", iconClass: "off"})
+                    new Application.Entities.Model({optionId:"logout", optionUrl: Application.LOGOUT, optionText: "Logout", iconClass: "power-off"})
                 ])
             },
 
@@ -61,7 +61,7 @@ define([
                 return new Application.Entities.Collection([
                     new Application.Entities.Model({optionId:"profile", optionUrl: "#user/profile", optionText: "Profile", iconClass: "user"}),
                     new Application.Entities.Model({optionId:"admin", optionUrl: "#admin", optionText: "Admin", iconClass: "cog"}),
-                    new Application.Entities.Model({optionId:"logout", optionUrl: Application.LOGOUT, optionText: "Logout", iconClass: "off"})
+                    new Application.Entities.Model({optionId:"logout", optionUrl: Application.LOGOUT, optionText: "Logout", iconClass: "power-off"})
                 ])
             }
         })

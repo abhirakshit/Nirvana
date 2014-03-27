@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" class="app js no-touch no-android chrome no-firefox no-iemobile no-ie no-ie8 no-ie10 no-ie11 no-ios">
   <head>
     <!--
         For demonstration purposes, the `title` is dynamically set here based on
@@ -23,8 +23,9 @@
       
     -->
       <link href="/styles/custom.css" rel="stylesheet">
-      <link href="/styles/layout.css" rel="stylesheet">
-      <link href="/styles/bootstrap/bootstrap.min.css" rel="stylesheet">
+      <!--<link href="/styles/layout.css" rel="stylesheet">-->
+      <!--<link href="/styles/bootstrap/bootstrap.min.css" rel="stylesheet">-->
+      <link href="/styles/app.v1.css" rel="stylesheet">
 
 
 
@@ -44,8 +45,11 @@
 
   <body>
 
+    <section class="vbox">
+        <%- body %>
+    </section>
+
     <!-- Include the view file for the current controller/route -->
-    <%- body %>
 
 
     <!--

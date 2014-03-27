@@ -5,11 +5,10 @@ define([
         Enquiries.rootRoute = "enquiries";
         var API = {
             show: function () {
-                if (!Enquiries.controller) {
-                    Enquiries.controller = new Enquiries.Controller({
-                        region: Application.pageContentRegion
-                    });
-                }
+                new Enquiries.Controller({
+                    region: Application.pageContentRegion
+                });
+                Application.commands.execute(Application.SET_SIDEBAR, Application.ENQUIRIES_SHOW);
             }
         };
 
@@ -21,11 +20,11 @@ define([
         Enquiries.on(Application.START, function () {
             console.log("Enquiries start...");
 //            Marionette.TemplateLoader.loadModuleTemplates(Enquiries.Navbar, function() {
-                Marionette.TemplateLoader.loadModuleTemplates(Enquiries, Enquiries.setup);
+            Marionette.TemplateLoader.loadModuleTemplates(Enquiries, Enquiries.setup);
 //            });
         });
 
-        Application.commands.setHandler(Application.ENQUIRIES_SHOW, function(){
+        Application.commands.setHandler(Application.ENQUIRIES_SHOW, function () {
             API.show();
             Application.navigate(Enquiries.rootRoute);
         });

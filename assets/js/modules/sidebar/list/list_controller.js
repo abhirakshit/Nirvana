@@ -32,9 +32,10 @@ define([
             getCounselorSideBarOptionCollection: function () {
                 return new Application.Entities.Collection([
 //                    new Application.Entities.Model({id: Application.CAREER_SHOW, name: "Home", icon: "glyphicon glyphicon-home"}),
-                    new Application.Entities.Model({id: Application.ENQUIRIES_SHOW, name: "Enquiries", icon: "glyphicon glyphicon-home"}),
+                    new Application.Entities.Model({id: Application.ENQUIRIES_SHOW, name: "Enquiries", icon: "fa fa-home"}),
 //                    new Application.Entities.Model({id: Application.PROFILE_SHOW, name:"Profiles", icon: "glyphicon glyphicon-user"}),
-                    new Application.Entities.Model({id: Application.SETTINGS_SHOW, name: "Settings", icon: "glyphicon glyphicon-cog"}),
+                    new Application.Entities.Model({id: Application.PAYMENTS_SHOW, name: "Payments", icon: "fa fa-rupee"}),
+                    new Application.Entities.Model({id: Application.SETTINGS_SHOW, name: "Settings", icon: "fa fa-cogs"})
 //                    new Application.Entities.Model({id: Application.FORUM_SHOW, name: "Forum", icon: "glyphicon glyphicon-globe"})
                 ]);
             },
@@ -42,10 +43,10 @@ define([
             getStudentSideBarOptionCollection: function () {
                 return new Application.Entities.Collection([
 //                    new Application.Entities.Model({id: Application.CAREER_SHOW, name: "Home", icon: "glyphicon glyphicon-home"}),
-                    new Application.Entities.Model({id: Application.ENQUIRIES_SHOW, name: "Enquiries", icon: "glyphicon glyphicon-home"}),
+                    new Application.Entities.Model({id: Application.ENQUIRIES_SHOW, name: "Enquiries", icon: "fa fa-home"}),
 //                    new Application.Entities.Model({id: Application.PROFILE_SHOW, name:"Profile", icon: "glyphicon glyphicon-user"}),
-                    new Application.Entities.Model({id: Application.SETTINGS_SHOW, name: "Settings", icon: "glyphicon glyphicon-cog"}),
-//                    new Application.Entities.Model({id: Application.FORUM_SHOW, name: "Forum", icon: "glyphicon glyphicon-globe"})
+                    new Application.Entities.Model({id: Application.PAYMENTS_SHOW, name: "Payments", icon: "fa fa-rupee"}),
+                    new Application.Entities.Model({id: Application.SETTINGS_SHOW, name: "Settings", icon: "fa fa-cogs"})
                 ]);
             }
         });

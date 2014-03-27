@@ -4,7 +4,7 @@ define([
     Application.module("Header.Show", function(Show, Application, Backbone, Marionette, $, _) {
         Show.views.Layout = Application.Views.Layout.extend({
             template: "header/show/show_layout",
-            className: "navbar-inner",
+//            className: "navbar-inner",
 
             regions: {
                 appLabelRegion: "#app-label",
@@ -13,7 +13,7 @@ define([
             }
         });
 
-        var appLabelHtml = '<%=args.appLabel%><span class="beta">beta</span>';
+        var appLabelHtml = '<img src="images/logo.png" class="m-r-sm"><%=args.appLabel%><span class="beta">beta</span>';
         Show.views.AppLabel = Application.Views.ItemView.extend({
             tagName: "a",
             className: "navbar-brand",
@@ -37,7 +37,7 @@ define([
         });
 
 
-        var userDropDownOptionHtml = '<a href="<%=args.optionUrl%>"><span class="glyphicon glyphicon-<%=args.iconClass%>"></span>&nbsp<%=args.optionText%></a>';
+        var userDropDownOptionHtml = '<a href="<%=args.optionUrl%>"><i class="fa fa-<%=args.iconClass%>"></span>&nbsp<%=args.optionText%></a>';
 //        var userDropDownOptionHtml = '<a href="<%=args.optionUrl%>"><%=args.optionText%></a>';
         Show.views.UserDropDownOption = Marionette.ItemView.extend({
             tagName: "li",
@@ -59,7 +59,8 @@ define([
 
         Show.views.UserDropDownCollection = Marionette.CompositeView.extend({
             template: "header/show/userDropDownBtn",
-            className: "btn navbar-right",
+            className: "nav navbar-nav navbar-right m-n hidden-xs nav-user user",
+            tagName: "ul",
             itemView: Show.views.UserDropDownOption,
             itemViewContainer: "#user-actions",
 

@@ -8,7 +8,7 @@ module.exports = {
 
     index: function (req, res) {
         if (req.session.isAuthenticated) {
-            console.log('Show index...');
+//            console.log('Show index...');
             return res.view('main/index', {
                 _layoutFile: '../layout_index',
                 loggedUser: req.session.user

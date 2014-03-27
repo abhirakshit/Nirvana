@@ -24,8 +24,8 @@ define([
         Settings.setup = function() {
             new Settings.Router({
                 controller: API
-            })
-            Application.commands.execute(Application.MODULES_LOADED, Settings.rootRoute);
+            });
+//            Application.commands.execute(Application.MODULES_LOADED, Settings.rootRoute);
         };
 
         Settings.on(Application.START, function () {

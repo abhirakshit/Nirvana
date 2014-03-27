@@ -35,12 +35,18 @@ define([
 
 //        var tabContainerHtml = ""
         Navbar.views.TabContainer = Application.Views.CompositeView.extend({
-            className: "nav nav-tabs",
+//            className: "nav nav-pills",
+//            className: "nav nav-tabs nav-justified",
+            className: "nav nav-tabs pull-left",
             tagName: "ul",
             itemView: Navbar.views.Tab,
             template: function(serialized_model) {
                 return _.template("");
             }
+
+//            onRender: function() {
+//                this.$el.append('<span class="hidden-sm">Left</span>');
+//            }
         })
     });
 });

@@ -30,9 +30,15 @@ define([
         });
 
         List.views.SidebarOptions = Application.Views.CompositeView.extend({
-            template: "sidebar/list/listContainer",
+//            template: "sidebar/list/listContainer",
+            template: function(serialized_model) {
+                return _.template("")
+            },
             itemView: List.views.SideBarTab,
-            itemViewContainer: "#main-nav",
+//            itemViewContainer: "#main-nav",
+
+            tagName: "ul",
+            className: "nav nav-main",
 
 //            initialize: function(){
 //                var that = this;

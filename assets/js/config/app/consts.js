@@ -61,7 +61,8 @@ define([], function(){
         Application.PROFILE_SHOW = "profile:show";
         Application.PROFILES_SHOW = "profiles:show";
         Application.SETTINGS_SHOW = "settings:show";
-        Application.ENQUIRIES_SHOW = "entities:show";
+        Application.PAYMENTS_SHOW = "payments:show";
+        Application.ENQUIRIES_SHOW = "enquiries:show";
         Application.FORUM_SHOW = "forum:show";
 
         Application.STREAM_NAV_SHOW = "stream:nav:show";

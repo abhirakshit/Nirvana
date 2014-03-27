@@ -103,7 +103,7 @@ Marionette.TemplateLoader = (function(Marionette, _) {
 
     templateLoader.storeTemplate = function(templateId, template) {
         // compile template and store in cache
-        console.log("Template loaded: " + templateId);
+//        console.log("Template loaded: " + templateId);
         template = Marionette.TemplateCache.prototype.compileTemplate(template);
         var cachedTemplate = new Marionette.TemplateCache(templateId);
         cachedTemplate.compiledTemplate = template;
