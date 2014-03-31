@@ -395,7 +395,7 @@ module.exports.bootstrap = function (cb) {
             //Users
             createAdmin(cb),
             createCounselors(cb),
-//            deleteAllStudents(cb),
+            deleteAllStudents(cb),
             createStudents(cb)
         ]);
     };
