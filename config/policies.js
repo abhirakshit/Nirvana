@@ -18,6 +18,9 @@ module.exports.policies = {
   // (`true` allows public access) 
   '*': true
 
+
+
+
   /*
 	// Here's an example of adding some policies to a controller
 	RabbitController: {

@@ -19,6 +19,9 @@ define([], function(){
         Application.WHEN_FETCHED = "when:fetched";
         Application.SHOW_LOADING = "show:loading";
 
+        Application.CREATE_STUDENT = "create:student";
+
+
         Application.STREAM_LINK_SELECT = "stream:link:select";
         Application.STREAM_SELECT = "stream:select";
         Application.STREAM_CREATE = "stream:create";
@@ -70,9 +73,9 @@ define([], function(){
         Application.CAREER_CONTENT_SHOW = "career:content:show";
 
 
+        Application.ENQUIRY_SHOW = "enquiry:show";
         Application.ENQUIRIES_CONTENT_SHOW = "enquiries:content:show";
         Application.ENQUIRIES_NAV_SHOW = "enquiries:nav:show";
-
 
         Application.SHOW_PROFILE = "showProfile";
         Application.SHOW_ADMIN = "showAdmin";
@@ -83,7 +86,7 @@ define([], function(){
 
         Application.CONTROLLER_ID = "controller";
 
-        Application.USER_URL = '/user';
+//        Application.USER_URL = '/user';
         Application.GET_LOGGED_USER = "getLoggedUser";
         Application.USER_GET = "user:get";
         Application.GET_PASSWORD = "get:password";

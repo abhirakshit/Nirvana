@@ -8,6 +8,8 @@
  * http://sailsjs.org/#documentation
  */
 
+var _ = require('lodash'),
+    async = require('async');
 module.exports.bootstrap = function (cb) {
 
   // It's very important to trigger this callack method when you are finished 
@@ -15,7 +17,7 @@ module.exports.bootstrap = function (cb) {
 
 
     // Add Admin and Test Counselors
-    var adminUsers = [
+    var admins = [
         {
             "firstName": "Admin",
             "lastName": "",
@@ -26,20 +28,6 @@ module.exports.bootstrap = function (cb) {
         }
     ];
 
-    User.findOne({email: "admin@admin.com"}, function(err, user) {
-        if (err){
-            sails.log.error(err);
-            return cb(err);
-        }
-
-        if(!user) {
-            console.log('***Create Admin');
-            User.create(adminUsers).exec(cb);
-        }
-    });
-
-
-    // Populate Countries
     var countries = [
         {"name": "India"},
         {"name": "UK"},
@@ -50,20 +38,6 @@ module.exports.bootstrap = function (cb) {
         {"name": "Europe"}
     ];
 
-
-    Country.count().exec(function (err, cnt){
-        if (err){
-            sails.log.error(err);
-            return cb(err);
-        }
-
-        if (cnt === 0) {
-            console.log('***Add Countries');
-            Country.create(countries).exec(cb);
-        }
-    });
-
-    // Populate Courses
     var courses = [
         {"name": "GRE"},
         {"name": "GMAT"},
@@ -72,62 +46,21 @@ module.exports.bootstrap = function (cb) {
         {"name": "IELTS"}
     ];
 
-    Course.count().exec(function (err, cnt){
-        if (err){
-            sails.log.error(err);
-            return cb(err);
-        }
-
-        if (cnt === 0) {
-            console.log('***Add Courses');
-            Course.create(courses).exec(cb);
-        }
-    });
-
-    // Populate Services
     var services = [
         {"name": "Visa"},
         {"name": "Application"}
     ];
 
-    Service.count().exec(function (err, cnt){
-        if (err){
-            sails.log.error(err);
-            return cb(err);
-        }
-
-        if (cnt === 0) {
-            console.log('***Add services');
-            Service.create(services).exec(cb);
-        }
-    });
-
-    // Populate Status types
-    var statuses = [
-        {"title": "Not Picking Up"},
-        {"title": "In Progress"},
-        {"title": "Joined"},
-        {"title": "Closed"},
-        {"title": "Took Requirements"},
-        {"title": "Visited"},
-        {"title": "Expected Walk In"},
-        {"title": "To Call"},
-        {"title": "Enrolled"}
+    var statusTypes = [
+        {"name": "Not Picking Up"},
+        {"name": "In Progress"},
+        {"name": "Closed"},
+        {"name": "Took Requirements"},
+        {"name": "Visited"},
+        {"name": "Expected Walk In"},
+        {"name": "To Call"},
+        {"name": "Enrolled"}
     ];
-
-    Status.count().exec(function (err, cnt){
-        if (err){
-            sails.log.error(err);
-            return cb(err);
-        }
-
-        if (cnt === 0) {
-            console.log('***Add status type');
-            Status.create(statuses).exec(cb);
-        }
-    });
-
-    //Populate Test Counselor
 
     var counselors = [
         {
@@ -148,19 +81,6 @@ module.exports.bootstrap = function (cb) {
             "role": "counselor"
         }
     ];
-
-    Counselor.count().exec(function (err, cnt){
-        if (err){
-            sails.log.error(err);
-            return cb(err);
-        }
-
-        if (cnt === 0) {
-            console.log('***Add Counselors');
-            Counselor.create(counselors).exec(cb);
-        }
-    });
-
 
     var students = [
         {
@@ -183,17 +103,304 @@ module.exports.bootstrap = function (cb) {
 
     ];
 
-    Student.count().exec(function (err, cnt){
-        if (err){
-            sails.log.error(err);
-            return cb(err);
-        }
 
-        if (cnt === 0) {
-            console.log('***Add students type');
-            Student.create(students).exec(cb);
-        }
-    });
+    var createCountries = function(cb) {
+        Country.count().exec(function (err, cnt){
+            if (err){
+                sails.log.error(err);
+                return cb(err);
+            }
+
+            if (cnt < countries.length) {
+                Country.create(countries).exec(function(err, newCountries){
+                    console.log('***Added Countries: ' + newCountries.length);
+                    cb(null);
+                });
+            }
+        });
+    };
+
+    var createCourses = function(cb) {
+        Course.count().exec(function (err, cnt){
+            if (err){
+                sails.log.error(err);
+                return cb(err);
+            }
+
+            if (cnt < courses.length) {
+                Course.create(courses).exec(function (err, newCourses) {
+                    console.log('***Added Courses: ' + newCourses.length);
+                    cb(null);
+                });
+            }
+        });
+    };
+
+
+//    var afterServices = function(err, newServices) {
+//        while (newServices.length)
+//            storeServices.push(newServices.pop())
+//    };
+    var createServices = function(cb) {
+        Service.count().exec(function (err, cnt){
+            if (err){
+                sails.log.error(err);
+                return cb(err);
+            }
+
+            if (cnt < services.length) {
+                Service.create(services).exec(function(err, newServices){
+                    console.log('***Added services: ' + newServices.length);
+                    cb(null)
+                });
+            }
+        });
+    };
+
+//    var afterStatus = function(err, newStatus) {
+//        while (newStatus.length)
+//            storeStatus.push(newStatus.pop())
+//    };
+    var createStatusTypes = function(cb) {
+        Status.count().exec(function (err, cnt){
+            if (err){
+                sails.log.error(err);
+                return cb(err);
+            }
+
+            if (cnt < statusTypes.length) {
+                Status.create(statusTypes).exec(function(err, newStatus) {
+                    console.log('***Added status types: ' + newStatus.length);
+                    cb(null);
+                });
+            }
+        });
+    };
+
+//    var afterAdmin = function(err, newAdmin) {
+//        while (newAdmin.length)
+//            storeUsers.push(newAdmin.pop())
+//    };
+    var createAdmin = function(cb){
+        _.forEach(admins, function(admin) {
+            Counselor.findOne({email: admin.email}, function(err, user) {
+                if (err){
+                    sails.log.error(err);
+                    return cb(err);
+                }
+
+                if(!user) {
+                    Counselor.create(admin).exec(function(err, newAdmin){
+                        console.log('***Added Admin: ' + newAdmin.firstName);
+                        cb(null);
+                    });
+                }
+            });
+        });
+
+    };
+
+//    var afterCounselor = function(err, newCounselor) {
+//        while (newCounselor.length)
+//            storeUsers.push(newCounselor.pop())
+//    };
+    var createCounselors = function(cb) {
+        Counselor.count().exec(function (err, cnt){
+            if (err){
+                sails.log.error(err);
+                return cb(err);
+            }
+
+            if (cnt < counselors.length) {
+                Counselor.create(counselors).exec(function(err, newCounselors) {
+                    console.log('***Added Counselors: ' + newCounselors.length);
+                    cb(null);
+                });
+            }
+        });
+    };
+
+
+    var afterStudents = function(err, students) {
+        console.log("***Associate Students: " + students.length);
+
+        _.forEach(students, function(student){
+
+            async.series([
+                function(cb) {
+                    //Assign Countries
+                    Country.find({}).exec(function find(err, countries){
+                        console.log("***Countries: " + countries.length);
+                        _.forEach(countries, function(country) {
+                            console.log('Associating ', country.name,' with ', student.firstName);
+                            student.countries.add(country.id);
+//                            student.save(console.log);
+                        });
+                        cb(null);
+                    });
+                },
+
+                function(cb) {
+        //            Assign Courses
+                    Course.find({}).exec(function find(err, courses){
+                        console.log("***Courses: " + courses.length);
+                        _.forEach(courses, function(course) {
+                            console.log('Associating ', course.name, ' with ', student.firstName);
+                            student.courses.add(course.id);
+//                            student.save(console.log);
+                        });
+                        cb(null);
+                    });
+                },
+
+                function(cb) {
+                    //Assign Services
+                    Service.find({}).exec(function find(err, services){
+                        console.log("***Services: " + services.length);
+                        _.forEach(services, function(service){
+                            console.log('Associating ', service.name,' with ', student.firstName);
+                            student.services.add(service.id);
+                        });
+                        cb(null);
+                    });
+
+                },
+
+                function(cb) {
+                    //Assign Counselors
+                    Counselor.find({}).exec(function find(err, counselors){
+                        console.log("***Counselors: " + counselors.length);
+                        _.forEach(counselors, function(counselor){
+                            console.log('Associating ', counselor.firstName, ' with ', student.firstName);
+                            student.counselors.add(counselor.id);
+                        });
+                        cb(null);
+                    });
+
+                },
+
+                function(cb) {
+                    //Assign Status
+                    Status.find({}).exec(function find(err, statusType){
+                        console.log("***Status: " + statusType.length);
+                        var status = statusType.pop(); //Add any status
+                        console.log('Associating ', status.name, ' with ', student.firstName);
+
+                        //TODO None of these are working
+//                        student.status.add(status.id);
+//                        student.Status = status.id;
+                        student.status = status.id;
+                        cb(null);
+                    });
+                }
+
+            ], function cb(err, results){
+                student.save(console.log);
+
+            });
+        });
+
+    };
+
+    var deleteAllStudents = function(cb) {
+        console.log('***Deleting all students');
+        Student.destroy({}).exec(function (err, students){
+            if (err) {
+                console.log('***Error deleting students');
+                return;
+            }
+            var studentIds = students.map(function(student){return student.id;});
+
+            //Remove from Countries
+            Country.find({}).populate('users').exec(function findCB(err, countries){
+//                console.log("***Countries: " + country.length);
+                while (countries.length) {
+                    var country = countries.pop();
+                    _.forEach(studentIds, function(studId) {
+                        console.log("***Remove id " + studId + " from country " + country.name);
+                        country.users.remove(studId);
+                        country.save();
+                    });
+                }
+            });
+
+            //Remove from Course
+            Course.find({}).populate('users').exec(function findCB(err, courses){
+                while (courses.length) {
+                    var course = courses.pop();
+                    _.forEach(studentIds, function(studId) {
+                        console.log("***Remove id " + studId + " from course " + course.name);
+                        course.users.remove(studId);
+                        course.save();
+                    });
+                }
+            });
+
+            //Remove from Services
+            Service.find({}).populate('users').exec(function findCB(err, services){
+                while (services.length) {
+                    var service = services.pop();
+                    _.forEach(studentIds, function(studId) {
+                        console.log("***Remove id " + studId + " from service " + service.name);
+                        service.users.remove(studId);
+                        service.save();
+                    });
+                }
+            });
+
+            //Remove from Services
+            Status.find({}).populate('users').exec(function findCB(err, statusList){
+                if (err) {
+                    console.log('***Error getting status');
+                    return;
+                }
+                while (statusList.length) {
+                    var status = statusList.pop();
+                    _.forEach(studentIds, function(studId) {
+                        console.log("***Remove id " + studId + " from status " + status.name);
+                        status.users.remove(studId);
+                        status.save();
+                    });
+                }
+            });
+
+
+            cb(null);
+        });
+    };
+
+    var createStudents = function (cb) {
+        Student.count().exec(function (err, cnt) {
+            if (err) {
+                sails.log.error(err);
+                return cb(err);
+            }
+
+            if (cnt === 0) {
+                console.log('***Add Students');
+                Student.create(students).exec(afterStudents);
+            }
+            cb(null);
+        });
+    };
+
+    var populate = function(cb, next) {
+
+        async.series([
+            createCourses(cb),
+            createCountries(cb),
+            createServices(cb),
+            createStatusTypes(cb),
+
+            //Users
+            createAdmin(cb),
+            createCounselors(cb),
+//            deleteAllStudents(cb),
+            createStudents(cb)
+        ]);
+    };
+
+//    populate(cb);
 
 
 

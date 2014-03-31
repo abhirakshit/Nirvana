@@ -63,12 +63,16 @@ module.exports.connections = {
   // Run:
   // npm install sails-postgresql
   //
-  somePostgresqlServer: {
+  postgresLocal: {
     adapter   : 'sails-postgresql',
-    host      : 'YOUR_POSTGRES_SERVER_HOSTNAME_OR_IP_ADDRESS',
-    user      : 'YOUR_POSTGRES_USER',
-    password  : 'YOUR_POSTGRES_PASSWORD', 
-    database  : 'YOUR_POSTGRES_DB'
+    host      : 'localhost',
+    port      : 5432,
+//    user      : 'abhi',
+//    password  : 'abhi',
+    user      : 'admin',
+    password  : 'admin',
+    database  : 'Nirvana',
+    schema    : true
   }
 
 

@@ -5,12 +5,14 @@ define([
     Application.module("Entities", function(Entities, Application, Backbone, Marionette, $, _) {
 
         Entities.userUrl = '/user';
+        Entities.counselorUrl = '/counselor';
         Entities.allUsersUrl = '/users';
         Entities.allCounselorsUrl = "/users/counselors";
 
         Entities.loggedUserId = window.userId.replace(/&quot;/g, '');
         Entities.User = Entities.Model.extend({
             urlRoot: Entities.userUrl,
+//            urlRoot: Entities.counselorUrl,
             validation: {
                 firstName: {required: true},
                 email: {required: true, pattern: 'email'},
@@ -54,11 +56,12 @@ define([
                     userId = Entities.loggedUser.get('id');
                 }
 
-                var studentsAssigned = new Entities.UsersCollection();
-                studentsAssigned.url = function() {
-                    return Entities.userUrl + "/" + userId + "/students";
-                };
-                studentsAssigned.fetch();
+//                var studentsAssigned = new Entities.UsersCollection();
+//                studentsAssigned.url = function() {
+//                    return Entities.userUrl + "/" + userId + "/students";
+//                };
+//                studentsAssigned.fetch();
+                var studentsAssigned = new Entities.UsersCollection(Entities.loggedUser.get('students'));
                 return studentsAssigned;
             },
 
@@ -79,10 +82,13 @@ define([
             getLoggedUser: function () {
                 if (!Entities.loggedUser) {
                     Entities.loggedUser = new Entities.User({id: Entities.loggedUserId});
-                    Entities.loggedUser.urlRoot = Application.USER_URL;
+//                    Entities.loggedUser.urlRoot = Application.USER_URL;
+//                    Entities.loggedUser.urlRoot = Entities.userUrl;
+                    Entities.loggedUser.urlRoot = Entities.counselorUrl;
                     Entities.loggedUser.fetch({async: false});
                 }
 
+//                console.dir(Entities.loggedUser.get('students'));
                 return Entities.loggedUser;
             },
 

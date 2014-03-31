@@ -3,30 +3,46 @@ define([
 ], function () {
     Application.module("Enquiries", function (Enquiries, Application, Backbone, Marionette, $, _) {
         Enquiries.rootRoute = "enquiries";
+        Enquiries.Router = Marionette.AppRouter.extend({
+            appRoutes: {
+                "enquiries": "show",
+                "enquiries/": "show",
+//                "enquiries/new": "show",
+                "enquiries/:tabId": "show",
+                "enquiries/:tabId/": "show"
+            }
+        });
+
         var API = {
-            show: function () {
+            show: function (tabId) {
                 new Enquiries.Controller({
-                    region: Application.pageContentRegion
+                    region: Application.pageContentRegion,
+                    tabId: tabId
                 });
                 Application.commands.execute(Application.SET_SIDEBAR, Application.ENQUIRIES_SHOW);
             }
         };
 
         Enquiries.setup = function () {
-            API.show();
+            new Enquiries.Router({
+                controller: API
+            });
+//            API.show();
             Application.commands.execute(Application.MODULES_LOADED, Enquiries.rootRoute);
         };
 
         Enquiries.on(Application.START, function () {
             console.log("Enquiries start...");
-//            Marionette.TemplateLoader.loadModuleTemplates(Enquiries.Navbar, function() {
-            Marionette.TemplateLoader.loadModuleTemplates(Enquiries, Enquiries.setup);
-//            });
+            Marionette.TemplateLoader.loadModuleTemplates(Enquiries.Show, function() {
+                Marionette.TemplateLoader.loadModuleTemplates(Enquiries.Content, function() {
+                 Marionette.TemplateLoader.loadModuleTemplates(Enquiries, Enquiries.setup);
+                });
+            });
         });
 
-        Application.commands.setHandler(Application.ENQUIRIES_SHOW, function () {
-            API.show();
-            Application.navigate(Enquiries.rootRoute);
+        Application.commands.setHandler(Application.ENQUIRIES_SHOW, function (tabId) {
+            API.show(tabId);
+//            Application.navigate(Enquiries.rootRoute);
         });
 
     });

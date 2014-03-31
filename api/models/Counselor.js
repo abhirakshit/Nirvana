@@ -5,7 +5,7 @@
  * @docs		:: http://sailsjs.org/#!documentation/models
  */
 
-var userModel = require('./User'),
+var userModel = require('../baseModels/User'),
     _ = require('lodash');
 
 module.exports = _.merge( _.cloneDeep( userModel ), {
@@ -14,7 +14,8 @@ module.exports = _.merge( _.cloneDeep( userModel ), {
         //Associations
         students : {
             collection: 'Student',
-            via: 'counselors'
+            via: 'counselors',
+            dominant: true
         }
 
 	}

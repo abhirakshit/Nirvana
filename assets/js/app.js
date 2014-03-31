@@ -19,6 +19,8 @@ requirejs.config({
         //Utils
         spin: "lib/spin/spin",
         jquerySpin: "lib/spin/jquery.spin",
+        dataTables: "lib/datatables/jquery.dataTables.min",
+        jasnyBootstrap: "lib/jasny-bootstrap/jasny-bootstrap.min",
 
         //Application Addons
         marionette_config_application: "config/marionette/application",
@@ -48,12 +50,19 @@ requirejs.config({
             deps: ["jquery"]
         },
 
+        jasnyBootstrap: {
+            deps: ["bootstrap"]
+        },
+
 
         //Utils
         jquerySpin: {
             deps: ["jquery", "spin"]
         },
 
+        dataTables: {
+            deps: ["jquery"]
+        },
 
         //App Addons
         marionette_config_application: {
@@ -86,6 +95,8 @@ var dependencies = [
 
     //Utils
     "jquerySpin",
+    "dataTables",
+    "jasnyBootstrap",
 
 
     //App Addons

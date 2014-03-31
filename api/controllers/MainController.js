@@ -24,7 +24,8 @@ module.exports = {
         var email = req.param("email");
         var password = req.param("password");
 
-        User.findOneByEmail(email).done(function(err, usr) {
+        // Move username/password to auth table
+        Counselor.findOneByEmail(email).done(function(err, usr) {
             if (err) {
                 res.send(500, { error: "DB Error" });
             } else {

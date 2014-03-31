@@ -8,12 +8,13 @@
 module.exports = {
 
 	attributes: {
-        title: {
+        name: {
             type: 'string',
-            required: true
+            required: true,
+            unique: true
         },
 
-        students: {
+        users: {
             collection: 'Student',
             via: 'status'
         }
