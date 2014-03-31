@@ -1,11 +1,9 @@
-module.exports = {
 
+var infoTable = require('../baseModels/InfoTable'),
+            _ = require('lodash');
+
+module.exports = _.merge(_.cloneDeep(infoTable), {
     attributes: {
-        name: {
-            type: 'string',
-            required: true,
-            unique: true
-        },
 
         users: {
             collection: 'Student',
@@ -14,4 +12,4 @@ module.exports = {
 
     }
 
-};
+});

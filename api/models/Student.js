@@ -85,11 +85,11 @@ module.exports = _.merge(_.cloneDeep(userModel), {
             dominant: true
         },
 
-        courses: {
-            collection: 'Course',
-            via: 'users',
-            dominant: true
-        },
+//        courses: {
+//            collection: 'Course',
+//            via: 'users',
+//            dominant: true
+//        },
 
         countries: {
             collection: 'Country',

@@ -67,10 +67,8 @@ module.exports.connections = {
     adapter   : 'sails-postgresql',
     host      : 'localhost',
     port      : 5432,
-//    user      : 'abhi',
-//    password  : 'abhi',
-    user      : 'admin',
-    password  : 'admin',
+    user      : 'postgres',
+    password  : '',
     database  : 'Nirvana',
     schema    : true
   }

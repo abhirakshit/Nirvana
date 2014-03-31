@@ -38,17 +38,22 @@ module.exports.bootstrap = function (cb) {
         {"name": "Europe"}
     ];
 
-    var courses = [
+//    var courses = [
+//        {"name": "GRE"},
+//        {"name": "GMAT"},
+//        {"name": "SAT"},
+//        {"name": "TOEFL"},
+//        {"name": "IELTS"}
+//    ];
+
+    var services = [
+        {"name": "Visa"},
+        {"name": "Application"},
         {"name": "GRE"},
         {"name": "GMAT"},
         {"name": "SAT"},
         {"name": "TOEFL"},
         {"name": "IELTS"}
-    ];
-
-    var services = [
-        {"name": "Visa"},
-        {"name": "Application"}
     ];
 
     var statusTypes = [
@@ -120,21 +125,21 @@ module.exports.bootstrap = function (cb) {
         });
     };
 
-    var createCourses = function(cb) {
-        Course.count().exec(function (err, cnt){
-            if (err){
-                sails.log.error(err);
-                return cb(err);
-            }
-
-            if (cnt < courses.length) {
-                Course.create(courses).exec(function (err, newCourses) {
-                    console.log('***Added Courses: ' + newCourses.length);
-                    cb(null);
-                });
-            }
-        });
-    };
+//    var createCourses = function(cb) {
+//        Course.count().exec(function (err, cnt){
+//            if (err){
+//                sails.log.error(err);
+//                return cb(err);
+//            }
+//
+//            if (cnt < courses.length) {
+//                Course.create(courses).exec(function (err, newCourses) {
+//                    console.log('***Added Courses: ' + newCourses.length);
+//                    cb(null);
+//                });
+//            }
+//        });
+//    };
 
 
 //    var afterServices = function(err, newServices) {
@@ -240,18 +245,18 @@ module.exports.bootstrap = function (cb) {
                     });
                 },
 
-                function(cb) {
-        //            Assign Courses
-                    Course.find({}).exec(function find(err, courses){
-                        console.log("***Courses: " + courses.length);
-                        _.forEach(courses, function(course) {
-                            console.log('Associating ', course.name, ' with ', student.firstName);
-                            student.courses.add(course.id);
-//                            student.save(console.log);
-                        });
-                        cb(null);
-                    });
-                },
+//                function(cb) {
+//        //            Assign Courses
+//                    Course.find({}).exec(function find(err, courses){
+//                        console.log("***Courses: " + courses.length);
+//                        _.forEach(courses, function(course) {
+//                            console.log('Associating ', course.name, ' with ', student.firstName);
+//                            student.courses.add(course.id);
+////                            student.save(console.log);
+//                        });
+//                        cb(null);
+//                    });
+//                },
 
                 function(cb) {
                     //Assign Services
@@ -325,16 +330,16 @@ module.exports.bootstrap = function (cb) {
             });
 
             //Remove from Course
-            Course.find({}).populate('users').exec(function findCB(err, courses){
-                while (courses.length) {
-                    var course = courses.pop();
-                    _.forEach(studentIds, function(studId) {
-                        console.log("***Remove id " + studId + " from course " + course.name);
-                        course.users.remove(studId);
-                        course.save();
-                    });
-                }
-            });
+//            Course.find({}).populate('users').exec(function findCB(err, courses){
+//                while (courses.length) {
+//                    var course = courses.pop();
+//                    _.forEach(studentIds, function(studId) {
+//                        console.log("***Remove id " + studId + " from course " + course.name);
+//                        course.users.remove(studId);
+//                        course.save();
+//                    });
+//                }
+//            });
 
             //Remove from Services
             Service.find({}).populate('users').exec(function findCB(err, services){
@@ -384,10 +389,10 @@ module.exports.bootstrap = function (cb) {
         });
     };
 
-    var populate = function(cb, next) {
+    var populate = function(cb) {
 
         async.series([
-            createCourses(cb),
+//            createCourses(cb),
             createCountries(cb),
             createServices(cb),
             createStatusTypes(cb),

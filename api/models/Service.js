@@ -5,7 +5,10 @@
  * @docs		:: http://sailsjs.org/#!documentation/models
  */
 
-module.exports = {
+var infoTable = require('../baseModels/InfoTable'),
+    _ = require('lodash');
+
+module.exports = _.merge(_.cloneDeep(infoTable), {
 
 	attributes: {
         name: {
@@ -20,5 +23,4 @@ module.exports = {
         }
 
 	}
-
-};
+});

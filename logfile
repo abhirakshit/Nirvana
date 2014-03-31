@@ -1,0 +1,62 @@
+LOG:  database system was shut down at 2014-03-31 18:20:50 EDT
+LOG:  database system is ready to accept connections
+LOG:  autovacuum launcher started
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  database "abhishekrakshit" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "admin" does not exist
+FATAL:  database "help" does not exist
+ERROR:  must be superuser to signal the postmaster
+STATEMENT:  select pg_reload_conf()
+ERROR:  permission denied
+STATEMENT:  ALTER ROLE postgres
+	   VALID UNTIL '2014-03-31 00:00:00';
+	
+ERROR:  permission denied
+STATEMENT:  ALTER ROLE postgres
+	   VALID UNTIL '2014-03-31 00:00:00';
+	
+ERROR:  must be superuser to alter superusers
+STATEMENT:  ALTER ROLE abhishekrakshit
+	   VALID UNTIL '2014-03-31 00:00:00';
+	
+ERROR:  must be owner of database postgres
+STATEMENT:  ALTER DATABASE postgres
+	  OWNER TO postgres;
+	
+ERROR:  must be owner of database postgres
+STATEMENT:  ALTER DATABASE postgres
+	  OWNER TO postgres;
+	
+ERROR:  permission denied for tablespace pg_global
+STATEMENT:  SELECT spcname, pg_size_pretty(pg_tablespace_size(oid)) AS size FROM pg_tablespace ORDER BY spcname
+FATAL:  role "root" does not exist
+FATAL:  database "abhishekrakshit" does not exist
+FATAL:  database "abhishekrakshit" does not exist
+FATAL:  database "help" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+ERROR:  role "postgres" already exists
+STATEMENT:  CREATE ROLE postgres PASSWORD 'md5e8a48653851e28c69d0506508fb27fc5' SUPERUSER CREATEDB CREATEROLE INHERIT LOGIN;
+	
+ERROR:  must be owner of database Nirvana
+STATEMENT:  ALTER DATABASE "Nirvana"
+	  OWNER TO postgres;
+	
