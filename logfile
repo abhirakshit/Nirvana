@@ -60,3 +60,16 @@ ERROR:  must be owner of database Nirvana
 STATEMENT:  ALTER DATABASE "Nirvana"
 	  OWNER TO postgres;
 	
+FATAL:  role "admin" does not exist
+FATAL:  role "admin" does not exist
+FATAL:  role "admin" does not exist
+FATAL:  database "profiler" does not exist
+FATAL:  database "profiler" does not exist
+FATAL:  database "profiler" does not exist
+ERROR:  relation "play_evolutions" does not exist at character 72
+STATEMENT:  select id, hash, apply_script, revert_script, state, last_problem from play_evolutions where state like 'applying_%'
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction

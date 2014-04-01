@@ -15,10 +15,13 @@ requirejs.config({
 
         //Add-On's
         backboneValidation: "lib/backbone-validation/backbone-validation-amd-min",
+//        bootstrapEditable: "lib/bootstrap-editable/bootstrap-editable.min", //Glyphicon error for ok and cancel
+        bootstrapEditable: "lib/bootstrap-editable/bootstrap-editable",
 
         //Utils
         spin: "lib/spin/spin",
         jquerySpin: "lib/spin/jquery.spin",
+        jqueryUI: "lib/jquery-ui/jquery-ui.min",
         dataTables: "lib/datatables/jquery.dataTables.min",
         jasnyBootstrap: "lib/jasny-bootstrap/jasny-bootstrap.min",
 
@@ -26,7 +29,11 @@ requirejs.config({
         marionette_config_application: "config/marionette/application",
         marionette_config_module: "config/marionette/module",
         backbone_config_sync: "config/backbone/sync",
-        templateLoader: "config/app/templateLoader/templateLoader"
+        templateLoader: "config/app/templateLoader/templateLoader",
+
+        //Theme
+//        app: "theme/app.v1",
+//        appPlugin: "theme/app.plugin"
 
     },
 
@@ -50,7 +57,8 @@ requirejs.config({
             deps: ["jquery"]
         },
 
-        jasnyBootstrap: {
+
+        bootstrapEditable: {
             deps: ["bootstrap"]
         },
 
@@ -60,8 +68,16 @@ requirejs.config({
             deps: ["jquery", "spin"]
         },
 
+        jqueryUI: {
+            deps: ["jquery"]
+        },
+
         dataTables: {
             deps: ["jquery"]
+        },
+
+        jasnyBootstrap: {
+            deps: ["bootstrap"]
         },
 
         //App Addons
@@ -79,7 +95,16 @@ requirejs.config({
 
         templateLoader: {
             deps: ["marionette"]
-        }
+        },
+
+//        //Theme
+//        app : {
+//
+//        },
+//
+//        appPlugin: {
+//
+//        }
 
     }
 
@@ -92,9 +117,11 @@ var dependencies = [
 
     //Add-On's
     "backboneValidation",
+    "bootstrapEditable",
 
     //Utils
     "jquerySpin",
+    "jqueryUI",
     "dataTables",
     "jasnyBootstrap",
 
@@ -103,7 +130,11 @@ var dependencies = [
     "templateLoader",
     "marionette_config_application",
     "marionette_config_module",
-    "backbone_config_sync"
+    "backbone_config_sync",
+
+    //Theme
+//    "app",
+//    "appPlugin"
 ];
 
 require(dependencies,
