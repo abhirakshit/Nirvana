@@ -52,10 +52,13 @@ define([
 
             setupAcademicView: function() {
                 Show.setupEditableBox(this.$el, this.model, "highSchoolScore", "Enter X Score", this.model.get('highSchoolScore'), 'text');
-//                Show.setupEditableBox(this.$el, this.model, "lastName", "", this.model.get('lastName'), 'text');
-//                Show.setupEditableBox(this.$el, this.model, "phoneNumber", "Enter Phone", this.model.get('phoneNumber'), 'text');
-//                Show.setupEditableBox(this.$el, this.model, "email", "Enter Email", this.model.get('email'), 'text');
-//                Show.setupEditableBox(this.$el, this.model, "address", "Enter Address", this.model.get('address'), 'textarea');
+                Show.setupEditableBox(this.$el, this.model, "seniorSecondaryScore", "Enter XII Score", this.model.get('seniorSecondaryScore'), 'text');
+                Show.setupEditableBox(this.$el, this.model, "graduationScore", "Enter Grad Score", this.model.get('graduationScore'), 'text');
+                Show.setupEditableBox(this.$el, this.model, "satScore", "Enter SAT Score", this.model.get('satScore'), 'text');
+                Show.setupEditableBox(this.$el, this.model, "toeflScore", "Enter TOEFL Score", this.model.get('toeflScore'), 'text');
+                Show.setupEditableBox(this.$el, this.model, "ieltsScore", "Enter IELTS Score", this.model.get('ieltsScore'), 'text');
+                Show.setupEditableBox(this.$el, this.model, "greScore", "Enter GRE Score", this.model.get('greScore'), 'text');
+                Show.setupEditableBox(this.$el, this.model, "gmatScore", "Enter GMAT Score", this.model.get('gmatScore'), 'text');
             }
         });
 
@@ -68,7 +71,7 @@ define([
                 success: function(response, value) {
                     model.save(id, value, {
                         wait: true,
-                        patch: true,
+//                        patch: true,
                         success: function(newModel){
                             console.log("Saved on server!!")
                         },
@@ -97,7 +100,7 @@ define([
 
                     model.save(id, value, {
                         wait: true,
-                        patch: true,
+//                        patch: true,
                         success: function(newModel){
                             console.log("Saved on server!!")
                         },
