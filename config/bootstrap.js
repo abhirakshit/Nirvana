@@ -8,6 +8,8 @@
  * http://sailsjs.org/#documentation
  */
 
+//Test comment
+
 var _ = require('lodash'),
     async = require('async');
 module.exports.bootstrap = function (cb) {
