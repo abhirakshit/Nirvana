@@ -31,7 +31,8 @@ module.exports.routes = {
 //  },
 
     '/': 'MainController.index',
-    '/login': 'MainController.login'
+    '/login': 'MainController.login',
+    '/logout': 'MainController.logout'
 
 
   // Custom routes here...

@@ -89,7 +89,7 @@ define([
 
             showAddAdminView: function () {
                 var createAdminView = new Settings.views.CreateAdmin({
-                    model: Application.request(Application.USER_GET)
+                    model: Application.request(Application.GET_STUDENT)
                 });
                 this.adminLayout.addAdminRegion.show(createAdminView);
                 this.listenTo(createAdminView, Settings.createAdminEvt, function (view) {

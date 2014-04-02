@@ -25,6 +25,8 @@ define([
 
         Show.views.Personal = Application.Views.ItemView.extend({
             template: "enquiries/show/templates/personal_view",
+//            tagName: "section",
+//            className: "panel panel-default",
 
             onRender: function() {
                 Backbone.Validation.bind(this);
@@ -33,8 +35,27 @@ define([
 
             setupPersonalView: function() {
                 Show.setupEditableBox(this.$el, this.model, "firstName", "John", this.model.get('firstName'), 'text');
-                Show.setupEditableBox(this.$el, this.model, "lastName", "Smith", this.model.get('lastName'), 'text');
-                Show.setupEditableBox(this.$el, this.model, "phoneNumber", "999-999-9999", this.model.get('phoneNumber'), 'text');
+                Show.setupEditableBox(this.$el, this.model, "lastName", "", this.model.get('lastName'), 'text');
+                Show.setupEditableBox(this.$el, this.model, "phoneNumber", "Enter Phone", this.model.get('phoneNumber'), 'text');
+                Show.setupEditableBox(this.$el, this.model, "email", "Enter Email", this.model.get('email'), 'text');
+                Show.setupEditableBox(this.$el, this.model, "address", "Enter Address", this.model.get('address'), 'textarea');
+            }
+        });
+
+        Show.views.Academic = Application.Views.ItemView.extend({
+            template: "enquiries/show/templates/academic_view",
+
+            onRender: function() {
+                Backbone.Validation.bind(this);
+                this.setupAcademicView();
+            },
+
+            setupAcademicView: function() {
+                Show.setupEditableBox(this.$el, this.model, "highSchoolScore", "Enter X Score", this.model.get('highSchoolScore'), 'text');
+//                Show.setupEditableBox(this.$el, this.model, "lastName", "", this.model.get('lastName'), 'text');
+//                Show.setupEditableBox(this.$el, this.model, "phoneNumber", "Enter Phone", this.model.get('phoneNumber'), 'text');
+//                Show.setupEditableBox(this.$el, this.model, "email", "Enter Email", this.model.get('email'), 'text');
+//                Show.setupEditableBox(this.$el, this.model, "address", "Enter Address", this.model.get('address'), 'textarea');
             }
         });
 

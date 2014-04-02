@@ -88,7 +88,7 @@ define([], function(){
 
 //        Application.USER_URL = '/user';
         Application.GET_LOGGED_USER = "getLoggedUser";
-        Application.USER_GET = "user:get";
+        Application.GET_STUDENT = "student:get";
         Application.GET_PASSWORD = "get:password";
         Application.GET_ROLE = "getRole";
         Application.IS_USER_ADMIN = "isUserAdmin";

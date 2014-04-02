@@ -34,10 +34,11 @@ module.exports = {
                         req.session.user = usr;
                         req.session.isAuthenticated = true;
 //                        this.index(req, res);
-                        res.view('main/index', {
-                            _layoutFile: '../layout_index',
-                            loggedUser: req.session.user
-                        });
+                        res.redirect('/')
+//                        res.view('main/index', {
+//                            _layoutFile: '../layout_index',
+//                            loggedUser: req.session.user
+//                        });
 //                        res.send(usr);
                     } else {
                         res.send(400, { error: "Wrong Password" });
@@ -48,6 +49,16 @@ module.exports = {
                 }
             }
         });
+    },
+
+    logout: function (req, res, next) {
+        console.log("Logging off...");
+        req.session.user = null;
+        req.session.isAuthenticated = null;
+//        this.index(req, res);
+        res.redirect('/');
+//        return res.view('main/login');
     }
+
 
 };
