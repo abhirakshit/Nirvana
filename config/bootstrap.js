@@ -24,7 +24,7 @@ module.exports.bootstrap = function (cb) {
             "firstName": "Admin",
             "lastName": "",
             "email": "admin@admin.com",
-            "password": "admin",
+            "encryptedPassword": "admin",
             "phoneNumber": "1114444444",
             "role": "admin"
         }
@@ -39,14 +39,6 @@ module.exports.bootstrap = function (cb) {
         {"name": "Singapore"},
         {"name": "Europe"}
     ];
-
-//    var courses = [
-//        {"name": "GRE"},
-//        {"name": "GMAT"},
-//        {"name": "SAT"},
-//        {"name": "TOEFL"},
-//        {"name": "IELTS"}
-//    ];
 
     var services = [
         {"name": "Visa"},
@@ -74,7 +66,7 @@ module.exports.bootstrap = function (cb) {
             "firstName": "Ankita",
             "lastName": "Rakshit",
             "email": "ankita@ankita.com",
-            "password": "ankita",
+            "encryptedPassword": "ankita",
             "phoneNumber": "1114444444",
             "role": "counselor"
         },
@@ -83,7 +75,7 @@ module.exports.bootstrap = function (cb) {
             "firstName": "Ashish",
             "lastName": "Gupta",
             "email": "ashish@ashish.com",
-            "password": "ashish",
+            "encryptedPassword": "ashish",
             "phoneNumber": "1114444444",
             "role": "counselor"
         }
@@ -94,7 +86,7 @@ module.exports.bootstrap = function (cb) {
             "firstName": "Abhishek",
             "lastName": "Rakshit",
             "email": "abhi@abhi.com",
-            "password": "abhi",
+            "encryptedPassword": "abhi",
             "phoneNumber": "9999999999",
             "role": "student"
         },
@@ -103,13 +95,12 @@ module.exports.bootstrap = function (cb) {
             "firstName": "Jhampak",
             "lastName": "Lal",
             "email": "jhampak@jhampak.com",
-            "password": "jhampak",
+            "encryptedPassword": "jhampak",
             "phoneNumber": "8888888888",
             "role": "student"
         }
 
     ];
-
 
     var createCountries = function(cb) {
         Country.count().exec(function (err, cnt){
@@ -127,27 +118,6 @@ module.exports.bootstrap = function (cb) {
         });
     };
 
-//    var createCourses = function(cb) {
-//        Course.count().exec(function (err, cnt){
-//            if (err){
-//                sails.log.error(err);
-//                return cb(err);
-//            }
-//
-//            if (cnt < courses.length) {
-//                Course.create(courses).exec(function (err, newCourses) {
-//                    console.log('***Added Courses: ' + newCourses.length);
-//                    cb(null);
-//                });
-//            }
-//        });
-//    };
-
-
-//    var afterServices = function(err, newServices) {
-//        while (newServices.length)
-//            storeServices.push(newServices.pop())
-//    };
     var createServices = function(cb) {
         Service.count().exec(function (err, cnt){
             if (err){
@@ -164,19 +134,15 @@ module.exports.bootstrap = function (cb) {
         });
     };
 
-//    var afterStatus = function(err, newStatus) {
-//        while (newStatus.length)
-//            storeStatus.push(newStatus.pop())
-//    };
     var createStatusTypes = function(cb) {
-        Status.count().exec(function (err, cnt){
+        EnquiryStatus.count().exec(function (err, cnt){
             if (err){
                 sails.log.error(err);
                 return cb(err);
             }
 
             if (cnt < statusTypes.length) {
-                Status.create(statusTypes).exec(function(err, newStatus) {
+                EnquiryStatus.create(statusTypes).exec(function(err, newStatus) {
                     console.log('***Added status types: ' + newStatus.length);
                     cb(null);
                 });
@@ -184,20 +150,18 @@ module.exports.bootstrap = function (cb) {
         });
     };
 
-//    var afterAdmin = function(err, newAdmin) {
-//        while (newAdmin.length)
-//            storeUsers.push(newAdmin.pop())
-//    };
     var createAdmin = function(cb){
         _.forEach(admins, function(admin) {
-            Counselor.findOne({email: admin.email}, function(err, user) {
+//            Counselor.findOne({email: admin.email}, function(err, user) {
+            User.findOne({email: admin.email}, function(err, user) {
                 if (err){
                     sails.log.error(err);
                     return cb(err);
                 }
 
                 if(!user) {
-                    Counselor.create(admin).exec(function(err, newAdmin){
+//                    Counselor.create(admin).exec(function(err, newAdmin){
+                    User.create(admin).exec(function(err, newAdmin){
                         console.log('***Added Admin: ' + newAdmin.firstName);
                         cb(null);
                     });
@@ -207,19 +171,17 @@ module.exports.bootstrap = function (cb) {
 
     };
 
-//    var afterCounselor = function(err, newCounselor) {
-//        while (newCounselor.length)
-//            storeUsers.push(newCounselor.pop())
-//    };
     var createCounselors = function(cb) {
-        Counselor.count().exec(function (err, cnt){
+//        Counselor.count().exec(function (err, cnt){
+        User.count().exec(function (err, cnt){
             if (err){
                 sails.log.error(err);
                 return cb(err);
             }
 
             if (cnt < counselors.length) {
-                Counselor.create(counselors).exec(function(err, newCounselors) {
+//                Counselor.create(counselors).exec(function(err, newCounselors) {
+                User.create(counselors).exec(function(err, newCounselors) {
                     console.log('***Added Counselors: ' + newCounselors.length);
                     cb(null);
                 });
@@ -247,19 +209,6 @@ module.exports.bootstrap = function (cb) {
                     });
                 },
 
-//                function(cb) {
-//        //            Assign Courses
-//                    Course.find({}).exec(function find(err, courses){
-//                        console.log("***Courses: " + courses.length);
-//                        _.forEach(courses, function(course) {
-//                            console.log('Associating ', course.name, ' with ', student.firstName);
-//                            student.courses.add(course.id);
-////                            student.save(console.log);
-//                        });
-//                        cb(null);
-//                    });
-//                },
-
                 function(cb) {
                     //Assign Services
                     Service.find({}).exec(function find(err, services){
@@ -275,7 +224,8 @@ module.exports.bootstrap = function (cb) {
 
                 function(cb) {
                     //Assign Counselors
-                    Counselor.find({}).exec(function find(err, counselors){
+//                    Counselor.find({}).exec(function find(err, counselors){
+                    User.find({role: 'counselor'}).exec(function find(err, counselors){
                         console.log("***Counselors: " + counselors.length);
                         _.forEach(counselors, function(counselor){
                             console.log('Associating ', counselor.firstName, ' with ', student.firstName);
@@ -288,7 +238,7 @@ module.exports.bootstrap = function (cb) {
 
                 function(cb) {
                     //Assign Status
-                    Status.find({}).exec(function find(err, statusType){
+                    EnquiryStatus.find({}).exec(function find(err, statusType){
                         console.log("***Status: " + statusType.length);
                         var status = statusType.pop(); //Add any status
                         console.log('Associating ', status.name, ' with ', student.firstName);
@@ -296,7 +246,7 @@ module.exports.bootstrap = function (cb) {
                         //TODO None of these are working
 //                        student.status.add(status.id);
 //                        student.Status = status.id;
-                        student.status = status.id;
+                        student.enquiryStatus = status.id;
                         cb(null);
                     });
                 }
@@ -311,7 +261,7 @@ module.exports.bootstrap = function (cb) {
 
     var deleteAllStudents = function(cb) {
         console.log('***Deleting all students');
-        Student.destroy({}).exec(function (err, students){
+        User.destroy({role: 'student'}).exec(function (err, students){
             if (err) {
                 console.log('***Error deleting students');
                 return;
@@ -331,17 +281,6 @@ module.exports.bootstrap = function (cb) {
                 }
             });
 
-            //Remove from Course
-//            Course.find({}).populate('users').exec(function findCB(err, courses){
-//                while (courses.length) {
-//                    var course = courses.pop();
-//                    _.forEach(studentIds, function(studId) {
-//                        console.log("***Remove id " + studId + " from course " + course.name);
-//                        course.users.remove(studId);
-//                        course.save();
-//                    });
-//                }
-//            });
 
             //Remove from Services
             Service.find({}).populate('users').exec(function findCB(err, services){
@@ -356,7 +295,7 @@ module.exports.bootstrap = function (cb) {
             });
 
             //Remove from Services
-            Status.find({}).populate('users').exec(function findCB(err, statusList){
+            EnquiryStatus.find({}).populate('users').exec(function findCB(err, statusList){
                 if (err) {
                     console.log('***Error getting status');
                     return;
@@ -371,22 +310,40 @@ module.exports.bootstrap = function (cb) {
                 }
             });
 
+            //Remove Assigned Counselors
+            User.find({role: 'counselor'}).populate('students').exec(function (err, counselors) {
+                if (err) {
+                    console.log('***Error getting counselors');
+                    return;
+                }
+                while (counselors.length) {
+                    var counselor = counselors.pop();
+                    _.forEach(studentIds, function(studId) {
+                        console.log("***Remove id " + studId + " from student list for " + counselor.firstName);
+                        counselor.students.remove(studId);
+                        counselor.save();
+                    });
+                }
+            });
+
 
             cb(null);
         });
     };
 
     var createStudents = function (cb) {
-        Student.count().exec(function (err, cnt) {
+//        Student.count().exec(function (err, cnt) {
+        User.count().exec(function (err, cnt) {
             if (err) {
                 sails.log.error(err);
                 return cb(err);
             }
 
-            if (cnt === 0) {
+//            if (cnt === 0) {
                 console.log('***Add Students');
-                Student.create(students).exec(afterStudents);
-            }
+//                Student.create(students).exec(afterStudents);
+                User.create(students).exec(afterStudents);
+//            }
             cb(null);
         });
     };
@@ -394,7 +351,6 @@ module.exports.bootstrap = function (cb) {
     var populate = function(cb) {
 
         async.series([
-//            createCourses(cb),
             createCountries(cb),
             createServices(cb),
             createStatusTypes(cb),

@@ -87,10 +87,11 @@ define([], function(){
         Application.CONTROLLER_ID = "controller";
 
 //        Application.USER_URL = '/user';
-        Application.GET_LOGGED_USER = "getLoggedUser";
-        Application.GET_STUDENT = "student:get";
+        Application.GET_LOGGED_USER = "get:logged:user";
+        Application.GET_USER = "get:user";
+        Application.GET_STUDENT = "get:student";
         Application.GET_PASSWORD = "get:password";
-        Application.GET_ROLE = "getRole";
+        Application.GET_ROLE = "get:role";
         Application.IS_USER_ADMIN = "isUserAdmin";
         Application.IS_STUDENT = "isStudent";
         Application.IS_COUNSELOR = "isCounselor";

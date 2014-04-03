@@ -24,22 +24,15 @@ module.exports = {
         var email = req.param("email");
         var password = req.param("password");
 
-        // Move username/password to auth table
-        Counselor.findOneByEmail(email).done(function(err, usr) {
+        User.findOneByEmail(email).done(function(err, usr) {
             if (err) {
                 res.send(500, { error: "DB Error" });
             } else {
                 if (usr) {
-                    if (password === usr.password) {
+                    if (password === usr.encryptedPassword) {
                         req.session.user = usr;
                         req.session.isAuthenticated = true;
-//                        this.index(req, res);
-                        res.redirect('/')
-//                        res.view('main/index', {
-//                            _layoutFile: '../layout_index',
-//                            loggedUser: req.session.user
-//                        });
-//                        res.send(usr);
+                        res.redirect('/');
                     } else {
                         res.send(400, { error: "Wrong Password" });
 //                        res.send(400, usr);
@@ -55,9 +48,7 @@ module.exports = {
         console.log("Logging off...");
         req.session.user = null;
         req.session.isAuthenticated = null;
-//        this.index(req, res);
         res.redirect('/');
-//        return res.view('main/login');
     }
 
 

@@ -14,9 +14,14 @@ module.exports = {
             unique: true
         },
 
+//        users: {
+//            collection: 'Student',
+//            via: 'status'
+//        }
+
         users: {
-            collection: 'Student',
-            via: 'status'
+            collection: 'User',
+            via: 'enquiryStatus'
         }
 
 	}

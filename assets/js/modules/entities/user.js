@@ -6,11 +6,13 @@ define([
 
         Entities.studentUrl = '/student';
         Entities.counselorUrl = '/counselor';
+        Entities.userUrl = '/user';
 //        Entities.allUsersUrl = '/users';
 //        Entities.allCounselorsUrl = "/users/counselors";
 
         Entities.loggedUserId = window.userId.replace(/&quot;/g, '');
         Entities.User = Entities.Model.extend({
+            urlRoot: Entities.userUrl,
             validation: {
                 firstName: {required: true},
                 email: {required: true, pattern: 'email'},
@@ -36,8 +38,8 @@ define([
         });
 
         Entities.UsersCollection = Entities.Collection.extend({
-            model: Entities.Student,
-            url: Entities.allUsersUrl
+            model: Entities.User,
+            url: Entities.userUrl
         });
 
 //        Entities.StudentsAssignedCollection = Entities.Collection.extend({
@@ -85,10 +87,20 @@ define([
                 return new Entities.Password();
             },
 
+            getUser: function(userId) {
+                if (!userId)
+                    return new Entities.User();
+
+                var user = new Entities.User({id: userId});
+                user.fetch();
+                return user;
+
+            },
+
             getLoggedUser: function () {
                 if (!Entities.loggedUser) {
                     Entities.loggedUser = new Entities.User({id: Entities.loggedUserId});
-                    Entities.loggedUser.urlRoot = Entities.counselorUrl;
+//                    Entities.loggedUser.urlRoot = Entities.counselorUrl;
                     Entities.loggedUser.fetch({async: false});
                 }
 
@@ -128,6 +140,10 @@ define([
 
         Application.reqres.setHandler(Application.GET_LOGGED_USER, function(){
             return API.getLoggedUser();
+        });
+
+        Application.reqres.setHandler(Application.GET_USER, function(userId){
+            return API.getUser(userId);
         });
 
         Application.reqres.setHandler(Application.GET_STUDENT, function(studentId){

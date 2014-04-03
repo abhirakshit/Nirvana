@@ -17,9 +17,22 @@ module.exports = _.merge(_.cloneDeep(infoTable), {
             unique: true
         },
 
+//        users: {
+//            collection: 'Student',
+//            via: 'services'
+//        }
+
+        //Associations
+        //Many to many - User to Service
         users: {
-            collection: 'Student',
+            collection: 'User',
             via: 'services'
+        },
+
+        //Many to one - Enroll to Service
+        enrollments: {
+            collection: 'Enroll',
+            via: 'service'
         }
 
 	}
