@@ -6,7 +6,6 @@ define([
         Show.Controller = Application.Controllers.Base.extend({
             initialize: function () {
 //                var user = Application.request(Application.GET_LOGGED_USER);
-//                var student = Application.request(Application.GET_STUDENT, this.options.studentId);
                 var student = Application.request(Application.GET_USER, this.options.studentId);
                 this.layout = this.getLayout();
 
@@ -32,6 +31,11 @@ define([
                     model: student
                 });
                 this.layout.academicRegion.show(academicView);
+
+                var careerView = new Show.views.Career({
+                    model: student
+                });
+                this.layout.careerRegion.show(careerView);
             },
 
             getLayout: function () {

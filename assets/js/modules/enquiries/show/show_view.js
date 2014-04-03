@@ -25,8 +25,6 @@ define([
 
         Show.views.Personal = Application.Views.ItemView.extend({
             template: "enquiries/show/templates/personal_view",
-//            tagName: "section",
-//            className: "panel panel-default",
 
             onRender: function() {
                 Backbone.Validation.bind(this);
@@ -59,6 +57,26 @@ define([
                 Show.setupEditableBox(this.$el, this.model, "ieltsScore", "Enter IELTS Score", this.model.get('ieltsScore'), 'text');
                 Show.setupEditableBox(this.$el, this.model, "greScore", "Enter GRE Score", this.model.get('greScore'), 'text');
                 Show.setupEditableBox(this.$el, this.model, "gmatScore", "Enter GMAT Score", this.model.get('gmatScore'), 'text');
+            }
+        });
+
+        Show.views.Career = Application.Views.ItemView.extend({
+            template: "enquiries/show/templates/career_view",
+
+            onRender: function() {
+                Backbone.Validation.bind(this);
+                this.setupCareerView();
+            },
+
+            setupCareerView: function() {
+                Show.setupEditableBox(this.$el, this.model, "program", "Enter Program", this.model.get('program'), 'text');
+                Show.setupEditableBox(this.$el, this.model, "intake", "Enter Intake", this.model.get('intake'), 'text');
+//                Show.setupEditableBox(this.$el, this.model, "graduationScore", "Enter Grad Score", this.model.get('graduationScore'), 'text');
+//                Show.setupEditableBox(this.$el, this.model, "satScore", "Enter SAT Score", this.model.get('satScore'), 'text');
+//                Show.setupEditableBox(this.$el, this.model, "toeflScore", "Enter TOEFL Score", this.model.get('toeflScore'), 'text');
+//                Show.setupEditableBox(this.$el, this.model, "ieltsScore", "Enter IELTS Score", this.model.get('ieltsScore'), 'text');
+//                Show.setupEditableBox(this.$el, this.model, "greScore", "Enter GRE Score", this.model.get('greScore'), 'text');
+//                Show.setupEditableBox(this.$el, this.model, "gmatScore", "Enter GMAT Score", this.model.get('gmatScore'), 'text');
             }
         });
 
