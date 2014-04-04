@@ -69,16 +69,26 @@ define([
             },
 
             setupCareerView: function() {
+                var countries = [
+                    {id: 'gb', text: 'Great Britain'},
+                    {id: 'us', text: 'United States'},
+                    {id: 'ru', text: 'Russia'}
+                ];
+
+//                Show.setupSelect2EditableBox(this.$el, this.model, "countries", countries, "Add Country", 'ru, us');
+                Show.setupSelect2EditableBox(this.$el, this.model, "countries", this.options.allCountries, "Add Country", this.options.addedCountries);
+                Show.setupSelect2EditableBox(this.$el, this.model, "services", this.options.allServices, "Add Service", this.options.addedServices);
+//                Profile.setupSelect2EditableBox(this.$el, this.model, "countries", countries, "Add Country", this.model.get('countries'));
+//                Profile.setupSelect2EditableBox(this.$el, this.model, "services", countries, "Add Service", this.model.get('services'));
+
+//                Profile.setupSelect2EditableBox(this.$el, this.model, "countries", this.options.allCountriesMap, "Add Country", this.model.get('countries'));
+//                Profile.setupSelect2EditableBox(this.$el, this.model, "services", this.options.allStreamsMap, "Add Service", this.model.get('services'));
+
                 Show.setupEditableBox(this.$el, this.model, "program", "Enter Program", this.model.get('program'), 'text');
                 Show.setupEditableBox(this.$el, this.model, "intake", "Enter Intake", this.model.get('intake'), 'text');
-//                Show.setupEditableBox(this.$el, this.model, "graduationScore", "Enter Grad Score", this.model.get('graduationScore'), 'text');
-//                Show.setupEditableBox(this.$el, this.model, "satScore", "Enter SAT Score", this.model.get('satScore'), 'text');
-//                Show.setupEditableBox(this.$el, this.model, "toeflScore", "Enter TOEFL Score", this.model.get('toeflScore'), 'text');
-//                Show.setupEditableBox(this.$el, this.model, "ieltsScore", "Enter IELTS Score", this.model.get('ieltsScore'), 'text');
-//                Show.setupEditableBox(this.$el, this.model, "greScore", "Enter GRE Score", this.model.get('greScore'), 'text');
-//                Show.setupEditableBox(this.$el, this.model, "gmatScore", "Enter GMAT Score", this.model.get('gmatScore'), 'text');
             }
         });
+
 
         Show.setupEditableBox = function(el, model, id, emptyText, initialValue, type){
 //            var that = this;
@@ -110,24 +120,24 @@ define([
                 value: initialValue,
                 emptytext: emptyText,
                 select2: {
-                    placeholder: emptyText
-//                    multiple: true
+                    placeholder: emptyText,
+                    multiple: true
                 },
                 success: function(response, value) {
                     console.log(value);
 
-                    model.save(id, value, {
-                        wait: true,
-//                        patch: true,
-                        success: function(newModel){
-                            console.log("Saved on server!!")
-                        },
-
-                        error: function(x, response) {
-                            console.log("Error on server!! -- " + response)
-                            return response;
-                        }
-                    });
+//                    model.save(id, value, {
+//                        wait: true,
+////                        patch: true,
+//                        success: function(newModel){
+//                            console.log("Saved on server!!")
+//                        },
+//
+//                        error: function(x, response) {
+//                            console.log("Error on server!! -- " + response)
+//                            return response;
+//                        }
+//                    });
                 }
             });
         }

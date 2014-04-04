@@ -3,7 +3,8 @@ define([
 //    "modules/enquiries/navbar/navbar_app",
     "modules/enquiries/content/content_app",
     "modules/enquiries/show/show_app",
-    "modules/entities/user"
+    "modules/entities/user",
+    "modules/entities/service"
 ], function () {
     Application.module("Enquiries", function (Enquiries, Application, Backbone, Marionette, $, _) {
 

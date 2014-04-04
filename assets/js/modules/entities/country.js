@@ -1,7 +1,7 @@
 define([], function(){
     Application.module("Entities", function(Entities, Application, Backbone, Marionette, $, _) {
 
-        Entities.allCountriesUrl = "/countries";
+//        Entities.allCountriesUrl = "/countries";
         Entities.countryUrl = "/country";
 
         Entities.Country = Entities.Model.extend({
@@ -12,7 +12,8 @@ define([], function(){
         });
 
         Entities.CountryCollection = Entities.Collection.extend({
-            url: Entities.allCountriesUrl,
+//            url: Entities.allCountriesUrl,
+            url: Entities.countryUrl,
             model: Entities.Country
         });
 
@@ -28,6 +29,7 @@ define([], function(){
             },
 
             getAllCountries: function(update) {
+                //Update is called after a new country is added/removed and the collection needs to be updated
                 if (!Entities.allCountries || update){
                     Entities.allCountries = new Entities.CountryCollection();
                     Entities.allCountries.fetch();
@@ -36,11 +38,11 @@ define([], function(){
             }
         };
 
-        Application.reqres.setHandler(Application.COUNTRIES_GET, function(update){
+        Application.reqres.setHandler(Application.GET_COUNTRIES, function(update){
             return API.getAllCountries(update);
         });
 
-        Application.reqres.setHandler(Application.COUNTRY_GET, function(countryId){
+        Application.reqres.setHandler(Application.GET_COUNTRY, function(countryId){
             return API.getCountry(countryId);
         });
     })

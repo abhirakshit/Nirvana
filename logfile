@@ -114,3 +114,20 @@ LOG:  unexpected EOF on client connection with an open transaction
 LOG:  unexpected EOF on client connection with an open transaction
 LOG:  unexpected EOF on client connection with an open transaction
 LOG:  unexpected EOF on client connection with an open transaction
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist
+FATAL:  database "Nirvana" does not exist

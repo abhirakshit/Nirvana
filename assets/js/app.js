@@ -30,6 +30,7 @@ requirejs.config({
         marionette_config_module: "config/marionette/module",
         backbone_config_sync: "config/backbone/sync",
         templateLoader: "config/app/templateLoader/templateLoader",
+        select2: "lib/select2/select2"
 
         //Theme
 //        app: "theme/app.v1",
@@ -38,8 +39,6 @@ requirejs.config({
     },
 
     shim: {
-
-
         underscore: {
             exports: "_"
         },
@@ -97,6 +96,10 @@ requirejs.config({
             deps: ["marionette"]
         },
 
+        select2: {
+            deps: ["jquery"]
+        }
+
 //        //Theme
 //        app : {
 //
@@ -131,6 +134,7 @@ var dependencies = [
     "marionette_config_application",
     "marionette_config_module",
     "backbone_config_sync",
+    "select2"
 
     //Theme
 //    "app",

@@ -11,7 +11,7 @@ define([
                 var allCounselors = Application.request(Application.COUNSELORS_GET);
                 var allStreams = Application.request(Application.STREAMS_GET);
                 var allOccupations = Application.request(Application.OCCUPATIONS_GET);
-                var allCountries = Application.request(Application.COUNTRIES_GET);
+                var allCountries = Application.request(Application.GET_COUNTRIES);
 
                 this.layout = this.getLayout(user);
 

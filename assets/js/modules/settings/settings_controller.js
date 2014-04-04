@@ -43,7 +43,7 @@ define([
 
             showAddCountryView: function () {
                 var createCountryView = new Settings.views.CreateCountry({
-                    model: Application.request(Application.COUNTRY_GET)
+                    model: Application.request(Application.GET_COUNTRY)
                 });
                 this.adminLayout.addCountryRegion.show(createCountryView);
                 this.listenTo(createCountryView, Settings.createCountryEvt, function (view) {

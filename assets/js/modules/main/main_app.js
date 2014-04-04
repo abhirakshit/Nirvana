@@ -5,6 +5,7 @@ define([
     "modules/entities/base/models",
     "modules/entities/base/collections",
     "modules/entities/user",
+//    "modules/entities/*",
 
     "modules/views/_view",
     "modules/views/collectionview",
