@@ -1,3 +1,6 @@
+var bcrypt = require('bcrypt');
+
+
 module.exports = {
 
     /**
@@ -19,30 +22,39 @@ module.exports = {
         }
     },
 
+
     login: function (req, res, next) {
         console.log("Trying to login...");
         var email = req.param("email");
         var password = req.param("password");
+      
+    User.findOneByEmail(email, function foundUser(err, usr) {
+      if (err) return next(err);
 
-        User.findOneByEmail(email).done(function(err, usr) {
-            if (err) {
-                res.send(500, { error: "DB Error" });
-            } else {
-                if (usr) {
-                    if (password === usr.encryptedPassword) {
+      // If no user is found...
+      if (!usr) {
+       res.send(500, { error: "DB Error" });
+      }
+
+      // Compare password from the form params to the encrypted password of the user found.
+
+      bcrypt.compare(password, usr.encryptedPassword, function(err, valid) {
+        if (err) return next(err);
+
+        // If the password is not valid then return error...
+        if (!valid) {
+          res.send(400, { error: "Wrong Password" });
+        }
+
                         req.session.user = usr;
                         req.session.isAuthenticated = true;
                         res.redirect('/');
-                    } else {
-                        res.send(400, { error: "Wrong Password" });
-//                        res.send(400, usr);
-                    }
-                } else {
-                    res.send(404, { error: "User not Found" });
-                }
-            }
-        });
+  
+      });
+    });
+
     },
+
 
     logout: function (req, res, next) {
         console.log("Logging off...");

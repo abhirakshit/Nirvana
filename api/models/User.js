@@ -5,6 +5,10 @@
  * @docs        :: http://sailsjs.org/#!documentation/models
  */
 
+var bcrypt = require('bcrypt'),
+    uuid = require("node-uuid");
+
+
 module.exports = {
 
     attributes: {
@@ -116,6 +120,13 @@ module.exports = {
             return this.firstName + ' ' + this.lastName;
         },
 
+    validatePassword: function( candidatePassword, cb ) {
+      bcrypt.compare( candidatePassword, this.encryptedPassword, function (err, valid) {
+        if(err) return cb(err);
+        cb(null, valid);
+      });
+    },
+
         toJSON: function () {
             var obj = this.toObject();
             delete obj.encryptedPassword;
@@ -123,6 +134,61 @@ module.exports = {
             return obj;
         }
 
+    },
+
+  /**
+   * Functions that run before a user is created
+   */
+   
+  beforeCreate: [
+    // Encrypt user's password
+    // function (values, cb) {
+    //   if (!values.password || values.password !== values.passwordConfirmation) {
+    //     return cb({ err: "Password doesn't match confirmation!" });
+    //   }
+
+    //   User.encryptPassword(values, function (err) {
+    //     cb(err);
+    //   });
+    // },
+
+    // Create an API key
+    function (values, cb) {
+      values.apiKey = uuid.v4();
+      cb();
     }
+  ],
+
+  /**
+   * Functions that run before a user is updated
+   */
+   
+  beforeUpdate: [
+    // Encrypt user's password, if changed
+    function (values, cb) {
+      if (!values.password) {
+        return cb();
+      }
+
+      User.encryptPassword(values, function (err) {
+        cb(err);
+      });
+    }
+  ],
+
+  /**
+   * User password encryption. Uses bcrypt.
+   */
+
+  encryptPassword: function(values, cb) {
+    bcrypt.hash(values.password, 10, function (err, encryptedPassword) {
+      if(err) return cb(err);
+      values.encryptedPassword = encryptedPassword;
+      cb();
+    });
+  }
+
+
+
 
 };

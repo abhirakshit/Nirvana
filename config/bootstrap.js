@@ -24,7 +24,7 @@ module.exports.bootstrap = function (cb) {
             "firstName": "Admin",
             "lastName": "",
             "email": "admin@admin.com",
-            "encryptedPassword": "admin",
+            "encryptedPassword": "$2a$10$t3WorgLhYQde5YtBVr6/HesUC/kNdyC4OBVCudzKAEP4/WkhGu9Qu",
             "phoneNumber": "1114444444",
             "role": "admin"
         }
@@ -66,7 +66,7 @@ module.exports.bootstrap = function (cb) {
             "firstName": "Ankita",
             "lastName": "Rakshit",
             "email": "ankita@ankita.com",
-            "encryptedPassword": "ankita",
+            "encryptedPassword": "$2a$10$t3WorgLhYQde5YtBVr6/HesUC/kNdyC4OBVCudzKAEP4/WkhGu9Qu",
             "phoneNumber": "1114444444",
             "role": "counselor"
         },
@@ -75,7 +75,7 @@ module.exports.bootstrap = function (cb) {
             "firstName": "Ashish",
             "lastName": "Gupta",
             "email": "ashish@ashish.com",
-            "encryptedPassword": "ashish",
+            "encryptedPassword": "$2a$10$t3WorgLhYQde5YtBVr6/HesUC/kNdyC4OBVCudzKAEP4/WkhGu9Qu",
             "phoneNumber": "1114444444",
             "role": "counselor"
         }
@@ -86,7 +86,7 @@ module.exports.bootstrap = function (cb) {
             "firstName": "Abhishek",
             "lastName": "Rakshit",
             "email": "abhi@abhi.com",
-            "encryptedPassword": "abhi",
+            "encryptedPassword": "$2a$10$t3WorgLhYQde5YtBVr6/HesUC/kNdyC4OBVCudzKAEP4/WkhGu9Qu",
             "phoneNumber": "9999999999",
             "role": "student"
         },
@@ -95,7 +95,7 @@ module.exports.bootstrap = function (cb) {
             "firstName": "Jhampak",
             "lastName": "Lal",
             "email": "jhampak@jhampak.com",
-            "encryptedPassword": "jhampak",
+            "encryptedPassword": "$2a$10$t3WorgLhYQde5YtBVr6/HesUC/kNdyC4OBVCudzKAEP4/WkhGu9Qu",
             "phoneNumber": "8888888888",
             "role": "student"
         }
@@ -363,7 +363,7 @@ module.exports.bootstrap = function (cb) {
         ]);
     };
 
-//    populate(cb);
+  //  populate(cb);
 
 
 
