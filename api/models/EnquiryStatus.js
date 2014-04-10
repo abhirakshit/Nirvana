@@ -5,25 +5,20 @@
  * @docs		:: http://sailsjs.org/#!documentation/models
  */
 
-module.exports = {
+var infoTable = require('../baseModels/InfoTable'),
+    _ = require('lodash');
+
+module.exports = _.merge(_.cloneDeep(infoTable), {
+
 
 	attributes: {
-        name: {
-            type: 'string',
-            required: true,
-            unique: true
-        },
 
-//        users: {
-//            collection: 'Student',
-//            via: 'status'
-//        }
-
-        users: {
-            collection: 'User',
+        //One to Many : EnquiryStatus to Student
+        students: {
+            collection: 'Student',
             via: 'enquiryStatus'
         }
 
 	}
 
-};
+});

@@ -11,27 +11,29 @@ var infoTable = require('../baseModels/InfoTable'),
 module.exports = _.merge(_.cloneDeep(infoTable), {
 
 	attributes: {
-        name: {
-            type: 'string',
-            required: true,
-            unique: true
-        },
-
-//        users: {
-//            collection: 'Student',
-//            via: 'services'
-//        }
 
         //Associations
-        //Many to many - User to Service
-        users: {
-            collection: 'User',
+        //Many to many - Student to Service
+        students: {
+            collection: 'Student',
             via: 'services'
         },
 
         //Many to one - Enroll to Service
         enrollments: {
             collection: 'Enroll',
+            via: 'service'
+        },
+
+        // Many to One: Course to Service
+        courses: {
+            collection: 'Course',
+            via: 'service'
+        },
+
+        //Many to One : Batch to Service
+        batches: {
+            collection: 'Batch',
             via: 'service'
         }
 

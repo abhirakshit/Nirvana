@@ -51,9 +51,15 @@ define([], function(){
         Application.SPECIALIZATIONS_GET = "specializations:get";
         Application.SPECIALIZATION_GET = "specialization:get";
 
-        Application.STUDENTS_ASSIGNED_GET = "students:assigned:get";
-        Application.COUNSELORS_GET = "counselors:get";
-        Application.COUNSELOR_GET = "counselor:get";
+        Application.GET_STUDENTS_ASSIGNED = "get:students:assigned";
+        Application.GET_COUNSELORS = "get:counselors";
+        Application.GET_COUNSELOR = "get:counselor";
+
+        Application.GET_STUDENTS = "get:students";
+        Application.GET_STUDENT = "get:student";
+
+        Application.GET_STATUS = "get:status";
+        Application.GET_STATUS_All = "get:status:all";
 
         Application.GET_COUNTRIES = "get:countries";
         Application.GET_COUNTRY = "get:country";
@@ -92,7 +98,6 @@ define([], function(){
 //        Application.USER_URL = '/user';
         Application.GET_LOGGED_USER = "get:logged:user";
         Application.GET_USER = "get:user";
-        Application.GET_STUDENT = "get:student";
         Application.GET_PASSWORD = "get:password";
         Application.GET_ROLE = "get:role";
         Application.IS_USER_ADMIN = "isUserAdmin";

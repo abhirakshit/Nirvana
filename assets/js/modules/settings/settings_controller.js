@@ -15,6 +15,7 @@ define([
             initialize: function () {
                 var user = Application.request(Application.GET_LOGGED_USER);
                 this.layout = this.getLayout();
+
                 this.listenTo(this.layout, Application.SHOW, function () {
                     this.showUserInfoSection(user);
                     this.showChangePasswordSection(user);
@@ -25,6 +26,7 @@ define([
                     }
 
                 });
+
                 this.show(this.layout, {
                     loading: {
                         entities: user

@@ -131,3 +131,7 @@ FATAL:  database "Nirvana" does not exist
 FATAL:  database "Nirvana" does not exist
 FATAL:  database "Nirvana" does not exist
 FATAL:  database "Nirvana" does not exist
+ERROR:  invalid input syntax for type timestamp with time zone: ""
+STATEMENT:  UPDATE "user" SET "followUp" = $1, "id" = $2, "updatedAt" = $3 WHERE "user"."id" = $4 RETURNING *
+ERROR:  invalid input syntax for type timestamp with time zone: ""
+STATEMENT:  UPDATE "user" SET "followUp" = $1, "id" = $2, "updatedAt" = $3 WHERE "user"."id" = $4 RETURNING *

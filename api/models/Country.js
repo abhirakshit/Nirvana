@@ -5,13 +5,8 @@ var infoTable = require('../baseModels/InfoTable'),
 module.exports = _.merge(_.cloneDeep(infoTable), {
     attributes: {
 
-//        users: {
-//            collection: 'Student',
-//            via: 'countries'
-//        }
-
-        users: {
-            collection: 'User',
+        students: {
+            collection: 'Student',
             via: 'countries'
         }
 

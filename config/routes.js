@@ -32,10 +32,14 @@ module.exports.routes = {
 
     '/': 'MainController.index',
     '/login': 'MainController.login',
-    '/logout': 'MainController.logout'
+    '/logout': 'MainController.logout',
 
 
   // Custom routes here...
+
+    'get /user/counselor': 'UserController.getAllCounselors',
+    'get /user/student': 'UserController.getAllStudents',
+    'patch /user/:id': 'UserController.updatePartial'
 
 
   // If a request to a URL doesn't match any of the custom routes above, it is matched 

@@ -7,8 +7,12 @@ module.exports = {
             unique: true
         },
 
-        basicInfo: {
-            type: "text"
+        description: {
+            type: 'text'
+        },
+
+        remarks: {
+            type: 'string'
         }
 
     }

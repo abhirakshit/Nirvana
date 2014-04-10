@@ -1,10 +1,15 @@
 define([
+    //Views
     "modules/enquiries/enquiries_view",
-//    "modules/enquiries/navbar/navbar_app",
+
+    //SubModules
     "modules/enquiries/content/content_app",
     "modules/enquiries/show/show_app",
+
+    //Models
     "modules/entities/user",
-    "modules/entities/service"
+    "modules/entities/service",
+    "modules/entities/enquiryStatus"
 ], function () {
     Application.module("Enquiries", function (Enquiries, Application, Backbone, Marionette, $, _) {
 

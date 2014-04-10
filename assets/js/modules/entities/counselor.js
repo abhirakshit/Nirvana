@@ -1,3 +1,5 @@
+
+//DELETE THIS//
 define([], function(){
     Application.module("Entities", function(Entities, Application, Backbone, Marionette, $, _) {
 

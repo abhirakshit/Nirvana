@@ -10,19 +10,18 @@ module.exports = {
 	attributes: {
 
         enrollDate: {type: 'datetime'},
+
         totalFee: {type: 'string'},
 
         //Associations
-        user: {
-            model: 'User'
+        //One to Many: Student to Enroll
+        student: {
+            model: 'Student'
         },
 
+        //Many to one - Enroll to Service
         service: {
             model: 'Service'
-        },
-
-        modifiedBy: {
-            model: 'User'
         },
 
         //Many to one - Payment to Enroll

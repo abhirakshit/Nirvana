@@ -16,9 +16,10 @@ define([
             className: "someClass",
             regions: {
                 personalRegion: "#personal",
-                institutionRegion: "#institution",
                 careerRegion: "#career",
-                academicRegion: "#academic"
+                academicRegion: "#academic",
+                adminRegion: "#admin",
+                historyRegion: "#history"
             }
         });
 
@@ -69,37 +70,105 @@ define([
             },
 
             setupCareerView: function() {
-                var countries = [
-                    {id: 'gb', text: 'Great Britain'},
-                    {id: 'us', text: 'United States'},
-                    {id: 'ru', text: 'Russia'}
-                ];
-
-//                Show.setupSelect2EditableBox(this.$el, this.model, "countries", countries, "Add Country", 'ru, us');
                 Show.setupSelect2EditableBox(this.$el, this.model, "countries", this.options.allCountries, "Add Country", this.options.addedCountries);
                 Show.setupSelect2EditableBox(this.$el, this.model, "services", this.options.allServices, "Add Service", this.options.addedServices);
-//                Profile.setupSelect2EditableBox(this.$el, this.model, "countries", countries, "Add Country", this.model.get('countries'));
-//                Profile.setupSelect2EditableBox(this.$el, this.model, "services", countries, "Add Service", this.model.get('services'));
-
-//                Profile.setupSelect2EditableBox(this.$el, this.model, "countries", this.options.allCountriesMap, "Add Country", this.model.get('countries'));
-//                Profile.setupSelect2EditableBox(this.$el, this.model, "services", this.options.allStreamsMap, "Add Service", this.model.get('services'));
-
                 Show.setupEditableBox(this.$el, this.model, "program", "Enter Program", this.model.get('program'), 'text');
                 Show.setupEditableBox(this.$el, this.model, "intake", "Enter Intake", this.model.get('intake'), 'text');
             }
         });
 
+        Show.views.Comment = Application.Views.ItemView.extend({
+            template: "enquiries/show/templates/comment_view"
+        }),
 
-        Show.setupEditableBox = function(el, model, id, emptyText, initialValue, type){
-//            var that = this;
+        Show.views.History = Application.Views.CompositeView.extend({
+            template: "enquiries/show/templates/history_view",
+
+            itemView: Show.views.Comment,
+            itemViewContainer: "#historySection",
+
+            events: {
+                'click #addComment': 'addComment'
+            },
+
+            addComment: function(evt) {
+                evt.preventDefault();
+            }
+
+        }),
+
+        Show.views.Admin = Application.Views.ItemView.extend({
+            template: "enquiries/show/templates/admin_view",
+
+            onRender: function() {
+                Backbone.Validation.bind(this);
+                this.setupAdminView();
+            },
+
+            setupAdminView: function() {
+                var followUp = moment(this.model.get('followUp')).format(Show.dateFormat);
+                console.log(moment(this.model.get('followUp')).format(Show.dateFormat));
+                Show.setupSelect2EditableBox(this.$el, this.model, "counselors", this.options.allCounselors, "Assigned To", this.options.addedCounselors);
+                Show.setupEditableBox(this.$el, this.model, "enquiryStatus", "Add Status", this.model.get('enquiryStatus').id, 'select', this.options.allStatus);
+                Show.setupEditableBox(this.$el, this.model, "remarks", "Enter Remarks", this.model.get('remarks'), 'textarea');
+//                Show.setupComboBoxEditableBox(this.$el, this.model, "followUp", "Follow Up On", this.model.get('followUp'));
+                Show.setupComboBoxEditableBox(this.$el, this.model, "followUp", "Follow Up On", followUp);
+            }
+        });
+
+
+
+        //TODO All these need to be moved to the controller
+        Show.setupEditableBox = function(el, model, id, emptyText, initialValue, type, source){
             el.find("#" + id).editable({
                 type: type,
+                title: emptyText,
                 emptytext: emptyText,
                 value: initialValue,
+                source: source, //For DropDowns/Selects
                 success: function(response, value) {
+                    console.log("[" + id + ":" + value + "]");
                     model.save(id, value, {
                         wait: true,
-//                        patch: true,
+                        patch: true,
+                        success: function(newModel){
+                            console.log("Saved on server!!")
+                        },
+
+                        error: function(x, response) {
+                            console.log("Error on server!! -- " + response)
+                            return response;
+                        }
+                    })
+                }
+            })
+        };
+
+        Show.dateFormat = 'DD-MM-YYYY HH:mm';
+        Show.setupComboBoxEditableBox = function(el, model, id, emptyText, initialValue){
+            el.find("#" + id).editable({
+                type: 'combodate',
+                title: emptyText,
+                emptytext: emptyText,
+                value: initialValue,
+                format: Show.dateFormat,
+                viewformat: "MMM D, YYYY hh:mm a",
+                template: 'D MMM YYYY hh:mm a',
+                combodate: {
+                    minYear: 2010,
+                    maxYear: 2020,
+                    minuteStep: 15
+                },
+                success: function(response, value) {
+                    console.log("[" + id + ":" + value + "]");
+                    if(!value) {
+                        console.log("No value!!!");
+                        return;
+                    }
+
+                    model.save(id, value, {
+                        wait: true,
+                        patch: true,
                         success: function(newModel){
                             console.log("Saved on server!!")
                         },
@@ -119,6 +188,7 @@ define([
                 type: "select2",
                 value: initialValue,
                 emptytext: emptyText,
+                title: emptyText,
                 select2: {
                     placeholder: emptyText,
                     multiple: true
@@ -126,18 +196,18 @@ define([
                 success: function(response, value) {
                     console.log(value);
 
-//                    model.save(id, value, {
-//                        wait: true,
-////                        patch: true,
-//                        success: function(newModel){
-//                            console.log("Saved on server!!")
-//                        },
-//
-//                        error: function(x, response) {
-//                            console.log("Error on server!! -- " + response)
-//                            return response;
-//                        }
-//                    });
+                    model.save(id, value, {
+                        wait: true,
+                        patch: true,
+                        success: function(newModel){
+                            console.log("Saved on server!!")
+                        },
+
+                        error: function(x, response) {
+                            console.log("Error on server!! -- " + response)
+                            return response;
+                        }
+                    });
                 }
             });
         }

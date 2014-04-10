@@ -1,15 +1,6 @@
 define([], function(){
     Application.module("Entities", function(Entities, Application, Backbone, Marionette, $, _) {
         Entities.Collection = Backbone.Collection.extend({
-//            getIdToTitleArrayMap: function() {
-//                return this.getIdToTextMap("title");
-//            },
-//
-//            getValueToTitleArrayMap: function() {
-//                return _.map(this.models, function(model){
-//                    return {value: model.get("id"), text: model.get("title")}
-//                });
-//            },
 
             getIdToTextMap: function(textField) {
                 return _.map(this.models, function(model){
@@ -17,9 +8,21 @@ define([], function(){
                 });
             },
 
+            getIntIdToTextMap: function(textField) {
+                return _.map(this.models, function(model){
+                    return {id: parseInt(model.get("id")), text: model.get(textField)}
+                });
+            },
+
             getValueToTextMap: function(textField) {
                 return _.map(this.models, function(model){
                     return {value: model.get("id"), text: model.get(textField)}
+                });
+            },
+
+            getIntValueToTextMap: function(textField) {
+                return _.map(this.models, function(model){
+                    return {value: parseInt(model.get("id")), text: model.get(textField)}
                 });
             }
 

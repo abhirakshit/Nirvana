@@ -7,7 +7,7 @@ define([
         Counselor.Controller = Application.Controllers.Base.extend({
             initialize: function() {
                 var counselor = Application.request(Application.GET_LOGGED_USER);
-                var studentsAssigned = Application.request(Application.STUDENTS_ASSIGNED_GET);
+                var studentsAssigned = Application.request(Application.GET_STUDENTS_ASSIGNED);
                 this.layout = this.getLayout();
 
                 this.listenTo(this.layout, Application.SHOW, function(){

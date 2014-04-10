@@ -4,8 +4,8 @@ define([
 ], function(){
     Application.module("Entities", function(Entities, Application, Backbone, Marionette, $, _) {
 
-        Entities.studentUrl = '/student';
-        Entities.counselorUrl = '/counselor';
+        Entities.studentUrl = '/user/student';
+        Entities.counselorUrl = '/user/counselor';
         Entities.userUrl = '/user';
 //        Entities.allUsersUrl = '/users';
 //        Entities.allCounselorsUrl = "/users/counselors";
@@ -49,10 +49,7 @@ define([
 
         var API = {
 
-            getStudent: function(studentId) {
-                if (!studentId)
-                    return new Entities.Student();
-
+            getAllStudents: function() {
                 var student = new Entities.Student();
                 student.id = studentId;
                 student.fetch();
@@ -63,25 +60,19 @@ define([
                 if(!userId) {
                     userId = Entities.loggedUser.get('id');
                 }
-
-//                var studentsAssigned = new Entities.UsersCollection();
-//                studentsAssigned.url = function() {
-//                    return Entities.userUrl + "/" + userId + "/students";
-//                };
-//                studentsAssigned.fetch();
                 var studentsAssigned = new Entities.UsersCollection(Entities.loggedUser.get('students'));
                 return studentsAssigned;
             },
 
-//            getAllCounselors: function() {
-//                if (!Entities.allCounselors) {
-//                    Entities.allCounselors = new Entities.UsersCollection();
-//                    Entities.allCounselors.url = Entities.allCounselorsUrl;
-//                    Entities.allCounselors.fetch();
-//                }
-//
-//                return Entities.allCounselors;
-//            },
+            getAllCounselors: function(update) {
+                if (!Entities.allCounselors || update) {
+                    Entities.allCounselors = new Entities.UsersCollection();
+                    Entities.allCounselors.url = Entities.counselorUrl;
+                    Entities.allCounselors.fetch();
+                }
+
+                return Entities.allCounselors;
+            },
 
             getPassword: function() {
                 return new Entities.Password();
@@ -100,11 +91,9 @@ define([
             getLoggedUser: function () {
                 if (!Entities.loggedUser) {
                     Entities.loggedUser = new Entities.User({id: Entities.loggedUserId});
-//                    Entities.loggedUser.urlRoot = Entities.counselorUrl;
                     Entities.loggedUser.fetch({async: false});
                 }
 
-//                console.dir(Entities.loggedUser.get('students'));
                 return Entities.loggedUser;
             },
 
@@ -146,8 +135,8 @@ define([
             return API.getUser(userId);
         });
 
-        Application.reqres.setHandler(Application.GET_STUDENT, function(studentId){
-            return API.getStudent(studentId);
+        Application.reqres.setHandler(Application.GET_STUDENTS, function(update){
+            return API.getAllStudents(update);
         });
 
         Application.reqres.setHandler(Application.GET_PASSWORD, function(){
@@ -170,11 +159,11 @@ define([
             return API.isCounselor();
         });
 
-//        Application.reqres.setHandler(Application.COUNSELORS_GET, function(){
-//            return API.getAllCounselors();
-//        });
+        Application.reqres.setHandler(Application.GET_COUNSELORS, function(update){
+            return API.getAllCounselors(update);
+        });
 
-        Application.reqres.setHandler(Application.STUDENTS_ASSIGNED_GET, function(userId){
+        Application.reqres.setHandler(Application.GET_STUDENTS_ASSIGNED, function(userId){
             return API.getStudentsAssigned(userId);
         });
 
