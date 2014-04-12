@@ -39,7 +39,18 @@ define([], function(){
         Settings.views.UserInfo = Application.Views.ItemView.extend({
             className: "someClass",
             tagName: "section",
-            template: "settings/templates/userInfo"
+            template: "settings/templates/userInfo",
+
+            serializeData: function(){
+                var data = this.model.toJSON();
+//                data.firstName = data.user.firstName;
+//                data.lastName = data.user.lastName;
+//                data.phoneNumber = data.user.phoneNumber;
+//                data.email = data.user.email;
+//                data.address = data.user.address;
+                data.role = data.user.role;
+                return data;
+            }
         });
 
         Settings.views.ChangePassword = Application.Views.ItemView.extend({

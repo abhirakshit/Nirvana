@@ -66,7 +66,7 @@ module.exports.bootstrap = function (cb) {
             "firstName": "Ankita",
             "lastName": "Rakshit",
             "email": "ankita@ankita.com",
-            "encryptedPassword": "$2a$10$t3WorgLhYQde5YtBVr6/HesUC/kNdyC4OBVCudzKAEP4/WkhGu9Qu",
+            "encryptedPassword": "1",
             "phoneNumber": "1114444444",
             "role": "staff"
         },
@@ -75,7 +75,7 @@ module.exports.bootstrap = function (cb) {
             "firstName": "Ashish",
             "lastName": "Gupta",
             "email": "ashish@ashish.com",
-            "encryptedPassword": "$2a$10$t3WorgLhYQde5YtBVr6/HesUC/kNdyC4OBVCudzKAEP4/WkhGu9Qu",
+            "encryptedPassword": "1",
             "phoneNumber": "1114444444",
             "role": "staff"
         }
@@ -86,7 +86,7 @@ module.exports.bootstrap = function (cb) {
             "firstName": "Abhishek",
             "lastName": "Rakshit",
             "email": "abhi@abhi.com",
-            "encryptedPassword": "$2a$10$t3WorgLhYQde5YtBVr6/HesUC/kNdyC4OBVCudzKAEP4/WkhGu9Qu",
+            "encryptedPassword": "1",
             "phoneNumber": "9999999999",
             "role": "student"
         },
@@ -95,7 +95,7 @@ module.exports.bootstrap = function (cb) {
             "firstName": "Jhampak",
             "lastName": "Lal",
             "email": "jhampak@jhampak.com",
-            "encryptedPassword": "$2a$10$t3WorgLhYQde5YtBVr6/HesUC/kNdyC4OBVCudzKAEP4/WkhGu9Qu",
+            "encryptedPassword": "1",
             "phoneNumber": "8888888888",
             "role": "student"
         }
@@ -166,9 +166,16 @@ module.exports.bootstrap = function (cb) {
 
                 if(!user) {
                     User.create(admin).exec(function(err, newAdmin){
-                        console.log('***Added Admin: ' + newAdmin.firstName);
-                        Staff.create({user:newAdmin.id}).exec(function(err, staff){
+                            if (err) {
+                                sails.log.error(err);
+                            }
+                        console.log('***Added Admin: ' + admin.firstName);
+                        admin.user = newAdmin.id;
+                        Staff.create(admin).exec(function(err, staff){
 //                            console.log('***Updated Admin ' + staff.id);
+                            if (err) {
+                                sails.log.error(err);
+                            }
                             User.update({id: newAdmin.id}, {staff: staff.id}).exec(console.log);
                         });
                     });
@@ -189,9 +196,18 @@ module.exports.bootstrap = function (cb) {
             if (users.length < counselors.length) {
                 User.create(counselors).exec(function(err, users) {
                     console.log('***Added Counselors: ' + users.length);
+                    var len  = users.length;
+                    var i = 0;
                     _.forEach(users, function(user){
-                        Staff.create({user:user.id}).exec(function(err, staff){
-//                            console.log('***Updated Staff: ' + staff.id);
+                        var attrib = counselors[i];
+                        attrib.user = user.id;
+                        i++;
+
+                        Staff.create(attrib).exec(function(err, staff){
+                            console.log('***Create Staff: ' + staff.firstName);
+                            if (err) {
+                                sails.log.error(err);
+                            }
                             User.update({id: user.id}, {staff: staff.id}).exec(console.log);
                         });
                     });
@@ -289,15 +305,20 @@ module.exports.bootstrap = function (cb) {
     var createStudents = function (callback) {
         User.find({role: 'student'}).exec(function (err, studentUsers) {
             if (err) {
-                console.log.error(err);
+                console.log(err);
                 return callback(err);
             }
 
             console.log('***Add Students');
             if (students.length > studentUsers.length) {
                 User.create(students).exec(function(err, users){
+                    var i = 0;
                     _.forEach(users, function(user){
-                        Student.create({user: user.id}).exec(function(err, student){
+//                        user.user = user.id;
+                        var attrib = students[i];
+                        attrib.user = user.id;
+                        i++;
+                        Student.create(attrib).exec(function(err, student){
                             console.log('***Updated Student: ' + student.id);
                             User.update({id: user.id}, {student: student.id}).exec(console.log);
                         });

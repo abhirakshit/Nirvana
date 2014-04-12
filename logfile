@@ -223,3 +223,67 @@ LOG:  unexpected EOF on client connection with an open transaction
 LOG:  unexpected EOF on client connection with an open transaction
 LOG:  unexpected EOF on client connection with an open transaction
 LOG:  unexpected EOF on client connection with an open transaction
+ERROR:  database "Nirvana" is being accessed by other users
+DETAIL:  There is 1 other session using the database.
+STATEMENT:  DROP DATABASE "Nirvana";
+ERROR:  database "Nirvana" is being accessed by other users
+DETAIL:  There is 1 other session using the database.
+STATEMENT:  DROP DATABASE "Nirvana";
+ERROR:  database "Nirvana" is being accessed by other users
+DETAIL:  There is 1 other session using the database.
+STATEMENT:  DROP DATABASE "Nirvana";
+FATAL:  terminating autovacuum process due to administrator command
+ERROR:  database "Nirvana" is being accessed by other users
+DETAIL:  There is 1 other session using the database.
+STATEMENT:  DROP DATABASE "Nirvana";
+ERROR:  column user.role does not exist at character 243
+STATEMENT:  SELECT "user"."status", "user"."email", "user"."encryptedPassword", "user"."sessionTokens", "user"."passwordResetToken", "user"."apiKey", "user"."student", "user"."staff", "user"."id", "user"."createdAt", "user"."updatedAt" FROM "user" WHERE "user"."role" = $1
+ERROR:  column user.role does not exist at character 243
+STATEMENT:  SELECT "user"."status", "user"."email", "user"."encryptedPassword", "user"."sessionTokens", "user"."passwordResetToken", "user"."apiKey", "user"."student", "user"."staff", "user"."id", "user"."createdAt", "user"."updatedAt" FROM "user" WHERE "user"."role" = $1
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+ERROR:  column user.role does not exist at character 243
+STATEMENT:  SELECT "user"."status", "user"."email", "user"."encryptedPassword", "user"."sessionTokens", "user"."passwordResetToken", "user"."apiKey", "user"."student", "user"."staff", "user"."id", "user"."createdAt", "user"."updatedAt" FROM "user" WHERE "user"."role" = $1
+ERROR:  column user.role does not exist at character 243
+STATEMENT:  SELECT "user"."status", "user"."email", "user"."encryptedPassword", "user"."sessionTokens", "user"."passwordResetToken", "user"."apiKey", "user"."student", "user"."staff", "user"."id", "user"."createdAt", "user"."updatedAt" FROM "user" WHERE "user"."role" = $1
+ERROR:  column user.role does not exist at character 243
+STATEMENT:  SELECT "user"."status", "user"."email", "user"."encryptedPassword", "user"."sessionTokens", "user"."passwordResetToken", "user"."apiKey", "user"."student", "user"."staff", "user"."id", "user"."createdAt", "user"."updatedAt" FROM "user" WHERE "user"."role" = $1
+ERROR:  column user.role does not exist at character 243
+STATEMENT:  SELECT "user"."status", "user"."email", "user"."encryptedPassword", "user"."sessionTokens", "user"."passwordResetToken", "user"."apiKey", "user"."student", "user"."staff", "user"."id", "user"."createdAt", "user"."updatedAt" FROM "user" WHERE "user"."role" = $1
+ERROR:  column "role" of relation "staff" does not exist at character 82
+STATEMENT:  INSERT INTO "staff" ("email", "firstName", "lastName", "phoneNumber", "address", "role", "dob", "gender", "user", "id", "createdAt", "updatedAt") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *;
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+ERROR:  duplicate key value violates unique constraint "country_name_key"
+DETAIL:  Key (name)=(India) already exists.
+STATEMENT:  INSERT INTO "country" ("name", "createdAt", "updatedAt") values ($1, $2, $3) RETURNING *;
+ERROR:  duplicate key value violates unique constraint "service_name_key"
+DETAIL:  Key (name)=(Visa) already exists.
+STATEMENT:  INSERT INTO "service" ("name", "createdAt", "updatedAt") values ($1, $2, $3) RETURNING *;
+ERROR:  duplicate key value violates unique constraint "enquirystatus_name_key"
+DETAIL:  Key (name)=(Not Picking Up) already exists.
+STATEMENT:  INSERT INTO "enquirystatus" ("name", "createdAt", "updatedAt") values ($1, $2, $3) RETURNING *;
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+ERROR:  duplicate key value violates unique constraint "country_name_key"
+DETAIL:  Key (name)=(India) already exists.
+STATEMENT:  INSERT INTO "country" ("name", "createdAt", "updatedAt") values ($1, $2, $3) RETURNING *;
+ERROR:  duplicate key value violates unique constraint "enquirystatus_name_key"
+DETAIL:  Key (name)=(Not Picking Up) already exists.
+STATEMENT:  INSERT INTO "enquirystatus" ("name", "createdAt", "updatedAt") values ($1, $2, $3) RETURNING *;
+ERROR:  duplicate key value violates unique constraint "service_name_key"
+DETAIL:  Key (name)=(Visa) already exists.
+STATEMENT:  INSERT INTO "service" ("name", "createdAt", "updatedAt") values ($1, $2, $3) RETURNING *;
+ERROR:  duplicate key value violates unique constraint "service_name_key"
+DETAIL:  Key (name)=(Visa) already exists.
+STATEMENT:  INSERT INTO "service" ("name", "createdAt", "updatedAt") values ($1, $2, $3) RETURNING *;
+ERROR:  duplicate key value violates unique constraint "enquirystatus_name_key"
+DETAIL:  Key (name)=(Not Picking Up) already exists.
+STATEMENT:  INSERT INTO "enquirystatus" ("name", "createdAt", "updatedAt") values ($1, $2, $3) RETURNING *;
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction

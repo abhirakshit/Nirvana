@@ -7,13 +7,13 @@
 var _ = require('lodash');
 module.exports = {
 
-    getAllCounselors: function(req, res, next) {
-        User.find({role: 'counselor'}).exec(function(err, counselors) {
+    getAllStaff: function(req, res, next) {
+        User.find({role: 'staff'}).exec(function(err, staffList) {
             if (err) {
                 return res.badRequest(err);
             }
 
-            return res.json(counselors);
+            return res.json(staffList);
         })
     },
 

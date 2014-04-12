@@ -27,6 +27,16 @@ define([
         Show.views.Personal = Application.Views.ItemView.extend({
             template: "enquiries/show/templates/personal_view",
 
+//            serializeData: function(){
+//                var data = this.model.toJSON();
+//                data.firstName = data.user.firstName;
+//                data.lastName = data.user.lastName;
+//                data.phoneNumber = data.user.phoneNumber;
+//                data.email = data.user.email;
+//                data.address = data.user.address;
+//                return data;
+//            },
+
             onRender: function() {
                 Backbone.Validation.bind(this);
                 this.setupPersonalView();

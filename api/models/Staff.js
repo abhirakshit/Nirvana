@@ -9,6 +9,27 @@ module.exports = {
 
 	attributes: {
 
+        email: {type: 'email', required: true, unique: true},
+
+        firstName: {type: 'string', required: true},
+
+        lastName: {type: 'string'},
+
+        phoneNumber: {type: 'string', defaultsTo: '1112223333', required: true},
+
+        address: {type: 'text'},
+
+        dob: {type: 'datetime'},
+
+        gender: {type: 'string', defaultsTo: 'male'},
+
+        //Many to Many: Location to User
+        locations: {
+            collection: 'Location',
+            via: 'staff',
+            dominant: true
+        },
+
         //One to One: User to Staff
         user: {
             model: 'User'
@@ -41,20 +62,17 @@ module.exports = {
         },
 
         //Utils
-//        toJSON: function () {
-//            console.log("Getting JSON: Staff");
-//            var obj = this.toObject();
-//            obj.firstName = obj.user.firstName;
-//            obj.lastName = obj.user.lastName;
-//            obj.email = obj.user.email;
-//            obj.phoneNumber = obj.user.phoneNumber;
-//            obj.role = obj.user.role;
-//
-////            console.log(obj.user.fullName());
-////            obj.name = obj.user.fullName();
-//            return obj;
-//        }
+        toJSON: function () {
+//            console.log("Getting JSON: Student");
+            var obj = this.toObject();
+            obj.name = obj.fullName();
+            return obj;
+        },
 
-	}
+        fullName: function () {
+            return this.firstName + ' ' + this.lastName;
+        }
+
+    }
 
 };

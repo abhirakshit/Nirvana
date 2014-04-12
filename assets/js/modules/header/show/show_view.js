@@ -3,8 +3,7 @@ define([
 ], function(){
     Application.module("Header.Show", function(Show, Application, Backbone, Marionette, $, _) {
         Show.views.Layout = Application.Views.Layout.extend({
-            template: "header/show/show_layout",
-//            className: "navbar-inner",
+            template: "header/show/templates/show_layout",
 
             regions: {
                 appLabelRegion: "#app-label",
@@ -38,7 +37,6 @@ define([
 
 
         var userDropDownOptionHtml = '<a href="<%=args.optionUrl%>"><i class="fa fa-<%=args.iconClass%>"></span>&nbsp<%=args.optionText%></a>';
-//        var userDropDownOptionHtml = '<a href="<%=args.optionUrl%>"><%=args.optionText%></a>';
         Show.views.UserDropDownOption = Marionette.ItemView.extend({
             tagName: "li",
 
@@ -47,7 +45,6 @@ define([
             },
 
             template: function(serialized_model) {
-//                console.log(serialized_model);
                 return _.template(userDropDownOptionHtml,{
                     optionUrl: serialized_model.optionUrl,
                     optionText: serialized_model.optionText,
@@ -58,14 +55,22 @@ define([
 
 
         Show.views.UserDropDownCollection = Marionette.CompositeView.extend({
-            template: "header/show/userDropDownBtn",
+            template: "header/show/templates/userDropDownBtn",
             className: "nav navbar-nav navbar-right m-n hidden-xs nav-user user",
             tagName: "ul",
             itemView: Show.views.UserDropDownOption,
             itemViewContainer: "#user-actions",
 
+
+//            serializeData: function(){
+//                var data = this.model.toJSON();
+//                data.name = data.user.name;
+////                data.headingTitle = this.options.headingTitle;
+////                data.editorId = this.options.editorId;
+//                return data;
+//            },
+
             onRender: function() {
-//                console.log("REndered dropdown");
                 this.$el.find("#logout").before('<li class="divider"></li>')
             },
 

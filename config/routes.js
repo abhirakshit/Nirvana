@@ -37,8 +37,8 @@ module.exports.routes = {
 
   // Custom routes here...
 
-//    'get /user/counselor': 'UserController.getAllCounselors',
-//    'get /user/student': 'UserController.getAllStudents',
+    'get /user/staff': 'UserController.getAllStaff',
+    'get /user/student': 'UserController.getAllStudents',
 //    'patch /user/:id': 'UserController.updatePartial'
 
 

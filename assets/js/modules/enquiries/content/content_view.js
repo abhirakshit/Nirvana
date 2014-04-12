@@ -54,6 +54,17 @@ define([
         Content.views.Row = Application.Views.ItemView.extend({
             template: "enquiries/content/templates/row",
             tagName: "tr",
+
+//            serializeData: function(){
+//                var data = this.model.toJSON();
+//                data.firstName = data.user.firstName;
+//                data.lastName = data.user.lastName;
+//                data.phoneNumber = data.user.phoneNumber;
+//                data.email = data.user.email;
+//                data.address = data.user.address;
+//                return data;
+//            },
+
             events: {
                 "click": "click"
             },

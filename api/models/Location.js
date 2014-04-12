@@ -19,8 +19,13 @@ module.exports = _.merge(_.cloneDeep(infoTable), {
         },
 
         //Many to Many Location to User
-        users: {
-            collection: 'User',
+        students: {
+            collection: 'Student',
+            via: 'locations'
+        },
+
+        staff: {
+            collection: 'Staff',
             via: 'locations'
         }
 

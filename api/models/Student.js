@@ -9,6 +9,20 @@ module.exports = {
 
 	attributes: {
 
+        email: {type: 'email', required: true, unique: true},
+
+        firstName: {type: 'string', required: true},
+
+        lastName: {type: 'string'},
+
+        phoneNumber: {type: 'string', defaultsTo: '1112223333', required: true},
+
+        address: {type: 'text'},
+
+        dob: {type: 'datetime'},
+
+        gender: {type: 'string', defaultsTo: 'male'},
+
         parentFirstName: {type: 'string'},
 
         parentLastName: {type: 'string'},
@@ -21,7 +35,7 @@ module.exports = {
 
         comapanyName: {type: 'string'},
 
-        status: {type: 'string'},
+//        status: {type: 'string'},
 
         intake: {type: 'string'},
 
@@ -41,8 +55,14 @@ module.exports = {
 
         enquiryDate: {type: 'datetime'},
 
-
         //Associations
+
+        //Many to Many: Location to User
+        locations: {
+            collection: 'Location',
+            via: 'students',
+            dominant: true
+        },
 
         //One to One: User to Student
         user: {
@@ -109,23 +129,21 @@ module.exports = {
             collection: 'Batch',
             via: 'students',
             dominant: true
-        }
+        },
 
+    //  Utils
+        toJSON: function () {
+//            console.log("Getting JSON: Student");
+            var obj = this.toObject();
+            obj.name = obj.fullName();
+            return obj;
+        },
+
+        fullName: function () {
+            return this.firstName + ' ' + this.lastName;
+        }
 	},
 
-//    //Utils
-//    toJSON: function () {
-//        console.log("Getting JSON: Student");
-//        var obj = this.toObject();
-//        obj.firstName = obj.user.firstName;
-//        obj.lastName = obj.user.lastName;
-//        obj.email = obj.user.email;
-//        obj.phoneNumber = obj.user.phoneNumber;
-//        obj.role = obj.user.role;
-//        obj.name = obj.user.fullName();
-//        console.log(obj.user.fullName());
-//        return obj;
-//    },
 
     /**
      * Updates services for a enquiry.
