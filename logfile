@@ -135,3 +135,91 @@ ERROR:  invalid input syntax for type timestamp with time zone: ""
 STATEMENT:  UPDATE "user" SET "followUp" = $1, "id" = $2, "updatedAt" = $3 WHERE "user"."id" = $4 RETURNING *
 ERROR:  invalid input syntax for type timestamp with time zone: ""
 STATEMENT:  UPDATE "user" SET "followUp" = $1, "id" = $2, "updatedAt" = $3 WHERE "user"."id" = $4 RETURNING *
+ERROR:  column "user" of relation "staff" does not exist at character 22
+STATEMENT:  INSERT INTO "staff" ("user", "createdAt", "updatedAt") values ($1, $2, $3) RETURNING *
+ERROR:  column student.enquiryStatus does not exist at character 467
+STATEMENT:  SELECT "student"."parentFirstName", "student"."parentLastName", "student"."parentPhoneNumber", "student"."parentEmail", "student"."yearsExp", "student"."comapanyName", "student"."status", "student"."intake", "student"."intakeYear", "student"."major", "student"."degree", "student"."imgLocation", "student"."remarks", "student"."source", "student"."followUp", "student"."enquiryDate", "student"."id", "student"."createdAt", "student"."updatedAt" FROM "student" WHERE "student"."enquiryStatus" IN ($1)
+ERROR:  column "user" of relation "staff" does not exist at character 22
+STATEMENT:  INSERT INTO "staff" ("user", "createdAt", "updatedAt") values ($1, $2, $3) RETURNING *
+ERROR:  column "user" of relation "staff" does not exist at character 22
+STATEMENT:  INSERT INTO "staff" ("user", "createdAt", "updatedAt") values ($1, $2, $3) RETURNING *
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+ERROR:  duplicate key value violates unique constraint "country_name_key"
+DETAIL:  Key (name)=(India) already exists.
+STATEMENT:  INSERT INTO "country" ("name", "createdAt", "updatedAt") values ($1, $2, $3) RETURNING *;
+ERROR:  duplicate key value violates unique constraint "service_name_key"
+DETAIL:  Key (name)=(Visa) already exists.
+STATEMENT:  INSERT INTO "service" ("name", "createdAt", "updatedAt") values ($1, $2, $3) RETURNING *;
+ERROR:  duplicate key value violates unique constraint "enquirystatus_name_key"
+DETAIL:  Key (name)=(Not Picking Up) already exists.
+STATEMENT:  INSERT INTO "enquirystatus" ("name", "createdAt", "updatedAt") values ($1, $2, $3) RETURNING *;
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+ERROR:  duplicate key value violates unique constraint "country_name_key"
+DETAIL:  Key (name)=(India) already exists.
+STATEMENT:  INSERT INTO "country" ("name", "createdAt", "updatedAt") values ($1, $2, $3) RETURNING *;
+ERROR:  duplicate key value violates unique constraint "service_name_key"
+DETAIL:  Key (name)=(Visa) already exists.
+STATEMENT:  INSERT INTO "service" ("name", "createdAt", "updatedAt") values ($1, $2, $3) RETURNING *;
+ERROR:  duplicate key value violates unique constraint "enquirystatus_name_key"
+DETAIL:  Key (name)=(Not Picking Up) already exists.
+STATEMENT:  INSERT INTO "enquirystatus" ("name", "createdAt", "updatedAt") values ($1, $2, $3) RETURNING *;
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+ERROR:  duplicate key value violates unique constraint "country_name_key"
+DETAIL:  Key (name)=(India) already exists.
+STATEMENT:  INSERT INTO "country" ("name", "createdAt", "updatedAt") values ($1, $2, $3) RETURNING *;
+ERROR:  duplicate key value violates unique constraint "service_name_key"
+DETAIL:  Key (name)=(Visa) already exists.
+STATEMENT:  INSERT INTO "service" ("name", "createdAt", "updatedAt") values ($1, $2, $3) RETURNING *;
+ERROR:  duplicate key value violates unique constraint "enquirystatus_name_key"
+DETAIL:  Key (name)=(Not Picking Up) already exists.
+STATEMENT:  INSERT INTO "enquirystatus" ("name", "createdAt", "updatedAt") values ($1, $2, $3) RETURNING *;
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+ERROR:  duplicate key value violates unique constraint "country_name_key"
+DETAIL:  Key (name)=(India) already exists.
+STATEMENT:  INSERT INTO "country" ("name", "createdAt", "updatedAt") values ($1, $2, $3) RETURNING *;
+ERROR:  duplicate key value violates unique constraint "service_name_key"
+DETAIL:  Key (name)=(Visa) already exists.
+STATEMENT:  INSERT INTO "service" ("name", "createdAt", "updatedAt") values ($1, $2, $3) RETURNING *;
+ERROR:  duplicate key value violates unique constraint "user_email_key"
+DETAIL:  Key (email)=(ankita@ankita.com) already exists.
+STATEMENT:  INSERT INTO "user" ("firstName", "lastName", "email", "encryptedPassword", "phoneNumber", "role", "status", "gender", "apiKey", "createdAt", "updatedAt") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *;
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+ERROR:  duplicate key value violates unique constraint "user_email_key"
+DETAIL:  Key (email)=(ankita@ankita.com) already exists.
+STATEMENT:  INSERT INTO "user" ("firstName", "lastName", "email", "encryptedPassword", "phoneNumber", "role", "status", "gender", "apiKey", "createdAt", "updatedAt") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *;
+LOG:  unexpected EOF on client connection with an open transaction
+ERROR:  duplicate key value violates unique constraint "user_email_key"
+DETAIL:  Key (email)=(ankita@ankita.com) already exists.
+STATEMENT:  INSERT INTO "user" ("firstName", "lastName", "email", "encryptedPassword", "phoneNumber", "role", "status", "gender", "apiKey", "createdAt", "updatedAt") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *;
+LOG:  unexpected EOF on client connection with an open transaction
+ERROR:  duplicate key value violates unique constraint "user_email_key"
+DETAIL:  Key (email)=(ankita@ankita.com) already exists.
+STATEMENT:  INSERT INTO "user" ("firstName", "lastName", "email", "encryptedPassword", "phoneNumber", "role", "status", "gender", "apiKey", "createdAt", "updatedAt") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *;
+LOG:  unexpected EOF on client connection with an open transaction
+ERROR:  duplicate key value violates unique constraint "user_email_key"
+DETAIL:  Key (email)=(ankita@ankita.com) already exists.
+STATEMENT:  INSERT INTO "user" ("firstName", "lastName", "email", "encryptedPassword", "phoneNumber", "role", "status", "gender", "apiKey", "createdAt", "updatedAt") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *;
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+ERROR:  duplicate key value violates unique constraint "user_email_key"
+DETAIL:  Key (email)=(ankita@ankita.com) already exists.
+STATEMENT:  INSERT INTO "user" ("firstName", "lastName", "email", "encryptedPassword", "phoneNumber", "role", "status", "gender", "apiKey", "createdAt", "updatedAt") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *;
+LOG:  unexpected EOF on client connection with an open transaction
+ERROR:  duplicate key value violates unique constraint "user_email_key"
+DETAIL:  Key (email)=(ankita@ankita.com) already exists.
+STATEMENT:  INSERT INTO "user" ("firstName", "lastName", "email", "encryptedPassword", "phoneNumber", "role", "status", "gender", "apiKey", "createdAt", "updatedAt") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *;
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction

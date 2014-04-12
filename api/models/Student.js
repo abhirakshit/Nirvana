@@ -9,13 +9,13 @@ module.exports = {
 
 	attributes: {
 
-        parentFirstName: {type: 'string', required: true},
+        parentFirstName: {type: 'string'},
 
         parentLastName: {type: 'string'},
 
-        parentPhoneNumber: {type: 'string', defaultsTo: '1112223333', required: true},
+        parentPhoneNumber: {type: 'string'},
 
-        parentEmail: {type: 'email', required: true, unique: true},
+        parentEmail: {type: 'email', unique: true},
 
         yearsExp : {type: 'string'},
 
@@ -112,6 +112,20 @@ module.exports = {
         }
 
 	},
+
+//    //Utils
+//    toJSON: function () {
+//        console.log("Getting JSON: Student");
+//        var obj = this.toObject();
+//        obj.firstName = obj.user.firstName;
+//        obj.lastName = obj.user.lastName;
+//        obj.email = obj.user.email;
+//        obj.phoneNumber = obj.user.phoneNumber;
+//        obj.role = obj.user.role;
+//        obj.name = obj.user.fullName();
+//        console.log(obj.user.fullName());
+//        return obj;
+//    },
 
     /**
      * Updates services for a enquiry.

@@ -1,8 +1,9 @@
 define([], function(){
     Application.module("Consts", function(Consts, Application) {
 
+
         Application.STUDENT_ROLE = "student";
-        Application.COUNSELOR_ROLE = "counselor";
+        Application.STAFF_ROLE = "staff";
         Application.ADMIN_ROLE = "admin";
         Application.SUPER_ADMIN_ROLE = "superAdmin";
 

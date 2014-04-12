@@ -18,7 +18,7 @@ module.exports.bootstrap = function (cb) {
   // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
 
 
-    // Add Admin and Test Counselors
+    // Add Admin and Test Staff
     var admins = [
         {
             "firstName": "Admin",
@@ -68,7 +68,7 @@ module.exports.bootstrap = function (cb) {
             "email": "ankita@ankita.com",
             "encryptedPassword": "$2a$10$t3WorgLhYQde5YtBVr6/HesUC/kNdyC4OBVCudzKAEP4/WkhGu9Qu",
             "phoneNumber": "1114444444",
-            "role": "counselor"
+            "role": "staff"
         },
 
         {
@@ -77,7 +77,7 @@ module.exports.bootstrap = function (cb) {
             "email": "ashish@ashish.com",
             "encryptedPassword": "$2a$10$t3WorgLhYQde5YtBVr6/HesUC/kNdyC4OBVCudzKAEP4/WkhGu9Qu",
             "phoneNumber": "1114444444",
-            "role": "counselor"
+            "role": "staff"
         }
     ];
 
@@ -102,174 +102,128 @@ module.exports.bootstrap = function (cb) {
 
     ];
 
-    var createCountries = function(cb) {
+    var createCountries = function(callback) {
         Country.count().exec(function (err, cnt){
             if (err){
                 sails.log.error(err);
-                return cb(err);
+                return callback(err);
             }
 
             if (cnt < countries.length) {
                 Country.create(countries).exec(function(err, newCountries){
                     console.log('***Added Countries: ' + newCountries.length);
-                    cb(null);
+                    callback(null, "Created All Countries");
+                    return;
                 });
             }
+            callback(null, "Countries Exist");
         });
     };
 
-    var createServices = function(cb) {
+    var createServices = function(callback) {
         Service.count().exec(function (err, cnt){
             if (err){
                 sails.log.error(err);
-                return cb(err);
+                return callback(err);
             }
 
             if (cnt < services.length) {
                 Service.create(services).exec(function(err, newServices){
                     console.log('***Added services: ' + newServices.length);
-                    cb(null)
+                    callback(null, "Created All Services");
+                    return;
                 });
+                callback(null, "Services exist");
             }
         });
     };
 
-    var createStatusTypes = function(cb) {
+    var createStatusTypes = function(callback) {
         EnquiryStatus.count().exec(function (err, cnt){
             if (err){
                 sails.log.error(err);
-                return cb(err);
+                return callback(err);
             }
 
             if (cnt < statusTypes.length) {
                 EnquiryStatus.create(statusTypes).exec(function(err, newStatus) {
                     console.log('***Added status types: ' + newStatus.length);
-                    cb(null);
+                    callback(null, "Created All Status");
+                    return;
                 });
+                callback(null, "Status Exist");
             }
         });
     };
 
-    var createAdmin = function(cb){
+    var createAdmin = function(callback){
         _.forEach(admins, function(admin) {
-//            Counselor.findOne({email: admin.email}, function(err, user) {
             User.findOne({email: admin.email}, function(err, user) {
                 if (err){
                     sails.log.error(err);
-                    return cb(err);
+                    return callback(err);
                 }
 
                 if(!user) {
-//                    Counselor.create(admin).exec(function(err, newAdmin){
                     User.create(admin).exec(function(err, newAdmin){
                         console.log('***Added Admin: ' + newAdmin.firstName);
-                        cb(null);
+                        Staff.create({user:newAdmin.id}).exec(function(err, staff){
+//                            console.log('***Updated Admin ' + staff.id);
+                            User.update({id: newAdmin.id}, {staff: staff.id}).exec(console.log);
+                        });
                     });
                 }
             });
         });
+        callback(null, "Created All Admins");
 
     };
 
-    var createCounselors = function(cb) {
-//        Counselor.count().exec(function (err, cnt){
-        User.count().exec(function (err, cnt){
+    var createStaff = function(callback) {
+        User.find({role: 'staff'}).exec(function (err, users){
             if (err){
                 sails.log.error(err);
-                return cb(err);
+                return callback(err);
             }
 
-            if (cnt < counselors.length) {
-//                Counselor.create(counselors).exec(function(err, newCounselors) {
-                User.create(counselors).exec(function(err, newCounselors) {
-                    console.log('***Added Counselors: ' + newCounselors.length);
-                    cb(null);
+            if (users.length < counselors.length) {
+                User.create(counselors).exec(function(err, users) {
+                    console.log('***Added Counselors: ' + users.length);
+                    _.forEach(users, function(user){
+                        Staff.create({user:user.id}).exec(function(err, staff){
+//                            console.log('***Updated Staff: ' + staff.id);
+                            User.update({id: user.id}, {staff: staff.id}).exec(console.log);
+                        });
+                    });
                 });
             }
         });
+        callback(null, "Created All Staff");
     };
 
-
-    var afterStudents = function(err, students) {
-        console.log("***Associate Students: " + students.length);
-
-        _.forEach(students, function(student){
-
-            async.series([
-                function(cb) {
-                    //Assign Countries
-                    Country.find({}).exec(function find(err, countries){
-                        console.log("***Countries: " + countries.length);
-                        _.forEach(countries, function(country) {
-                            console.log('Associating ', country.name,' with ', student.firstName);
-                            student.countries.add(country.id);
-//                            student.save(console.log);
-                        });
-                        cb(null);
-                    });
-                },
-
-                function(cb) {
-                    //Assign Services
-                    Service.find({}).exec(function find(err, services){
-                        console.log("***Services: " + services.length);
-                        _.forEach(services, function(service){
-                            console.log('Associating ', service.name,' with ', student.firstName);
-                            student.services.add(service.id);
-                        });
-                        cb(null);
-                    });
-
-                },
-
-                function(cb) {
-                    //Assign Counselors
-//                    Counselor.find({}).exec(function find(err, counselors){
-                    User.find({role: 'counselor'}).exec(function find(err, counselors){
-                        console.log("***Counselors: " + counselors.length);
-                        _.forEach(counselors, function(counselor){
-                            console.log('Associating ', counselor.firstName, ' with ', student.firstName);
-                            student.counselors.add(counselor.id);
-                        });
-                        cb(null);
-                    });
-
-                },
-
-                function(cb) {
-                    //Assign Status
-                    EnquiryStatus.find({}).exec(function find(err, statusType){
-                        console.log("***Status: " + statusType.length);
-                        var status = statusType.pop(); //Add any status
-                        console.log('Associating ', status.name, ' with ', student.firstName);
-
-                        //TODO None of these are working
-//                        student.status.add(status.id);
-//                        student.Status = status.id;
-                        student.enquiryStatus = status.id;
-                        cb(null);
-                    });
-                }
-
-            ], function cb(err, results){
-                student.save(console.log);
-
-            });
-        });
-
-    };
-
-    var deleteAllStudents = function(cb) {
+    var deleteAllStudents = function(callback) {
         console.log('***Deleting all students');
-        User.destroy({role: 'student'}).exec(function (err, students){
+        User.destroy({role: 'student'}).exec(function (err, users){
             if (err) {
-                console.log('***Error deleting students');
+                console.log('***Error deleting users');
                 return;
             }
-            var studentIds = students.map(function(student){return student.id;});
+
+
+            var studentIds = users.map(function(user){return user.student.id;});
+
+            //Destroy Students
+            _.forEach(studentIds, function(studId){
+                Student.destroy({id: studId}).exec(function (err, students){
+                    if (err) {
+                        console.log('***Error deleting students');
+                        return;
+                    }
+                });
+            });
 
             //Remove from Countries
-            Country.find({}).populate('users').exec(function findCB(err, countries){
+            Country.find({}).populate('students').exec(function findCB(err, countries){
 //                console.log("***Countries: " + country.length);
                 while (countries.length) {
                     var country = countries.pop();
@@ -283,7 +237,7 @@ module.exports.bootstrap = function (cb) {
 
 
             //Remove from Services
-            Service.find({}).populate('users').exec(function findCB(err, services){
+            Service.find({}).populate('students').exec(function findCB(err, services){
                 while (services.length) {
                     var service = services.pop();
                     _.forEach(studentIds, function(studId) {
@@ -295,7 +249,7 @@ module.exports.bootstrap = function (cb) {
             });
 
             //Remove from Services
-            EnquiryStatus.find({}).populate('users').exec(function findCB(err, statusList){
+            EnquiryStatus.find({}).populate('students').exec(function findCB(err, statusList){
                 if (err) {
                     console.log('***Error getting status');
                     return;
@@ -310,62 +264,137 @@ module.exports.bootstrap = function (cb) {
                 }
             });
 
-            //Remove Assigned Counselors
-            User.find({role: 'counselor'}).populate('students').exec(function (err, counselors) {
+            //Remove Assigned Staff
+            Staff.find({}).populate('students').exec(function (err, staffList) {
                 if (err) {
                     console.log('***Error getting counselors');
                     return;
                 }
-                while (counselors.length) {
-                    var counselor = counselors.pop();
+                while (staffList.length) {
+                    var staff = staffList.pop();
                     _.forEach(studentIds, function(studId) {
-                        console.log("***Remove id " + studId + " from student list for " + counselor.firstName);
-                        counselor.students.remove(studId);
-                        counselor.save();
+                        console.log("***Remove id " + studId + " from student list for " + staff.firstName);
+                        staff.students.remove(studId);
+                        staff.save();
                     });
                 }
             });
 
 
-            cb(null);
+            callback(null, "Deleted all students");
         });
     };
 
-    var createStudents = function (cb) {
-//        Student.count().exec(function (err, cnt) {
-        User.count().exec(function (err, cnt) {
+
+    var createStudents = function (callback) {
+        User.find({role: 'student'}).exec(function (err, studentUsers) {
             if (err) {
-                sails.log.error(err);
-                return cb(err);
+                console.log.error(err);
+                return callback(err);
             }
 
-//            if (cnt === 0) {
-                console.log('***Add Students');
-//                Student.create(students).exec(afterStudents);
-                User.create(students).exec(afterStudents);
-//            }
-            cb(null);
+            console.log('***Add Students');
+            if (students.length > studentUsers.length) {
+                User.create(students).exec(function(err, users){
+                    _.forEach(users, function(user){
+                        Student.create({user: user.id}).exec(function(err, student){
+                            console.log('***Updated Student: ' + student.id);
+                            User.update({id: user.id}, {student: student.id}).exec(console.log);
+                        });
+                    });
+                });
+                callback(null, "Created All Students");
+            } else {
+                callback(null, "Students exist");
+            }
         });
     };
 
-    var populate = function(cb) {
+    var associateStudents = function(callback) {
+        Student.find({}).populate('user').exec(function (err, students) {
+            console.log("***Associate Students: " + students.length);
+            _.forEach(students, function(student){
+                async.series([
+                    function(cb1) {
+                        //Assign Countries
+                        Country.find({}).exec(function find(err, countries){
+                            console.log("***Countries: " + countries.length);
+                            _.forEach(countries, function(country) {
+                                console.log('Associating ', country.name,' with ', student.user.firstName);
+//                                student.countries.remove(country.id);
+                                student.countries.add(country.id);
+                            });
+                            cb1(null, "Countries Added to all Student");
+                        });
+                    },
 
+                    function(cb1) {
+                        //Assign Services
+                        Service.find({}).exec(function find(err, services){
+                            console.log("***Services: " + services.length);
+                            _.forEach(services, function(service){
+                                console.log('Associating ', service.name,' with ', student.user.firstName);
+//                                student.services.remove(service.id);
+                                student.services.add(service.id);
+                            });
+                            cb1(null);
+                        });
+
+                    },
+
+                    function(cb1) {
+                        //Assign Status
+                        EnquiryStatus.find({}).exec(function find(err, statusType){
+                            console.log("***Status: " + statusType.length);
+                            var status = statusType.pop(); //Add any status
+                            console.log('Associating ', status.name, ' with ', student.user.firstName);
+                            student.enquiryStatus = parseInt(status.id);
+                            cb1(null);
+                        });
+                    },
+
+                    function(cb1) {
+                        //Assign Staff
+                        Staff.find({}).populate('user').exec(function find(err, staffList){
+                            console.log("***Staff: " + staffList.length);
+                            _.forEach(staffList, function(staff){
+                                console.log('Associating ', staff.user.firstName, ' with ', student.user.firstName);
+//                                student.staff.remove(user.staff.id);
+                                student.staff.add(staff.id);
+                            });
+                            cb1(null);
+                        });
+
+                    }
+
+
+                ], function cb1(err, results){
+                    student.save(console.log);
+                });
+            });
+
+        })
+    };
+
+    var callback = function (err, results){
+        sails.log.debug("***Result: " + results);
+        cb();
+    };
+
+    var populate = function() {
         async.series([
-            createCountries(cb),
-            createServices(cb),
-            createStatusTypes(cb),
-
-            //Users
-            createAdmin(cb),
-            createCounselors(cb),
-            deleteAllStudents(cb),
-            createStudents(cb)
-        ]);
+            createCountries(callback),
+            createServices(callback),
+            createStatusTypes(callback),
+//            //Users
+            createAdmin(callback),
+            createStaff(callback),
+//            deleteAllStudents(cb),
+            createStudents(callback),
+            associateStudents(callback)
+        ], callback);
     };
 
 //    populate(cb);
-
-
-
   cb();
 };

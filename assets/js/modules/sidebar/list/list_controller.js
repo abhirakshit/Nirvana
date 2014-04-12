@@ -11,7 +11,7 @@ define([
 
             getLayout: function () {
                 var _collection;
-                if (Application.request(Application.GET_ROLE) == Application.COUNSELOR_ROLE){
+                if (Application.request(Application.GET_ROLE) == Application.STAFF_ROLE){
                     _collection = this.getCounselorSideBarOptionCollection();
                 } else {
                     _collection = this.getStudentSideBarOptionCollection();

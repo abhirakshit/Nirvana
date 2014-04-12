@@ -38,7 +38,22 @@ module.exports = {
         paymentAccepted: {
             collection: 'Payment',
             via: 'receivedBy'
-        }
+        },
+
+        //Utils
+//        toJSON: function () {
+//            console.log("Getting JSON: Staff");
+//            var obj = this.toObject();
+//            obj.firstName = obj.user.firstName;
+//            obj.lastName = obj.user.lastName;
+//            obj.email = obj.user.email;
+//            obj.phoneNumber = obj.user.phoneNumber;
+//            obj.role = obj.user.role;
+//
+////            console.log(obj.user.fullName());
+////            obj.name = obj.user.fullName();
+//            return obj;
+//        }
 
 	}
 

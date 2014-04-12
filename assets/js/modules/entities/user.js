@@ -4,8 +4,8 @@ define([
 ], function(){
     Application.module("Entities", function(Entities, Application, Backbone, Marionette, $, _) {
 
-        Entities.studentUrl = '/user/student';
-        Entities.counselorUrl = '/user/counselor';
+        Entities.studentUrl = '/student';
+        Entities.staffUrl = '/staff';
         Entities.userUrl = '/user';
 //        Entities.allUsersUrl = '/users';
 //        Entities.allCounselorsUrl = "/users/counselors";
@@ -23,10 +23,10 @@ define([
 
         Entities.Student = Entities.Model.extend({
             urlRoot: Entities.studentUrl,
-            validation: {
-                firstName: {required: true},
-                email: {required: true, pattern: 'email'}
-            }
+//            validation: {
+//                firstName: {required: true},
+//                email: {required: true, pattern: 'email'}
+//            }
         });
 
 
@@ -67,7 +67,7 @@ define([
             getAllCounselors: function(update) {
                 if (!Entities.allCounselors || update) {
                     Entities.allCounselors = new Entities.UsersCollection();
-                    Entities.allCounselors.url = Entities.counselorUrl;
+                    Entities.allCounselors.url = Entities.staffUrl;
                     Entities.allCounselors.fetch();
                 }
 
@@ -90,7 +90,23 @@ define([
 
             getLoggedUser: function () {
                 if (!Entities.loggedUser) {
-                    Entities.loggedUser = new Entities.User({id: Entities.loggedUserId});
+                    // get user object from server
+                    var user = new Entities.User({id: Entities.loggedUserId});
+                    user.fetch({async: false});
+
+                    //determine user type and get student/staff
+                    var urlRoot, userId;
+                    if (user.get(Application.STAFF_ROLE)) {
+                        urlRoot = Entities.staffUrl;
+                        userId = user.get(Application.STAFF_ROLE).id;
+                    } else {
+                        urlRoot = Entities.studentUrl;
+                        userId = user.get(Application.STUDENT_ROLE).id
+                    }
+
+
+                    Entities.loggedUser = new Entities.User({id: userId});
+                    Entities.loggedUser.urlRoot = urlRoot;
                     Entities.loggedUser.fetch({async: false});
                 }
 
@@ -109,7 +125,7 @@ define([
 
             isCounselor: function () {
                 var role = this.getRole();
-                return role == Application.COUNSELOR_ROLE;
+                return role == Application.STAFF_ROLE;
             },
 
             getRole: function() {

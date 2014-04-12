@@ -76,6 +76,7 @@ module.exports = {
         },
 
         toJSON: function () {
+            console.log("Getting JSON: User");
             var obj = this.toObject();
             delete obj.encryptedPassword;
             obj.name = obj.fullName();
