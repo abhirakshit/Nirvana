@@ -78,11 +78,11 @@ module.exports = {
 
     beforeCreate: [
         // Encrypt user's password
-//        function (values, cb) {
-//           User.encryptPassword(values, function (err) {
-//             cb(err);
-//           });
-//        },
+        function (values, cb) {
+           User.encryptPassword(values, function (err) {
+             cb(err);
+           });
+        },
 
         // Create an API key
         function (values, cb) {
@@ -113,7 +113,7 @@ module.exports = {
      */
 
     encryptPassword: function (values, cb) {
-        bcrypt.hash(values.encryptPassword, 10, function (err, encryptedPassword) {
+        bcrypt.hash(values.encryptedPassword, 10, function (err, encryptedPassword) {
             if (err) return cb(err);
             values.encryptedPassword = encryptedPassword;
             cb();

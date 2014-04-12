@@ -24,7 +24,7 @@ module.exports.bootstrap = function (cb) {
             "firstName": "Admin",
             "lastName": "",
             "email": "admin@admin.com",
-            "encryptedPassword": "$2a$10$t3WorgLhYQde5YtBVr6/HesUC/kNdyC4OBVCudzKAEP4/WkhGu9Qu",
+            "encryptedPassword": "admin",
             "phoneNumber": "1114444444",
             "role": "admin"
         }
