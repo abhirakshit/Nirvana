@@ -53,8 +53,8 @@ define([], function(){
         Application.SPECIALIZATION_GET = "specialization:get";
 
         Application.GET_STUDENTS_ASSIGNED = "get:students:assigned";
-        Application.GET_COUNSELORS = "get:counselors";
-        Application.GET_COUNSELOR = "get:counselor";
+        Application.GET_ALL_STAFF = "get:all:staff";
+        Application.GET_STAFF = "get:staff";
 
         Application.GET_STUDENTS = "get:students";
         Application.GET_STUDENT = "get:student";

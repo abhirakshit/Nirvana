@@ -24,6 +24,7 @@ requirejs.config({
         jqueryUI: "lib/jquery-ui/jquery-ui.min",
         dataTables: "lib/datatables/jquery.dataTables.min",
         jasnyBootstrap: "lib/jasny-bootstrap/jasny-bootstrap.min",
+        parsley: "lib/parsley/parsley.min", //Validation plugin
 
         //Application Addons
         marionette_config_application: "config/marionette/application",
@@ -76,6 +77,10 @@ requirejs.config({
             deps: ["jquery"]
         },
 
+        parsley: {
+            deps: ["jquery"]
+        },
+
         jasnyBootstrap: {
             deps: ["bootstrap"]
         },
@@ -122,12 +127,14 @@ var dependencies = [
     //Add-On's
     "backboneValidation",
     "bootstrapEditable",
+//    "backboneModal",
 
     //Utils
     "jquerySpin",
     "jqueryUI",
     "dataTables",
     "jasnyBootstrap",
+    "parsley",
 
 
     //App Addons
@@ -154,54 +161,63 @@ require(dependencies,
         Application.DEFAULT_REGION = "default:region";
         Application.rootRoute = "enquiry";
 
-        Application.addRegions({
-            headerRegion: "#header-region",
-            sidebarRegion: "#sidebar-region",
-            pageContentRegion: "#page-content-region",
-            footerRegion: "#footer-region"
-        });
-
-
-        Application.reqres.setHandler(Application.DEFAULT_REGION, function () {
-            return Application.pageContentRegion;
-        });
-
-        Application.commands.setHandler(Application.REGISTER_INSTANCE, function (instance, id) {
-            Application.register(instance, id);
-        });
-
-        Application.commands.setHandler(Application.UNREGISTER_INSTANCE, function (instance, id) {
-            Application.unregister(instance, id);
-        });
-
-        Application.addInitializer(function () {
-            console.log("addInit");
-            Application.module("Header").start();
-            Application.module("Footer").start();
-            Application.module("Sidebar").start();
-            Application.module("Profile").start();
-            Application.module("Settings").start();
-            Application.module("Enquiries").start();
-        });
-
-
         require([
             "modules/main/main_app"
         ], function () {
             console.log("Setup...");
-//            Application.mainRouter = new Application.Router();
-        });
 
-        require([
-            "modules/header/header_app",
-            "modules/footer/footer_app",
-            "modules/sidebar/sidebar_app",
-            "modules/profile/profile_app",
-            "modules/enquiries/enquiries_app",
-            "modules/settings/settings_app"
-        ], function () {
-            console.log("Start Application...");
-            Application.start();
+
+
+            Application.addRegions({
+                headerRegion: "#header-region",
+                sidebarRegion: "#sidebar-region",
+                pageContentRegion: "#page-content-region",
+                footerRegion: "#footer-region"
+            });
+
+
+            Application.reqres.setHandler(Application.DEFAULT_REGION, function () {
+                return Application.pageContentRegion;
+            });
+
+            Application.commands.setHandler(Application.REGISTER_INSTANCE, function (instance, id) {
+                Application.register(instance, id);
+            });
+
+            Application.commands.setHandler(Application.UNREGISTER_INSTANCE, function (instance, id) {
+                Application.unregister(instance, id);
+            });
+
+            Application.addInitializer(function () {
+                console.log("addInit");
+                Application.module("Header").start();
+                Application.module("Footer").start();
+                Application.module("Sidebar").start();
+    //            Application.module("Profile").start();
+                Application.module("Settings").start();
+                Application.module("Enquiries").start();
+            });
+
+
+    //        require([
+    //            "modules/main/main_app"
+    //        ], function () {
+    //            console.log("Setup...");
+    ////            Application.mainRouter = new Application.Router();
+    //        });
+
+            require([
+                "modules/header/header_app",
+                "modules/footer/footer_app",
+                "modules/sidebar/sidebar_app",
+    //            "modules/profile/profile_app",
+                "modules/enquiries/enquiries_app",
+                "modules/settings/settings_app"
+            ], function () {
+                console.log("Start Application...");
+                Application.start();
+            });
+
         });
 
         return Application;

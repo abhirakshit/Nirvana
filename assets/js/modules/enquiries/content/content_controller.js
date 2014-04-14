@@ -43,7 +43,6 @@ define([
 
             },
 
-
             getTableView: function(title, theadColumns, rows) {
                 return new Content.views.TableComposite({
                     model: new Application.Entities.Model({

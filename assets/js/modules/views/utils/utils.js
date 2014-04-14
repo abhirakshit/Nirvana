@@ -8,5 +8,11 @@ define([], function(){
                 "bInfo": false
             });
         }
+
+//        Views.Modal = Backbone.Modal.extend({
+//            template: _.template($('#modal-template').html()),
+//            cancelEl: '.bbm-button'
+//        });
+
     });
 });

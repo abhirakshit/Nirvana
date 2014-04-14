@@ -23,10 +23,15 @@ define([
 
         Entities.Student = Entities.Model.extend({
             urlRoot: Entities.studentUrl,
-//            validation: {
-//                firstName: {required: true},
-//                email: {required: true, pattern: 'email'}
-//            }
+            validation: {
+                firstName: {required: true},
+                email: {required: true, pattern: 'email'}
+            }
+        });
+
+        Entities.StudentCollection = Entities.Collection.extend({
+            url: Entities.studentUrl,
+            model: Entities.Student
         });
 
 
@@ -49,13 +54,6 @@ define([
 
         var API = {
 
-            getAllStudents: function() {
-                var student = new Entities.Student();
-                student.id = studentId;
-                student.fetch();
-                return student;
-            },
-
             getStudentsAssigned: function(userId) {
                 if(!userId) {
                     userId = Entities.loggedUser.get('id');
@@ -64,14 +62,14 @@ define([
                 return studentsAssigned;
             },
 
-            getAllCounselors: function(update) {
-                if (!Entities.allCounselors || update) {
-                    Entities.allCounselors = new Entities.UsersCollection();
-                    Entities.allCounselors.url = Entities.staffUrl;
-                    Entities.allCounselors.fetch();
+            getAllStaff: function(update) {
+                if (!Entities.allStaff || update) {
+                    Entities.allStaff = new Entities.UsersCollection();
+                    Entities.allStaff.url = Entities.staffUrl;
+                    Entities.allStaff.fetch();
                 }
 
-                return Entities.allCounselors;
+                return Entities.allStaff;
             },
 
             getPassword: function() {
@@ -85,6 +83,25 @@ define([
                 var user = new Entities.User({id: userId});
                 user.fetch();
                 return user;
+
+            },
+
+            getAllStudents: function(update) {
+                if (!Entities.allStudents || update) {
+                    Entities.allStudents = new Entities.StudentCollection()
+                    Entities.allStudents.fetch()
+                }
+
+                return Entities.allStudents;
+            },
+
+            getStudent: function(userId) {
+                if (!userId)
+                    return new Entities.Student();
+
+                var student = new Entities.Student({id: userId});
+                student.fetch();
+                return student;
 
             },
 
@@ -155,6 +172,10 @@ define([
             return API.getAllStudents(update);
         });
 
+        Application.reqres.setHandler(Application.GET_STUDENT, function(studentId){
+            return API.getStudent(studentId);
+        });
+
         Application.reqres.setHandler(Application.GET_PASSWORD, function(){
             return API.getPassword();
         });
@@ -175,8 +196,8 @@ define([
             return API.isCounselor();
         });
 
-        Application.reqres.setHandler(Application.GET_COUNSELORS, function(update){
-            return API.getAllCounselors(update);
+        Application.reqres.setHandler(Application.GET_ALL_STAFF, function(update){
+            return API.getAllStaff(update);
         });
 
         Application.reqres.setHandler(Application.GET_STUDENTS_ASSIGNED, function(userId){

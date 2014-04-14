@@ -8,7 +8,7 @@ define([
             initialize: function() {
                 var user = Application.request(Application.GET_LOGGED_USER);
                 var allSchools = Application.request(Application.SCHOOLS_GET);
-                var allCounselors = Application.request(Application.GET_COUNSELORS);
+                var allCounselors = Application.request(Application.GET_ALL_STAFF);
                 var allStreams = Application.request(Application.STREAMS_GET);
                 var allOccupations = Application.request(Application.OCCUPATIONS_GET);
                 var allCountries = Application.request(Application.GET_COUNTRIES);

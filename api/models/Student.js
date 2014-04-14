@@ -5,6 +5,8 @@
  * @docs		:: http://sailsjs.org/#!documentation/models
  */
 
+var moment = require('moment');
+
 module.exports = {
 
 	attributes: {
@@ -51,7 +53,7 @@ module.exports = {
 
         source: {type: 'string'},
 
-        followUp: {type: 'datetime'},
+        followUp: {type: 'datetime', defaultsTo: moment().format()},
 
         enquiryDate: {type: 'datetime'},
 
@@ -210,23 +212,23 @@ module.exports = {
     /**
      * Updates Counselors for a user.
      */
-    updateCounselors: function (id, updatedCounselorIdArr, cb) {
-        Student.findOne(id).populate('counselors').exec(function (err, student) {
+    updateStaff: function (id, updatedStaffIdArr, cb) {
+        Student.findOne(id).populate('staff').exec(function (err, student) {
 
-            var existingCounselorIdArr = _.map(student.counselors, function (counselor) {
-                return counselor.id
+            var existingCounselorIdArr = _.map(student.staff, function (staff) {
+                return staff.id
             });
-            var toRemove = _.difference(existingCounselorIdArr, updatedCounselorIdArr);
-            var toAdd = _.difference(updatedCounselorIdArr, existingCounselorIdArr);
+            var toRemove = _.difference(existingCounselorIdArr, updatedStaffIdArr);
+            var toAdd = _.difference(updatedStaffIdArr, existingCounselorIdArr);
 
             //Remove all
             _.forEach(toRemove, function (id) {
-                student.counselors.remove(id);
+                student.staff.remove(id);
             });
 
             //Add new
             _.forEach(toAdd, function (id) {
-                student.counselors.add(id);
+                student.staff.add(id);
             });
             student.save(cb);
         });

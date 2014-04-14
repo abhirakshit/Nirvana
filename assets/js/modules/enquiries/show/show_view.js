@@ -51,25 +51,56 @@ define([
             }
         });
 
+        Show.views.addEducationForm = Application.Views.ItemView.extend({
+            template: "enquiries/show/templates/add_education_form"
+        });
+
         Show.views.Academic = Application.Views.ItemView.extend({
             template: "enquiries/show/templates/academic_view",
 
-            onRender: function() {
-                Backbone.Validation.bind(this);
-                this.setupAcademicView();
+            serializeData: function() {
+                var data = this.model.toJSON();
+                data.modalId = 'addEducationModal';
+                return data;
             },
 
-            setupAcademicView: function() {
-                Show.setupEditableBox(this.$el, this.model, "highSchoolScore", "Enter X Score", this.model.get('highSchoolScore'), 'text');
-                Show.setupEditableBox(this.$el, this.model, "seniorSecondaryScore", "Enter XII Score", this.model.get('seniorSecondaryScore'), 'text');
-                Show.setupEditableBox(this.$el, this.model, "graduationScore", "Enter Grad Score", this.model.get('graduationScore'), 'text');
-                Show.setupEditableBox(this.$el, this.model, "satScore", "Enter SAT Score", this.model.get('satScore'), 'text');
-                Show.setupEditableBox(this.$el, this.model, "toeflScore", "Enter TOEFL Score", this.model.get('toeflScore'), 'text');
-                Show.setupEditableBox(this.$el, this.model, "ieltsScore", "Enter IELTS Score", this.model.get('ieltsScore'), 'text');
-                Show.setupEditableBox(this.$el, this.model, "greScore", "Enter GRE Score", this.model.get('greScore'), 'text');
-                Show.setupEditableBox(this.$el, this.model, "gmatScore", "Enter GMAT Score", this.model.get('gmatScore'), 'text');
+            events: {
+                "click #addEducationInfo" : "showAddEducationModal"
+            },
+
+            showAddEducationModal: function(evt) {
+                evt.preventDefault();
+                console.log("Show Modal!!!");
+
+                var modal = new Application.Views.ModalRegion({el:'#modal'});
+                var view = new Show.views.addEducationForm({
+                    model: new Application.Entities.Model({
+                        modalId: 'addEducationModal'
+                    })
+                });
+                modal.show(view);
             }
         });
+
+//        Show.views.Academic = Application.Views.ItemView.extend({
+//            template: "enquiries/show/templates/academic_view",
+//
+////            onRender: function() {
+//////                Backbone.Validation.bind(this);
+//////                this.setupAcademicView();
+////            },
+//
+//            setupAcademicView: function() {
+////                Show.setupEditableBox(this.$el, this.model, "highSchoolScore", "Enter X Score", this.model.get('highSchoolScore'), 'text');
+////                Show.setupEditableBox(this.$el, this.model, "seniorSecondaryScore", "Enter XII Score", this.model.get('seniorSecondaryScore'), 'text');
+////                Show.setupEditableBox(this.$el, this.model, "graduationScore", "Enter Grad Score", this.model.get('graduationScore'), 'text');
+////                Show.setupEditableBox(this.$el, this.model, "satScore", "Enter SAT Score", this.model.get('satScore'), 'text');
+////                Show.setupEditableBox(this.$el, this.model, "toeflScore", "Enter TOEFL Score", this.model.get('toeflScore'), 'text');
+////                Show.setupEditableBox(this.$el, this.model, "ieltsScore", "Enter IELTS Score", this.model.get('ieltsScore'), 'text');
+////                Show.setupEditableBox(this.$el, this.model, "greScore", "Enter GRE Score", this.model.get('greScore'), 'text');
+////                Show.setupEditableBox(this.$el, this.model, "gmatScore", "Enter GMAT Score", this.model.get('gmatScore'), 'text');
+//            }
+//        });
 
         Show.views.Career = Application.Views.ItemView.extend({
             template: "enquiries/show/templates/career_view",
@@ -82,8 +113,8 @@ define([
             setupCareerView: function() {
                 Show.setupSelect2EditableBox(this.$el, this.model, "countries", this.options.allCountries, "Add Country", this.options.addedCountries);
                 Show.setupSelect2EditableBox(this.$el, this.model, "services", this.options.allServices, "Add Service", this.options.addedServices);
-                Show.setupEditableBox(this.$el, this.model, "program", "Enter Program", this.model.get('program'), 'text');
-                Show.setupEditableBox(this.$el, this.model, "intake", "Enter Intake", this.model.get('intake'), 'text');
+                Show.setupEditableBox(this.$el, this.model, "intake", "Enter Program", this.model.get('intake'), 'text');
+                Show.setupEditableBox(this.$el, this.model, "intakeYear", "Enter Intake year", this.model.get('intakeYear'), 'text');
             }
         });
 
@@ -117,8 +148,8 @@ define([
 
             setupAdminView: function() {
                 var followUp = moment(this.model.get('followUp')).format(Show.dateFormat);
-                console.log(moment(this.model.get('followUp')).format(Show.dateFormat));
-                Show.setupSelect2EditableBox(this.$el, this.model, "counselors", this.options.allCounselors, "Assigned To", this.options.addedCounselors);
+//                console.log(moment(this.model.get('followUp')).format(Show.dateFormat));
+                Show.setupSelect2EditableBox(this.$el, this.model, "counselors", this.options.allStaff, "Assigned To", this.options.addedCounselors);
                 Show.setupEditableBox(this.$el, this.model, "enquiryStatus", "Add Status", this.model.get('enquiryStatus').id, 'select', this.options.allStatus);
                 Show.setupEditableBox(this.$el, this.model, "remarks", "Enter Remarks", this.model.get('remarks'), 'textarea');
 //                Show.setupComboBoxEditableBox(this.$el, this.model, "followUp", "Follow Up On", this.model.get('followUp'));

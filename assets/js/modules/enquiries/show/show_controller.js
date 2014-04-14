@@ -6,42 +6,54 @@ define([
         Show.Controller = Application.Controllers.Base.extend({
             initialize: function () {
 //                var user = Application.request(Application.GET_LOGGED_USER);
-                var student = Application.request(Application.GET_USER, this.options.studentId);
+                var student = Application.request(Application.GET_STUDENT, this.options.studentId);
                 var allCountries = Application.request(Application.GET_COUNTRIES);
                 var allServices = Application.request(Application.GET_SERVICES);
-                var allCounselors = Application.request(Application.GET_COUNSELORS);
+                var allCounselors = Application.request(Application.GET_ALL_STAFF);
                 var allStatus = Application.request(Application.GET_STATUS_All);
+                var allStudents = Application.request(Application.GET_STUDENTS);
 
                 this.layout = this.getLayout();
 
                 this.listenTo(this.layout, Application.SHOW, function () {
+                    console.dir(allStudents);
                     this.showStudent(student, allCountries, allServices, allCounselors, allStatus)
                 });
 
 
                 this.show(this.layout, {
                     loading: {
-                        entities: [student, allCountries, allServices, allCounselors, allStatus]
+                        entities: [student, allCountries, allServices, allCounselors, allStatus, allStudents]
                     }
                 });
             },
 
             showStudent: function (student, allCountries, allServices, allCounselors, allStatus) {
-                var personalView = new Show.views.Personal({
-                    model: student
-                });
-                this.layout.personalRegion.show(personalView);
 
-                var academicView = new Show.views.Academic({
-                    model: student
-                });
-                this.layout.academicRegion.show(academicView);
+                this.showPersonalView(student);
+
+                this.showAcademicView(student);
 
                 this.showCareerView(student, allCountries, allServices);
 
                 this.showAdminView(student, allCounselors, allStatus);
 
                 this.showHistoryView(student);
+            },
+
+            showPersonalView: function(student) {
+                var personalView = new Show.views.Personal({
+                    model: student
+                });
+
+                this.layout.personalRegion.show(personalView);
+            },
+
+            showAcademicView: function(student) {
+                var academicView = new Show.views.Academic({
+                    model: student
+                });
+                this.layout.academicRegion.show(academicView);
             },
 
             showHistoryView: function(student) {
@@ -53,11 +65,11 @@ define([
             },
 
             showAdminView: function(student, allCounselors, allStatus) {
-                var addedCounselors = new Application.Entities.UsersCollection(student.get('counselors'));
+                var addedCounselors = new Application.Entities.UsersCollection(student.get('staff'));
                 var addedCounselorsIdList = addedCounselors.pluck("id");
                 var adminView = new Show.views.Admin({
                     model: student,
-                    allCounselors: allCounselors.getIdToTextMap('name'),
+                    allStaff: allCounselors.getIdToTextMap('name'),
                     addedCounselors: addedCounselorsIdList,
                     allStatus: allStatus.getValueToTextMap('name')
                 });

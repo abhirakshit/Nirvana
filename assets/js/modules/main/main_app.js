@@ -12,10 +12,12 @@ define([
     "modules/views/compositeview",
     "modules/views/itemview",
     "modules/views/layout",
+    "modules/views/region",
     "modules/views/utils/utils",
     "modules/views/validation/validationMessages",
 
     "modules/controllers/base_controller",
+    "modules/loading/loading_controller",
 
     "config/app/config_app"
 ], function(){
@@ -36,7 +38,7 @@ define([
         });
 
         Application.commands.setHandler(Application.SHOW_MODULE, function(moduleEvt){
-
+            console.log(moduleEvt);
             if (Application.FORUM_SHOW === moduleEvt) {
                 window.open(Application.ForumUrl,'_blank');
                 return;

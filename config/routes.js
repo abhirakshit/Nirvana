@@ -37,9 +37,11 @@ module.exports.routes = {
 
   // Custom routes here...
 
-    'get /user/staff': 'UserController.getAllStaff',
-    'get /user/student': 'UserController.getAllStudents',
+//    'get /user/staff': 'UserController.getAllStaff',
+//    'get /user/student': 'UserController.getAllStudents',
 //    'patch /user/:id': 'UserController.updatePartial'
+
+    'patch /student/:id': 'StudentController.updatePartial'
 
 
   // If a request to a URL doesn't match any of the custom routes above, it is matched 

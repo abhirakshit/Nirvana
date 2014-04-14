@@ -53,7 +53,7 @@ module.exports = {
         //Counselors
         if (req.body.counselors) {
             var counselorIds = _.map(req.body.counselors, function(stringId) { return parseInt(stringId); });
-            User.updateCounselors(id, counselorIds);
+            User.updateStaff(id, counselorIds);
         }
 
         //enquiryStatus
