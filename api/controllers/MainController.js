@@ -29,28 +29,34 @@ module.exports = {
         var password = req.param("password");
       
     User.findOneByEmail(email, function foundUser(err, usr) {
-      if (err) return next(err);
+      if (err || !usr) {
 
-      // If no user is found...
-      if (!usr) {
        res.send(500, { error: "DB Error" });
       }
 
       // Compare password from the form params to the encrypted password of the user found.
-
+if(usr) {
       bcrypt.compare(password, usr.encryptedPassword, function(err, valid) {
         if (err) return next(err);
 
-        // If the password is not valid then return error...
-        if (!valid) {
-          res.send(400, { error: "Wrong Password" });
-        }
-
+        // If the password is valid return user...
+        if (valid) {
+          
                         req.session.user = usr;
                         req.session.isAuthenticated = true;
                         res.redirect('/');
-  
+
+        } else {
+//if password is invalid then return wrong password.
+          res.send(400, { error: "Wrong Password" });
+        }
       });
+
+    } else {
+// if incorrect email was entered then user not found.
+      res.send(404, { error: "user not found!" });
+    }
+
     });
 
     },

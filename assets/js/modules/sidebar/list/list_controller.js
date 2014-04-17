@@ -35,7 +35,8 @@ define([
                     new Application.Entities.Model({id: Application.ENQUIRIES_SHOW, name: "Enquiries", icon: "fa fa-home"}),
 //                    new Application.Entities.Model({id: Application.PROFILE_SHOW, name:"Profiles", icon: "glyphicon glyphicon-user"}),
                     new Application.Entities.Model({id: Application.PAYMENTS_SHOW, name: "Payments", icon: "fa fa-rupee"}),
-                    new Application.Entities.Model({id: Application.SETTINGS_SHOW, name: "Settings", icon: "fa fa-cogs"})
+                    new Application.Entities.Model({id: Application.SETTINGS_SHOW, name: "Settings", icon: "fa fa-cogs"}),
+                    new Application.Entities.Model({id: "students:show", name: "Students", icon: "fa fa-users"})
 //                    new Application.Entities.Model({id: Application.FORUM_SHOW, name: "Forum", icon: "glyphicon glyphicon-globe"})
                 ]);
             },
@@ -46,7 +47,9 @@ define([
                     new Application.Entities.Model({id: Application.ENQUIRIES_SHOW, name: "Enquiries", icon: "fa fa-home"}),
 //                    new Application.Entities.Model({id: Application.PROFILE_SHOW, name:"Profile", icon: "glyphicon glyphicon-user"}),
                     new Application.Entities.Model({id: Application.PAYMENTS_SHOW, name: "Payments", icon: "fa fa-rupee"}),
-                    new Application.Entities.Model({id: Application.SETTINGS_SHOW, name: "Settings", icon: "fa fa-cogs"})
+                    new Application.Entities.Model({id: Application.SETTINGS_SHOW, name: "Settings", icon: "fa fa-cogs"}),
+                    new Application.Entities.Model({id: "students:show", name: "Students", icon: "fa fa-users"})
+                
                 ]);
             }
         });
