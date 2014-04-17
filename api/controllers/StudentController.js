@@ -41,7 +41,11 @@ module.exports = {
             Student.updateEnquiryStatus(id, parseInt(req.body.enquiryStatus));
         }
 
-
+        //addEducation
+        if (req.body.addEducation) {
+            console.log(req.body.addEducation);
+            Student.addEducation(id, req.body.addEducation);
+        }
 
         Student.update(id, updateFields, function (err, user) {
 

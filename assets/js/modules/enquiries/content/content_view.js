@@ -105,6 +105,27 @@ define([
                     "sPaginationType": "full_numbers",
                     "bInfo": false
                 });
+
+
+//                console.log($('#registration_form'));
+//                this.parselyForm= $('#registration_form').parsley();
+            },
+
+            events: {
+                "click #createBtn" : "validate"
+            },
+
+            validate: function(evt) {
+                evt.preventDefault();
+                console.log("Validate");
+                this.parselyForm= $('#registration_form').parsley();
+                console.log($('input[name=firstname]'));
+                $('input[name=firstname]').parsley('addConstraint', {required:true})
+
+                console.dir(this.parselyForm);
+//                $('#registration_form').parsley('validate');
+                var isValid = this.parselyForm.validate();
+                console.log(isValid);
             }
         });
 

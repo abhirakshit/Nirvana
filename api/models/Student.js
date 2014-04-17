@@ -5,7 +5,8 @@
  * @docs		:: http://sailsjs.org/#!documentation/models
  */
 
-var moment = require('moment');
+var moment = require('moment'),
+    _ = require('lodash');
 
 module.exports = {
 
@@ -232,6 +233,32 @@ module.exports = {
             });
             student.save(cb);
         });
+    },
+
+    /**
+     * Add Education
+     */
+    addEducation: function(id, education) {
+
+        // Check if an education with same name exists
+        Student.findOne(id).populate('eductionList').exec(function (err, student){
+            if (_.contains(student.educationList, education.programName)){
+                console.log("Education exists: " + education.programName);
+                return false;
+            };
+
+            Education.create(education).exec(function(err, newEducation) {
+                if (err) {
+                    console.log("Error creating edu: " + err);
+                    return false;
+                }
+
+                console.log("New Edu: " + newEducation.programName);
+                student.educationList.add(newEducation.id);
+            });
+        });
+
+        // Create new Education
     }
 
 };

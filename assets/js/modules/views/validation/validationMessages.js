@@ -2,9 +2,11 @@ define([], function () {
 Application.module("Views", function (Views, Application, Backbone, Marionette, $, _) {
     _.extend(Backbone.Validation.callbacks, {
         valid: function (view, attr, selector) {
+//            console.log("Valid form!!")
             var control, group;
             control = view.$('[' + selector + '=' + attr + ']');
-            group = control.parents(".control-group");
+//            group = control.parents(".control-group");
+            group = control.parents(".form-group");
             group.removeClass("error");
             if (control.data("error-style") === "tooltip") {
                 if (control.data("tooltip")) {
@@ -18,9 +20,11 @@ Application.module("Views", function (Views, Application, Backbone, Marionette, 
         },
 
         invalid: function (view, attr, error, selector) {
+//            console.log("Invalid form!!")
             var control, group, position, target;
             control = view.$('[' + selector + '=' + attr + ']');
-            group = control.parents(".control-group");
+//            group = control.parents(".control-group");
+            group = control.parents(".form-group");
             group.addClass("error");
             if (control.data("error-style") === "tooltip") {
                 position = control.data("tooltip-position") || "right";
@@ -39,6 +43,7 @@ Application.module("Views", function (Views, Application, Backbone, Marionette, 
             } else {
                 if (group.find(".help-block").length === 0) {
                     group.find(".controls").append("<p class=\"help-block error-message\"></p>");
+//                    group.find(".form-control").append("<p class=\"help-block error-message\"></p>");
                 }
                 target = group.find(".help-block");
                 return target.text(error);

@@ -15,6 +15,7 @@ requirejs.config({
 
         //Add-On's
         backboneValidation: "lib/backbone-validation/backbone-validation-amd-min",
+        backboneSyphon: "lib/backbone-syphon/backbone.syphon.min",
 //        bootstrapEditable: "lib/bootstrap-editable/bootstrap-editable.min", //Glyphicon error for ok and cancel
         bootstrapEditable: "lib/bootstrap-editable/bootstrap-editable",
 
@@ -24,7 +25,7 @@ requirejs.config({
         jqueryUI: "lib/jquery-ui/jquery-ui.min",
         dataTables: "lib/datatables/jquery.dataTables.min",
         jasnyBootstrap: "lib/jasny-bootstrap/jasny-bootstrap.min",
-        parsley: "lib/parsley/parsley.min", //Validation plugin
+//        parsley: "lib/parsley/parsley.min", //Validation plugin
 
         //Application Addons
         marionette_config_application: "config/marionette/application",
@@ -77,9 +78,9 @@ requirejs.config({
             deps: ["jquery"]
         },
 
-        parsley: {
-            deps: ["jquery"]
-        },
+//        parsley: {
+//            deps: ["jquery"]
+//        },
 
         jasnyBootstrap: {
             deps: ["bootstrap"]
@@ -126,6 +127,7 @@ var dependencies = [
 
     //Add-On's
     "backboneValidation",
+    "backboneSyphon",
     "bootstrapEditable",
 //    "backboneModal",
 
@@ -134,7 +136,7 @@ var dependencies = [
     "jqueryUI",
     "dataTables",
     "jasnyBootstrap",
-    "parsley",
+//    "parsley",
 
 
     //App Addons

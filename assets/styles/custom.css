@@ -73,9 +73,15 @@ h4 hr,h2 hr, .sectionHeader hr {
     /*margin-right: 11px !important;*/
 }
 
-.error {
+.error, .error-message{
     color: red;
 }
+
+.error .form-control {
+    border-color: red;
+}
+
+
 
 .primaryRightBtn {
     float: right;

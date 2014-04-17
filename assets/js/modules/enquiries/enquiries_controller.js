@@ -9,6 +9,7 @@ define([
     //Models
     "modules/entities/user",
     "modules/entities/service",
+    "modules/entities/education",
     "modules/entities/enquiryStatus"
 ], function () {
     Application.module("Enquiries", function (Enquiries, Application, Backbone, Marionette, $, _) {

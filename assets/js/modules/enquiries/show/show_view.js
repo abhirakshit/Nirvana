@@ -51,8 +51,46 @@ define([
             }
         });
 
+
+
+        Show.EducationForm = Application.Entities.Model.extend({
+            validation: {
+                programName: {
+                    required : true
+                },
+                score: {
+                    required : true
+                }
+
+            }
+        });
+        Show.addEducationFormId = 'addEducationModal';
+        Show.showAddEducationModalEvt = "showAddEducationModalEvt";
+        Show.createEducationEvt = "createEducationEvt";
+
         Show.views.addEducationForm = Application.Views.ItemView.extend({
-            template: "enquiries/show/templates/add_education_form"
+            template: "enquiries/show/templates/add_education_form",
+
+            events: {
+                "click #createEducationInfo" : "createEducationInfo"
+            },
+
+            onRender: function() {
+                Backbone.Validation.bind(this);
+            },
+
+            createEducationInfo: function(evt) {
+                evt.preventDefault();
+                var data = Backbone.Syphon.serialize(this);
+                this.model.set(data);
+
+                var isValid = this.model.isValid(true);
+                if (isValid) {
+                    Application.Views.hideModal(Show.addEducationFormId);
+                    this.trigger(Show.createEducationEvt, this);
+                }
+            }
+
         });
 
         Show.views.Academic = Application.Views.ItemView.extend({
@@ -60,27 +98,22 @@ define([
 
             serializeData: function() {
                 var data = this.model.toJSON();
-                data.modalId = 'addEducationModal';
+                data.modalId = Show.addEducationFormId;
                 return data;
             },
 
             events: {
-                "click #addEducationInfo" : "showAddEducationModal"
+                "click #addEducationInfo" : "showAddEducationModal",
+                "click #createBtn" : "validate"
             },
 
             showAddEducationModal: function(evt) {
                 evt.preventDefault();
-                console.log("Show Modal!!!");
-
-                var modal = new Application.Views.ModalRegion({el:'#modal'});
-                var view = new Show.views.addEducationForm({
-                    model: new Application.Entities.Model({
-                        modalId: 'addEducationModal'
-                    })
-                });
-                modal.show(view);
+                this.trigger(Show.showAddEducationModalEvt, this);
             }
         });
+
+
 
 //        Show.views.Academic = Application.Views.ItemView.extend({
 //            template: "enquiries/show/templates/academic_view",

@@ -11,19 +11,19 @@ define([
                 var allServices = Application.request(Application.GET_SERVICES);
                 var allCounselors = Application.request(Application.GET_ALL_STAFF);
                 var allStatus = Application.request(Application.GET_STATUS_All);
-                var allStudents = Application.request(Application.GET_STUDENTS);
+//                var allStudents = Application.request(Application.GET_STUDENTS);
 
                 this.layout = this.getLayout();
 
                 this.listenTo(this.layout, Application.SHOW, function () {
-                    console.dir(allStudents);
+//                    console.dir(allStudents);
                     this.showStudent(student, allCountries, allServices, allCounselors, allStatus)
                 });
 
 
                 this.show(this.layout, {
                     loading: {
-                        entities: [student, allCountries, allServices, allCounselors, allStatus, allStudents]
+                        entities: [student, allCountries, allServices, allCounselors, allStatus]
                     }
                 });
             },
@@ -54,6 +54,40 @@ define([
                     model: student
                 });
                 this.layout.academicRegion.show(academicView);
+
+                academicView.on(Show.showAddEducationModalEvt, function(view){
+                   console.log("Show modal!!!");
+                    var modalRegion = new Application.Views.ModalRegion({el:'#modal'});
+                    var newEducation = Application.request(Application.GET_EDUCATION);
+                    newEducation.attributes.modalId = Show.addEducationFormId;
+
+                    var addEducationModalView = new Show.views.addEducationForm({
+                        model: newEducation
+                    });
+
+                    addEducationModalView.on(Show.createEducationEvt, function(modalFormView){
+                        console.log("createEducationInfo.....");
+                        console.dir(modalFormView.model.attributes);
+
+
+
+//                        modalFormView.
+                        student.save("addEducation", modalFormView.model.attributes, {
+                            wait: true,
+                            patch: true,
+                            success: function(newModel){
+                                console.log("Saved on server!!")
+                            },
+
+                            error: function(x, response) {
+                                console.log("Error on server!! -- " + response)
+                                return response;
+                            }
+                        });
+
+                    });
+                    modalRegion.show(addEducationModalView);
+                });
             },
 
             showHistoryView: function(student) {

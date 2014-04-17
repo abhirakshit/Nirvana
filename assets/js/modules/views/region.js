@@ -9,14 +9,17 @@ define([], function(){
                 this.ensureEl();
                 this.$el.on('hidden', {region:this}, function(event) {
                     event.data.region.close();
+//                    console.log('Hide Modal!!!');
                 });
             },
 
             onShow: function() {
+//                console.log('Show Modal');
                 this.$el.modal('show');
             },
 
             onClose: function() {
+//                console.log('Hide Modal');
                 this.$el.modal('hide');
             }
         });

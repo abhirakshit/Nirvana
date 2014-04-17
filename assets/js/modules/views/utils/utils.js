@@ -7,6 +7,12 @@ define([], function(){
                 "sPaginationType": "full_numbers",
                 "bInfo": false
             });
+        },
+
+        Views.hideModal = function(modalDialogId) {
+            $('#' + modalDialogId).modal('hide')
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
         }
 
 //        Views.Modal = Backbone.Modal.extend({

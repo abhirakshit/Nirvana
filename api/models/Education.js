@@ -9,9 +9,11 @@ module.exports = {
 
 	attributes: {
 
-        programName: {type: 'string'},
+        programName: {type: 'string', required: true},
 
-        score: {type: 'string'},
+        programScore: {type: 'string', required: true},
+
+        score: {type: 'string', required: true},
 
         passingYear: {type: 'string'},
 
@@ -24,7 +26,7 @@ module.exports = {
         board: {type: 'string'},
 
         //Associations
-
+        //One to many: student to education
         student : {
             model: 'Student'
         }
