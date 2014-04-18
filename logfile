@@ -297,3 +297,15 @@ ERROR:  column "score" of relation "education" does not exist at character 41
 STATEMENT:  INSERT INTO "education" ("programName", "score", "passingYear", "school", "board", "major", "createdAt", "updatedAt") values ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *
 ERROR:  column "score" of relation "education" does not exist at character 41
 STATEMENT:  INSERT INTO "education" ("programName", "score", "createdAt", "updatedAt") values ($1, $2, $3, $4) RETURNING *
+ERROR:  database "Nirvana" is being accessed by other users
+DETAIL:  There is 1 other session using the database.
+STATEMENT:  DROP DATABASE "Nirvana";
+ERROR:  database "Nirvana" is being accessed by other users
+DETAIL:  There is 1 other session using the database.
+STATEMENT:  DROP DATABASE "Nirvana";
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction

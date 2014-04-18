@@ -82,6 +82,14 @@ h4 hr,h2 hr, .sectionHeader hr {
 }
 
 
+/*Hover */
+.basicBorder {
+    border: solid 1px;
+}
+
+.rightBorder {
+    border-right: solid 1px;
+}
 
 .primaryRightBtn {
     float: right;

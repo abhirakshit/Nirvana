@@ -4,6 +4,7 @@ define([
     function () {
         Application.module("Config", function (Config, Application, Backbone, Marionette, $, _) {
             Config.setUpXEditableConfig = function () {
+                $.fn.editable.defaults.placement = 'bottom';
 //                $.fn.editable.defaults.mode = 'inline';
 //                $.fn.editable.defaults.ajaxOptions = {type: "PATCH", dataType: 'json'};
 

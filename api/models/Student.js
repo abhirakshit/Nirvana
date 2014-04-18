@@ -105,7 +105,7 @@ module.exports = {
         },
 
         //One to many: student to education
-        eductionList: {
+        educationList: {
             collection: 'Education',
             via: 'student'
         },
@@ -170,6 +170,7 @@ module.exports = {
                 student.services.add(id);
             });
             student.save(cb);
+            return student;
         });
     },
 
@@ -195,6 +196,7 @@ module.exports = {
                 student.countries.add(id);
             });
             student.save(cb);
+            return student;
         });
     },
 
@@ -207,6 +209,7 @@ module.exports = {
 
             student.enquiryStatus = enquiryStatusId;
             student.save(cb);
+            return student;
         });
     },
 
@@ -232,33 +235,86 @@ module.exports = {
                 student.staff.add(id);
             });
             student.save(cb);
+            return student;
         });
     },
 
     /**
      * Add Education
      */
-    addEducation: function(id, education) {
+    addEducation: function(id, education, res, cb) {
+
+        Student.findOne(id).populate('educationList').exec(function (err, student){
 
         // Check if an education with same name exists
-        Student.findOne(id).populate('eductionList').exec(function (err, student){
             if (_.contains(student.educationList, education.programName)){
                 console.log("Education exists: " + education.programName);
                 return false;
             };
 
+
+        // Create new Education
+            education.student = student.id;
             Education.create(education).exec(function(err, newEducation) {
                 if (err) {
                     console.log("Error creating edu: " + err);
                     return false;
                 }
 
-                console.log("New Edu: " + newEducation.programName);
-                student.educationList.add(newEducation.id);
+                student.save(function(err,s){
+                    if (err) {
+                        console.log("Error saving student: " + err);
+                        return false;
+                    }
+                    Student.findOne(s.id).populate('educationList').exec(function(err, stud){
+                        console.log(stud);
+                        cb(res, stud);
+                    });
+                });
             });
         });
 
-        // Create new Education
+    },
+
+    /**
+     * Remove Education
+     */
+    removeEducation: function(id, education, res, cb) {
+        console.log(cb);
+        Student.findOne(id).populate('educationList').exec(function(err, student){
+            if (err) {
+                console.log("Error removing edu: " + err);
+                return false;
+            }
+
+            console.log("Remove education:" + education.id);
+            student.educationList.remove(parseInt(education.id));
+
+            //Remove from education Table
+            Education.destroy(education.id).exec(function(err, deletedEducation) {
+                if (err) {
+                    console.log("Error removing edu: " + err);
+                    return false;
+                }
+
+
+                //Save complete
+                student.save(function(err, s){
+                    if (err) {
+                        console.log("Error removing edu: " + err);
+                        return false;
+                    }
+
+                    //return student;
+                    Student.findOne(s.id).populate('educationList').exec(function(err, student1){
+                        cb(res, student1);
+                    });
+                });
+            });
+
+
+        });
+
     }
 
 };

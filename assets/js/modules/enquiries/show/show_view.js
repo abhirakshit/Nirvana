@@ -2,6 +2,12 @@ define([
 ], function () {
     Application.module("Enquiries.Show", function (Show, Application, Backbone, Marionette, $, _) {
 
+        Show.addEducationFormId = 'addEducationModal';
+        Show.showAddEducationModalEvt = "showAddEducationModalEvt";
+        Show.createEducationEvt = "createEducationEvt";
+        Show.deleteEducationEvt = "deleteEducationEvt";
+
+
         this.prefix = "Show";
         this.templatePath = "js/modules/";
         this.views = {};
@@ -64,9 +70,6 @@ define([
 
             }
         });
-        Show.addEducationFormId = 'addEducationModal';
-        Show.showAddEducationModalEvt = "showAddEducationModalEvt";
-        Show.createEducationEvt = "createEducationEvt";
 
         Show.views.addEducationForm = Application.Views.ItemView.extend({
             template: "enquiries/show/templates/add_education_form",
@@ -93,8 +96,44 @@ define([
 
         });
 
-        Show.views.Academic = Application.Views.ItemView.extend({
+        Show.views.EducationField = Application.Views.ItemView.extend({
+            template: "enquiries/show/templates/education_field",
+            tagName: "div",
+            className: "col-md-12",
+
+            events: {
+                "mouseenter": "toggleDelete",
+                "mouseleave": "toggleDelete",
+                "click .i-cancel": "delete"
+            },
+
+            delete: function(evt) {
+                evt.preventDefault();
+//                console.log('Delete edu...');
+                this.trigger(Show.deleteEducationEvt, this);
+            },
+
+            toggleDelete: function (evt) {
+                evt.preventDefault();
+                var fieldId = this.model.get('programName');
+                $('#' + fieldId).toggleClass("basicBorder");
+                $('#' + fieldId).find('.i-cancel').toggleClass("display-none");
+            }
+
+        });
+
+        Show.views.AcademicComposite = Application.Views.CompositeView.extend({
             template: "enquiries/show/templates/academic_view",
+            itemViewContainer: "#educationFields",
+            itemView: Show.views.EducationField,
+
+            initialize: function() {
+                var that = this;
+                this.on(Application.CHILD_VIEW + ":" + Show.deleteEducationEvt, function(childView) {
+//                    console.log('Delete edu...');
+                    that.trigger(Show.deleteEducationEvt, childView);
+                })
+            },
 
             serializeData: function() {
                 var data = this.model.toJSON();
@@ -103,8 +142,7 @@ define([
             },
 
             events: {
-                "click #addEducationInfo" : "showAddEducationModal",
-                "click #createBtn" : "validate"
+                "click #addEducationInfo" : "showAddEducationModal"
             },
 
             showAddEducationModal: function(evt) {
@@ -115,7 +153,7 @@ define([
 
 
 
-//        Show.views.Academic = Application.Views.ItemView.extend({
+//        Show.views.AcademicComposite = Application.Views.ItemView.extend({
 //            template: "enquiries/show/templates/academic_view",
 //
 ////            onRender: function() {

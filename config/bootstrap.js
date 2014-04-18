@@ -341,7 +341,7 @@ module.exports.bootstrap = function (cb) {
                         Country.find({}).exec(function find(err, countries){
                             console.log("***Countries: " + countries.length);
                             _.forEach(countries, function(country) {
-                                console.log('Associating ', country.name,' with ', student.user.firstName);
+                                console.log('Associating ', country.name,' with ', student.firstName);
 //                                student.countries.remove(country.id);
                                 student.countries.add(country.id);
                             });
@@ -354,7 +354,7 @@ module.exports.bootstrap = function (cb) {
                         Service.find({}).exec(function find(err, services){
                             console.log("***Services: " + services.length);
                             _.forEach(services, function(service){
-                                console.log('Associating ', service.name,' with ', student.user.firstName);
+                                console.log('Associating ', service.name,' with ', student.firstName);
 //                                student.services.remove(service.id);
                                 student.services.add(service.id);
                             });
@@ -368,7 +368,7 @@ module.exports.bootstrap = function (cb) {
                         EnquiryStatus.find({}).exec(function find(err, statusType){
                             console.log("***Status: " + statusType.length);
                             var status = statusType.pop(); //Add any status
-                            console.log('Associating ', status.name, ' with ', student.user.firstName);
+                            console.log('Associating ', status.name, ' with ', student.firstName);
                             student.enquiryStatus = parseInt(status.id);
                             cb1(null);
                         });
@@ -379,7 +379,7 @@ module.exports.bootstrap = function (cb) {
                         Staff.find({}).populate('user').exec(function find(err, staffList){
                             console.log("***Staff: " + staffList.length);
                             _.forEach(staffList, function(staff){
-                                console.log('Associating ', staff.user.firstName, ' with ', student.user.firstName);
+                                console.log('Associating ', staff.firstName, ' with ', student.firstName);
 //                                student.staff.remove(user.staff.id);
                                 student.staff.add(staff.id);
                             });

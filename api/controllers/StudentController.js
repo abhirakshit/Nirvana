@@ -5,57 +5,48 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
+var async = require("async");
+
 module.exports = {
 
     updatePartial: function (req, res, next) {
 
-        var updateFields = {};
-        updateFields = _.merge({}, req.params.all(), req.body);
-
         var id = req.param('id');
         if (!id) {
             return res.badRequest('No id provided.');
-        }
-
-        //Check Associations
-        //Services
-        if (req.body.services) {
+        } else if (req.body.services) {
+            //Services
             var serviceIds = _.map(req.body.services, function(stringId) { return parseInt(stringId); });
-            Student.updateServices(id, serviceIds);
-        }
-
-        //Countries
-        if (req.body.countries) {
+            res.json(Student.updateServices(id, serviceIds));
+        } else if (req.body.countries) {
+            //Countries
             var countryIds = _.map(req.body.countries, function(stringId) { return parseInt(stringId); });
-            Student.updateCountries(id, countryIds);
+            res.json(Student.updateCountries(id, countryIds));
+        } else if (req.body.staff) {
+            //Counselors
+            var staffIds = _.map(req.body.staff, function(stringId) { return parseInt(stringId); });
+            res.json(Student.updateStaff(id, staffIds));
+        } else if (req.body.enquiryStatus) {
+            //enquiryStatus
+            res.json(Student.updateEnquiryStatus(id, parseInt(req.body.enquiryStatus)));
+        } else if (req.body.addEducation) {
+            //addEducation
+            Student.addEducation(id, req.body.addEducation, res, ResponseService.sendResponse);
+        } else if (req.body.removeEducation) {
+            //removeEducation
+            Student.removeEducation(id, req.body.removeEducation, res, ResponseService.sendResponse);
+        } else {
+            var updateFields = _.merge({}, req.params.all(), req.body);
+            Student.update(id, updateFields, function (err, student) {
+
+                if (!student) return res.notFound();
+
+                if (err) return next(err);
+
+                res.json(student);
+
+            });
         }
-
-        //Counselors
-        if (req.body.counselors) {
-            var counselorIds = _.map(req.body.counselors, function(stringId) { return parseInt(stringId); });
-            Student.updateStaff(id, counselorIds);
-        }
-
-        //enquiryStatus
-        if (req.body.enquiryStatus) {
-            Student.updateEnquiryStatus(id, parseInt(req.body.enquiryStatus));
-        }
-
-        //addEducation
-        if (req.body.addEducation) {
-            console.log(req.body.addEducation);
-            Student.addEducation(id, req.body.addEducation);
-        }
-
-        Student.update(id, updateFields, function (err, user) {
-
-            if (!user) return res.notFound();
-
-            if (err) return next(err);
-
-            res.json(user);
-
-        });
     }
 	
 };

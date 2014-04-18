@@ -11,7 +11,7 @@ module.exports = {
 
         programName: {type: 'string', required: true},
 
-        programScore: {type: 'string', required: true},
+//        programScore: {type: 'string', required: true},
 
         score: {type: 'string', required: true},
 

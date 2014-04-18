@@ -50,7 +50,12 @@ define([
             },
 
             showAcademicView: function(student) {
-                var academicView = new Show.views.Academic({
+                //todo Any better way for this
+                var educationCollection = new Application.Entities.EducationCollection(student.get('educationList'));
+
+                var that = this;
+                var academicView = new Show.views.AcademicComposite({
+                    collection: educationCollection,
                     model: student
                 });
                 this.layout.academicRegion.show(academicView);
@@ -66,27 +71,41 @@ define([
                     });
 
                     addEducationModalView.on(Show.createEducationEvt, function(modalFormView){
-                        console.log("createEducationInfo.....");
-                        console.dir(modalFormView.model.attributes);
-
-
-
-//                        modalFormView.
                         student.save("addEducation", modalFormView.model.attributes, {
                             wait: true,
                             patch: true,
-                            success: function(newModel){
-                                console.log("Saved on server!!")
+                            success: function(updatedStudent){
+                                console.log("Saved on server!!");
+                                console.dir(updatedStudent);
+                                that.showAcademicView(updatedStudent)
                             },
 
                             error: function(x, response) {
-                                console.log("Error on server!! -- " + response)
+                                console.log("Error on server!! -- " + response.text)
                                 return response;
                             }
                         });
 
                     });
                     modalRegion.show(addEducationModalView);
+                });
+
+                academicView.on(Show.deleteEducationEvt, function(educationFieldView) {
+                    console.log('Delete edu...');
+                    student.save("removeEducation", educationFieldView.model.attributes, {
+                        wait: true,
+                        patch: true,
+                        success: function(updatedStudent){
+                            console.log("Saved on server!!");
+                            console.dir(updatedStudent);
+                            that.showAcademicView(updatedStudent);
+                        },
+
+                        error: function(x, response) {
+                            console.log("Error on server!! -- " + response.text)
+                            return response;
+                        }
+                    });
                 });
             },
 
