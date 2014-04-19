@@ -37,14 +37,20 @@ define([
             initialize: function () {
                 var user = Application.request(Application.GET_LOGGED_USER);
                 var tabId = this.options.tabId;
-                if (!tabId)
-                    tabId = Enquiries.MY_TAB;
+                var studentId = this.options.studentId;
 
                 this.layout = this.getLayout();
 
                 this.listenTo(this.layout, Application.SHOW, function () {
-                    this.showNavBar(tabId);
-                    this.showTab(tabId);
+                    if (studentId) {
+                        this.showNavBar();
+                        this.showEnquiry(studentId);
+                    } else {
+                        if (!tabId) //Show default tab
+                            tabId = Enquiries.MY_TAB;
+                        this.showNavBar(tabId);
+                        this.showTab(tabId);
+                    }
                 });
 
                 this.show(this.layout, {
@@ -59,8 +65,10 @@ define([
                     collection: tabCollection
                 });
                 this.layout.enqTabRegion.show(tabContainerView);
-                tabContainerView.selectTabView(tabId);
-                Application.navigate(Enquiries.rootRoute + "/" +tabId);
+                if (tabId) {
+                    tabContainerView.selectTabView(tabId);
+                    Application.navigate(Enquiries.rootRoute + "/" +tabId);
+                }
 
                 var that = this;
                 this.listenTo(tabContainerView, Enquiries.TAB_SELECTED, function(tabId){
@@ -79,8 +87,8 @@ define([
                 Application.execute(Application.ENQUIRIES_CONTENT_SHOW, this.layout.enqContentRegion, tabId);
             },
 
-            showEnquiry: function() {
-                Application.execute(Application.ENQUIRY_SHOW, this.layout.enqContentRegion);
+            showEnquiry: function(studentId) {
+                Application.execute(Application.ENQUIRY_SHOW, this.layout.enqContentRegion, studentId);
             },
 
             getLayout: function () {
