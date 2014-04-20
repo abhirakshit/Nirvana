@@ -25,7 +25,9 @@ define([
             urlRoot: Entities.studentUrl,
             validation: {
                 firstName: {required: true},
-                email: {required: true, pattern: 'email'}
+                phoneNumber: {required: true},
+                followUp: {required: true}
+//                email: {pattern: 'email'}
             }
         });
 

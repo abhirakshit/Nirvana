@@ -62,7 +62,10 @@ define([
 
             showNavBar: function (tabId) {
                 var tabContainerView = new Enquiries.views.TabContainer({
-                    collection: tabCollection
+                    collection: tabCollection,
+                    model: new Application.Entities.Model({
+                        modalId: Enquiries.addStudentModalFormId
+                    })
                 });
                 this.layout.enqTabRegion.show(tabContainerView);
                 if (tabId) {
@@ -77,10 +80,39 @@ define([
                     Application.navigate(Enquiries.rootRoute + "/" +tabId);
                 });
 
-                this.listenTo(tabContainerView, Application.CREATE_STUDENT, function(){
-                    console.log("Create new enquiry...");
-                    that.showEnquiry();
+                this.listenTo(tabContainerView, Application.CREATE_STUDENT, this.createStudent);
+            },
+
+            createStudent: function() {
+
+                //Show Modal Dialog
+                var newStudent = Application.request(Application.GET_STUDENT);
+                newStudent.attributes.modalId = Enquiries.addStudentModalFormId;
+                var addStudentModalView = new Enquiries.views.addStudentForm({
+                    model: newStudent
                 });
+
+                var that = this;
+                addStudentModalView.on(Enquiries.createStudentEvt, function(modalFormView, data){
+//                    var data = Backbone.Syphon.serialize(modalFormView);
+                    modalFormView.model.save(data, {
+                        wait: true,
+                        patch: true,
+                        success: function(updatedStudent){
+                            console.log("Saved on server!!");
+                            console.dir(updatedStudent);
+                            that.showEnquiry(updatedStudent.id);
+
+                            //TODO: Update enquiry collection (Assigned to me or all)
+                        },
+
+                        error: function(x, response) {
+                            console.log("Error on server!! -- " + response.text)
+                            return response;
+                        }
+                    });
+                });
+                Application.modalRegion.show(addStudentModalView);
             },
 
             showTab: function (tabId) {

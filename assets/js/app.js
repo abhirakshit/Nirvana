@@ -25,6 +25,7 @@ requirejs.config({
         jqueryUI: "lib/jquery-ui/jquery-ui.min",
         dataTables: "lib/datatables/jquery.dataTables.min",
         jasnyBootstrap: "lib/jasny-bootstrap/jasny-bootstrap.min",
+        bootstrapDateTimePicker: "lib/bootstrap-datetimepicker/bootstrap-datetimepicker",
 //        parsley: "lib/parsley/parsley.min", //Validation plugin
 
         //Application Addons
@@ -62,6 +63,10 @@ requirejs.config({
 
         bootstrapEditable: {
             deps: ["bootstrap"]
+        },
+
+        bootstrapDateTimePicker: {
+            deps: ["bootstrap", "moment"]
         },
 
 
@@ -129,6 +134,7 @@ var dependencies = [
     "backboneValidation",
     "backboneSyphon",
     "bootstrapEditable",
+    "bootstrapDateTimePicker",
 //    "backboneModal",
 
     //Utils
