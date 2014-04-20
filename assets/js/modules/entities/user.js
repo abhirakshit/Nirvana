@@ -72,6 +72,16 @@ define([
                 return Entities.allStaff;
             },
 
+            getStaff: function(staffId) {
+                if (!staffId)
+                    return new Entities.Staff;
+
+                var staff = new Entities.Staff;
+                staff.id = staffId;
+                staff.fetch();
+                return staff;
+            },
+
             getPassword: function() {
                 return new Entities.Password();
             },
@@ -198,6 +208,11 @@ define([
 
         Application.reqres.setHandler(Application.GET_ALL_STAFF, function(update){
             return API.getAllStaff(update);
+        });
+
+        
+        Application.reqres.setHandler(Application.GET_STAFF, function(staffId){
+            return API.getStaff(staffId);
         });
 
         Application.reqres.setHandler(Application.GET_STUDENTS_ASSIGNED, function(userId){
