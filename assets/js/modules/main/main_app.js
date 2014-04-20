@@ -24,7 +24,10 @@ define([
     Application.module("Main", function(Main, Application, Backbone, Marionette) {
         console.log("Load Main Dependencies");
         Application.ForumUrl = "http://counsela.org/";
-        Application.Config.setUpXEditableConfig();
+        Application.Config.setApplicationConfig();
+
+        //Modal
+        Application.modalRegion = new Application.Views.ModalRegion({el:'#modal'});
 
         if (Application.request(Application.IS_USER_ADMIN)) {
             Application.USER_IS_ADMIN = true;

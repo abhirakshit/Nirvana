@@ -109,6 +109,10 @@ define([
 
 //                console.log($('#registration_form'));
 //                this.parselyForm= $('#registration_form').parsley();
+
+//                this.$el.find('#datetimepicker1').datetimepicker();
+//                this.$el.find('#datetimepicker').datetimepicker();
+//                this.$el.find('#datetimepicker1').data("DateTimePicker").setDate("10/23/2013");
             },
 
             events: {

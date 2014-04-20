@@ -59,17 +59,17 @@ define([
 
 
 
-        Show.EducationForm = Application.Entities.Model.extend({
-            validation: {
-                programName: {
-                    required : true
-                },
-                score: {
-                    required : true
-                }
-
-            }
-        });
+//        Show.EducationForm = Application.Entities.Model.extend({
+//            validation: {
+//                programName: {
+//                    required : true
+//                },
+//                score: {
+//                    required : true
+//                }
+//
+//            }
+//        });
 
         Show.views.addEducationForm = Application.Views.ItemView.extend({
             template: "enquiries/show/templates/add_education_form",
@@ -220,7 +220,7 @@ define([
             setupAdminView: function() {
                 var followUp = moment(this.model.get('followUp')).format(Show.dateFormat);
 //                console.log(moment(this.model.get('followUp')).format(Show.dateFormat));
-                Show.setupSelect2EditableBox(this.$el, this.model, "counselors", this.options.allStaff, "Assigned To", this.options.addedCounselors);
+                Show.setupSelect2EditableBox(this.$el, this.model, "staff", this.options.allStaff, "Assigned To", this.options.addedCounselors);
                 Show.setupEditableBox(this.$el, this.model, "enquiryStatus", "Add Status", this.model.get('enquiryStatus').id, 'select', this.options.allStatus);
                 Show.setupEditableBox(this.$el, this.model, "remarks", "Enter Remarks", this.model.get('remarks'), 'textarea');
 //                Show.setupComboBoxEditableBox(this.$el, this.model, "followUp", "Follow Up On", this.model.get('followUp'));

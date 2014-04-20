@@ -74,13 +74,14 @@ h4 hr,h2 hr, .sectionHeader hr {
 }
 
 .error, .error-message{
-    color: red;
+    color: #a94442;
 }
 
 .error .form-control {
-    border-color: red;
+    border-color: #a94442;
 }
 
+/*.datepicker {z-index: 1151 !important;}*/
 
 /*Hover */
 .basicBorder {

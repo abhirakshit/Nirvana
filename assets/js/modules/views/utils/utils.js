@@ -13,6 +13,11 @@ define([], function(){
             $('#' + modalDialogId).modal('hide')
             $('body').removeClass('modal-open');
             $('.modal-backdrop').remove();
+        },
+
+        Views.addDateTimePicker = function(view) {
+            view.datetimepicker();
+            view.data("DateTimePicker").setDate(moment());
         }
 
 //        Views.Modal = Backbone.Modal.extend({

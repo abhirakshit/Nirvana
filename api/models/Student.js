@@ -12,7 +12,7 @@ module.exports = {
 
 	attributes: {
 
-        email: {type: 'email', required: true, unique: true},
+        email: {type: 'email', unique: true},
 
         firstName: {type: 'string', required: true},
 
@@ -54,7 +54,7 @@ module.exports = {
 
         source: {type: 'string'},
 
-        followUp: {type: 'datetime', defaultsTo: moment().format()},
+        followUp: {type: 'datetime'},
 
         enquiryDate: {type: 'datetime'},
 
@@ -143,7 +143,10 @@ module.exports = {
         },
 
         fullName: function () {
-            return this.firstName + ' ' + this.lastName;
+            if (this.lastName)
+                return this.firstName + ' ' + this.lastName;
+            else
+                return this.firstName;
         }
 	},
 

@@ -7,7 +7,87 @@
 
 var async = require("async");
 
+
+checkForEnquiryStatus = function(inputFields, cb) {
+    if (!inputFields.enquiryStatus) {
+        var defaultEnqName = 'In Progress';
+        //If no enquiry status set to default
+        EnquiryStatus.findOne({name: defaultEnqName}).exec(function (err, enqStatus) {
+            if (err || !enqStatus) {
+                console.log("Could not find enquiry " + defaultEnqName + "\n" + err);
+                cb(err);
+            }
+            inputFields.enquiryStatus = enqStatus.id;
+            cb(null, inputFields);
+        })
+    } else {
+        cb(null, inputFields);
+    }
+};
+
+createStudent = function(inputFields, userId, cb) {
+        // Create new student
+    Student.create(inputFields).exec(function(err, newStudent){
+        if (err) {
+            console.log("Could not create student: " + err);
+            cb(err);
+        }
+
+        //Add associations
+        //Check for assigned or assign current logged in
+        var staffIdArr;
+        if (inputFields.staff) {
+            staffIdArr = _.map(inputFields.staff, function(stringId) { return parseInt(stringId); });
+        } else {
+            staffIdArr = [userId];
+        }
+
+        _.forEach(staffIdArr, function (id) {
+            newStudent.staff.add(id);
+        });
+        //This student will not have the updated information so just returning id
+        //This should be followed by getStudentById
+        newStudent.save();
+
+        cb(null, newStudent.id);
+    });
+};
+
+getStudentById = function (id, cb) {
+    Student.findOne(id).exec(function (err, student) {
+        if (err) {
+            console.log("No student for id: " + id + "\n" + err);
+            cb(err);
+        }
+        cb(null, student);
+    });
+};
+
 module.exports = {
+
+    create: function (req, res, next) {
+        var inputFields = _.merge({}, req.params.all(), req.body);
+//        console.log(inputFields);
+
+        async.waterfall([
+            function(callback){
+                checkForEnquiryStatus(inputFields, callback);
+            },
+            function(inputFields, callback) {
+                createStudent(inputFields, req.session.user.id, callback);
+            },
+            function(newStudentId, callback) {
+                getStudentById(newStudentId, callback);
+            }
+        ], function(err, student){
+            if (err) {
+                console.log(err);
+                res.json(err);
+            }
+
+            res.json(student);
+        })
+    },
 
     updatePartial: function (req, res, next) {
 

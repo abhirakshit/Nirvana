@@ -62,7 +62,7 @@ define([
 
                 academicView.on(Show.showAddEducationModalEvt, function(view){
                    console.log("Show modal!!!");
-                    var modalRegion = new Application.Views.ModalRegion({el:'#modal'});
+//                    var modalRegion = new Application.Views.ModalRegion({el:'#modal'});
                     var newEducation = Application.request(Application.GET_EDUCATION);
                     newEducation.attributes.modalId = Show.addEducationFormId;
 
@@ -87,7 +87,7 @@ define([
                         });
 
                     });
-                    modalRegion.show(addEducationModalView);
+                    Application.modalRegion.show(addEducationModalView);
                 });
 
                 academicView.on(Show.deleteEducationEvt, function(educationFieldView) {
