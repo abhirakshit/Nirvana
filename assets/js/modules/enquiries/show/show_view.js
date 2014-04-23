@@ -190,7 +190,13 @@ define([
         });
 
         Show.views.Comment = Application.Views.ItemView.extend({
-            template: "enquiries/show/templates/comment_view"
+            template: "enquiries/show/templates/comment_view",
+
+            templateHelpers: {
+                showFormattedDate: function(){
+                    return moment(this.createdAt).format("ddd, MMM Do 'YY, h:mm a");
+                }
+            }
         }),
 
         Show.views.History = Application.Views.CompositeView.extend({
@@ -220,7 +226,7 @@ define([
             setupAdminView: function() {
                 var followUp = moment(this.model.get('followUp')).format(Show.dateFormat);
 //                console.log(moment(this.model.get('followUp')).format(Show.dateFormat));
-                Show.setupSelect2EditableBox(this.$el, this.model, "staff", this.options.allStaff, "Assigned To", this.options.addedCounselors);
+                Show.setupSelect2EditableBox(this.$el, this.model, "staff", this.options.allStaff, "Assigned To", this.options.addedStaff);
                 Show.setupEditableBox(this.$el, this.model, "enquiryStatus", "Add Status", this.model.get('enquiryStatus').id, 'select', this.options.allStatus);
                 Show.setupEditableBox(this.$el, this.model, "remarks", "Enter Remarks", this.model.get('remarks'), 'textarea');
 //                Show.setupComboBoxEditableBox(this.$el, this.model, "followUp", "Follow Up On", this.model.get('followUp'));

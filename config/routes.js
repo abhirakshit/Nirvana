@@ -41,7 +41,8 @@ module.exports.routes = {
 //    'get /user/student': 'UserController.getAllStudents',
 //    'patch /user/:id': 'UserController.updatePartial'
 
-    'patch /student/:id': 'StudentController.updatePartial'
+    'patch /student/:id': 'StudentController.updatePartial',
+    'get /student/:id/comment': 'StudentController.getComments'
 
 
   // If a request to a URL doesn't match any of the custom routes above, it is matched 

@@ -2,6 +2,7 @@ define([], function(){
     Application.module("Consts", function(Consts, Application) {
 
 
+        Application.ENQUIRY_ROLE = "enquiry";
         Application.STUDENT_ROLE = "student";
         Application.STAFF_ROLE = "staff";
         Application.ADMIN_ROLE = "admin";
@@ -21,6 +22,7 @@ define([], function(){
         Application.SHOW_LOADING = "show:loading";
 
         Application.CREATE_STUDENT = "create:student";
+        Application.CREATE_USER = "create:user";
 
 
         Application.STREAM_LINK_SELECT = "stream:link:select";
@@ -58,6 +60,8 @@ define([], function(){
 
         Application.GET_STUDENTS = "get:students";
         Application.GET_STUDENT = "get:student";
+
+        Application.GET_STUDENT_COMMENTS = "get:student:comments";
 
         Application.GET_STATUS = "get:status";
         Application.GET_STATUS_All = "get:status:all";

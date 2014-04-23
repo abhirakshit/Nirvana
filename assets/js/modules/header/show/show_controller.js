@@ -9,6 +9,7 @@ define([
                 this.layout = this.getLayout();
                 this.listenTo(this.layout, Application.SHOW, function(){
                     this.showAppName();
+//                    this.showAddUser();
                     this.showUserDropDown();
                 });
 
@@ -18,6 +19,15 @@ define([
             getLayout: function () {
                 return new Show.views.Layout();
             },
+
+//            showAddUser: function() {
+//                var addUserButtonView = new Show.views.AddUserBtn({
+//                    model: new Application.Entities.Model({
+//                        modalId: Show.addUserModalFormId
+//                    })
+//                });
+//                this.layout.addUserRegion.show(addUserButtonView);
+//            },
 
             showAppName: function() {
                 var appNameView = new Show.views.AppLabel({
@@ -35,12 +45,57 @@ define([
                 var user = Application.request(Application.GET_LOGGED_USER);
                 var userDropDownCollectionView = new Show.views.UserDropDownCollection({
                     collection: this.getDropDownOptions(),
-                    model: user
+                    model: user,
+                    modalId: Show.addUserModalFormId
                 });
+
+                this.listenTo(userDropDownCollectionView, Application.CREATE_USER, this.createUser);
 
                 this.show(userDropDownCollectionView, {
                     region: this.layout.userDropDownRegion
                 })
+            },
+
+
+            getRoleTypes: function() {
+                var adminRoleTypes = ["admin", "student", "staff", "enquiry"];
+                var userRoleTypes = ["student", "staff", "enquiry"];
+                if (Application.USER_IS_ADMIN) {
+                    return adminRoleTypes;
+                }
+
+                return userRoleTypes;
+            },
+
+            createUser: function() {
+                //Show Modal Dialog
+                var newStudent = Application.request(Application.GET_USER);
+                newStudent.attributes.modalId = Show.addUserModalFormId;
+                var addUserModalView = new Show.views.addUserForm({
+                    model: newStudent,
+                    roleTypes: this.getRoleTypes()
+                });
+
+                var that = this;
+                addUserModalView.on(Show.createUserEvt, function(modalFormView, data){
+                    modalFormView.model.save(data, {
+                        wait: true,
+                        patch: true,
+                        success: function(newUser){
+                            console.log("Saved on server!!");
+                            console.dir(newUser);
+                            that.showUser(newUser, data.role);
+
+                            //TODO: Update enquiry collection (Assigned to me or all)
+                        },
+
+                        error: function(x, response) {
+                            console.log("Error on server!! -- " + response.text)
+                            return response;
+                        }
+                    });
+                });
+                Application.modalRegion.show(addUserModalView);
             },
 
             getDropDownOptions: function() {
@@ -63,6 +118,18 @@ define([
                     new Application.Entities.Model({optionId:"admin", optionUrl: "#admin", optionText: "Admin", iconClass: "cog"}),
                     new Application.Entities.Model({optionId:"logout", optionUrl: Application.LOGOUT, optionText: "Logout", iconClass: "power-off"})
                 ])
+            },
+
+            showUser: function(user, role) {
+                if (Application.ENQUIRY_ROLE == role)
+                    Application.execute(Application.ENQUIRY_SHOW, this.layout.enqContentRegion, user.id);
+                else if (Application.STUDENT_ROLE == role) {
+
+                } else if (Application.ADMIN_ROLE == role) {
+
+                } else if (Application.STAFF_ROLE == role) {
+
+                }
             }
         })
     });

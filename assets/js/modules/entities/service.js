@@ -6,7 +6,7 @@ define([], function(){
         Entities.Service = Entities.Model.extend({
             urlRoot: Entities.serviceUrl,
             validation: {
-                title: {required: true}
+                name: {required: true}
             }
         });
 

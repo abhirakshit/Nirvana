@@ -11,14 +11,18 @@ module.exports = {
         comment: {type: 'text'},
 
         //Associations
+        //Many to One: Staff to comment
         added: {
-            collection: 'Staff',
-            via: 'addedComments'
+            model: 'Staff'
+//            collection: 'Staff',
+//            via: 'addedComments'
         },
 
+        //Many to many Comments added for a User
         received: {
-            collection: 'Student',
-            via: 'commentsReceived'
+            model: 'Student'
+//            collection: 'Student',
+//            via: 'commentsReceived'
         }
 
 	}

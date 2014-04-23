@@ -93,8 +93,8 @@ module.exports = {
         //Many to many Comments added for a User
         commentsReceived: {
             collection: 'Comment',
-            via: 'received',
-            dominant: true
+            via: 'received'
+//            dominant: true
         },
 
         //Many to many - Student to Service

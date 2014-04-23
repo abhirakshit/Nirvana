@@ -7,7 +7,7 @@ define([], function(){
         Entities.School = Entities.Model.extend({
             urlRoot: Entities.schoolUrl,
             validation: {
-                title: {required: true},
+                name: {required: true},
                 website: {required: false, pattern: 'url'}
             }
         });

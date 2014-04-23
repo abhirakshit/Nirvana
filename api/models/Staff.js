@@ -45,8 +45,8 @@ module.exports = {
         //Many to One: Staff to comment
         addedComments: {
             collection: 'Comment',
-            via: 'added',
-            dominant: true
+            via: 'added'
+//            dominant: true
         },
 
         //Many to One: Class to Staff
@@ -70,7 +70,10 @@ module.exports = {
         },
 
         fullName: function () {
-            return this.firstName + ' ' + this.lastName;
+            if (this.lastName)
+                return this.firstName + ' ' + this.lastName;
+            else
+                return this.firstName;
         }
 
     }
