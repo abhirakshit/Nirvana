@@ -21,7 +21,7 @@ define([
 
 //     //var staff = Application.request(Application.GET_STAFF, this.options.staffId);
 
- var allStaffView = new Staff.views.StaffCollection({ collection: user});
+// var allStaffView = new Staff.views.StaffCollection({ collection: user});
 
 //     allStaffView.on("itemview:selectedStaff:show", function(childView,model){
 //     console.log('I am here!!!');
@@ -29,22 +29,22 @@ define([
 
 // });
 
-                var that = this;
-                this.listenTo(allStaffView, 'selectedStaff:show', function(staffId){
-                    //Application.execute(Application.ENQUIRY_SHOW, that.options.region, studentId);
-                    console.log('I am here!!')
+                //var that = this;
+//                 this.listenTo(this.layout, 'selectedStaff:show', function(staffId){
+//                     //Application.execute(Application.ENQUIRY_SHOW, that.options.region, studentId);
+//                     console.log('I am here!!')
 // var staff = Application.request(Application.GET_STAFF, this.options.staffId);
 //                     this.showSelectedStaff(staffId);
-                });
+//                 });
 
-            var selectedStaff = Application.request(Application.GET_STAFF);
+            // var selectedStaff = Application.request(Application.GET_STAFF);
 
-            this.layout = this.getLayout();
+            // this.layout = this.getLayout();
 
-            this.listenTo(this.layout, 'selectedStaff:show', function(childView, model){
-                this.showSelectedStaff(selectedStaff(model.get.id));
-                console.log(model.get.id);
-            });
+            // this.listenTo(this.layout, 'selectedStaff:show', function(childView, model){
+            //     this.showSelectedStaff(selectedStaff(model.get.id));
+            //     console.log(model.get.id);
+            // });
 
 
                 //Load layout
@@ -62,6 +62,10 @@ define([
                 var allStaffView = new Staff.views.StaffCollection({ collection: user});
             
                 this.layout.changePasswordRegion.show(allStaffView);
+
+//                 allStaffView.on('itemview:staffs:show', function(childView,model){
+// //ContactManager.ContactsApp.Show.Controller.showContact(model);
+// console.log('hello');
 
 
 

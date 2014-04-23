@@ -3,8 +3,8 @@ define([
 ], function () {
     Application.module("Enquiries", function (Enquiries, Application, Backbone, Marionette, $, _) {
 
-        Enquiries.addStudentModalFormId = 'addStudentModal';
-        Enquiries.createStudentEvt = "createStudentEvt";
+//        Enquiries.addStudentModalFormId = 'addStudentModal';
+//        Enquiries.createStudentEvt = "createStudentEvt";
 
         Enquiries.views.Layout = Application.Views.Layout.extend({
             template: "enquiries/templates/enquiries_layout",
@@ -85,39 +85,39 @@ define([
         });
 
 
-        Enquiries.views.addStudentForm = Application.Views.ItemView.extend({
-            template: "enquiries/templates/add_student_form",
-
-            events: {
-                "click #createNewStudent" : "createNewStudent"
-            },
-
-            onRender: function() {
-                Backbone.Validation.bind(this);
-
-                console.log("Add picker");
-                //Add datetime field
-                Application.Views.addDateTimePicker(this.$el.find('#followUpDiv'));
-
-                //TODO Add Assigned to
-
-
-                //TODO Add status
-
-            },
-
-            createNewStudent: function(evt) {
-                evt.preventDefault();
-                var data = Backbone.Syphon.serialize(this);
-                this.model.set(data);
-
-                var isValid = this.model.isValid(true);
-                if (isValid) {
-                    Application.Views.hideModal(Enquiries.addStudentModalFormId);
-                    this.trigger(Enquiries.createStudentEvt, this, data);
-                }
-            }
-
-        });
+//        Enquiries.views.addStudentForm = Application.Views.ItemView.extend({
+//            template: "enquiries/templates/add_student_form",
+//
+//            events: {
+//                "click #createNewStudent" : "createNewStudent"
+//            },
+//
+//            onRender: function() {
+//                Backbone.Validation.bind(this);
+//
+//                console.log("Add picker");
+//                //Add datetime field
+//                Application.Views.addDateTimePicker(this.$el.find('#followUpDiv'));
+//
+//                //TODO Add Assigned to
+//
+//
+//                //TODO Add status
+//
+//            },
+//
+//            createNewStudent: function(evt) {
+//                evt.preventDefault();
+//                var data = Backbone.Syphon.serialize(this);
+//                this.model.set(data);
+//
+//                var isValid = this.model.isValid(true);
+//                if (isValid) {
+//                    Application.Views.hideModal(Enquiries.addStudentModalFormId);
+//                    this.trigger(Enquiries.createStudentEvt, this, data);
+//                }
+//            }
+//
+//        });
     });
 });

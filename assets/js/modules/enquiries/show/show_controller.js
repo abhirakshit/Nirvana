@@ -7,9 +7,10 @@ define([
             initialize: function () {
 //                var user = Application.request(Application.GET_LOGGED_USER);
                 var student = Application.request(Application.GET_STUDENT, this.options.studentId);
+                var studentComments = Application.request(Application.GET_STUDENT_COMMENTS, this.options.studentId);
                 var allCountries = Application.request(Application.GET_COUNTRIES);
                 var allServices = Application.request(Application.GET_SERVICES);
-                var allCounselors = Application.request(Application.GET_ALL_STAFF);
+                var allStaff = Application.request(Application.GET_ALL_STAFF);
                 var allStatus = Application.request(Application.GET_STATUS_All);
 //                var allStudents = Application.request(Application.GET_STUDENTS);
 
@@ -17,18 +18,18 @@ define([
 
                 this.listenTo(this.layout, Application.SHOW, function () {
 //                    console.dir(allStudents);
-                    this.showStudent(student, allCountries, allServices, allCounselors, allStatus)
+                    this.showStudent(student, allCountries, allServices, allStaff, allStatus, studentComments)
                 });
 
 
                 this.show(this.layout, {
                     loading: {
-                        entities: [student, allCountries, allServices, allCounselors, allStatus]
+                        entities: [student, allCountries, allServices, allStaff, allStatus]
                     }
                 });
             },
 
-            showStudent: function (student, allCountries, allServices, allCounselors, allStatus) {
+            showStudent: function (student, allCountries, allServices, allStaff, allStatus, studentComments) {
 
                 this.showPersonalView(student);
 
@@ -36,9 +37,9 @@ define([
 
                 this.showCareerView(student, allCountries, allServices);
 
-                this.showAdminView(student, allCounselors, allStatus);
+                this.showAdminView(student, allStaff, allStatus);
 
-                this.showHistoryView(student);
+                this.showHistoryView(student, studentComments);
             },
 
             showPersonalView: function(student) {
@@ -109,21 +110,21 @@ define([
                 });
             },
 
-            showHistoryView: function(student) {
+            showHistoryView: function(student, studentComments) {
                 var historyView = new Show.views.History({
                    model: student,
-                   collection: new Application.Entities.Collection(student.get('enquiryCommentsAdded'))
+                   collection: studentComments
                 });
                 this.layout.historyRegion.show(historyView);
             },
 
-            showAdminView: function(student, allCounselors, allStatus) {
-                var addedCounselors = new Application.Entities.UsersCollection(student.get('staff'));
-                var addedCounselorsIdList = addedCounselors.pluck("id");
+            showAdminView: function(student, allStaff, allStatus) {
+                var addedStaff = new Application.Entities.UsersCollection(student.get('staff'));
+                var addedStaffIdList = addedStaff.pluck("id");
                 var adminView = new Show.views.Admin({
                     model: student,
-                    allStaff: allCounselors.getIdToTextMap('name'),
-                    addedCounselors: addedCounselorsIdList,
+                    allStaff: allStaff.getIdToTextMap('name'),
+                    addedStaff: addedStaffIdList,
                     allStatus: allStatus.getValueToTextMap('name')
                 });
                 this.layout.adminRegion.show(adminView);

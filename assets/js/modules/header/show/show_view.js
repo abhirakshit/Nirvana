@@ -2,14 +2,25 @@ define([
     "modules/header/show/show_setup"
 ], function(){
     Application.module("Header.Show", function(Show, Application, Backbone, Marionette, $, _) {
+        Show.addUserModalFormId = 'addUserModal';
+        Show.createUserEvt = "createUserEvt";
+
         Show.views.Layout = Application.Views.Layout.extend({
             template: "header/show/templates/show_layout",
 
             regions: {
                 appLabelRegion: "#app-label",
                 navTabsRegion: "#header-nav-tabs",
+                addUserRegion: "#add-user",
                 userDropDownRegion: "#user-dropdown"
             }
+        });
+
+
+        Show.views.AddUserBtn = Application.Views.ItemView.extend({
+            template: "header/show/templates/add_user_btn",
+            tagName: "span",
+            className: "navbar-form navbar-left input-s-lg m-t m-l-n-xs hidden-xs"
         });
 
         var appLabelHtml = '<img src="images/logo.png" class="m-r-sm"><%=args.appLabel%><span class="beta">beta</span>';
@@ -62,22 +73,26 @@ define([
             itemViewContainer: "#user-actions",
 
 
-//            serializeData: function(){
-//                var data = this.model.toJSON();
-//                data.name = data.user.name;
-////                data.headingTitle = this.options.headingTitle;
-////                data.editorId = this.options.editorId;
-//                return data;
-//            },
+            serializeData: function(){
+                var data = this.model.toJSON();
+                data.modalId = this.options.modalId;
+                return data;
+            },
 
             onRender: function() {
                 this.$el.find("#logout").before('<li class="divider"></li>')
             },
 
             events: {
+                "click #addUser" : "addUser",
                 "click #profile": Application.SHOW_PROFILE,
                 "click #admin": Application.SHOW_ADMIN,
                 "click #logout": Application.LOGOUT
+            },
+
+            addUser: function(evt) {
+                evt.preventDefault();
+                this.trigger(Application.CREATE_USER);
             },
 
             showProfile: function(event) {
@@ -94,7 +109,52 @@ define([
                 event.preventDefault();
                 Application.request(Application.LOGOUT);
             }
-        })
+        });
+
+        Show.views.addUserForm = Application.Views.ItemView.extend({
+            template: "header/show/templates/add_user_form",
+
+            events: {
+                "click #createNewUser" : "createNewUser"
+            },
+
+            onRender: function() {
+                Backbone.Validation.bind(this);
+
+//                console.log("Add picker");
+
+                this.renderSelect(this.options.roleTypes, "#role");
+
+                //Add datetime field
+                Application.Views.addDateTimePicker(this.$el.find('#followUpDiv'));
+
+                //TODO Add Assigned to
+
+
+                //TODO Add status
+
+            },
+
+            renderSelect :function (list, element) {
+                var that = this;
+                _.each(list, function(value){
+                    that.$el.find(element).append("<option value='" + value + "'>" + value + "</option>");
+                });
+            },
+
+            createNewUser: function(evt) {
+                evt.preventDefault();
+                var data = Backbone.Syphon.serialize(this);
+                this.model.set(data);
+
+                var isValid = this.model.isValid(true);
+                if (isValid) {
+                    Application.Views.hideModal(Show.addUserModalFormId);
+                    this.trigger(Show.createUserEvt, this, data);
+                }
+            }
+
+        });
 
 
     });

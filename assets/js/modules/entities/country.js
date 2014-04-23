@@ -7,7 +7,7 @@ define([], function(){
         Entities.Country = Entities.Model.extend({
             urlRoot: Entities.countryUrl,
             validation: {
-                title: {required: true}
+                name: {required: true}
             }
         });
 

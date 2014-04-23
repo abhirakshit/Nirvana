@@ -8,6 +8,7 @@ define([
 
     //Models
     "modules/entities/user",
+    "modules/entities/comment",
     "modules/entities/service",
     "modules/entities/education",
     "modules/entities/enquiryStatus"
@@ -80,40 +81,40 @@ define([
                     Application.navigate(Enquiries.rootRoute + "/" +tabId);
                 });
 
-                this.listenTo(tabContainerView, Application.CREATE_STUDENT, this.createStudent);
+//                this.listenTo(tabContainerView, Application.CREATE_STUDENT, this.createUser);
             },
 
-            createStudent: function() {
-
-                //Show Modal Dialog
-                var newStudent = Application.request(Application.GET_STUDENT);
-                newStudent.attributes.modalId = Enquiries.addStudentModalFormId;
-                var addStudentModalView = new Enquiries.views.addStudentForm({
-                    model: newStudent
-                });
-
-                var that = this;
-                addStudentModalView.on(Enquiries.createStudentEvt, function(modalFormView, data){
-//                    var data = Backbone.Syphon.serialize(modalFormView);
-                    modalFormView.model.save(data, {
-                        wait: true,
-                        patch: true,
-                        success: function(updatedStudent){
-                            console.log("Saved on server!!");
-                            console.dir(updatedStudent);
-                            that.showEnquiry(updatedStudent.id);
-
-                            //TODO: Update enquiry collection (Assigned to me or all)
-                        },
-
-                        error: function(x, response) {
-                            console.log("Error on server!! -- " + response.text)
-                            return response;
-                        }
-                    });
-                });
-                Application.modalRegion.show(addStudentModalView);
-            },
+//            createUser: function() {
+//
+//                //Show Modal Dialog
+//                var newStudent = Application.request(Application.GET_STUDENT);
+//                newStudent.attributes.modalId = Enquiries.addStudentModalFormId;
+//                var addStudentModalView = new Enquiries.views.addStudentForm({
+//                    model: newStudent
+//                });
+//
+//                var that = this;
+//                addStudentModalView.on(Enquiries.createStudentEvt, function(modalFormView, data){
+////                    var data = Backbone.Syphon.serialize(modalFormView);
+//                    modalFormView.model.save(data, {
+//                        wait: true,
+//                        patch: true,
+//                        success: function(updatedStudent){
+//                            console.log("Saved on server!!");
+//                            console.dir(updatedStudent);
+//                            that.showEnquiry(updatedStudent.id);
+//
+//                            //TODO: Update enquiry collection (Assigned to me or all)
+//                        },
+//
+//                        error: function(x, response) {
+//                            console.log("Error on server!! -- " + response.text)
+//                            return response;
+//                        }
+//                    });
+//                });
+//                Application.modalRegion.show(addStudentModalView);
+//            },
 
             showTab: function (tabId) {
                 Application.execute(Application.ENQUIRIES_CONTENT_SHOW, this.layout.enqContentRegion, tabId);

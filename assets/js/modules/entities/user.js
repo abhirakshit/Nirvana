@@ -4,6 +4,7 @@ define([
 ], function(){
     Application.module("Entities", function(Entities, Application, Backbone, Marionette, $, _) {
 
+//        Entities.studentUrl = '/student';
         Entities.studentUrl = '/student';
         Entities.staffUrl = '/staff';
         Entities.userUrl = '/user';
@@ -15,9 +16,10 @@ define([
             urlRoot: Entities.userUrl,
             validation: {
                 firstName: {required: true},
-                email: {required: true, pattern: 'email'},
-                password: {required: true},
-                confirmPassword: {equalTo: 'password'}
+                phoneNumber: {required: true},
+                email: {required: true, pattern: 'email'}
+//                password: {required: true},
+//                confirmPassword: {equalTo: 'password'}
             }
         });
 
@@ -26,8 +28,8 @@ define([
             validation: {
                 firstName: {required: true},
                 phoneNumber: {required: true},
-                followUp: {required: true}
-//                email: {pattern: 'email'}
+                followUp: {required: true},
+                email: {pattern: 'email'}
             }
         });
 

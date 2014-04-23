@@ -5,7 +5,8 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
-var async = require("async");
+var _ = require('lodash'),
+    async = require('async');
 
 
 checkForEnquiryStatus = function(inputFields, cb) {
@@ -53,15 +54,72 @@ createStudent = function(inputFields, userId, cb) {
     });
 };
 
-getStudentById = function (id, cb) {
-    Student.findOne(id).exec(function (err, student) {
+getStudent = function (studentId, cb) {
+    Student.findOne(studentId).exec(function (err, student) {
         if (err) {
-            console.log("No student for id: " + id + "\n" + err);
+            console.log("No student for id: " + studentId + "\n" + err);
             cb(err);
         }
         cb(null, student);
     });
 };
+
+createComment = function(staffId, studentId, commentStr, cb) {
+    var commentAttribs = {
+        comment: commentStr,
+        added: staffId,
+        received: studentId
+    };
+//    Comment.create({comment: comment}).exec(function(err, comment){
+    Comment.create(commentAttribs).exec(function(err, newComment){
+        if (err || !newComment) {
+            console.log("Could not create comment: " + newComment + "\n" + err);
+            cb(err);
+        }
+
+        cb(null, studentId, newComment);
+
+    });
+};
+
+
+updateStudent = function(studentId, updateFields, cb) {
+    Student.update(studentId, updateFields, function (err, student) {
+        if (err || !student) {
+            console.log("Could not update student: " + id + "\n" + err);
+            return cb(err);
+        }
+
+        cb(null, student)
+    });
+};
+
+getCommentStrFromUpdateFields = function(updateFields, student) {
+    var keyArray = _.keys(updateFields);
+    _.forEach(updateFields, function(field){
+        
+    });
+    return "Some field has been updated";
+};
+
+createComment = function(staffId, studentId, commentStr, cb) {
+    var commentAttribs = {
+        comment: commentStr,
+        added: staffId,
+        received: studentId
+    };
+    console.log(commentAttribs);
+    Comment.create(commentAttribs).exec(function(err, newComment){
+        if (err || !newComment) {
+            console.log("Could not create comment: " + newComment + "\n" + err);
+            cb(err);
+        }
+
+        cb(null, newComment);
+
+    });
+};
+
 
 module.exports = {
 
@@ -77,7 +135,10 @@ module.exports = {
                 createStudent(inputFields, req.session.user.id, callback);
             },
             function(newStudentId, callback) {
-                getStudentById(newStudentId, callback);
+                createComment(req.session.user.id, newStudentId, "Student Created!", callback);
+            },
+            function(newStudentId, newComment, callback) {
+                getStudent(newStudentId, callback);
             }
         ], function(err, student){
             if (err) {
@@ -89,7 +150,7 @@ module.exports = {
         })
     },
 
-    updatePartial: function (req, res, next) {
+    updatePartial: function (req, res) {
 
         var id = req.param('id');
         if (!id) {
@@ -117,16 +178,78 @@ module.exports = {
             Student.removeEducation(id, req.body.removeEducation, res, ResponseService.sendResponse);
         } else {
             var updateFields = _.merge({}, req.params.all(), req.body);
-            Student.update(id, updateFields, function (err, student) {
+            console.log(updateFields);
 
-                if (!student) return res.notFound();
-
-                if (err) return next(err);
+            async.waterfall([
+                // Find student and create change comment
+                function(callback){
+                    console.log("Get Comment Str");
+                    Student.findOne(id).exec(function (err, student){
+                        var commentStr = getCommentStrFromUpdateFields(updateFields, student);
+                        console.log(commentStr);
+                        callback(null, commentStr);
+                    });
+                },
+                //Update Student with new data
+                function(commentStr, callback) {
+                    console.log("Update Student");
+                    Student.update(id, updateFields, function (err, student) {
+                        if (err || !student) {
+                            console.log("Could not update student: " + id + "\n" + err);
+                            return callback(err);
+                        }
+                        callback(null, commentStr);
+                    });
+                },
+                function (commentStr, callback) {
+                    createComment(req.session.user.id, id, commentStr, callback)
+                },
+                //Get updated student
+                function(studentId, comment, callback) {
+                    console.log("Get updated student");
+                    getStudent(id, callback);
+                }
+            ],
+            function(err, student){
+                if (err) {
+                    console.log(err);
+                    res.badRequest(err);
+                }
 
                 res.json(student);
+            }
+            );
 
-            });
         }
+    },
+
+    getComments: function (req, res) {
+        var id = req.param('id');
+        if (!id) {
+            return res.badRequest('No id provided.');
+        }
+
+        Student.findOne(id).populate('commentsReceived').exec(function(err, student){
+            var commentsReceived = student.commentsReceived;
+            var commentCollection = [];
+            async.each(commentsReceived, function(comment, callback){
+                Comment.findOne(comment.id).populate('added').exec(function(err, comm){
+                    if (err) {
+                        console.log("Error handling comment:  " + comment.id + "\n" + err);
+                        callback(err);
+                    }
+                    commentCollection.push(comm);
+                    callback();
+                })
+            }, function(err){
+                if (err) {
+                    console.log("Could not process comments. " + err);
+                    return res.badRequest("Could not process comment. " + err);
+                }
+
+                res.json(commentCollection);
+            });
+        });
     }
 	
 };
