@@ -8,7 +8,8 @@
 module.exports = {
 
 	attributes: {
-        comment: {type: 'text'},
+        comment: {type: 'text', required: true},
+        type: {type: 'text', defaultsTo: 'add'},   //add, remove, change
 
         //Associations
         //Many to One: Staff to comment

@@ -6,82 +6,13 @@
  */
 
 var _ = require('lodash'),
-    async = require('async');
+    async = require('async'),
+    moment = require('moment');
 
 
-checkForEnquiryStatus = function(inputFields, cb) {
-    if (!inputFields.enquiryStatus) {
-        var defaultEnqName = 'In Progress';
-        //If no enquiry status set to default
-        EnquiryStatus.findOne({name: defaultEnqName}).exec(function (err, enqStatus) {
-            if (err || !enqStatus) {
-                console.log("Could not find enquiry " + defaultEnqName + "\n" + err);
-                cb(err);
-            }
-            inputFields.enquiryStatus = enqStatus.id;
-            cb(null, inputFields);
-        })
-    } else {
-        cb(null, inputFields);
-    }
+getCurrentStaffUserId = function (req) {
+    return req.session.user.staff;
 };
-
-createStudent = function(inputFields, userId, cb) {
-        // Create new student
-    Student.create(inputFields).exec(function(err, newStudent){
-        if (err) {
-            console.log("Could not create student: " + err);
-            cb(err);
-        }
-
-        //Add associations
-        //Check for assigned or assign current logged in
-        var staffIdArr;
-        if (inputFields.staff) {
-            staffIdArr = _.map(inputFields.staff, function(stringId) { return parseInt(stringId); });
-        } else {
-            staffIdArr = [userId];
-        }
-
-        _.forEach(staffIdArr, function (id) {
-            newStudent.staff.add(id);
-        });
-        //This student will not have the updated information so just returning id
-        //This should be followed by getStudentById
-        newStudent.save();
-
-        cb(null, newStudent.id);
-    });
-};
-
-getStudent = function (studentId, cb) {
-    Student.findOne(studentId).exec(function (err, student) {
-        if (err) {
-            console.log("No student for id: " + studentId + "\n" + err);
-            cb(err);
-        }
-        cb(null, student);
-    });
-};
-
-createComment = function(staffId, studentId, commentStr, cb) {
-    var commentAttribs = {
-        comment: commentStr,
-        added: staffId,
-        received: studentId
-    };
-//    Comment.create({comment: comment}).exec(function(err, comment){
-    Comment.create(commentAttribs).exec(function(err, newComment){
-        if (err || !newComment) {
-            console.log("Could not create comment: " + newComment + "\n" + err);
-            cb(err);
-        }
-
-        cb(null, studentId, newComment);
-
-    });
-};
-
 
 updateStudent = function(studentId, updateFields, cb) {
     Student.update(studentId, updateFields, function (err, student) {
@@ -95,29 +26,475 @@ updateStudent = function(studentId, updateFields, cb) {
 };
 
 getCommentStrFromUpdateFields = function(updateFields, student) {
-    var keyArray = _.keys(updateFields);
-    _.forEach(updateFields, function(field){
-        
-    });
-    return "Some field has been updated";
-};
+    //Remove id
+    delete updateFields['id'];
 
-createComment = function(staffId, studentId, commentStr, cb) {
-    var commentAttribs = {
-        comment: commentStr,
-        added: staffId,
-        received: studentId
-    };
-    console.log(commentAttribs);
-    Comment.create(commentAttribs).exec(function(err, newComment){
-        if (err || !newComment) {
-            console.log("Could not create comment: " + newComment + "\n" + err);
-            cb(err);
+    var oldValues = student.toJSON();
+    var keyArray = _.keys(updateFields);
+    var comment = {};
+
+    //Currently only one field
+    _.forEach(keyArray, function(key){
+        var newVal = updateFields[key];
+        var oldVal = oldValues[key];
+
+        //Check for Dates and format
+        var dateFormat = "ddd, MMM Do 'YY, h:mm a";
+        if (key === 'followUp') {
+            newVal = moment(newVal).format(dateFormat);
+            oldVal = moment(oldVal).format(dateFormat);
         }
 
-        cb(null, newComment);
-
+        //Check for other String updates
+        if (oldVal) {
+            comment.str = "<b>" + Utils.capitalizeFirst(key) + ":</b> <i>'" + oldVal + "'</i> to <i>'" + newVal + "'</i>"
+            comment.type = "change";
+        } else {
+            comment.str= "<b>" + Utils.capitalizeFirst(key) + ":</b> " + newVal;
+            comment.type = "add";
+        }
     });
+    return comment;
+};
+
+/**
+ * Updates services for a enquiry.
+ */
+updateServices = function (id, staffId, updatedServiceIdArr, res) {
+
+    async.waterfall([
+        function(callback){
+            Student.findOne(id).populate('services').exec(function (err, student) {
+
+                var existingServiceIdArr = _.map(student.services, function (service) {
+                    return service.id;
+                });
+//                console.log(updatedServiceIdArr);
+                var toRemove = _.difference(existingServiceIdArr, updatedServiceIdArr);
+                var toAdd = _.difference(updatedServiceIdArr, existingServiceIdArr);
+
+                //Remove all
+                _.forEach(toRemove, function (id) {
+                    student.services.remove(id);
+                });
+
+                //Add new
+                _.forEach(toAdd, function (id) {
+                    student.services.add(id);
+                });
+                student.save();
+                return callback(null, toRemove, toAdd, student);
+            });
+        },
+        function(servicesRemoved, servicesAdded, student, callback) {
+            Service.find().exec(function(err, allServices){
+                var addedServiceNameArr = [];
+                var removedServiceNameArr = [];
+                _.forEach(servicesRemoved, function(serviceId){
+                    var serviceName = _.find(allServices, {'id': serviceId}).name;
+                    removedServiceNameArr.push(serviceName);
+                });
+
+                _.forEach(servicesAdded, function(serviceId){
+//                    console.log(_.find(allServices, {'id': serviceId}));
+                    var serviceName = _.find(allServices, {'id': serviceId}).name;
+                    addedServiceNameArr.push(serviceName);
+                });
+
+                var commentStr = "";
+                var commentType = "";
+                if (addedServiceNameArr.length > 0) {
+                    commentStr = "<b>Service(s):</b> " + stringCleanUp(addedServiceNameArr);
+                    commentType = "add";
+                }
+
+                if (removedServiceNameArr.length > 0) {
+                    if (addedServiceNameArr.length > 0)
+                        commentStr = commentStr + "<br />";
+
+                    commentStr = commentStr + "<b>Service(s):</b> " + stringCleanUp(removedServiceNameArr);
+                    commentType = "remove";
+                }
+
+                callback(null, commentStr, commentType);
+            });
+        },
+        function (commentStr, commentType, callback) {
+            UserService.createComment(staffId, id, commentStr, commentType, callback);
+        },
+        function (studentId, newComment, callback){
+            UserService.getStudent(id, callback);
+        }
+
+    ], function(err, student){
+        if (err) {
+            console.log(err);
+            return err;
+        }
+
+//        console.log("returning successfully");
+        return res.json(student);
+    });
+
+};
+
+/**
+ * Updates countries for a user.
+ */
+updateCountries = function (id, staffId, updatedCountryIdArr, res) {
+
+    async.waterfall([
+        function(callback){
+            Student.findOne(id).populate('countries').exec(function (err, student) {
+
+                var existingCountriesIdArr = _.map(student.countries, function (country) {
+                    return country.id
+                });
+                var toRemove = _.difference(existingCountriesIdArr, updatedCountryIdArr);
+                var toAdd = _.difference(updatedCountryIdArr, existingCountriesIdArr);
+
+                //Remove all
+                _.forEach(toRemove, function (id) {
+                    student.countries.remove(id);
+                });
+
+                //Add new
+                _.forEach(toAdd, function (id) {
+                    student.countries.add(id);
+                });
+                student.save();
+                return callback(null, toRemove, toAdd, student);
+    //            return student;
+            });
+        },
+        function(countriesRemoved, countriesAdded, student, callback) {
+            Country.find().exec(function(err, allCountries){
+                var addedCountryNameArr = [];
+                var removedCountryNameArr = [];
+                _.forEach(countriesRemoved, function(countryId){
+                    var countryName = _.find(allCountries, {'id': countryId}).name;
+                    removedCountryNameArr.push(countryName);
+                });
+
+                _.forEach(countriesAdded, function(countryId){
+                    var countryName = _.find(allCountries, {'id': countryId}).name;
+                    addedCountryNameArr.push(countryName);
+                });
+
+                var commentStr = "";
+                var commentType = "";
+                if (addedCountryNameArr.length > 0) {
+                    commentStr = "<b>Countries:</b> " + stringCleanUp(addedCountryNameArr);
+                    commentType = "add";
+                }
+
+                if (removedCountryNameArr.length > 0) {
+                    if (addedCountryNameArr.length > 0)
+                        commentStr = commentStr + "<br />";
+
+                    commentStr = commentStr + "<b>Countries:</b> " + stringCleanUp(removedCountryNameArr);
+                    commentType = "remove";
+                }
+
+                callback(null, commentStr, commentType);
+            });
+        },
+        function (commentStr, commentType, callback) {
+            UserService.createComment(staffId, id, commentStr, commentType, callback);
+        },
+        function (studentId, newComment, callback){
+            UserService.getStudent(id, callback);
+        }
+
+    ],
+    function(err, student){
+        if (err) {
+            console.log(err);
+            return err;
+        }
+        return res.json(student);
+    });
+
+};
+
+/*
+ * Updates EnquiryStatus
+ */
+updateEnquiryStatus = function (id, staffId, newEnquiryStatusId, res) {
+    async.waterfall(
+        [
+            function(callback) {
+                Student.findOne(id).populate('enquiryStatus').exec(function (err, student) {
+                    if (err || !student) {
+                        callback(err)
+                    }
+                    var oldEnquiryStatus = student.enquiryStatus;
+                    Student.update({id:id}, {enquiryStatus: newEnquiryStatusId}).exec(function(err, updatedStudent){
+                        if (err || !updatedStudent) {
+                            callback(err);
+                        }
+                        return callback(null, oldEnquiryStatus, newEnquiryStatusId);
+                    });
+                });
+            },
+            function(oldEnqStatus, newEnqStatusId, callback) {
+                EnquiryStatus.find().exec(function(err, allEnquiryStatus){
+                    var oldStatusName = oldEnqStatus.name;
+                    var newStatusName = _.find(allEnquiryStatus, {'id': newEnqStatusId}).name;
+                    var commentStr = "<b>EnquiryStatus:</b> <i>'" + oldStatusName + "'</i> to <i>'" + newStatusName + "'</i>";
+                    callback(null, commentStr, "change");
+                });
+            },
+            function (commentStr, commentType, callback) {
+                UserService.createComment(staffId, id, commentStr, commentType, callback);
+            },
+            function (studentId, newComment, callback){
+                UserService.getStudent(id, callback);
+            }
+
+        ],
+        function(err, student){
+            if (err) {
+                console.log(err);
+                return err;
+            }
+            return res.json(student);
+        }
+    );
+};
+
+/**
+ * Updates Staff for a user.
+ */
+updateStaff = function (id, staffId, updatedStaffIdArr, res) {
+    async.waterfall(
+        [
+            function(callback) {
+                Student.findOne(id).populate('staff').exec(function (err, student) {
+                    var existingCounselorIdArr = _.map(student.staff, function (staff) {
+                        return staff.id
+                    });
+                    var toRemove = _.difference(existingCounselorIdArr, updatedStaffIdArr);
+                    var toAdd = _.difference(updatedStaffIdArr, existingCounselorIdArr);
+
+                    //Remove all
+                    _.forEach(toRemove, function (id) {
+                        student.staff.remove(id);
+                    });
+
+                    //Add new
+                    _.forEach(toAdd, function (id) {
+                        student.staff.add(id);
+                    });
+                    student.save();
+                    return callback(null, toRemove, toAdd, student);
+                });
+            },
+            function(staffRemoved, staffAdded, student, callback) {
+                Staff.find().exec(function(err, allStaff){
+                    var addedStaffNameArr = [];
+                    var removedStaffNameArr = [];
+                    _.forEach(staffRemoved, function(staffId){
+                        var staffName = _.find(allStaff, {'id': staffId}).fullName();
+                        if (staffName)
+                            removedStaffNameArr.push(staffName);
+                    });
+
+                    _.forEach(staffAdded, function(staffId){
+                        var staffName = _.find(allStaff, {'id': staffId}).fullName();
+                        if (staffName)
+                            addedStaffNameArr.push(staffName);
+                    });
+
+                    var commentStr = "";
+                    var commentType = "";
+                    if (addedStaffNameArr.length > 0) {
+                        commentStr = "<b>Staff:</b> " + stringCleanUp(addedStaffNameArr);
+                        commentType = "add";
+                    }
+
+                    if (removedStaffNameArr.length > 0) {
+                        if (addedStaffNameArr.length > 0)
+                            commentStr = commentStr + "<br />";
+
+                        commentStr = commentStr + "<b>Staff:</b> " + stringCleanUp(removedStaffNameArr);
+                        commentType = "remove";
+                    }
+
+                    callback(null, commentStr, commentType);
+                });
+            },
+            function (commentStr, commentType, callback) {
+                UserService.createComment(staffId, id, commentStr, commentType, callback);
+            },
+            function (studentId, newComment, callback){
+                UserService.getStudent(id, callback);
+            }
+        ],
+        function(err, student){
+            if (err) {
+                console.log(err);
+                return err;
+            }
+            return res.json(student);
+        }
+    );
+};
+
+/**
+     * Add Education
+     */
+    addEducation = function(id, staffId, education, res) {
+        async.waterfall(
+            [
+                function(callback) {
+                    Student.findOne(id).populate('educationList').exec(function (err, student){
+                    // Check if an education with same name exists
+                        if (_.contains(student.educationList, education.programName)){
+                            console.log("Education exists: " + education.programName);
+                            return callback("Education exists: " + education.programName);
+                        }
+
+                    // Create new Education
+                        education.student = student.id;
+                        Education.create(education).exec(function(err, newEducation) {
+                            if (err) {
+                                console.log("Error creating edu: " + err);
+                                return callback(err);
+                            }
+
+                            var commentStr = "<b>Education:</b> " + newEducation.programName+ ", " + newEducation.score;
+                            return callback(null, commentStr, "add");
+                        });
+                    });
+                },
+                function (commentStr, commentType, callback) {
+                    UserService.createComment(staffId, id, commentStr, commentType, callback);
+                },
+                function (studentId, newComment, callback){
+                    UserService.getStudent(id, callback, 'educationList');
+                }
+            ],
+            function(err, student) {
+                if (err) {
+                    console.log(err);
+                    return err;
+                }
+                return res.json(student);
+            }
+        );
+    };
+/**
+ * Remove Education
+ */
+removeEducation = function(id, staffId, education, res) {
+
+    async.waterfall(
+        [
+            function(callback) {
+                Student.findOne(id).populate('educationList').exec(function(err, student){
+                    if (err) {
+                        console.log("Error removing edu: " + err);
+                        return callback(err);
+                    }
+
+                    student.educationList.remove(parseInt(education.id));
+
+                    //Remove from education Table
+                    Education.destroy(education.id).exec(function(err, deletedEducation) {
+                        if (err) {
+                            console.log("Error removing edu: " + err);
+                            return callback(err);
+                        }
+
+                        var commentStr = "<b>Education:</b> " + deletedEducation[0].programName + ", " + deletedEducation[0].score;
+                        student.save();
+                        return callback(null, commentStr, "remove");
+                    });
+
+                });
+            },
+            function (commentStr, commentType, callback) {
+                UserService.createComment(staffId, id, commentStr, commentType, callback);
+            },
+            function (studentId, newComment, callback){
+                UserService.getStudent(id, callback, 'educationList');
+            }
+        ],
+        function(err, student) {
+            if (err) {
+                console.log(err);
+                return err;
+            }
+            return res.json(student);
+        }
+    );
+};
+
+updateEmail = function(id, staffId, updateFields, res) {
+    async.waterfall([
+        function(callback){
+            Student.findOne(id).exec(function (err, student){
+                var comment = getCommentStrFromUpdateFields(updateFields, student);
+                callback(null, comment.str, comment.type);
+            });
+        },
+        //Update Student and User with new data
+        function(commentStr, commentType, callback) {
+            Student.update(id, updateFields, function (err, updatedStudents) {
+                if (err) {
+                    return callback(err);
+                }
+
+                User.update(updatedStudents[0].user, updateFields, function(err, updatedUser){
+                    if (err) {
+                        return callback(err);
+                    }
+                    callback(null, commentStr, commentType);
+                });
+            });
+        },
+
+        function (commentStr, commentType, callback) {
+            UserService.createComment(staffId, id, commentStr, commentType, callback);
+        },
+        //Get updated student
+        function(studentId, comment, callback) {
+            UserService.getStudent(id, callback);
+        }
+    ], function(err, student){
+        if (err) {
+            console.log(err);
+            res.badRequest(err);
+        }
+        res.json(student);
+    })
+};
+
+addComment = function(id, staffId, comment, res) {
+    async.series([
+        function(callback) {
+//            console.log(req.body.comment);
+            var commentStr = "<b>Comment:</b> " + comment.commentText;
+            UserService.createComment(staffId, id, commentStr, "comment", callback)
+        },
+        function(callback) {
+            UserService.getStudent(id, callback);
+        }
+    ],
+        function(err, student){
+            if (err) {
+                console.log(err);
+                res.badRequest(err);
+            }
+            res.json(student);
+        }
+    );
+};
+
+
+stringCleanUp = function(strArr) {
+    return strArr.join(", ");
 };
 
 
@@ -129,16 +506,16 @@ module.exports = {
 
         async.waterfall([
             function(callback){
-                checkForEnquiryStatus(inputFields, callback);
+                UserService.checkForEnquiryStatus(inputFields, callback);
             },
             function(inputFields, callback) {
-                createStudent(inputFields, req.session.user.id, callback);
+                UserService.createStudent(inputFields, getCurrentStaffUserId(req), callback);
             },
-            function(newStudentId, callback) {
-                createComment(req.session.user.id, newStudentId, "Student Created!", callback);
+            function(newStudent, callback) {
+                UserService.createComment(getCurrentStaffUserId(req), newStudent.id, "Student Created!", "add", callback);
             },
             function(newStudentId, newComment, callback) {
-                getStudent(newStudentId, callback);
+                UserService.getStudent(newStudentId, callback);
             }
         ], function(err, student){
             if (err) {
@@ -151,63 +528,64 @@ module.exports = {
     },
 
     updatePartial: function (req, res) {
-
         var id = req.param('id');
+        console.log(_.merge({}, req.params.all(), req.body));
         if (!id) {
             return res.badRequest('No id provided.');
         } else if (req.body.services) {
             //Services
             var serviceIds = _.map(req.body.services, function(stringId) { return parseInt(stringId); });
-            res.json(Student.updateServices(id, serviceIds));
+            updateServices(id, getCurrentStaffUserId(req), serviceIds, res);
         } else if (req.body.countries) {
             //Countries
             var countryIds = _.map(req.body.countries, function(stringId) { return parseInt(stringId); });
-            res.json(Student.updateCountries(id, countryIds));
+            updateCountries(id, getCurrentStaffUserId(req), countryIds, res);
         } else if (req.body.staff) {
             //Counselors
             var staffIds = _.map(req.body.staff, function(stringId) { return parseInt(stringId); });
-            res.json(Student.updateStaff(id, staffIds));
+            updateStaff(id, getCurrentStaffUserId(req), staffIds, res);
         } else if (req.body.enquiryStatus) {
             //enquiryStatus
-            res.json(Student.updateEnquiryStatus(id, parseInt(req.body.enquiryStatus)));
+            updateEnquiryStatus(id, getCurrentStaffUserId(req), parseInt(req.body.enquiryStatus), res);
         } else if (req.body.addEducation) {
             //addEducation
-            Student.addEducation(id, req.body.addEducation, res, ResponseService.sendResponse);
+            addEducation(id, getCurrentStaffUserId(req), req.body.addEducation, res);
         } else if (req.body.removeEducation) {
             //removeEducation
-            Student.removeEducation(id, req.body.removeEducation, res, ResponseService.sendResponse);
+            removeEducation(id, getCurrentStaffUserId(req), req.body.removeEducation, res);
+        } else if (req.body.comment) {
+            //Add Comment
+            addComment(id, getCurrentStaffUserId(req), req.body.comment, res);
+        } else if (req.body.email) {
+            updateEmail(id, getCurrentStaffUserId(req), req.body, res);
         } else {
-            var updateFields = _.merge({}, req.params.all(), req.body);
-            console.log(updateFields);
 
+            var updateFields = _.merge({}, req.params.all(), req.body);
             async.waterfall([
                 // Find student and create change comment
                 function(callback){
-                    console.log("Get Comment Str");
                     Student.findOne(id).exec(function (err, student){
-                        var commentStr = getCommentStrFromUpdateFields(updateFields, student);
-                        console.log(commentStr);
-                        callback(null, commentStr);
+                        var comment = getCommentStrFromUpdateFields(updateFields, student);
+                        callback(null, comment.str, comment.type);
                     });
                 },
                 //Update Student with new data
-                function(commentStr, callback) {
-                    console.log("Update Student");
-                    Student.update(id, updateFields, function (err, student) {
-                        if (err || !student) {
+                function(commentStr, commentType, callback) {
+                    Student.update(id, updateFields, function (err, updated) {
+                        if (err) {
                             console.log("Could not update student: " + id + "\n" + err);
                             return callback(err);
                         }
-                        callback(null, commentStr);
+                        callback(null, commentStr, commentType);
                     });
                 },
-                function (commentStr, callback) {
-                    createComment(req.session.user.id, id, commentStr, callback)
+                function (commentStr, commentType, callback) {
+                    UserService.createComment(getCurrentStaffUserId(req), id, commentStr, commentType, callback);
                 },
                 //Get updated student
                 function(studentId, comment, callback) {
-                    console.log("Get updated student");
-                    getStudent(id, callback);
+//                    console.log("Get updated student");
+                    UserService.getStudent(id, callback);
                 }
             ],
             function(err, student){
@@ -215,10 +593,8 @@ module.exports = {
                     console.log(err);
                     res.badRequest(err);
                 }
-
                 res.json(student);
-            }
-            );
+            });
 
         }
     },
@@ -244,10 +620,10 @@ module.exports = {
             }, function(err){
                 if (err) {
                     console.log("Could not process comments. " + err);
-                    return res.badRequest("Could not process comment. " + err);
+                    res.badRequest("Could not process comment. " + err);
                 }
 
-                res.json(commentCollection);
+                res.json(_.sortBy(commentCollection, 'createdAt').reverse());
             });
         });
     }

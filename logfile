@@ -309,3 +309,26 @@ LOG:  unexpected EOF on client connection with an open transaction
 LOG:  unexpected EOF on client connection with an open transaction
 LOG:  unexpected EOF on client connection with an open transaction
 LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+LOG:  unexpected EOF on client connection with an open transaction
+ERROR:  duplicate key value violates unique constraint "user_email_key"
+DETAIL:  Key (email)=(abhi@abhi.com) already exists.
+STATEMENT:  UPDATE "user" SET "email" = $1, "updatedAt" = $2  RETURNING *
+ERROR:  duplicate key value violates unique constraint "user_email_key"
+DETAIL:  Key (email)=(abhi@abhi1.com) already exists.
+STATEMENT:  UPDATE "user" SET "email" = $1, "updatedAt" = $2  RETURNING *
+ERROR:  duplicate key value violates unique constraint "user_email_key"
+DETAIL:  Key (email)=(abhi@abhi.com) already exists.
+STATEMENT:  UPDATE "user" SET "email" = $1, "updatedAt" = $2  RETURNING *
+ERROR:  duplicate key value violates unique constraint "user_email_key"
+DETAIL:  Key (email)=(abhi@abhi.com) already exists.
+STATEMENT:  UPDATE "user" SET "email" = $1, "updatedAt" = $2  RETURNING *
+ERROR:  duplicate key value violates unique constraint "user_email_key"
+DETAIL:  Key (email)=(abhi@abhi1.com) already exists.
+STATEMENT:  UPDATE "user" SET "email" = $1, "updatedAt" = $2  RETURNING *
+ERROR:  duplicate key value violates unique constraint "user_email_key"
+DETAIL:  Key (email)=(abhi@abh1i.com) already exists.
+STATEMENT:  UPDATE "user" SET "email" = $1, "updatedAt" = $2  RETURNING *
+ERROR:  duplicate key value violates unique constraint "user_email_key"
+DETAIL:  Key (email)=(abhi@abh1i.com) already exists.
+STATEMENT:  UPDATE "user" SET "email" = $1, "updatedAt" = $2  RETURNING *

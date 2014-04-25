@@ -3,6 +3,7 @@ define([
 ], function () {
     Application.module("Enquiries.Show", function (Show, Application, Backbone, Marionette, $, _) {
 
+        Show.UPDATE_HISTORY_EVT = "update:history";
         Show.Controller = Application.Controllers.Base.extend({
             initialize: function () {
 //                var user = Application.request(Application.GET_LOGGED_USER);
@@ -26,6 +27,12 @@ define([
                     loading: {
                         entities: [student, allCountries, allServices, allStaff, allStatus]
                     }
+                });
+
+                var that = this;
+                Application.commands.setHandler(Show.UPDATE_HISTORY_EVT, function (student) {
+                    studentComments = Application.request(Application.GET_STUDENT_COMMENTS, student.id);
+                    that.showHistoryView(student, studentComments);
                 });
             },
 
@@ -78,11 +85,12 @@ define([
                             success: function(updatedStudent){
                                 console.log("Saved on server!!");
                                 console.dir(updatedStudent);
-                                that.showAcademicView(updatedStudent)
+                                that.showAcademicView(updatedStudent);
+                                Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
                             },
 
                             error: function(x, response) {
-                                console.log("Error on server!! -- " + response.text)
+                                console.log("Error on server!! -- " + response.text);
                                 return response;
                             }
                         });
@@ -100,10 +108,11 @@ define([
                             console.log("Saved on server!!");
                             console.dir(updatedStudent);
                             that.showAcademicView(updatedStudent);
+                            Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
                         },
 
                         error: function(x, response) {
-                            console.log("Error on server!! -- " + response.text)
+                            console.log("Error on server!! -- " + response.text);
                             return response;
                         }
                     });
@@ -114,6 +123,22 @@ define([
                 var historyView = new Show.views.History({
                    model: student,
                    collection: studentComments
+                });
+
+                this.listenTo(historyView, Show.addCommentEvt, function(data) {
+                    student.save("comment", data, {
+                        wait: true,
+                        patch: true,
+                        success: function(updatedStudent){
+                            console.log("Saved on server!!");
+                            Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
+                        },
+
+                        error: function(x, response) {
+                            console.log("Error on server!! -- " + response.msg);
+                            return response.msg;
+                        }
+                    })
                 });
                 this.layout.historyRegion.show(historyView);
             },
