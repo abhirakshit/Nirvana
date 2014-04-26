@@ -6,6 +6,8 @@ define([
         Show.showAddEducationModalEvt = "showAddEducationModalEvt";
         Show.createEducationEvt = "createEducationEvt";
         Show.deleteEducationEvt = "deleteEducationEvt";
+        Show.addCommentEvt = "addCommentEvt";
+
 
 
         this.prefix = "Show";
@@ -33,16 +35,6 @@ define([
         Show.views.Personal = Application.Views.ItemView.extend({
             template: "enquiries/show/templates/personal_view",
 
-//            serializeData: function(){
-//                var data = this.model.toJSON();
-//                data.firstName = data.user.firstName;
-//                data.lastName = data.user.lastName;
-//                data.phoneNumber = data.user.phoneNumber;
-//                data.email = data.user.email;
-//                data.address = data.user.address;
-//                return data;
-//            },
-
             onRender: function() {
                 Backbone.Validation.bind(this);
                 this.setupPersonalView();
@@ -56,20 +48,6 @@ define([
                 Show.setupEditableBox(this.$el, this.model, "address", "Enter Address", this.model.get('address'), 'textarea');
             }
         });
-
-
-
-//        Show.EducationForm = Application.Entities.Model.extend({
-//            validation: {
-//                programName: {
-//                    required : true
-//                },
-//                score: {
-//                    required : true
-//                }
-//
-//            }
-//        });
 
         Show.views.addEducationForm = Application.Views.ItemView.extend({
             template: "enquiries/show/templates/add_education_form",
@@ -109,7 +87,6 @@ define([
 
             delete: function(evt) {
                 evt.preventDefault();
-//                console.log('Delete edu...');
                 this.trigger(Show.deleteEducationEvt, this);
             },
 
@@ -151,28 +128,6 @@ define([
             }
         });
 
-
-
-//        Show.views.AcademicComposite = Application.Views.ItemView.extend({
-//            template: "enquiries/show/templates/academic_view",
-//
-////            onRender: function() {
-//////                Backbone.Validation.bind(this);
-//////                this.setupAcademicView();
-////            },
-//
-//            setupAcademicView: function() {
-////                Show.setupEditableBox(this.$el, this.model, "highSchoolScore", "Enter X Score", this.model.get('highSchoolScore'), 'text');
-////                Show.setupEditableBox(this.$el, this.model, "seniorSecondaryScore", "Enter XII Score", this.model.get('seniorSecondaryScore'), 'text');
-////                Show.setupEditableBox(this.$el, this.model, "graduationScore", "Enter Grad Score", this.model.get('graduationScore'), 'text');
-////                Show.setupEditableBox(this.$el, this.model, "satScore", "Enter SAT Score", this.model.get('satScore'), 'text');
-////                Show.setupEditableBox(this.$el, this.model, "toeflScore", "Enter TOEFL Score", this.model.get('toeflScore'), 'text');
-////                Show.setupEditableBox(this.$el, this.model, "ieltsScore", "Enter IELTS Score", this.model.get('ieltsScore'), 'text');
-////                Show.setupEditableBox(this.$el, this.model, "greScore", "Enter GRE Score", this.model.get('greScore'), 'text');
-////                Show.setupEditableBox(this.$el, this.model, "gmatScore", "Enter GMAT Score", this.model.get('gmatScore'), 'text');
-//            }
-//        });
-
         Show.views.Career = Application.Views.ItemView.extend({
             template: "enquiries/show/templates/career_view",
 
@@ -184,17 +139,39 @@ define([
             setupCareerView: function() {
                 Show.setupSelect2EditableBox(this.$el, this.model, "countries", this.options.allCountries, "Add Country", this.options.addedCountries);
                 Show.setupSelect2EditableBox(this.$el, this.model, "services", this.options.allServices, "Add Service", this.options.addedServices);
-                Show.setupEditableBox(this.$el, this.model, "intake", "Enter Program", this.model.get('intake'), 'text');
+                Show.setupEditableBox(this.$el, this.model, "intake", "Enter Intake", this.model.get('intake'), 'text');
                 Show.setupEditableBox(this.$el, this.model, "intakeYear", "Enter Intake year", this.model.get('intakeYear'), 'text');
             }
         });
 
+        Show.dateFormat = "ddd, MMM Do 'YY, h:mm a";
         Show.views.Comment = Application.Views.ItemView.extend({
             template: "enquiries/show/templates/comment_view",
 
+            serializeData: function() {
+                var comment = this.model.toJSON();
+                var iconClass, iconColor;
+                if (comment.type == "remove") {
+                    iconClass = 'fa-minus-circle';
+                    iconColor = 'red';
+                } else if(comment.type == 'comment') {
+                    iconClass = 'fa-comment';
+                    iconColor = 'cornflowerblue';
+                } else if(comment.type == 'change') {
+                    iconClass = 'fa-exchange';
+                    iconColor = 'blueviolet';
+                } else {
+                    iconClass = 'fa-plus-circle'
+                    iconColor = 'cadetblue';
+                }
+                comment.iconClass = iconClass;
+                comment.iconColor = iconColor;
+                return comment;
+            },
+
             templateHelpers: {
                 showFormattedDate: function(){
-                    return moment(this.createdAt).format("ddd, MMM Do 'YY, h:mm a");
+                    return moment(this.createdAt).format(Show.dateFormat);
                 }
             }
         }),
@@ -209,10 +186,17 @@ define([
                 'click #addComment': 'addComment'
             },
 
+            onRender: function() {
+                Backbone.Validation.bind(this);
+            },
+
             addComment: function(evt) {
                 evt.preventDefault();
+                var data = Backbone.Syphon.serialize(this);
+//                data.type = "comment";
+                console.log(data);
+                this.trigger(Show.addCommentEvt, data);
             }
-
         }),
 
         Show.views.Admin = Application.Views.ItemView.extend({
@@ -225,11 +209,9 @@ define([
 
             setupAdminView: function() {
                 var followUp = moment(this.model.get('followUp')).format(Show.dateFormat);
-//                console.log(moment(this.model.get('followUp')).format(Show.dateFormat));
                 Show.setupSelect2EditableBox(this.$el, this.model, "staff", this.options.allStaff, "Assigned To", this.options.addedStaff);
                 Show.setupEditableBox(this.$el, this.model, "enquiryStatus", "Add Status", this.model.get('enquiryStatus').id, 'select', this.options.allStatus);
                 Show.setupEditableBox(this.$el, this.model, "remarks", "Enter Remarks", this.model.get('remarks'), 'textarea');
-//                Show.setupComboBoxEditableBox(this.$el, this.model, "followUp", "Follow Up On", this.model.get('followUp'));
                 Show.setupComboBoxEditableBox(this.$el, this.model, "followUp", "Follow Up On", followUp);
             }
         });
@@ -238,6 +220,7 @@ define([
 
         //TODO All these need to be moved to the controller
         Show.setupEditableBox = function(el, model, id, emptyText, initialValue, type, source){
+            var that = this;
             el.find("#" + id).editable({
                 type: type,
                 title: emptyText,
@@ -246,23 +229,25 @@ define([
                 source: source, //For DropDowns/Selects
                 success: function(response, value) {
                     console.log("[" + id + ":" + value + "]");
+//                    console.log(model.get('url'));
+//                    console.log(model.get('urlRoot'));
                     model.save(id, value, {
                         wait: true,
                         patch: true,
-                        success: function(newModel){
-                            console.log("Saved on server!!")
+                        success: function(updatedStudent){
+                            console.log("Saved on server!!");
+                            Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
                         },
 
                         error: function(x, response) {
-                            console.log("Error on server!! -- " + response)
-                            return response;
+                            console.log("Error on server!! -- " + response.msg)
+                            return response.msg;
                         }
                     })
                 }
             })
         };
 
-        Show.dateFormat = 'DD-MM-YYYY HH:mm';
         Show.setupComboBoxEditableBox = function(el, model, id, emptyText, initialValue){
             el.find("#" + id).editable({
                 type: 'combodate',
@@ -270,8 +255,7 @@ define([
                 emptytext: emptyText,
                 value: initialValue,
                 format: Show.dateFormat,
-                viewformat: "MMM D, YYYY hh:mm a",
-                template: 'D MMM YYYY hh:mm a',
+                template: 'D MMM YYYY hh:mm a', //Template used for displaying dropdowns.
                 combodate: {
                     minYear: 2010,
                     maxYear: 2020,
@@ -287,13 +271,14 @@ define([
                     model.save(id, value, {
                         wait: true,
                         patch: true,
-                        success: function(newModel){
-                            console.log("Saved on server!!")
+                        success: function(updatedStudent){
+                            console.log("Saved on server!!");
+                            Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
                         },
 
                         error: function(x, response) {
                             console.log("Error on server!! -- " + response)
-                            return response;
+                            return response.msg;
                         }
                     })
                 }
@@ -313,17 +298,18 @@ define([
                 },
                 success: function(response, value) {
                     console.log(value);
-
                     model.save(id, value, {
                         wait: true,
                         patch: true,
-                        success: function(newModel){
-                            console.log("Saved on server!!")
+                        success: function(updatedStudent){
+                            console.log("Saved on server!!");
+                            Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
                         },
 
                         error: function(x, response) {
-                            console.log("Error on server!! -- " + response)
-                            return response;
+                            console.dir(response);
+                            console.log("Error on server!! -- " + response.msg);
+                            return response.msg;
                         }
                     });
                 }

@@ -13,23 +13,9 @@ var bcrypt = require('bcrypt'),
 module.exports = {
 
     attributes: {
-//        firstName: {type: 'string', required: true},
-//
-//        lastName: {type: 'string'},
-//
-//        phoneNumber: {type: 'string', defaultsTo: '1112223333', required: true},
-//
-//        address: {type: 'text'},
-//
         role: {type: 'string', defaultsTo: "student", required: true},
-//
-//        dob: {type: 'datetime'},
-//
+
         status: {type: 'string', defaultsTo: 'active'},
-//
-//        gender: {type: 'string', defaultsTo: 'male'},
-
-
 
         // Auth Attribs
         email: {type: 'email', required: true, unique: true},
@@ -43,8 +29,6 @@ module.exports = {
         apiKey: {type: 'string', unique: true},
 
         //Association
-        //TODO add one to one for student and staff
-
         //One to One: User to Student
         student: {
             model: 'Student'
