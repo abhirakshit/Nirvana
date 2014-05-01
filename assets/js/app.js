@@ -9,6 +9,7 @@ requirejs.config({
         //Build
         jquery: "lib/jquery/jquery.min",
         underscore: "lib/underscore/underscore-min",
+        lodash: "lib/lodash/lodash",
         backbone: "lib/backbone/backbone",
         marionette: "lib/marionette/backbone.marionette",
         bootstrap: "lib/bootstrap/bootstrap.min",
@@ -17,7 +18,8 @@ requirejs.config({
         backboneValidation: "lib/backbone-validation/backbone-validation-amd-min",
         backboneSyphon: "lib/backbone-syphon/backbone.syphon.min",
 //        bootstrapEditable: "lib/bootstrap-editable/bootstrap-editable.min", //Glyphicon error for ok and cancel
-        bootstrapEditable: "lib/bootstrap-editable/bootstrap-editable",
+        bootstrapEditable: "lib/bootstrap-editable/bootstrap-editable", //Xeditable
+        select2: "lib/select2/select2", //Needed by Xeditable
 
         //Utils
         spin: "lib/spin/spin",
@@ -33,7 +35,6 @@ requirejs.config({
         marionette_config_module: "config/marionette/module",
         backbone_config_sync: "config/backbone/sync",
         templateLoader: "config/app/templateLoader/templateLoader",
-        select2: "lib/select2/select2",
         moment: "lib/moment/moment.min"
 
         //Theme

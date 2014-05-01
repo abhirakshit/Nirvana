@@ -11,6 +11,8 @@ module.exports = {
 
         receivedScore: {type: 'string'},
 
+        feedback: {type: 'string'},
+
         dueDate: {type: 'datetime'},
 
         givenDate: {type: 'datetime'},

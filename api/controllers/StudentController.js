@@ -9,11 +9,6 @@ var _ = require('lodash'),
     async = require('async'),
     moment = require('moment');
 
-
-getCurrentStaffUserId = function (req) {
-    return req.session.user.staff;
-};
-
 updateStudent = function(studentId, updateFields, cb) {
     Student.update(studentId, updateFields, function (err, student) {
         if (err || !student) {
@@ -500,33 +495,6 @@ stringCleanUp = function(strArr) {
 
 module.exports = {
 
-    create: function (req, res, next) {
-        var inputFields = _.merge({}, req.params.all(), req.body);
-//        console.log(inputFields);
-
-        async.waterfall([
-            function(callback){
-                UserService.checkForEnquiryStatus(inputFields, callback);
-            },
-            function(inputFields, callback) {
-                UserService.createStudent(inputFields, getCurrentStaffUserId(req), callback);
-            },
-            function(newStudent, callback) {
-                UserService.createComment(getCurrentStaffUserId(req), newStudent.id, "Student Created!", "add", callback);
-            },
-            function(newStudentId, newComment, callback) {
-                UserService.getStudent(newStudentId, callback);
-            }
-        ], function(err, student){
-            if (err) {
-                console.log(err);
-                res.json(err);
-            }
-
-            res.json(student);
-        })
-    },
-
     updatePartial: function (req, res) {
         var id = req.param('id');
         console.log(_.merge({}, req.params.all(), req.body));
@@ -535,29 +503,29 @@ module.exports = {
         } else if (req.body.services) {
             //Services
             var serviceIds = _.map(req.body.services, function(stringId) { return parseInt(stringId); });
-            updateServices(id, getCurrentStaffUserId(req), serviceIds, res);
+            updateServices(id, UserService.getCurrentStaffUserId(req), serviceIds, res);
         } else if (req.body.countries) {
             //Countries
             var countryIds = _.map(req.body.countries, function(stringId) { return parseInt(stringId); });
-            updateCountries(id, getCurrentStaffUserId(req), countryIds, res);
+            updateCountries(id, UserService.getCurrentStaffUserId(req), countryIds, res);
         } else if (req.body.staff) {
             //Counselors
             var staffIds = _.map(req.body.staff, function(stringId) { return parseInt(stringId); });
-            updateStaff(id, getCurrentStaffUserId(req), staffIds, res);
+            updateStaff(id, UserService.getCurrentStaffUserId(req), staffIds, res);
         } else if (req.body.enquiryStatus) {
             //enquiryStatus
-            updateEnquiryStatus(id, getCurrentStaffUserId(req), parseInt(req.body.enquiryStatus), res);
+            updateEnquiryStatus(id, UserService.getCurrentStaffUserId(req), parseInt(req.body.enquiryStatus), res);
         } else if (req.body.addEducation) {
             //addEducation
-            addEducation(id, getCurrentStaffUserId(req), req.body.addEducation, res);
+            addEducation(id, UserService.getCurrentStaffUserId(req), req.body.addEducation, res);
         } else if (req.body.removeEducation) {
             //removeEducation
-            removeEducation(id, getCurrentStaffUserId(req), req.body.removeEducation, res);
+            removeEducation(id, UserService.getCurrentStaffUserId(req), req.body.removeEducation, res);
         } else if (req.body.comment) {
             //Add Comment
-            addComment(id, getCurrentStaffUserId(req), req.body.comment, res);
+            addComment(id, UserService.getCurrentStaffUserId(req), req.body.comment, res);
         } else if (req.body.email) {
-            updateEmail(id, getCurrentStaffUserId(req), req.body, res);
+            updateEmail(id, UserService.getCurrentStaffUserId(req), req.body, res);
         } else {
 
             var updateFields = _.merge({}, req.params.all(), req.body);
@@ -580,7 +548,7 @@ module.exports = {
                     });
                 },
                 function (commentStr, commentType, callback) {
-                    UserService.createComment(getCurrentStaffUserId(req), id, commentStr, commentType, callback);
+                    UserService.createComment(UserService.getCurrentStaffUserId(req), id, commentStr, commentType, callback);
                 },
                 //Get updated student
                 function(studentId, comment, callback) {

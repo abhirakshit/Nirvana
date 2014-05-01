@@ -43,7 +43,7 @@ module.exports = {
 
     create: function (req, res, next) {
         var inputFields = _.merge({}, req.params.all(), req.body);
-        console.log(inputFields);
+//        console.log(inputFields);
 
         if (inputFields.role == 'student' || inputFields.role == 'enquiry') {
             async.waterfall([
@@ -51,12 +51,12 @@ module.exports = {
                     UserService.checkForEnquiryStatus(inputFields, callback);
                 },
                 function(inputFields, callback) {
-                    UserService.createStudent(inputFields, req.session.user.id, callback);
+                    UserService.createStudent(inputFields, UserService.getCurrentStaffUserId(req), callback);
                 },
-                function(newStudentId, callback) {
-                    UserService.createComment(req.session.user.id, newStudentId, "Student Created!", "add", callback);
+                function(newStudent, callback) {
+                    UserService.createComment(UserService.getCurrentStaffUserId(req), newStudent.id, "Student Created!", "add", callback);
                 },
-                function(newStudentId, comment, callback) {
+                function(newStudentId, newComment, callback) {
                     UserService.getStudent(newStudentId, callback);
                 }
             ], function(err, student){

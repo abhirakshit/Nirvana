@@ -38,7 +38,6 @@ define([
             model: Entities.Student
         });
 
-
         Entities.Password = Entities.Model.extend({
             validation: {
                 password: {required: true},
@@ -59,10 +58,14 @@ define([
         var API = {
 
             getStudentsAssigned: function(userId) {
-                if(!userId) {
+                if (!userId) {
                     userId = Entities.loggedUser.get('id');
                 }
-                var studentsAssigned = new Entities.UsersCollection(Entities.loggedUser.get('students'));
+
+//                var studentsAssigned = new Entities.StudentCollection(Entities.loggedUser.get('students'));
+                var studentsAssigned = new Entities.StudentCollection();
+                studentsAssigned.url = Entities.staffUrl + "/" + userId + Entities.studentUrl;
+                studentsAssigned.fetch();
                 return studentsAssigned;
             },
 
@@ -91,10 +94,10 @@ define([
             },
 
             getAllStudents: function(update) {
-                if (!Entities.allStudents || update) {
-                    Entities.allStudents = new Entities.StudentCollection()
+//                if (!Entities.allStudents || update) {
+                    Entities.allStudents = new Entities.StudentCollection();
                     Entities.allStudents.fetch()
-                }
+//                }
 
                 return Entities.allStudents;
             },

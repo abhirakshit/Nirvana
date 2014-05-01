@@ -37,7 +37,6 @@ define([
             Application.startHistory();
             if (!Application.getCurrentRoute())
                 Application.navigate(rootRoute, {trigger: true});
-//                Application.navigate(Application.rootRoute, {trigger: true});
         });
 
         Application.commands.setHandler(Application.SHOW_MODULE, function(moduleEvt){

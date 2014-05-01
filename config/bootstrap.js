@@ -47,7 +47,8 @@ module.exports.bootstrap = function (cb) {
         {"name": "GMAT"},
         {"name": "SAT"},
         {"name": "TOEFL"},
-        {"name": "IELTS"}
+        {"name": "IELTS"},
+        {"name": "Career Counseling"}
     ];
 
     var statusTypes = [

@@ -42,8 +42,10 @@ module.exports.routes = {
 //    'patch /user/:id': 'UserController.updatePartial'
 
     'patch /student/:id': 'StudentController.updatePartial',
-    'get /student/:id/comment': 'StudentController.getComments'
+    'get /student/:id/comment': 'StudentController.getComments',
 
+
+    'get /staff/:id/student': 'StaffController.getAssignedStudents'
 
   // If a request to a URL doesn't match any of the custom routes above, it is matched 
   // against Sails route blueprints.  See `config/blueprints.js` for configuration options

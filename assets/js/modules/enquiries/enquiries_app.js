@@ -44,8 +44,11 @@ define([
         Enquiries.on(Application.START, function () {
             console.log("Enquiries start...");
             Marionette.TemplateLoader.loadModuleTemplates(Enquiries.Show, function() {
-                Marionette.TemplateLoader.loadModuleTemplates(Enquiries.Content, function() {
-                 Marionette.TemplateLoader.loadModuleTemplates(Enquiries, Enquiries.setup);
+//                Marionette.TemplateLoader.loadModuleTemplates(Enquiries.Content, function() {
+                Marionette.TemplateLoader.loadModuleTemplates(Enquiries.Content.All, function() {
+                    Marionette.TemplateLoader.loadModuleTemplates(Enquiries.Content.My, function() {
+                     Marionette.TemplateLoader.loadModuleTemplates(Enquiries, Enquiries.setup);
+                    });
                 });
             });
         });

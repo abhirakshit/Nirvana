@@ -6,11 +6,12 @@ define([
         Content.Controller = Application.Controllers.Base.extend({
             initialize: function() {
                 var user = Application.request(Application.GET_LOGGED_USER);
-                var studentsAssigned = Application.request(Application.GET_STUDENTS_ASSIGNED);
+//                var studentsAssigned = Application.request(Application.GET_STUDENTS_ASSIGNED);
                 this.layout = this.getLayout();
 
                 this.listenTo(this.layout, Application.SHOW, function(){
-                    this.setupContent(user, studentsAssigned);
+//                    this.setupContent(user, studentsAssigned);
+                    this.setupContent(user);
                 });
 
                 this.show(this.layout, {
@@ -26,8 +27,24 @@ define([
                 }
             },
 
-            setupMyTabContent: function(user, studentsAssigned) {
-                //Pending Region
+//            setupMyTabContent: function(user, studentsAssigned) {
+            setupMyTabContent: function(user) {
+                var studentsAssigned = Application.request(Application.GET_STUDENTS_ASSIGNED);
+//                var that = this;
+//                this.listenTo(this.layout.enquiriesRegion, Application.SHOW, function(){
+//                    //Pending Region (Filter Joined)
+//                    var pendingColumns = new Application.Entities.Collection([
+//                        new Application.Entities.Model({columnName: "Name"}),
+//                        new Application.Entities.Model({columnName: "Phone"})
+//                    ]);
+//                    var enquiriesComposite = this.getTableView("Pending Enquiries", pendingColumns, studentsAssigned);
+//                    that.listenTo(enquiriesComposite, Content.parent.SELECTED_ENQUIRY, function(studentId){
+//                        Application.execute(Application.ENQUIRY_SHOW, that.options.region, studentId);
+//                    });
+//                    that.layout.enquiriesRegion.show(enquiriesComposite);
+//                });
+
+                //Pending Region (Filter Joined)
                 var pendingColumns = new Application.Entities.Collection([
                     new Application.Entities.Model({columnName: "Name"}),
                     new Application.Entities.Model({columnName: "Phone"})
@@ -38,8 +55,14 @@ define([
                 this.listenTo(enquiriesComposite, Content.parent.SELECTED_ENQUIRY, function(studentId){
                     Application.execute(Application.ENQUIRY_SHOW, that.options.region, studentId);
                 });
-
                 this.layout.enquiriesRegion.show(enquiriesComposite);
+
+
+//                this.show(this.layout.enquiriesRegion, {
+//                    loading: {
+//                        entities: studentsAssigned
+//                    }
+//                });
 
             },
 

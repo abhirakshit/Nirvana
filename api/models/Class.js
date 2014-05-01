@@ -43,8 +43,8 @@ module.exports = _.merge(_.cloneDeep(infoTable), {
         },
 
         //One to One: course to class
-        course: {
-            model: 'Course'
+        topic: {
+            model: 'Topic'
         },
 
         //One to Many: Batch to class

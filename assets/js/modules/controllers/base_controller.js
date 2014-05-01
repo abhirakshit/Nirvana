@@ -1,6 +1,5 @@
 define([], function(){
     Application.module("Controllers", function(Controllers, Application, Backbone, Marionette) {
-//        console.log("Init Base Controller");
         Controllers.Base = Marionette.Controller.extend({
             constructor: function(options) {
                 if (!options)
@@ -13,7 +12,6 @@ define([], function(){
 
             close: function() {
                 Application.execute(Application.UNREGISTER_INSTANCE, this, this._instance_ID);
-//                Application.unregister(this, this._instance_ID);
                 Controllers.Base.__super__.close.apply(this);
             },
 
@@ -28,8 +26,6 @@ define([], function(){
 
                 this.setMainView(view);
                 this.manageView(view, options);
-//                this.listenTo(view, Application.CLOSE, this.close);
-//                this.region.show(view);
             },
 
             setMainView: function(view) {
