@@ -47,7 +47,9 @@ define([
 //                Marionette.TemplateLoader.loadModuleTemplates(Enquiries.Content, function() {
                 Marionette.TemplateLoader.loadModuleTemplates(Enquiries.Content.All, function() {
                     Marionette.TemplateLoader.loadModuleTemplates(Enquiries.Content.My, function() {
-                     Marionette.TemplateLoader.loadModuleTemplates(Enquiries, Enquiries.setup);
+                        Marionette.TemplateLoader.loadModuleTemplates(Enquiries.Content.Closed, function() {
+                            Marionette.TemplateLoader.loadModuleTemplates(Enquiries, Enquiries.setup);
+                        });
                     });
                 });
             });

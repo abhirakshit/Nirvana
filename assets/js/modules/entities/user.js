@@ -6,6 +6,8 @@ define([
 
 //        Entities.studentUrl = '/student';
         Entities.studentUrl = '/student';
+        Entities.enquiryUrl = '/enquiry';
+        Entities.closedUrl = '/closed';
         Entities.staffUrl = '/staff';
         Entities.userUrl = '/user';
 //        Entities.allUsersUrl = '/users';
@@ -50,10 +52,6 @@ define([
             url: Entities.userUrl
         });
 
-//        Entities.StudentsAssignedCollection = Entities.Collection.extend({
-//            model: Entities.User,
-//            url: Entities.allUsersUrl
-//        });
 
         var API = {
 
@@ -62,7 +60,16 @@ define([
                     userId = Entities.loggedUser.get('id');
                 }
 
-//                var studentsAssigned = new Entities.StudentCollection(Entities.loggedUser.get('students'));
+                var studentsAssigned = new Entities.StudentCollection(Entities.loggedUser.get('students'));
+                studentsAssigned.fetch();
+                return studentsAssigned;
+            },
+
+            getEnquiriesAssigned: function(userId) {
+                if (!userId) {
+                    userId = Entities.loggedUser.get('id');
+                }
+
                 var studentsAssigned = new Entities.StudentCollection();
                 studentsAssigned.url = Entities.staffUrl + "/" + userId + Entities.studentUrl;
                 studentsAssigned.fetch();
@@ -100,6 +107,22 @@ define([
 //                }
 
                 return Entities.allStudents;
+            },
+
+            getAllEnquiries: function(update) {
+                Entities.allEnquiries = new Entities.StudentCollection();
+                Entities.allEnquiries.url = Entities.studentUrl + Entities.enquiryUrl;
+                Entities.allEnquiries.fetch();
+
+                return Entities.allEnquiries;
+            },
+
+            getAllClosedEnquiries: function(update) {
+                Entities.allEnquiries = new Entities.StudentCollection();
+                Entities.allEnquiries.url = Entities.studentUrl + Entities.enquiryUrl + Entities.closedUrl;
+                Entities.allEnquiries.fetch();
+
+                return Entities.allEnquiries;
             },
 
             getStudent: function(userId) {
@@ -179,6 +202,10 @@ define([
             return API.getAllStudents(update);
         });
 
+        Application.reqres.setHandler(Application.GET_ENQUIRIES, function(update){
+            return API.getAllEnquiries(update);
+        });
+
         Application.reqres.setHandler(Application.GET_STUDENT, function(studentId){
             return API.getStudent(studentId);
         });
@@ -209,6 +236,14 @@ define([
 
         Application.reqres.setHandler(Application.GET_STUDENTS_ASSIGNED, function(userId){
             return API.getStudentsAssigned(userId);
+        });
+
+        Application.reqres.setHandler(Application.GET_ENQUIRIES_ASSIGNED, function(userId){
+            return API.getEnquiriesAssigned(userId);
+        });
+
+        Application.reqres.setHandler(Application.GET_ENQUIRIES_CLOSED, function(){
+            return API.getAllClosedEnquiries(false);
         });
 
         Application.reqres.setHandler(Application.LOGOUT, function(){

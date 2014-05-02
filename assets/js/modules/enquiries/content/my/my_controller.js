@@ -6,7 +6,8 @@ define([
         My.Controller = Application.Controllers.Base.extend({
             initialize: function() {
                 var user = Application.request(Application.GET_LOGGED_USER);
-                var studentsAssigned = Application.request(Application.GET_STUDENTS_ASSIGNED);
+//                var studentsAssigned = Application.request(Application.GET_STUDENTS_ASSIGNED);
+                var studentsAssigned = Application.request(Application.GET_ENQUIRIES_ASSIGNED);
                 this.layout = this.getLayout();
 
                 this.listenTo(this.layout, Application.SHOW, function(){

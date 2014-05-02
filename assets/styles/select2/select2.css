@@ -460,6 +460,8 @@ disabled look for disabled choices in the results dropdown
 
 .select2-container-multi .select2-choices {
     min-height: 26px;
+    /*Added to give a min width when the select is empty as it becomes really small*/
+    min-width: 100px;
 }
 
 .select2-container-multi.select2-container-active .select2-choices {

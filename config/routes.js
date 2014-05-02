@@ -30,22 +30,20 @@ module.exports.routes = {
 //    view: 'homepage'
 //  },
 
-    '/': 'MainController.index',
-    '/login': 'MainController.login',
-    '/logout': 'MainController.logout',
+    '/':                                'MainController.index',
+    '/login':                           'MainController.login',
+    '/logout':                          'MainController.logout',
 
 
   // Custom routes here...
 
-//    'get /user/staff': 'UserController.getAllStaff',
-//    'get /user/student': 'UserController.getAllStudents',
-//    'patch /user/:id': 'UserController.updatePartial'
-
-    'patch /student/:id': 'StudentController.updatePartial',
-    'get /student/:id/comment': 'StudentController.getComments',
+    'patch /student/:id':               'StudentController.updatePartial',
+    'get /student/:id/comment':         'StudentController.getComments',
+    'get /student/enquiry':             'StudentController.getEnquiries',
+    'get /student/enquiry/closed':      'StudentController.getClosedEnquiries',
 
 
-    'get /staff/:id/student': 'StaffController.getAssignedStudents'
+    'get /staff/:id/student':           'StaffController.getAssignedStudents'
 
   // If a request to a URL doesn't match any of the custom routes above, it is matched 
   // against Sails route blueprints.  See `config/blueprints.js` for configuration options

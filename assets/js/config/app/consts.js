@@ -60,6 +60,10 @@ define([], function(){
         Application.GET_ALL_STAFF = "get:all:staff";
         Application.GET_STAFF = "get:staff";
 
+        Application.GET_ENQUIRIES = "get:enquiries";
+        Application.GET_ENQUIRIES_CLOSED = "get:enquiries:closed";
+        Application.GET_ENQUIRIES_ASSIGNED = "get:enquiries:assigned";
+
         Application.GET_STUDENTS = "get:students";
         Application.GET_STUDENT = "get:student";
 

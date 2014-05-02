@@ -5,6 +5,7 @@ define([
     //SubModules
 //    "modules/enquiries/content/content_app",
     "modules/enquiries/content/all/all_app",
+    "modules/enquiries/content/closed/closed_app",
     "modules/enquiries/content/my/my_app",
     "modules/enquiries/show/show_app",
 
@@ -31,7 +32,7 @@ define([
             new Application.Entities.Model({text:"My Enquiries", id: Enquiries.MY_TAB}),
             new Application.Entities.Model({text:"All By Date", id: Enquiries.ALL_BY_DATE_TAB}),
             new Application.Entities.Model({text:"All", id: Enquiries.ALL_TAB}),
-            new Application.Entities.Model({text:"Joined", id: Enquiries.JOINED_TAB}),
+//            new Application.Entities.Model({text:"Joined", id: Enquiries.JOINED_TAB}),
             new Application.Entities.Model({text:"Closed", id: Enquiries.CLOSED_TAB})
         ]);
 
@@ -92,9 +93,11 @@ define([
                     Application.execute(Application.ENQUIRIES_CONTENT_ALL, this.layout.enqContentRegion);
                 } else if (Enquiries.ALL_BY_DATE_TAB === tabId) {
                     Application.execute(Application.ENQUIRIES_CONTENT_ALL_BY_DATE, this.layout.enqContentRegion);
-                } else if (Enquiries.JOINED_TAB === tabId) {
-                    Application.execute(Application.ENQUIRIES_CONTENT_JOINED, this.layout.enqContentRegion);
-                } else if (Enquiries.CLOSED_TAB === tabId) {
+                }
+//                else if (Enquiries.JOINED_TAB === tabId) {
+//                    Application.execute(Application.ENQUIRIES_CONTENT_JOINED, this.layout.enqContentRegion);
+//                }
+                else if (Enquiries.CLOSED_TAB === tabId) {
                     Application.execute(Application.ENQUIRIES_CONTENT_CLOSED, this.layout.enqContentRegion);
                 }
             },
