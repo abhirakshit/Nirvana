@@ -13,7 +13,7 @@ module.exports = _.merge(_.cloneDeep(infoTable), {
 	attributes: {
         section: {type: 'string'},
 
-        topic: {type: 'string'},
+//        topic: {type: 'string'},
 
         duration: {type: 'string'},
 

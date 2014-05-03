@@ -1,6 +1,8 @@
 define([], function(){
     Application.module("Consts", function(Consts, Application) {
 
+        Application.DATE_FORMAT = "ddd, MMM Do 'YY, h:mm a"; // 'Do' does not work with Xeditable
+        Application.EDITABLE_DATE_FORMAT = "ddd, MMM DD 'YY, h:mm a";
 
         Application.ENQUIRY_ROLE = "enquiry";
         Application.STUDENT_ROLE = "student";
@@ -58,6 +60,10 @@ define([], function(){
         Application.GET_ALL_STAFF = "get:all:staff";
         Application.GET_STAFF = "get:staff";
 
+        Application.GET_ENQUIRIES = "get:enquiries";
+        Application.GET_ENQUIRIES_CLOSED = "get:enquiries:closed";
+        Application.GET_ENQUIRIES_ASSIGNED = "get:enquiries:assigned";
+
         Application.GET_STUDENTS = "get:students";
         Application.GET_STUDENT = "get:student";
 
@@ -89,10 +95,16 @@ define([], function(){
         Application.CAREER_NAV_SHOW = "career:nav:show";
         Application.CAREER_CONTENT_SHOW = "career:content:show";
 
-
+//        Enquiries.SELECTED_ENQUIRY = "selected:enquiry";
+//        Application.ENQUIRY_SELECTED = "enquiry:show";
         Application.ENQUIRY_SHOW = "enquiry:show";
-        Application.ENQUIRIES_CONTENT_SHOW = "enquiries:content:show";
         Application.ENQUIRIES_NAV_SHOW = "enquiries:nav:show";
+//        Application.ENQUIRIES_CONTENT_SHOW = "enquiries:content:show";
+        Application.ENQUIRIES_CONTENT_MY = "enquiries:content:my";
+        Application.ENQUIRIES_CONTENT_ALL = "enquiries:content:all";
+        Application.ENQUIRIES_CONTENT_ALL_BY_DATE = "enquiries:content:all:by:date";
+        Application.ENQUIRIES_CONTENT_JOINED = "enquiries:content:joined";
+        Application.ENQUIRIES_CONTENT_CLOSED = "enquiries:content:closed";
 
         Application.SHOW_PROFILE = "showProfile";
         Application.SHOW_ADMIN = "showAdmin";

@@ -25,9 +25,9 @@ module.exports = _.merge(_.cloneDeep(infoTable), {
             via: 'service'
         },
 
-        // Many to One: Course to Service
-        courses: {
-            collection: 'Course',
+        // Many to One: Topic to Service
+        topics: {
+            collection: 'Topic',
             via: 'service'
         },
 

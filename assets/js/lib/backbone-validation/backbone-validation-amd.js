@@ -1,4 +1,4 @@
-// Backbone.Validation v0.8.2
+ // Backbone.Validation v0.8.2
 //
 // Copyright (c) 2011-2013 Thomas Pedersen
 // Distributed under MIT License

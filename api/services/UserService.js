@@ -41,6 +41,13 @@ exports.getStudent = function (studentId, cb, populateField) {
 
 };
 
+exports.getCurrentStaffUserId = function (req) {
+//    console.log("Session User");
+//    console.log(req.session.user);
+    return req.session.user.staff;
+};
+
+
 exports.checkForEnquiryStatus = function(inputFields, cb) {
     if (!inputFields.enquiryStatus) {
         var defaultEnqName = 'In Progress';
@@ -71,6 +78,7 @@ exports.createStudent = function(inputFields, staffId, cb) {
 
         // Create new student
         Student.create(inputFields).exec(function(err, newStudent){
+            console.log("Create student with staff id: " + staffId);
             if (err) {
                 console.log("Could not create student: " + err);
                 cb(err);
@@ -82,6 +90,7 @@ exports.createStudent = function(inputFields, staffId, cb) {
             if (inputFields.staff) {
                 staffIdArr = _.map(inputFields.staff, function(stringId) { return parseInt(stringId); });
             } else {
+                console.log("Adding staff id: " + staffId);
                 staffIdArr = [staffId];
             }
 
