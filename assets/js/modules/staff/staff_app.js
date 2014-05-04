@@ -19,7 +19,9 @@ define([
         Staff.Router = Marionette.AppRouter.extend({
             appRoutes: {
                 "staff": "show",
-                "staff/": "show"
+                "staff/": "show",
+                "staff/:id": "showStaff",
+                "staff/:id/": "showStaff"
             }
         });
 
@@ -33,19 +35,31 @@ define([
 
 
                 Application.commands.execute(Application.SET_SIDEBAR, "staff:show");
+            },
+
+                  showStaff: function(staffId) {
+                new Staff.Controller({
+                    region: Application.pageContentRegion,
+                    staffId: staffId
+                });
+                Application.commands.execute(Application.SET_SIDEBAR, "staff:show");
             }
         };
 
         Staff.setup = function() {
             new Staff.Router({ controller: API });
+
+  
+           // Application.commands.execute(Application.MODULES_LOADED, Staff.rootRoute);
+
 //            Application.commands.execute(Application.MODULES_LOADED, Staff.rootRoute);
         };
 
         Staff.on(Application.START, function () {
             console.log("Staff start...");
-//            Marionette.TemplateLoader.loadModuleTemplates(Staff.User, function(){
+            Marionette.TemplateLoader.loadModuleTemplates(Staff.Show, function(){
                 Marionette.TemplateLoader.loadModuleTemplates(Staff, Staff.setup);
-//            });
+            });
         });
 
         Application.commands.setHandler("staff:show", function(){

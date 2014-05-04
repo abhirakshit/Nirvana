@@ -39,7 +39,7 @@ define([], function(){
                 evt.preventDefault();
                 console.log("Show selected staff: " + this.model);
                 this.trigger('staffs:show', this.model);
-               // console.dir(this.model);
+                // console.dir(this.model);
 
             }
             // ,
@@ -54,32 +54,26 @@ define([], function(){
 
         });
 
+
+var SELECTED_STAFF = 'staffs:show';
+
         Staff.views.StaffCollection = Application.Views.CollectionView.extend({
             itemView: Staff.views.Show,
             template: 'staff/templates/show_all_staff',
+
             initialize: function(){
+                var that = this;
+                this.on(Application.CHILD_VIEW + ":" + SELECTED_STAFF, function(childView){
+                    that.trigger(Application.SELECTED_STAFF, childView.model.get('id'));
+               //console.log( that.trigger(Application.SELECTED_STAFF, childView.model.get('id')));
 
-                // console.log('Hello from collection view');
-                //var that = this;
-                this.on('itemview:staffs:show', function(childView){
-                    console.log('Hello from collection view');
-
-                    //that.trigger('staff:show', childView.model.get('id'));
                 });
             }
 
+
+   
+
         });
-
-
-
-
-// colView.on("itemview:do:something", function(childView, msg){
-//   alert("I said, '" + msg + "'");
-// });
-
-// // hack, to get the child view and trigger from it
-// var childView = colView.children[myModel.cid];
-// childView.trigger("do:something", "do something!");
 
 
 

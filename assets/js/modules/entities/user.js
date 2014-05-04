@@ -35,9 +35,24 @@ define([
             }
         });
 
+        Entities.Staff = Entities.Model.extend({
+            urlRoot: Entities.staffUrl,
+            validation: {
+                firstName: {required: true},
+                phoneNumber: {required: true},
+                followUp: {required: true},
+                email: {pattern: 'email'}
+            }
+        });
+
         Entities.StudentCollection = Entities.Collection.extend({
             url: Entities.studentUrl,
             model: Entities.Student
+        });
+
+           Entities.StaffCollection = Entities.Collection.extend({
+            url: Entities.staffUrl,
+            model: Entities.Staff
         });
 
         Entities.Password = Entities.Model.extend({
@@ -78,7 +93,7 @@ define([
 
             getAllStaff: function(update) {
                 if (!Entities.allStaff || update) {
-                    Entities.allStaff = new Entities.UsersCollection();
+                    Entities.allStaff = new Entities.StaffCollection();
                     Entities.allStaff.url = Entities.staffUrl;
                     Entities.allStaff.fetch();
                 }
@@ -86,14 +101,25 @@ define([
                 return Entities.allStaff;
             },
 
-            getStaff: function(staffId) {
-                if (!staffId)
-                    return new Entities.Staff;
+            // getStaff: function(staffId) {
+            //     if (!staffId)
+            //         return new Entities.Staff();
 
-                var staff = new Entities.Staff;
-                staff.id = staffId;
+            //     var staff = new Entities.Staff({id: staffId});
+            //     staff.id = staffId;
+            //     staff.fetch();
+            //     return staff;
+            // },
+
+
+             getStaff: function(staffId) {
+                if (!staffId)
+                    return new Entities.Staff();
+
+                var staff = new Entities.Staff({id: staffId});
                 staff.fetch();
                 return staff;
+
             },
 
             getPassword: function() {

@@ -1,6 +1,7 @@
 define([
     "modules/staff/staff_view",
-    "modules/entities/user"
+    "modules/entities/user",
+    "modules/staff/show/show_app"
 ], function () {
     Application.module("Staff", function (Staff, Application, Backbone, Marionette, $, _) {
 
@@ -16,35 +17,6 @@ define([
 
                 });
 
-
-    
-
-//     //var staff = Application.request(Application.GET_STAFF, this.options.staffId);
-
-// var allStaffView = new Staff.views.StaffCollection({ collection: user});
-
-//     allStaffView.on("itemview:selectedStaff:show", function(childView,model){
-//     console.log('I am here!!!');
-// //ContactManager.ContactsApp.Show.Controller.showContact(model);
-
-// });
-
-                //var that = this;
-//                 this.listenTo(this.layout, 'selectedStaff:show', function(staffId){
-//                     //Application.execute(Application.ENQUIRY_SHOW, that.options.region, studentId);
-//                     console.log('I am here!!')
-// var staff = Application.request(Application.GET_STAFF, this.options.staffId);
-//                     this.showSelectedStaff(staffId);
-//                 });
-
-            // var selectedStaff = Application.request(Application.GET_STAFF);
-
-            // this.layout = this.getLayout();
-
-            // this.listenTo(this.layout, 'selectedStaff:show', function(childView, model){
-            //     this.showSelectedStaff(selectedStaff(model.get.id));
-            //     console.log(model.get.id);
-            // });
 
 
                 //Load layout
@@ -63,9 +35,11 @@ define([
             
                 this.layout.changePasswordRegion.show(allStaffView);
 
-//                 allStaffView.on('itemview:staffs:show', function(childView,model){
-// //ContactManager.ContactsApp.Show.Controller.showContact(model);
-// console.log('hello');
+                var that = this;
+                this.listenTo(allStaffView, Application.SELECTED_STAFF, function(staffId){
+                    Application.execute(Application.SELECTED_STAFF, that.options.region, staffId);
+                  // console.log('Its Working!');
+                });
 
 
 
@@ -74,8 +48,15 @@ define([
 
             showSelectedStaff: function(userId){
 
-console.log('Showing........');
-               // var selectedStaffView = new Staff.views.Staff
+
+                // var that = this;
+                // this.listenTo(showAllStaff.allStaffView, Application.SELECTED_STAFF, function(staffId){
+                //     Application.execute(Application.SELECTED_STAFF, that.options.region, staffId);
+                //     console.log('Its Working!');
+                // });
+
+
+
             },
 
 
