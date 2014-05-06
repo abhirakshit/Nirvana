@@ -1,0 +1,61 @@
+<div class="modal fade" id="<%=modalId%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title panel-heading font-bold" id="myModalLabel">Add Location</h4>
+            </div>
+            <div class="modal-body">
+                <!--<form class="bs-example form-horizontal" data-validate="parsley">-->
+                <form class="bs-example form-horizontal">
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Location</label>
+                        <div class="col-lg-10 controls">
+                            <input name="programName" type="text" class="form-control" placeholder="Bachelors, SAT, X, XII, TOEFL">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Score</label>
+                        <div class="col-lg-10 controls">
+                            <input name="score" type="text" class="form-control" placeholder="60%, Grade A, 275">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Completion Year</label>
+                        <div class="col-lg-10 controls">
+                            <input name="passingYear" type="text" class="form-control" placeholder="2013">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">School</label>
+                        <div class="col-lg-10 controls">
+                            <input name="school" type="text" class="form-control" placeholder="DPS (Optional)">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Board</label>
+                        <div class="col-lg-10 controls">
+                            <input name="board" type="text" class="form-control" placeholder="CBSE, ICSE (Optional)">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Major</label>
+                        <div class="col-lg-10 controls">
+                            <input name="major" type="text" class="form-control" placeholder="Medical, Computer Sc. (Optional)">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>-->
+                        <button type="submit" class="btn btn-success btn-s-xs" id="createLocationInfo">Create</button>
+                        <!--<input type="submit" class="btn btn-success btn-s-xs" id="createLocationInfo">Create</input>-->
+                    </div>
+                </form>
+            </div>
+            <!--<div class="modal-footer">-->
+                <!--&lt;!&ndash;<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>&ndash;&gt;-->
+                <!--<button type="submit" class="btn btn-success btn-s-xs">Create</button>-->
+            <!--</div>-->
+        </div>
+    </div>
+</div>
