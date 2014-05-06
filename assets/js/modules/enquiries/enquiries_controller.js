@@ -65,10 +65,10 @@ define([
 
             showNavTabs: function (tabId) {
                 var tabContainerView = new Enquiries.views.TabContainer({
-                    collection: tabCollection,
-                    model: new Application.Entities.Model({
-                        modalId: Enquiries.addStudentModalFormId
-                    })
+                    collection: tabCollection
+//                    model: new Application.Entities.Model({
+//                        modalId: Enquiries.addStudentModalFormId
+//                    })
                 });
                 this.layout.enqTabRegion.show(tabContainerView);
                 if (tabId) {

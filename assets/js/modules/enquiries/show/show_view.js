@@ -21,7 +21,7 @@ define([
 
         Show.views.Layout = Application.Views.Layout.extend({
             template: "enquiries/show/templates/show_layout",
-            className: "someClass",
+//            className: "someClass",
             regions: {
                 personalRegion: "#personal",
                 careerRegion: "#career",
@@ -41,11 +41,11 @@ define([
             },
 
             setupPersonalView: function() {
-                Show.setupEditableBox(this.$el, this.model, "firstName", "FName", this.model.get('firstName'), 'text');
-                Show.setupEditableBox(this.$el, this.model, "lastName", "", this.model.get('lastName'), 'text');
-                Show.setupEditableBox(this.$el, this.model, "phoneNumber", "Enter Phone", this.model.get('phoneNumber'), 'text');
+                Show.setupEditableBox(this.$el, this.model, "firstName", "FirstName", this.model.get('firstName'), 'text', null, 'right');
+                Show.setupEditableBox(this.$el, this.model, "lastName", "LastName", this.model.get('lastName'), 'text', null, 'right');
+                Show.setupEditableBox(this.$el, this.model, "phoneNumber", "Enter Phone", this.model.get('phoneNumber'), 'text', null, 'right');
                 Show.setupEditableBox(this.$el, this.model, "email", "Enter Email", this.model.get('email'), 'text');
-                Show.setupEditableBox(this.$el, this.model, "address", "Enter Address", this.model.get('address'), 'textarea');
+                Show.setupEditableBox(this.$el, this.model, "address", "Enter Address", this.model.get('address'), 'textarea', null, 'right');
             }
         });
 
@@ -136,9 +136,9 @@ define([
             },
 
             setupCareerView: function() {
-                Show.setupSelect2EditableBox(this.$el, this.model, "countries", this.options.allCountries, "Add Country", this.options.addedCountries);
-                Show.setupSelect2EditableBox(this.$el, this.model, "services", this.options.allServices, "Add Service", this.options.addedServices);
-                Show.setupEditableBox(this.$el, this.model, "intake", "Enter Intake", this.model.get('intake'), 'text');
+                Show.setupSelect2EditableBox(this.$el, this.model, "countries", this.options.allCountries, "Add Country", this.options.addedCountries, 'right');
+                Show.setupSelect2EditableBox(this.$el, this.model, "services", this.options.allServices, "Add Service", this.options.addedServices, 'right');
+                Show.setupEditableBox(this.$el, this.model, "intake", "Enter Intake", this.model.get('intake'), 'text', null, 'right');
                 //TODO make it a year combodate
                 Show.setupEditableBox(this.$el, this.model, "intakeYear", "Enter Intake year", this.model.get('intakeYear'), 'text');
             }
@@ -254,7 +254,7 @@ define([
         };
 
         //TODO All these need to be moved to the controller
-        Show.setupEditableBox = function(el, model, id, emptyText, initialValue, type, source){
+        Show.setupEditableBox = function(el, model, id, emptyText, initialValue, type, source, placement){
             var that = this;
             el.find("#" + id).editable({
                 type: type,
@@ -262,6 +262,7 @@ define([
                 emptytext: emptyText,
                 value: initialValue,
                 source: source, //For DropDowns/Selects
+                placement: placement,
                 success: function(response, value) {
                     console.log("[" + id + ":" + value + "]");
                     model.save(id, value, {
@@ -282,12 +283,13 @@ define([
         };
 
 
-        Show.setupSelect2EditableBox = function(el, model, id, source, emptyText, initialValue){
+        Show.setupSelect2EditableBox = function(el, model, id, source, emptyText, initialValue, placement){
             el.find('#' + id).editable({
                 source: source,
                 type: "select2",
                 value: initialValue,
                 emptytext: emptyText,
+                placement: placement,
                 title: emptyText,
                 select2: {
                     placeholder: emptyText,

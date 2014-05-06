@@ -18,10 +18,15 @@ define([], function(){
         Settings.views.Layout = Application.Views.Layout.extend({
             template: "settings/templates/settings_layout",
 
-            regions : {
-                profileRegion: "#profileSection",
-                changePasswordRegion: "#changePasswordSection",
-                adminRegion: "#adminSection"
+//            regions : {
+//                profileRegion: "#profileSection",
+//                changePasswordRegion: "#changePasswordSection",
+//                adminRegion: "#adminSection"
+//            }
+
+            regions: {
+                settingTabRegion: "#settingTabs",
+                settingContentRegion: "#settingContent"
             }
         });
 
@@ -36,8 +41,92 @@ define([], function(){
         });
 
 
+        //Header tabs
+
+        var tabHtml = "<a href='#'><%=args.text%></a>";
+        Settings.views.Tab = Application.Views.ItemView.extend({
+            tagName: "li",
+
+            template: function(serialized_model) {
+                return _.template(tabHtml,
+                    {text: serialized_model.text},
+                    {variable: 'args'});
+            },
+
+            events: {
+                "click": "showView"
+            },
+
+            select: function() {
+                this.$el.addClass("active")
+            },
+
+            unSelect: function() {
+                this.$el.removeClass("active")
+            },
+
+            showView: function(evt) {
+                evt.preventDefault();
+                console.log("Show Tab Content: " + this.model.get('text'));
+                this.trigger(Settings.TAB_SELECTED, this);
+            }
+
+        });
+
+        Settings.views.TabContainer = Application.Views.CompositeView.extend({
+            template: "settings/templates/tab_container",
+            tagName: "span",
+            itemViewContainer: "#tabsUL",
+            itemView: Settings.views.Tab,
+
+            initialize: function(){
+                var that = this;
+                this.on(Application.CHILD_VIEW + ":" + Settings.TAB_SELECTED, function(childView){
+                    that.trigger(Settings.TAB_SELECTED, childView.model.get('id'));
+                });
+            },
+
+            events: {
+                "click #createEnquiry" : "createEnquiry"
+            },
+
+            createEnquiry: function(evt) {
+                evt.preventDefault();
+                this.trigger(Application.CREATE_STUDENT);
+            },
+
+            unSelectAll: function() {
+                this.children.each(function(tab){
+                    tab.unSelect();
+                });
+            },
+
+            selectTabView: function(tabId) {
+                this.unSelectAll();
+                var tabView = this.children.find(function(tab){
+                    return tab.model.get('id') == tabId;
+                });
+
+                tabView.select();
+            }
+
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         Settings.views.UserInfo = Application.Views.ItemView.extend({
-            className: "someClass",
+//            className: "someClass",
             tagName: "section",
             template: "settings/templates/userInfo",
 

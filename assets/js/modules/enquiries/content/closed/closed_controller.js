@@ -1,5 +1,6 @@
 define([
     "modules/enquiries/content/closed/closed_view"
+//    "modules/enquiries/content/base/base_view"
 ], function(){
     Application.module("Enquiries.Content.Closed", function(Closed, Application, Backbone, Marionette, $, _) {
 
@@ -47,6 +48,7 @@ define([
 
             getTableView: function(tableId, title, theadColumns, rows) {
                 return new Closed.views.TableComposite({
+//                return new Closed.parent.views.TableComposite({
                     model: new Application.Entities.Model({
                         tableId: tableId,
                         title: title,
@@ -58,6 +60,7 @@ define([
 
             getLayout: function() {
                 return new Closed.views.Layout();
+//                return new Closed.parent.views.Layout();
             }
 
         });

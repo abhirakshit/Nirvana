@@ -1,12 +1,12 @@
 define([
     "modules/enquiries/content/my/my_view"
+//    "modules/enquiries/content/base/base_view"
 ], function(){
     Application.module("Enquiries.Content.My", function(My, Application, Backbone, Marionette, $, _) {
 
         My.Controller = Application.Controllers.Base.extend({
             initialize: function() {
                 var user = Application.request(Application.GET_LOGGED_USER);
-//                var studentsAssigned = Application.request(Application.GET_STUDENTS_ASSIGNED);
                 var studentsAssigned = Application.request(Application.GET_ENQUIRIES_ASSIGNED);
                 this.layout = this.getLayout();
 
@@ -24,12 +24,7 @@ define([
             setupMyTabContent: function(user, studentsAssigned) {
                 var pendingModels = _.filter(studentsAssigned.models,
                     function(student){
-//                        if (student.get('name') == 'New Stud') {
-//                            console.log(moment().format(Application.DATE_FORMAT));
-//                            console.log(moment(student.get('followUp')).format(Application.DATE_FORMAT))    ;
-//                        }
                         return moment().isAfter(student.get('followUp'), 'day');
-//                        return moment().isAfter(student.get('followUp'));
                     }
                 );
 
@@ -42,7 +37,8 @@ define([
                     new Application.Entities.Model({columnName: "Countries"}),
                     new Application.Entities.Model({columnName: "Status"})
                 ]);
-                this.setUpEnquiryTableView(pendingModels, pendingColumns, "Pending Enquiries", "pendingTable",this.layout.pendingEnquiriesRegion);
+                var title = 'Pending Enquiries&nbsp;<i style="color: red;" class="fa fa-exclamation-triangle"></i>'
+                this.setUpEnquiryTableView(pendingModels, pendingColumns, title, "pendingTable",this.layout.pendingEnquiriesRegion);
 
 
                 //Todays
@@ -81,11 +77,11 @@ define([
 
             getTableView: function(tableId, title, theadColumns, rows) {
                 return new My.views.TableComposite({
+//                return new My.parent.views.TableComposite({
                     model: new Application.Entities.Model({
                         tableId: tableId,
                         title: title,
                         theadColumns: theadColumns
-//                        itemViewTemplate: "enquiries/content/my/templates/row"
                     }),
                     collection: rows
                 });
@@ -93,6 +89,7 @@ define([
 
             getLayout: function() {
                 return new My.views.Layout();
+//                return new My.parent.views.Layout();
             }
 
         });

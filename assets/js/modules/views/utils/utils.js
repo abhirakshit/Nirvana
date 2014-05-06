@@ -18,6 +18,15 @@ define([], function(){
         Views.addDateTimePicker = function(view) {
             view.datetimepicker();
             view.data("DateTimePicker").setDate(moment());
+        },
+
+        Views.addDatatable = function(table) {
+            table.dataTable({
+//                    "sDom": "<'row'<'col-sm-6'l><'col-sm-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>",
+//                    "bJQueryUI": true,
+                "sPaginationType": "full_numbers"
+//                    "bInfo": false
+            });
         }
 
 //        Views.Modal = Backbone.Modal.extend({
