@@ -77,12 +77,50 @@ module.exports = {
     
     updatePartial: function (req, res) {
         var id = req.param('id');
-//        console.log(_.merge({}, req.params.all(), req.body));
+        console.log(_.merge({}, req.params.all(), req.body));
         if (!id) {
             return res.badRequest('No id provided.');
         } else if (req.body.email) {
-//            updateEmail(id, UserService.getCurrentStaffUserId(req), req.body, res);
-        } else {
+//           updateEmail(id, UserService.getCurrentStaffUserId(req), req.body, res);
+        } else if (req.body.location) {
+
+            var newLocationsArray = _.map(req.body.location,function(locationId){
+                return parseInt(locationId);
+            });
+            //find current staff from the id
+            Staff.findOne(id).populate('locations').exec(function(err,staff){
+                 if (err) {
+                    console.log("Could not update staff location: " + id + "\n" + err);
+                    res.badRequest(err);
+                }
+                // compare the server values with the client values
+                var oldLocations = _.map(staff.locations, function(location){
+                    return location.id;
+                });
+
+                var toRemove = _.difference(oldLocations,newLocationsArray);
+                var toAdd = _.difference(newLocationsArray,oldLocations);
+
+                console.log(oldLocations);
+                console.log(toRemove);
+                console.log(toAdd);
+
+                _.forEach(toRemove, function(id){
+                    staff.locations.remove(id);
+                });
+
+                _.forEach(toAdd, function(id){
+                    staff.locations.add(id);
+                });
+
+                staff.save();
+                res.json(staff);
+            });
+            //
+        }
+
+
+         else {
 
             var updateFields = _.merge({}, req.params.all(), req.body);
             Staff.update(id, updateFields, function (err, updated) {

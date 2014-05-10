@@ -1,5 +1,7 @@
 define([
-    "modules/staff/show/show_view"
+    "modules/staff/show/show_view",
+    "modules/entities/location"
+    
 ], function () {
     Application.module("Staff.Show", function (Show, Application, Backbone, Marionette, $, _) {
 
@@ -8,99 +10,95 @@ define([
             initialize: function () {
 
                 var staff = Application.request(Application.GET_STAFF, this.options.staffId);
+                var allLocations = Application.request(Application.GET_LOCATIONS);
 //                var student = Application.request(Application.GET_STUDENT, this.options.studentId);
 
                 this.layout = this.getLayout();
 
                 this.listenTo(this.layout, Application.SHOW, function () {
 
-                    this.showStaff(staff)
+                    this.showStaff(staff,allLocations);
                 });
 
 
                 this.show(this.layout, {
                     loading: { 
-                        entities: staff }
+                        entities: [staff, allLocations] 
+                    }
                 });
 
             },
 
-            showStaff: function (staff) {
+            showStaff: function (staff,allLocations) {
 
-                this.showPersonalView(staff);
+                this.showPersonalView(staff,allLocations);
+
+
 
 
             },
 
-            showPersonalView: function(staff) {
+            showPersonalView: function(staff, allLocations) {
+
+                var addedLocation = new Application.Entities.LocationCollection(staff.get('locations'));
+                var addedLocationIdList = addedLocation.pluck("id");
+
+                // console.dir(addedLocation);
+                // console.dir(allLocations);
+                // console.dir(allLocations.getIdToTextMap('name'));
+
                 var personalView = new Show.views.Personal({
-                    model: staff
+                    model: staff, 
+                    allLocations: allLocations.getIdToTextMap('name'), 
+                    addedLocation: addedLocationIdList
+                });
+
+                this.listenTo(personalView,Show.STAFF_EDIT_SAVE,function(model,id,value){
+
+                    // console.log('edit function called! ' + model + 'ID: ' + id + 'Value: ' + value);
+
+                    model.save(id,value,{
+
+                        wait: true,
+                        patch:true,
+                        success: function(updateStaff){
+                            console.log("saved on server");
+                        },
+
+                        error: function(x,response){
+                            console.log("Error on server!");
+                        }
+
+                    });
                 });
 
                 this.layout.personalRegion.show(personalView);
+
+
             },
 
- showLocationView: function(student) {
-                //todo Any better way for this
-                var locationCollection = new Application.Entities.LocationCollection(staff.get('locations'));
+            showLocationView: function(staff) {
 
-                var that = this;
-                var locationView = new Show.views.LocationComposite({
-                    collection: locationCollection,
-                    model: staff
-                });
-                this.layout.locationRegion.show(locationView);
-
-                locationView.on(Show.showAddLocationModalEvt, function(view){
-                   console.log("Show modal!!!");
-//                    var modalRegion = new Application.Views.ModalRegion({el:'#modal'});
-                    var newLocation = Application.request(Application.GET_LOCATION);
-                    newLocation.attributes.modalId = Show.addLocationFormId;
-
-                    var addLocationModalView = new Show.views.addLocationForm({
-                        model: newLocation
-                    });
-
-                    addLocationModalView.on(Show.createLocationEvt, function(modalFormView){
-                        student.save("addLocation", modalFormView.model.attributes, {
-                            wait: true,
-                            patch: true,
-                            success: function(updatedStudent){
-                                console.log("Saved on server!!");
-                                console.dir(updatedStudent);
-                                that.showAcademicView(updatedStudent);
-                                Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
-                            },
-
-                            error: function(x, response) {
-                                console.log("Error on server!! -- " + response.text);
-                                return response;
-                            }
-                        });
-
-                    });
-                    Application.modalRegion.show(addEducationModalView);
-                });
-
-                academicView.on(Show.deleteEducationEvt, function(educationFieldView) {
-                    console.log('Delete edu...');
-                    student.save("removeEducation", educationFieldView.model.attributes, {
-                        wait: true,
-                        patch: true,
-                        success: function(updatedStudent){
-                            console.log("Saved on server!!");
-                            console.dir(updatedStudent);
-                           // that.showAcademicView(updatedStudent);
-                           // Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
-                        },
-
-                        error: function(x, response) {
-                            console.log("Error on server!! -- " + response.text);
-                            return response;
-                        }
-                    });
-                });
             },
+
+            // showCareerView: function(student, allCountries, allServices) {
+            //     var addedCountries = new Application.Entities.CountryCollection(student.get('countries'));
+            //     var addedCountriesIdList = addedCountries.pluck("id");
+
+            //     var addedServices = new Application.Entities.ServiceCollection(student.get('services'));
+            //     var addedServicesIdList = addedServices.pluck("id");
+
+            //     var careerView = new Show.views.Career({
+            //         model: student,
+            //         allCountries: allCountries.getIdToTextMap('name'),
+            //         addedCountries: addedCountriesIdList,
+
+            //         allServices: allServices.getIdToTextMap('name'),
+            //         addedServices: addedServicesIdList
+            //     });
+            //     this.layout.careerRegion.show(careerView);
+            // },
+
 
 
 

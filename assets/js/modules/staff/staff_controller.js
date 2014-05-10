@@ -10,10 +10,18 @@ define([
             initialize: function () {
                 var user = Application.request(Application.GET_ALL_STAFF);
                 this.layout = this.getLayout();
+                var staffId = this.options.staffId;
 
                 this.listenTo(this.layout, Application.SHOW, function () {
                     
-                    this.showAllStaff(user);
+                    if(staffId){
+
+                        //this is coming from URL
+                        Application.execute(Application.SELECTED_STAFF, this.options.region, staffId);
+                    
+                    } else {
+                         this.showAllStaff(user);
+                    }
 
                 });
 
