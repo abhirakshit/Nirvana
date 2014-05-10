@@ -5,6 +5,30 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
+
+/*
+ Email has to be updated both in student and user table
+ */
+updateEmail = function(id, staffId, updateFields, res) {
+
+    Staff.update(id, updateFields, function (err, updatedStaffList) {
+        if (err) {
+            console.log(err);
+            return res.badRequest(err);
+        }
+
+        User.update(updatedStaffList[0].user, updateFields, function(err, updatedUser){
+            if (err) {
+                console.log(err);
+                return res.badRequest(err);
+            }
+
+            res.json(updatedStaffList)
+        });
+    });
+};
+
+
 module.exports = {
 
     getAssignedStudents : function(req, res) {
@@ -51,6 +75,28 @@ module.exports = {
     },
 
     
+    updatePartial: function (req, res) {
+        var id = req.param('id');
+//        console.log(_.merge({}, req.params.all(), req.body));
+        if (!id) {
+            return res.badRequest('No id provided.');
+        } else if (req.body.email) {
+//            updateEmail(id, UserService.getCurrentStaffUserId(req), req.body, res);
+        } else {
+
+            var updateFields = _.merge({}, req.params.all(), req.body);
+            Staff.update(id, updateFields, function (err, updated) {
+                if (err) {
+                    console.log("Could not update staff: " + id + "\n" + err);
+                    res.badRequest(err);
+                }
+                res.json(updated);
+            });
+        }
+
+    },
+
+
     getLocation: function (req, res) {
         var id = req.param('id');
         if (!id) {
@@ -78,6 +124,7 @@ module.exports = {
                 res.json(_.sortBy(locationCollection, 'createdAt').reverse());
             });
         });
+
     }
-	
+
 };

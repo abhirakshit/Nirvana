@@ -58,8 +58,8 @@ module.exports = {
                 },
                 function(newStudentId, newComment, callback) {
                     UserService.getStudent(newStudentId, callback);
-                }
-            ], function(err, student){
+                }],
+            function(err, student) {
                 if (err) {
                     console.log(err);
                     res.json(err);

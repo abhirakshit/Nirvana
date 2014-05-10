@@ -26,6 +26,8 @@ requirejs.config({
         jquerySpin: "lib/spin/jquery.spin",
         jqueryUI: "lib/jquery-ui/jquery-ui.min",
         dataTables: "lib/datatables/jquery.dataTables.min",
+//        dataTables: "lib/datatables/jquery.dataTables",
+        dataTablesBootstrap: "lib/datatables/dataTables.bootstrap",
         jasnyBootstrap: "lib/jasny-bootstrap/jasny-bootstrap.min",
         bootstrapDateTimePicker: "lib/bootstrap-datetimepicker/bootstrap-datetimepicker",
 //        parsley: "lib/parsley/parsley.min", //Validation plugin
@@ -82,6 +84,10 @@ requirejs.config({
 
         dataTables: {
             deps: ["jquery"]
+        },
+
+        dataTablesBootstrap: {
+            deps: ["dataTables"]
         },
 
 //        parsley: {
@@ -142,6 +148,7 @@ var dependencies = [
     "jquerySpin",
     "jqueryUI",
     "dataTables",
+    "dataTablesBootstrap",
     "jasnyBootstrap",
 //    "parsley",
 
@@ -173,9 +180,7 @@ require(dependencies,
         require([
             "modules/main/main_app"
         ], function () {
-            console.log("Setup...");
-
-
+//            console.log("Setup...");
 
             Application.addRegions({
                 headerRegion: "#header-region",
@@ -202,7 +207,6 @@ require(dependencies,
                 Application.module("Header").start();
                 Application.module("Footer").start();
                 Application.module("Sidebar").start();
-    //            Application.module("Profile").start();
                 Application.module("Settings").start();
                 Application.module("Enquiries").start();
                 Application.module("Students").start();
@@ -210,22 +214,14 @@ require(dependencies,
             });
 
 
-    //        require([
-    //            "modules/main/main_app"
-    //        ], function () {
-    //            console.log("Setup...");
-    ////            Application.mainRouter = new Application.Router();
-    //        });
-
             require([
                 "modules/header/header_app",
                 "modules/footer/footer_app",
                 "modules/sidebar/sidebar_app",
-    //            "modules/profile/profile_app",
                 "modules/enquiries/enquiries_app",
                 "modules/settings/settings_app",
                 "modules/students/students_app",
-                 "modules/staff/staff_app"
+                "modules/staff/staff_app"
             ], function () {
                 console.log("Start Application...");
                 Application.start();

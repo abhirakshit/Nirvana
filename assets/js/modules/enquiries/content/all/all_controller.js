@@ -1,5 +1,6 @@
 define([
     "modules/enquiries/content/all/all_view"
+//    "modules/enquiries/content/base/base_view"
 ], function(){
     Application.module("Enquiries.Content.All", function(All, Application, Backbone, Marionette, $, _) {
 
@@ -55,7 +56,9 @@ define([
                     new Application.Entities.Model({columnName: "Status"}),
                     new Application.Entities.Model({columnName: "Assigned To"})
                 ]);
-                this.setUpEnquiryTableView(pendingModels, pendingColumns, "Pending Enquiries", "pendingTable",this.layout.pendingEnquiriesRegion);
+                var title = 'Pending Enquiries&nbsp;<i style="color: red;" class="fa fa-exclamation-triangle"></i>';
+//                this.setUpEnquiryTableView(pendingModels, pendingColumns, "Pending Enquiries", "pendingTable",this.layout.pendingEnquiriesRegion);
+                this.setUpEnquiryTableView(pendingModels, pendingColumns, title, "pendingTable",this.layout.pendingEnquiriesRegion);
 
 
                 //Todays
@@ -95,6 +98,7 @@ define([
 
             getTableView: function(tableId, title, theadColumns, rows) {
                 return new All.views.TableComposite({
+//                return new All.parent.views.TableComposite({
                     model: new Application.Entities.Model({
                         tableId: tableId,
                         title: title,
@@ -105,6 +109,7 @@ define([
             },
 
             getLayout: function() {
+//                return new All.parent.views.Layout();
                 return new All.views.Layout();
             }
 

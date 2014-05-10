@@ -21,15 +21,15 @@ define([
         });
 
 
-        var tableTitleHtml = "<%=args.title%>";
-        All.views.TableTitle = Application.Views.ItemView.extend({
-            template: function(serialized_model) {
-                return _.template(tableTitleHtml,
-                    {title: serialized_model.title},
-                    {variable: 'args'});
-            },
-            tagName:"span"
-        });
+//        var tableTitleHtml = "<%=args.title%>";
+//        All.views.TableTitle = Application.Views.ItemView.extend({
+//            template: function(serialized_model) {
+//                return _.template(tableTitleHtml,
+//                    {title: serialized_model.title},
+//                    {variable: 'args'});
+//            },
+//            tagName:"span"
+//        });
 
 
         //Table Head
@@ -128,13 +128,7 @@ define([
                 this.$el.find("thead").append(theadView.render().el);
 
                 //Add Datatables
-                console.log(this.model.get('tableId'));
-                this.$el.find("#" + this.model.get('tableId')).dataTable({
-                    "sDom": "<'row'<'col-sm-6'l><'col-sm-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>",
-                    "bJQueryUI": true,
-                    "sPaginationType": "full_numbers",
-                    "bInfo": false
-                });
+                Application.Views.addDatatable(this.$el.find('#' + this.model.get('tableId')));
             }
         });
 

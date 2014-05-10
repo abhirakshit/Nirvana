@@ -13,6 +13,7 @@ define([
     "modules/views/itemview",
     "modules/views/layout",
     "modules/views/region",
+    "modules/views/utils/xeditable",
     "modules/views/utils/utils",
     "modules/views/validation/validationMessages",
 

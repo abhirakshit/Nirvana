@@ -15,16 +15,6 @@ define([], function(){
         //*************
 
 
-        Settings.views.Layout = Application.Views.Layout.extend({
-            template: "settings/templates/settings_layout",
-
-            regions : {
-                profileRegion: "#profileSection",
-                changePasswordRegion: "#changePasswordSection",
-                adminRegion: "#adminSection"
-            }
-        });
-
         Settings.views.Admin_Layout = Application.Views.Layout.extend({
             template: "settings/templates/admin_layout",
 
@@ -35,19 +25,165 @@ define([], function(){
             }
         });
 
+        Settings.views.Layout = Application.Views.Layout.extend({
+            template: "settings/templates/settings_layout",
+
+//            regions : {
+//                profileRegion: "#profileSection",
+//                changePasswordRegion: "#changePasswordSection",
+//                adminRegion: "#adminSection"
+//            }
+
+            regions: {
+                settingTabRegion: "#settingTabs",
+                settingContentRegion: "#settingContent"
+            }
+        });
+
+        Settings.views.Profile = Application.Views.ItemView.extend({
+            template: "settings/templates/profile_view",
+
+            events: {
+                "click #changePasswordBtn": "showChangePasswordModal"
+            },
+
+            showChangePasswordModal: function(evt) {
+                evt.preventDefault();
+                this.trigger(Application.CHANGE_PASSWORD);
+            },
+
+            onRender: function() {
+                Backbone.Validation.bind(this);
+                this.setupProfile();
+            },
+
+            setupProfile: function() {
+                Settings.setupEditableBox(this.$el, this.model, "firstName", "FirstName", this.model.get('firstName'), 'text', null, 'right');
+                Settings.setupEditableBox(this.$el, this.model, "lastName", "LastName", this.model.get('lastName'), 'text', null, 'right');
+                Settings.setupEditableBox(this.$el, this.model, "phoneNumber", "Enter Phone", this.model.get('phoneNumber'), 'text', null, 'right');
+                Settings.setupEditableBox(this.$el, this.model, "email", "Enter Email", this.model.get('email'), 'text');
+                Settings.setupEditableBox(this.$el, this.model, "address", "Enter Address", this.model.get('address'), 'textarea', null, 'right');
+            }
+        });
+
+
+
+
+        //Header tabs
+
+        var tabHtml = "<a href='#'><%=args.text%></a>";
+        Settings.views.Tab = Application.Views.ItemView.extend({
+            tagName: "li",
+
+            template: function(serialized_model) {
+                return _.template(tabHtml,
+                    {text: serialized_model.text},
+                    {variable: 'args'});
+            },
+
+            events: {
+                "click": "showView"
+            },
+
+            select: function() {
+                this.$el.addClass("active")
+            },
+
+            unSelect: function() {
+                this.$el.removeClass("active")
+            },
+
+            showView: function(evt) {
+                evt.preventDefault();
+                console.log("Show Tab Content: " + this.model.get('text'));
+                this.trigger(Settings.TAB_SELECTED, this);
+            }
+
+        });
+
+        Settings.views.TabContainer = Application.Views.CompositeView.extend({
+            template: "settings/templates/tab_container",
+            tagName: "span",
+            itemViewContainer: "#tabsUL",
+            itemView: Settings.views.Tab,
+
+            initialize: function(){
+                var that = this;
+                this.on(Application.CHILD_VIEW + ":" + Settings.TAB_SELECTED, function(childView){
+                    that.trigger(Settings.TAB_SELECTED, childView.model.get('id'));
+                });
+            },
+
+            events: {
+                "click #createEnquiry" : "createEnquiry"
+            },
+
+            createEnquiry: function(evt) {
+                evt.preventDefault();
+                this.trigger(Application.CREATE_STUDENT);
+            },
+
+            unSelectAll: function() {
+                this.children.each(function(tab){
+                    tab.unSelect();
+                });
+            },
+
+            selectTabView: function(tabId) {
+                this.unSelectAll();
+                var tabView = this.children.find(function(tab){
+                    return tab.model.get('id') == tabId;
+                });
+
+                tabView.select();
+            }
+
+        });
+
+
+
+
+        Settings.setupEditableBox = function(el, model, id, emptyText, initialValue, type, source, placement){
+            var successCB = function (response, value) {
+                console.log("[" + id + ":" + value + "]");
+                model.save(id, value, {
+                    wait: true,
+                    patch: true,
+                    success: function (updatedStudent) {
+                        console.log("Saved on server!!");
+//                        Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
+                    },
+
+                    error: function (x, response) {
+                        console.log("Error on server!! -- " + response.msg);
+                        return response.msg;
+                    }
+                })
+            };
+
+            Application.Views.setupEditableBox(el, id, emptyText, initialValue, type, source, placement, successCB);
+        };
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         Settings.views.UserInfo = Application.Views.ItemView.extend({
-            className: "someClass",
+//            className: "someClass",
             tagName: "section",
             template: "settings/templates/userInfo",
 
             serializeData: function(){
                 var data = this.model.toJSON();
-//                data.firstName = data.user.firstName;
-//                data.lastName = data.user.lastName;
-//                data.phoneNumber = data.user.phoneNumber;
-//                data.email = data.user.email;
-//                data.address = data.user.address;
                 data.role = data.user.role;
                 return data;
             }
@@ -131,7 +267,7 @@ define([], function(){
                 this.trigger(Settings.createSchoolEvt, this);
             }
 
-        })
+        });
 
         Settings.views.CreateCountry = Application.Views.ItemView.extend({
             template: "settings/templates/create_country",

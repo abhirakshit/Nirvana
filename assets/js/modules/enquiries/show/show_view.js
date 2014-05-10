@@ -21,7 +21,7 @@ define([
 
         Show.views.Layout = Application.Views.Layout.extend({
             template: "enquiries/show/templates/show_layout",
-            className: "someClass",
+//            className: "someClass",
             regions: {
                 personalRegion: "#personal",
                 careerRegion: "#career",
@@ -31,21 +31,38 @@ define([
             }
         });
 
+//        var successCB = function (response, value) {
+//            console.log(value);
+//            model.save(id, value, {
+//                wait: true,
+//                patch: true,
+//                success: function (updatedStudent) {
+//                    console.log("Saved on server!!");
+//                    Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
+//                },
+//
+//                error: function (x, response) {
+//                    console.dir(response);
+//                    console.log("Error on server!! -- " + response.msg);
+//                    return response.msg;
+//                }
+//            });
+//        }
 
         Show.views.Personal = Application.Views.ItemView.extend({
             template: "enquiries/show/templates/personal_view",
 
             onRender: function() {
                 Backbone.Validation.bind(this);
-                this.setupPersonalView();
+                this.setupProfile();
             },
 
-            setupPersonalView: function() {
-                Show.setupEditableBox(this.$el, this.model, "firstName", "FName", this.model.get('firstName'), 'text');
-                Show.setupEditableBox(this.$el, this.model, "lastName", "", this.model.get('lastName'), 'text');
-                Show.setupEditableBox(this.$el, this.model, "phoneNumber", "Enter Phone", this.model.get('phoneNumber'), 'text');
+            setupProfile: function() {
+                Show.setupEditableBox(this.$el, this.model, "firstName", "FirstName", this.model.get('firstName'), 'text', null, 'right');
+                Show.setupEditableBox(this.$el, this.model, "lastName", "LastName", this.model.get('lastName'), 'text', null, 'right');
+                Show.setupEditableBox(this.$el, this.model, "phoneNumber", "Enter Phone", this.model.get('phoneNumber'), 'text', null, 'right');
                 Show.setupEditableBox(this.$el, this.model, "email", "Enter Email", this.model.get('email'), 'text');
-                Show.setupEditableBox(this.$el, this.model, "address", "Enter Address", this.model.get('address'), 'textarea');
+                Show.setupEditableBox(this.$el, this.model, "address", "Enter Address", this.model.get('address'), 'textarea', null, 'right');
             }
         });
 
@@ -136,9 +153,9 @@ define([
             },
 
             setupCareerView: function() {
-                Show.setupSelect2EditableBox(this.$el, this.model, "countries", this.options.allCountries, "Add Country", this.options.addedCountries);
-                Show.setupSelect2EditableBox(this.$el, this.model, "services", this.options.allServices, "Add Service", this.options.addedServices);
-                Show.setupEditableBox(this.$el, this.model, "intake", "Enter Intake", this.model.get('intake'), 'text');
+                Show.setupSelect2EditableBox(this.$el, this.model, "countries", this.options.allCountries, "Add Country", this.options.addedCountries, 'right');
+                Show.setupSelect2EditableBox(this.$el, this.model, "services", this.options.allServices, "Add Service", this.options.addedServices, 'right');
+                Show.setupEditableBox(this.$el, this.model, "intake", "Enter Intake", this.model.get('intake'), 'text', null, 'right');
                 //TODO make it a year combodate
                 Show.setupEditableBox(this.$el, this.model, "intakeYear", "Enter Intake year", this.model.get('intakeYear'), 'text');
             }
@@ -206,111 +223,80 @@ define([
                 Show.setupEditableBox(this.$el, this.model, "enquiryStatus", "Add Status", this.model.get('enquiryStatus').id, 'select', this.options.allStatus);
                 Show.setupEditableBox(this.$el, this.model, "remarks", "Enter Remarks", this.model.get('remarks'), 'textarea');
                 Show.setupEditableBox(this.$el, this.model, "source", "Enter Source", this.model.get('source'), 'text');
-                Show.setupComboBoxEditableBox(this.$el, this.model, "followUp", "Follow Up On", this.model.get('followUp'));
+                Show.setupDateTimeEditableBox(this.$el, this.model, "followUp", "Follow Up On", this.model.get('followUp'));
             }
         });
 
-
-        Show.setupComboBoxEditableBox = function(el, model, id, emptyText, initialValue){
-            if (initialValue) {
-                initialValue = moment(initialValue).format(Application.EDITABLE_DATE_FORMAT);
-            }
-            console.log(initialValue);
-            el.find("#" + id).editable({
-                type: 'combodate',
-                title: emptyText,
-                emptytext: emptyText,
-                value: initialValue,
-                format: Application.EDITABLE_DATE_FORMAT,
-                template: 'DD MMM YYYY hh:mm a', //Template used for displaying dropdowns.
-                combodate: {
-                    minYear: 2010,
-                    maxYear: 2020,
-                    minuteStep: 15,
-                    smartDays: true
-                },
-                success: function(response, value) {
-                    console.log("[" + id + ":" + value + "]");
-                    if (!value) {
-                        console.log("No value!!!");
-                        return;
-                    }
-
-                    model.save(id, value, {
-                        wait: true,
-                        patch: true,
-                        success: function(updatedStudent){
-                            console.log("Saved on server!!");
-                            Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
-                        },
-
-                        error: function(x, response) {
-                            console.log("Error on server!! -- " + response);
-                            return response.msg;
-                        }
-                    })
-                }
-            })
-        };
-
         //TODO All these need to be moved to the controller
-        Show.setupEditableBox = function(el, model, id, emptyText, initialValue, type, source){
-            var that = this;
-            el.find("#" + id).editable({
-                type: type,
-                title: emptyText,
-                emptytext: emptyText,
-                value: initialValue,
-                source: source, //For DropDowns/Selects
-                success: function(response, value) {
-                    console.log("[" + id + ":" + value + "]");
-                    model.save(id, value, {
-                        wait: true,
-                        patch: true,
-                        success: function(updatedStudent){
-                            console.log("Saved on server!!");
-                            Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
-                        },
+        Show.setupEditableBox = function(el, model, id, emptyText, initialValue, type, source, placement){
+            var successCB = function (response, value) {
+                console.log("[" + id + ":" + value + "]");
+                model.save(id, value, {
+                    wait: true,
+                    patch: true,
+                    success: function (updatedStudent) {
+                        console.log("Saved on server!!");
+                        Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
+                    },
 
-                        error: function(x, response) {
-                            console.log("Error on server!! -- " + response.msg);
-                            return response.msg;
-                        }
-                    })
+                    error: function (x, response) {
+                        console.log("Error on server!! -- " + response.msg);
+                        return response.msg;
+                    }
+                })
+            };
+
+            Application.Views.setupEditableBox(el, id, emptyText, initialValue, type, source, placement, successCB);
+        };
+
+        Show.setupDateTimeEditableBox = function(el, model, id, emptyText, initialValue){
+            var successCB = function(response, value) {
+//                console.log("[" + id + ":" + value + "]");
+                if (!value) {
+                    console.log("No value!!!");
+                    return;
                 }
-            })
+
+                model.save(id, value, {
+                    wait: true,
+                    patch: true,
+                    success: function(updatedStudent){
+                        console.log("Saved on server!!");
+                        Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
+                    },
+
+                    error: function(x, response) {
+                        console.log("Error on server!! -- " + response);
+                        return response.msg;
+                    }
+                })
+            };
+
+            Application.Views.setupDateTimeEditableBox(el, id, emptyText, initialValue, successCB);
         };
 
 
-        Show.setupSelect2EditableBox = function(el, model, id, source, emptyText, initialValue){
-            el.find('#' + id).editable({
-                source: source,
-                type: "select2",
-                value: initialValue,
-                emptytext: emptyText,
-                title: emptyText,
-                select2: {
-                    placeholder: emptyText,
-                    multiple: true
-                },
-                success: function(response, value) {
-                    console.log(value);
-                    model.save(id, value, {
-                        wait: true,
-                        patch: true,
-                        success: function(updatedStudent){
-                            console.log("Saved on server!!");
-                            Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
-                        },
 
-                        error: function(x, response) {
-                            console.dir(response);
-                            console.log("Error on server!! -- " + response.msg);
-                            return response.msg;
-                        }
-                    });
-                }
-            });
+        Show.setupSelect2EditableBox = function(el, model, id, source, emptyText, initialValue, placement){
+            var successCB = function(response, value) {
+                console.log(value);
+                model.save(id, value, {
+                    wait: true,
+                    patch: true,
+                    success: function(updatedStudent){
+                        console.log("Saved on server!!");
+                        Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
+                    },
+
+                    error: function(x, response) {
+                        console.dir(response);
+                        console.log("Error on server!! -- " + response.msg);
+                        return response.msg;
+                    }
+                });
+            };
+
+            Application.Views.setupSelect2EditableBox(el, id, source, emptyText, initialValue, placement, successCB);
         }
 
     });

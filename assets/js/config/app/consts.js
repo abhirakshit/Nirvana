@@ -1,7 +1,8 @@
 define([], function(){
     Application.module("Consts", function(Consts, Application) {
 
-        Application.DATE_FORMAT = "ddd, MMM Do 'YY, h:mm a"; // 'Do' does not work with Xeditable
+//        Application.DATE_FORMAT = "ddd, MMM Do 'YY, h:mm a"; // 'Do' does not work with Xeditable or DataTables sorting
+        Application.DATE_FORMAT = "ddd, MMM D 'YY, h:mm a";
         Application.EDITABLE_DATE_FORMAT = "ddd, MMM DD 'YY, h:mm a";
 
         Application.ENQUIRY_ROLE = "enquiry";
@@ -25,6 +26,8 @@ define([], function(){
 
         Application.CREATE_STUDENT = "create:student";
         Application.CREATE_USER = "create:user";
+
+        Application.CHANGE_PASSWORD = "change:password";
 
 
         Application.STREAM_LINK_SELECT = "stream:link:select";

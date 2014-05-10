@@ -90,7 +90,7 @@ define([
                         },
 
                         error: function(x, response) {
-                            console.log("Error on server!! -- " + response.text)
+                            console.log("Error on server!! -- " + response.text);
                             return response;
                         }
                     });

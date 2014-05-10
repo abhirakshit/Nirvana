@@ -19,9 +19,7 @@ define([
                     },
                     language: 'en',
                     pick12HourFormat: true,
-                    pickSeconds: false,
-//                    useStrict: true,
-//                    maskInput: false
+                    pickSeconds: false
                 };
             };
 
