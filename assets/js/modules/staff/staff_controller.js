@@ -37,8 +37,9 @@ define([
 
                 var that = this;
                 this.listenTo(allStaffView, Application.SELECTED_STAFF, function(staffId){
+                    
                     Application.execute(Application.SELECTED_STAFF, that.options.region, staffId);
-                  // console.log('Its Working!');
+
                 });
 
 

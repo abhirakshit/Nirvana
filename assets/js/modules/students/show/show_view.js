@@ -1,6 +1,6 @@
 define([
 ], function () {
-    Application.module("Staff.Show", function (Show, Application, Backbone, Marionette, $, _) {
+    Application.module("Students.Show", function (Show, Application, Backbone, Marionette, $, _) {
 
 
         this.prefix = "Show";
@@ -13,8 +13,8 @@ define([
 
 
         Show.views.Layout = Application.Views.Layout.extend({
-            initialize: function () {console.log('I am in staff:show view');},
-            template: "staff/show/templates/show_layout",
+            initialize: function () {console.log('I am in student:show view');},
+            template: "students/show/templates/show_layout",
             className: "someClass",
             regions: {
                 personalRegion: "#personal",
@@ -27,7 +27,7 @@ define([
 
 
         Show.views.Personal = Application.Views.ItemView.extend({
-            template: "staff/show/templates/personal_view",
+            template: "students/show/templates/personal_view",
 
             onRender: function() {
                 Backbone.Validation.bind(this);
@@ -45,84 +45,84 @@ define([
 
 
 
-        Show.views.addEducationForm = Application.Views.ItemView.extend({
-            template: "enquiries/show/templates/add_education_form",
+        // Show.views.addEducationForm = Application.Views.ItemView.extend({
+        //     template: "enquiries/show/templates/add_education_form",
 
-            events: {
-                "click #createEducationInfo" : "createEducationInfo"
-            },
+        //     events: {
+        //         "click #createEducationInfo" : "createEducationInfo"
+        //     },
 
-            onRender: function() {
-                Backbone.Validation.bind(this);
-            },
+        //     onRender: function() {
+        //         Backbone.Validation.bind(this);
+        //     },
 
-            createEducationInfo: function(evt) {
-                evt.preventDefault();
-                var data = Backbone.Syphon.serialize(this);
-                this.model.set(data);
+        //     createEducationInfo: function(evt) {
+        //         evt.preventDefault();
+        //         var data = Backbone.Syphon.serialize(this);
+        //         this.model.set(data);
 
-                var isValid = this.model.isValid(true);
-                if (isValid) {
-                    Application.Views.hideModal(Show.addEducationFormId);
-                    this.trigger(Show.createEducationEvt, this);
-                }
-            }
+        //         var isValid = this.model.isValid(true);
+        //         if (isValid) {
+        //             Application.Views.hideModal(Show.addEducationFormId);
+        //             this.trigger(Show.createEducationEvt, this);
+        //         }
+        //     }
 
-        });
+        // });
 
-        Show.views.EducationField = Application.Views.ItemView.extend({
-            template: "enquiries/show/templates/education_field",
-            tagName: "div",
-            className: "col-md-12",
+//         Show.views.EducationField = Application.Views.ItemView.extend({
+//             template: "enquiries/show/templates/education_field",
+//             tagName: "div",
+//             className: "col-md-12",
 
-            events: {
-                "mouseenter": "toggleDelete",
-                "mouseleave": "toggleDelete",
-                "click .i-cancel": "delete"
-            },
+//             events: {
+//                 "mouseenter": "toggleDelete",
+//                 "mouseleave": "toggleDelete",
+//                 "click .i-cancel": "delete"
+//             },
 
-            delete: function(evt) {
-                evt.preventDefault();
-                this.trigger(Show.deleteEducationEvt, this);
-            },
+//             delete: function(evt) {
+//                 evt.preventDefault();
+//                 this.trigger(Show.deleteEducationEvt, this);
+//             },
 
-            toggleDelete: function (evt) {
-                evt.preventDefault();
-                var fieldId = this.model.get('programName');
-                $('#' + fieldId).toggleClass("basicBorder");
-                $('#' + fieldId).find('.i-cancel').toggleClass("display-none");
-            }
+//             toggleDelete: function (evt) {
+//                 evt.preventDefault();
+//                 var fieldId = this.model.get('programName');
+//                 $('#' + fieldId).toggleClass("basicBorder");
+//                 $('#' + fieldId).find('.i-cancel').toggleClass("display-none");
+//             }
 
-        });
+//         });
 
-        Show.views.LocationComposite = Application.Views.CompositeView.extend({
-            template: "staff/show/templates/location_view",
-            itemViewContainer: "#locationFields",
-            itemView: Show.views.LocationField,
+//         Show.views.LocationComposite = Application.Views.CompositeView.extend({
+//             template: "students/show/templates/location_view",
+//             itemViewContainer: "#locationFields",
+//             itemView: Show.views.LocationField,
 
-            initialize: function() {
-                var that = this;
-                this.on(Application.CHILD_VIEW + ":" + Show.deleteEducationEvt, function(childView) {
-//                    console.log('Delete edu...');
-                    that.trigger(Show.deleteLocationEvt, childView);
-                })
-            },
+//             initialize: function() {
+//                 var that = this;
+//                 this.on(Application.CHILD_VIEW + ":" + Show.deleteEducationEvt, function(childView) {
+// //                    console.log('Delete edu...');
+//                     that.trigger(Show.deleteLocationEvt, childView);
+//                 })
+//             },
 
-            serializeData: function() {
-                var data = this.model.toJSON();
-                data.modalId = Show.addLocationFormId;
-                return data;
-            },
+        //     serializeData: function() {
+        //         var data = this.model.toJSON();
+        //         data.modalId = Show.addLocationFormId;
+        //         return data;
+        //     },
 
-            events: {
-                "click #addLocationInfo" : "showAddLocationModal"
-            },
+        //     events: {
+        //         "click #addLocationInfo" : "showAddLocationModal"
+        //     },
 
-            showAddLocationModal: function(evt) {
-                evt.preventDefault();
-                this.trigger(Show.showAddLocationModalEvt, this);
-            }
-        });
+        //     showAddLocationModal: function(evt) {
+        //         evt.preventDefault();
+        //         this.trigger(Show.showAddLocationModalEvt, this);
+        //     }
+        // });
 
 
 

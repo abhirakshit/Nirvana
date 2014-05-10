@@ -19,9 +19,7 @@ define([
             }
         };
 
-
-
-        Application.commands.setHandler(Show.parent.SELECTED_STAFF, function (enqContentRegion, staffId) {
+        Application.commands.setHandler(Application.SELECTED_STAFF, function (enqContentRegion, staffId) {
             console.log("Show staff: " + staffId);
             API.show(enqContentRegion, staffId);
             Application.navigate(Show.rootRoute + "/" +staffId);

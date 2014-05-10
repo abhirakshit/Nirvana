@@ -48,6 +48,36 @@ module.exports = {
 
             });
         });
+    },
+
+    
+    getLocation: function (req, res) {
+        var id = req.param('id');
+        if (!id) {
+            return res.badRequest('No id provided.');
+        }
+
+        Staff.findOne(id).populate('locations').exec(function(err, staff){
+            var locations = staff.locations;
+            var locationCollection = [];
+            async.each(locations, function(location, callback){
+                Location.findOne(location.id).populate('staff').exec(function(err, loc){
+                    if (err) {
+                        console.log("Error handling location:  " + location.id + "\n" + err);
+                        callback(err);
+                    }
+                    locationCollection.push(loc);
+                    callback();
+                })
+            }, function(err){
+                if (err) {
+                    console.log("Could not process location. " + err);
+                    res.badRequest("Could not process location. " + err);
+                }
+
+                res.json(_.sortBy(locationCollection, 'createdAt').reverse());
+            });
+        });
     }
 	
 };

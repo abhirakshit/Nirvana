@@ -2,7 +2,9 @@ define([
     "modules/students/students_view",
     "modules/entities/user",
     "modules/entities/school",
-    "modules/entities/country"
+    "modules/entities/country",
+    "modules/students/show/show_app"
+
 ], function () {
     Application.module("Students", function (Students, Application, Backbone, Marionette, $, _) {
 
@@ -54,6 +56,17 @@ define([
                 var studentsView = new Students.views.StudentsCollection({ collection: user});
             
                 this.layout.changePasswordRegion.show(studentsView);
+
+
+
+                    var that = this;
+                this.listenTo(studentsView, Application.SELECTED_STUDENT, function(studentId){
+                   // console.log(Application.SELECTED_STUDENT);
+                    Application.execute(Application.SELECTED_STUDENT, that.options.region, studentId);
+                   //console.log('***********Its Working!******************');
+
+                });
+
             },
 
 

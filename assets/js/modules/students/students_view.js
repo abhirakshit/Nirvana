@@ -30,13 +30,35 @@ define([], function(){
 
         Students.views.Show = Application.Views.ItemView.extend({
             className: 'studentsClass',
-            template: 'students/templates/show_student'
+            template: 'students/templates/show_student',
+            events: {
+                "click": "selectedStudent"
+            },
+
+            selectedStudent: function(){
+                this.trigger('student:show', this.model);
+
+            }
 
         });
 
+Application.SELECTED_STUDENT = 'student:show';
+
         Students.views.StudentsCollection = Application.Views.CollectionView.extend({
             itemView: Students.views.Show,
-            template: 'students/templates/show_students'
+            template: 'students/templates/show_students',
+
+            initialize: function(){
+                
+                var that = this;
+                this.on(Application.CHILD_VIEW + ":" + Application.SELECTED_STUDENT, function(childView){
+
+                  //  console.dir(childView.model);
+                   // console.log('COLLECTIONVIEW HELLO!!!!');
+                    that.trigger(Application.SELECTED_STUDENT, childView.model.get('id'));
+
+                });
+            }
 
         });
 

@@ -19,7 +19,8 @@ define([
 
 
                 this.show(this.layout, {
-                    loading: { entities: staff }
+                    loading: { 
+                        entities: staff }
                 });
 
             },
@@ -27,6 +28,7 @@ define([
             showStaff: function (staff) {
 
                 this.showPersonalView(staff);
+
 
             },
 
@@ -40,12 +42,12 @@ define([
 
  showLocationView: function(student) {
                 //todo Any better way for this
-                var locationCollection = new Application.Entities.LocationCollection(student.get('educationList'));
+                var locationCollection = new Application.Entities.LocationCollection(staff.get('locations'));
 
                 var that = this;
                 var locationView = new Show.views.LocationComposite({
                     collection: locationCollection,
-                    model: student
+                    model: staff
                 });
                 this.layout.locationRegion.show(locationView);
 
@@ -55,12 +57,12 @@ define([
                     var newLocation = Application.request(Application.GET_LOCATION);
                     newLocation.attributes.modalId = Show.addLocationFormId;
 
-                    var addEducationModalView = new Show.views.addLocationForm({
+                    var addLocationModalView = new Show.views.addLocationForm({
                         model: newLocation
                     });
 
                     addLocationModalView.on(Show.createLocationEvt, function(modalFormView){
-                        student.save("addEducation", modalFormView.model.attributes, {
+                        student.save("addLocation", modalFormView.model.attributes, {
                             wait: true,
                             patch: true,
                             success: function(updatedStudent){

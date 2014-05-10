@@ -55,7 +55,7 @@ define([], function(){
         });
 
 
-var SELECTED_STAFF = 'staffs:show';
+ Application.SELECTED_STAFF = 'staffs:show';
 
         Staff.views.StaffCollection = Application.Views.CollectionView.extend({
             itemView: Staff.views.Show,
@@ -63,7 +63,7 @@ var SELECTED_STAFF = 'staffs:show';
 
             initialize: function(){
                 var that = this;
-                this.on(Application.CHILD_VIEW + ":" + SELECTED_STAFF, function(childView){
+                this.on(Application.CHILD_VIEW + ":" + Application.SELECTED_STAFF, function(childView){
                     that.trigger(Application.SELECTED_STAFF, childView.model.get('id'));
                //console.log( that.trigger(Application.SELECTED_STAFF, childView.model.get('id')));
 
