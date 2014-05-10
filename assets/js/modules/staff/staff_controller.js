@@ -10,10 +10,18 @@ define([
             initialize: function () {
                 var user = Application.request(Application.GET_ALL_STAFF);
                 this.layout = this.getLayout();
+                var staffId = this.options.staffId;
 
                 this.listenTo(this.layout, Application.SHOW, function () {
                     
-                    this.showAllStaff(user);
+                    if(staffId){
+
+                        //this is coming from URL
+                        Application.execute(Application.SELECTED_STAFF, this.options.region, staffId);
+                    
+                    } else {
+                         this.showAllStaff(user);
+                    }
 
                 });
 
@@ -37,8 +45,9 @@ define([
 
                 var that = this;
                 this.listenTo(allStaffView, Application.SELECTED_STAFF, function(staffId){
+                    
                     Application.execute(Application.SELECTED_STAFF, that.options.region, staffId);
-                  // console.log('Its Working!');
+
                 });
 
 

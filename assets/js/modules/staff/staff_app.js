@@ -34,7 +34,7 @@ define([
                 new Staff.Controller({ region: Application.pageContentRegion });
 
 
-                Application.commands.execute(Application.SET_SIDEBAR, "staff:show");
+                Application.commands.execute(Application.SET_SIDEBAR, Application.STAFF_SHOW);
             },
 
                   showStaff: function(staffId) {
@@ -42,7 +42,8 @@ define([
                     region: Application.pageContentRegion,
                     staffId: staffId
                 });
-                Application.commands.execute(Application.SET_SIDEBAR, "staff:show");
+                Application.commands.execute(Application.SET_SIDEBAR, Application.STAFF_SHOW);
+               // Application.commands.execute()
             }
         };
 
@@ -62,7 +63,7 @@ define([
             });
         });
 
-        Application.commands.setHandler("staff:show", function(){
+        Application.commands.setHandler(Application.STAFF_SHOW, function(){
             API.show();
             Application.navigate(Staff.rootRoute);
         });

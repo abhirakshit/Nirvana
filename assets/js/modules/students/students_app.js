@@ -43,9 +43,9 @@ define([
 
         Students.on(Application.START, function () {
             console.log("Students start...");
-//            Marionette.TemplateLoader.loadModuleTemplates(Students.User, function(){
+            Marionette.TemplateLoader.loadModuleTemplates(Students.Show, function(){
                 Marionette.TemplateLoader.loadModuleTemplates(Students, Students.setup);
-//            });
+            });
         });
 
         Application.commands.setHandler("students:show", function(){

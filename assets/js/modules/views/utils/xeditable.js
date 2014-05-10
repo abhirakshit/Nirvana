@@ -48,6 +48,7 @@ define([], function () {
                 emptytext: emptyText,
                 placement: placement,
                 title: emptyText,
+                // disabled: 'true',
                 select2: {
                     placeholder: emptyText,
                     multiple: true
