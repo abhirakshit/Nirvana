@@ -31,10 +31,10 @@ define([
 
             onRender: function() {
                 Backbone.Validation.bind(this);
-                this.setupPersonalView();
+                this.setupProfile();
             },
 
-            setupPersonalView: function() {
+            setupProfile: function() {
                 Show.setupEditableBox(this.$el, this.model, "firstName", "John", this.model.get('firstName'), 'text');
                 Show.setupEditableBox(this.$el, this.model, "lastName", "", this.model.get('lastName'), 'text');
                 Show.setupEditableBox(this.$el, this.model, "phoneNumber", "Enter Phone", this.model.get('phoneNumber'), 'text');

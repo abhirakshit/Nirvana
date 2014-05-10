@@ -27,6 +27,8 @@ define([], function(){
         Application.CREATE_STUDENT = "create:student";
         Application.CREATE_USER = "create:user";
 
+        Application.CHANGE_PASSWORD = "change:password";
+
 
         Application.STREAM_LINK_SELECT = "stream:link:select";
         Application.STREAM_SELECT = "stream:select";

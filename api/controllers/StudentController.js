@@ -426,6 +426,9 @@ removeEducation = function(id, staffId, education, res) {
     );
 };
 
+/*
+Email has to be updated both in student and user table
+ */
 updateEmail = function(id, staffId, updateFields, res) {
     async.waterfall([
         function(callback){
@@ -497,7 +500,7 @@ module.exports = {
 
     updatePartial: function (req, res) {
         var id = req.param('id');
-        console.log(_.merge({}, req.params.all(), req.body));
+//        console.log(_.merge({}, req.params.all(), req.body));
         if (!id) {
             return res.badRequest('No id provided.');
         } else if (req.body.services) {

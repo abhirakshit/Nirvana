@@ -15,6 +15,16 @@ define([], function(){
         //*************
 
 
+        Settings.views.Admin_Layout = Application.Views.Layout.extend({
+            template: "settings/templates/admin_layout",
+
+            regions : {
+                addAdminRegion: "#addAdmin",
+                addSchoolRegion: "#addSchool",
+                addCountryRegion: "#addCountry"
+            }
+        });
+
         Settings.views.Layout = Application.Views.Layout.extend({
             template: "settings/templates/settings_layout",
 
@@ -30,15 +40,33 @@ define([], function(){
             }
         });
 
-        Settings.views.Admin_Layout = Application.Views.Layout.extend({
-            template: "settings/templates/admin_layout",
+        Settings.views.Profile = Application.Views.ItemView.extend({
+            template: "settings/templates/profile_view",
 
-            regions : {
-                addAdminRegion: "#addAdmin",
-                addSchoolRegion: "#addSchool",
-                addCountryRegion: "#addCountry"
+            events: {
+                "click #changePasswordBtn": "showChangePasswordModal"
+            },
+
+            showChangePasswordModal: function(evt) {
+                evt.preventDefault();
+                this.trigger(Application.CHANGE_PASSWORD);
+            },
+
+            onRender: function() {
+                Backbone.Validation.bind(this);
+                this.setupProfile();
+            },
+
+            setupProfile: function() {
+                Settings.setupEditableBox(this.$el, this.model, "firstName", "FirstName", this.model.get('firstName'), 'text', null, 'right');
+                Settings.setupEditableBox(this.$el, this.model, "lastName", "LastName", this.model.get('lastName'), 'text', null, 'right');
+                Settings.setupEditableBox(this.$el, this.model, "phoneNumber", "Enter Phone", this.model.get('phoneNumber'), 'text', null, 'right');
+                Settings.setupEditableBox(this.$el, this.model, "email", "Enter Email", this.model.get('email'), 'text');
+                Settings.setupEditableBox(this.$el, this.model, "address", "Enter Address", this.model.get('address'), 'textarea', null, 'right');
             }
         });
+
+
 
 
         //Header tabs
@@ -115,6 +143,30 @@ define([], function(){
 
 
 
+        Settings.setupEditableBox = function(el, model, id, emptyText, initialValue, type, source, placement){
+            var successCB = function (response, value) {
+                console.log("[" + id + ":" + value + "]");
+                model.save(id, value, {
+                    wait: true,
+                    patch: true,
+                    success: function (updatedStudent) {
+                        console.log("Saved on server!!");
+//                        Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
+                    },
+
+                    error: function (x, response) {
+                        console.log("Error on server!! -- " + response.msg);
+                        return response.msg;
+                    }
+                })
+            };
+
+            Application.Views.setupEditableBox(el, id, emptyText, initialValue, type, source, placement, successCB);
+        };
+
+
+
+
 
 
 
@@ -132,11 +184,6 @@ define([], function(){
 
             serializeData: function(){
                 var data = this.model.toJSON();
-//                data.firstName = data.user.firstName;
-//                data.lastName = data.user.lastName;
-//                data.phoneNumber = data.user.phoneNumber;
-//                data.email = data.user.email;
-//                data.address = data.user.address;
                 data.role = data.user.role;
                 return data;
             }
@@ -220,7 +267,7 @@ define([], function(){
                 this.trigger(Settings.createSchoolEvt, this);
             }
 
-        })
+        });
 
         Settings.views.CreateCountry = Application.Views.ItemView.extend({
             template: "settings/templates/create_country",

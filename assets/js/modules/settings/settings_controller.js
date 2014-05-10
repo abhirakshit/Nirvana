@@ -20,8 +20,8 @@ define([
         Settings.ADMIN_TAB = "admin";
 
         var tabCollection = new Application.Entities.Collection([
-            new Application.Entities.Model({text:"Profile", id: Settings.PROFILE_TAB}),
-            new Application.Entities.Model({text:"Admin", id: Settings.ADMIN_TAB})
+            new Application.Entities.Model({text:"Profile", id: Settings.PROFILE_TAB})
+//            new Application.Entities.Model({text:"Admin", id: Settings.ADMIN_TAB})
         ]);
 
         Settings.Controller = Application.Controllers.Base.extend({
@@ -31,6 +31,8 @@ define([
 
                 this.listenTo(this.layout, Application.SHOW, function () {
                     this.showNavTabs();
+                    this.showProfile(user);
+
 
 //                    this.showUserInfoSection(user);
 //                    this.showChangePasswordSection(user);
@@ -48,6 +50,49 @@ define([
                     }
                 });
 
+            },
+
+            showProfile: function (user) {
+
+                var profileView = new Settings.views.Profile({
+                    model: user
+                });
+
+                this.listenTo(profileView, Application.CHANGE_PASSWORD, this.showChangePasswordModal);
+
+                this.layout.settingContentRegion.show(profileView);
+            },
+
+            showChangePasswordModal: function() {
+                console.log("Show Change Modal");
+                //Show Modal Dialog
+                var newStudent = Application.request(Application.GET_USER);
+                newStudent.attributes.modalId = Show.addUserModalFormId;
+                var addUserModalView = new Show.views.addUserForm({
+                    model: newStudent,
+                    roleTypes: this.getRoleTypes()
+                });
+
+                var that = this;
+                addUserModalView.on(Show.createUserEvt, function(modalFormView, data){
+                    modalFormView.model.save(data, {
+                        wait: true,
+                        patch: true,
+                        success: function(newUser){
+                            console.log("Saved on server!!");
+                            console.dir(newUser);
+                            that.showUser(newUser, data.role);
+
+                            //TODO: Update enquiry collection (Assigned to me or all)
+                        },
+
+                        error: function(x, response) {
+                            console.log("Error on server!! -- " + response.text);
+                            return response;
+                        }
+                    });
+                });
+                Application.modalRegion.show(addUserModalView);
             },
 
             showNavTabs: function (tabId) {
