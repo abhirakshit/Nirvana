@@ -1,6 +1,7 @@
 define([], function () {
     Application.module("Views", function (Views, Application, Backbone, Marionette, $, _) {
 
+//        XEditable lib: http://vitalets.github.io/x-editable/index.html
 
         Views.setupDateTimeEditableBox = function (el, id, emptyText, initialValue, successCB) {
             if (initialValue) {
@@ -38,7 +39,7 @@ define([], function () {
             })
         };
 
-
+//        Select2 Lib: http://ivaynberg.github.io/select2/
         Views.setupSelect2EditableBox = function (el, id, source, emptyText, initialValue, placement, successCB) {
             el.find('#' + id).editable({
                 source: source,

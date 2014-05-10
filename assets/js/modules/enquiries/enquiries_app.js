@@ -7,7 +7,6 @@ define([
             appRoutes: {
                 "enquiries": "show",
                 "enquiries/": "show",
-//                "enquiries/new": "show",
                 "enquiries/:tabId": "show",
                 "enquiries/:tabId/": "show",
                 "student/:id": "showStudent",
