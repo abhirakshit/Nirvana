@@ -230,7 +230,7 @@ define([
         //TODO All these need to be moved to the controller
         Show.setupEditableBox = function(el, model, id, emptyText, initialValue, type, source, placement){
             var successCB = function (response, value) {
-                console.log("[" + id + ":" + value + "]");
+//                console.log("[" + id + ":" + value + "]");
                 model.save(id, value, {
                     wait: true,
                     patch: true,
