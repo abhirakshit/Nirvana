@@ -151,6 +151,8 @@
 
 .editable-container.popover {
     width: auto; /* without this rule popover does not stretch */
+    z-index: 99999999;
+
 }
 
 .editable-container.editable-inline {
@@ -159,7 +161,8 @@
     width: auto;
     /* inline-block emulation for IE7*/
     zoom: 1; 
-    *display: inline;    
+    *display: inline;
+
 }
 
 .editable-container.ui-widget {

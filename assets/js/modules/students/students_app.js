@@ -19,7 +19,9 @@ define([
         Students.Router = Marionette.AppRouter.extend({
             appRoutes: {
                 "students": "show",
-                "students/": "show"
+                "students/": "show",
+                 "student/:id": "showStudent",
+                "student/:id/": "showStudent"
             }
         });
 
@@ -33,7 +35,28 @@ define([
 
 
                 Application.commands.execute(Application.SET_SIDEBAR, "students:show");
+            },
+            
+
+
+            // showStudent: function(studentId) {
+            //     new Students.Controller({
+            //         region: Application.pageContentRegion,
+            //         studentId: staffId
+            //     });
+            //     Application.commands.execute(Application.SET_SIDEBAR, "students:show");
+            //    // Application.commands.execute()
+            // },
+
+            showStudent: function(studentId) {
+                new Enquiries.Controller({
+                    region: Application.pageContentRegion,
+                    studentId: studentId
+                });
+                Application.commands.execute(Application.SET_SIDEBAR, Application.ENQUIRIES_SHOW);
             }
+
+
         };
 
         Students.setup = function() {

@@ -38,19 +38,7 @@ define([
 
             },
 
-//    showStudent: function(user){
 
-// console.log(user.get('email'));
-// console.log(user.get('name'));
-// console.log(user);
-
-//     // to show one item
-//               var showView = new Students.views.Show({ model:user });
-
-//               this.layout.profileRegion.show(showView);
-//             },
-
-            // to show collection of students
             
             showStudents: function(user){
                 var studentsView = new Students.views.StudentsCollection({ collection: user});
@@ -62,7 +50,7 @@ define([
                     var that = this;
                 this.listenTo(studentsView, Application.SELECTED_STUDENT, function(studentId){
                    // console.log(Application.SELECTED_STUDENT);
-                    Application.execute(Application.SELECTED_STUDENT, that.options.region, studentId);
+                    Application.execute(Application.ENQUIRY_SHOW, that.options.region, studentId);
                    //console.log('***********Its Working!******************');
 
                 });
