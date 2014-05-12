@@ -3,8 +3,7 @@ define([
     "modules/entities/user",
     "modules/entities/school",
     "modules/entities/country",
-    "modules/students/show/show_app"
-
+    "modules/student/student_app"
 ], function () {
     Application.module("Students", function (Students, Application, Backbone, Marionette, $, _) {
 
@@ -50,8 +49,12 @@ define([
                     var that = this;
                 this.listenTo(studentsView, Application.SELECTED_STUDENT, function(studentId){
                    // console.log(Application.SELECTED_STUDENT);
-                    Application.execute(Application.ENQUIRY_SHOW, that.options.region, studentId);
+                    Application.execute(Application.STUDENT_SHOW, this.layout.enqContentRegion, studentId);
                    //console.log('***********Its Working!******************');
+
+            //            showEnquiry: function(studentId) {
+            //     Application.execute(Application.ENQUIRY_SHOW, this.layout.enqContentRegion, studentId);
+            // },
 
                 });
 

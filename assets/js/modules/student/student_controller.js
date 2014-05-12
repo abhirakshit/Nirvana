@@ -1,7 +1,9 @@
 define([
-    "modules/enquiries/show/show_view"
+    //"modules/enquiries/show/show_view"
+    "modules/student/student_view",
+    
 ], function () {
-    Application.module("Enquiries.Show", function (Show, Application, Backbone, Marionette, $, _) {
+    Application.module("Student", function (Show, Application, Backbone, Marionette, $, _) {
 
         Show.UPDATE_HISTORY_EVT = "update:history";
         Show.Controller = Application.Controllers.Base.extend({
