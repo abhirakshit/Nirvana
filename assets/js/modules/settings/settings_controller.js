@@ -24,6 +24,22 @@ define([
 //            new Application.Entities.Model({text:"Admin", id: Settings.ADMIN_TAB})
         ]);
 
+//        Settings.ChangePassword = Application.Entities.Model.extend({
+//            validation: {
+//                currentPassword: {
+//                    required: true
+//                },
+//
+//                newPassword: {
+//                    required: true
+//                },
+//
+//                confirmPassword: {
+//                    equalTo: 'newPassword'
+//                }
+//            }
+//        });
+
         Settings.Controller = Application.Controllers.Base.extend({
             initialize: function () {
                 var user = Application.request(Application.GET_LOGGED_USER);
@@ -55,7 +71,8 @@ define([
             showProfile: function (user) {
 
                 var profileView = new Settings.views.Profile({
-                    model: user
+                    model: user,
+                    modalId: Settings.changePasswordModalFormId
                 });
 
                 this.listenTo(profileView, Application.CHANGE_PASSWORD, this.showChangePasswordModal);
@@ -63,36 +80,37 @@ define([
                 this.layout.settingContentRegion.show(profileView);
             },
 
-            showChangePasswordModal: function() {
-                console.log("Show Change Modal");
-                //Show Modal Dialog
-                var newStudent = Application.request(Application.GET_USER);
-                newStudent.attributes.modalId = Show.addUserModalFormId;
-                var addUserModalView = new Show.views.addUserForm({
-                    model: newStudent,
-                    roleTypes: this.getRoleTypes()
+
+            showChangePasswordModal: function(user) {
+                var changePassword = Application.request(Application.GET_CHANGE_PASSWORD_USER, user.get('user').id);
+                changePassword.attributes.modalId = Settings.changePasswordModalFormId;
+                var changePasswordModalView = new Settings.views.ChangePassword({
+                    model: changePassword
                 });
 
                 var that = this;
-                addUserModalView.on(Show.createUserEvt, function(modalFormView, data){
-                    modalFormView.model.save(data, {
+                changePasswordModalView.on(Settings.changePasswordEvt, function(modalFormView, data){
+                    console.log(data);
+                    var userModel = modalFormView.model;
+                    userModel.urlRoot = userModel.urlRoot + "/changePassword"
+                    userModel.save(data, {
                         wait: true,
                         patch: true,
                         success: function(newUser){
-                            console.log("Saved on server!!");
-                            console.dir(newUser);
-                            that.showUser(newUser, data.role);
-
-                            //TODO: Update enquiry collection (Assigned to me or all)
+//                            console.log("Saved on server!!");
+                            Application.Views.showSuccessMsg("Password updated successfully!");
+//                            console.dir(newUser);
+//                            that.showUser(newUser, data.role);
                         },
 
-                        error: function(x, response) {
-                            console.log("Error on server!! -- " + response.text);
-                            return response;
+                        error: function(oldModel, response) {
+                            Application.Views.showErrorMsg(response.responseJSON.validationErrors);
+                            console.log("Error on server!! -- " + response.responseText);
+                            return oldModel;
                         }
                     });
                 });
-                Application.modalRegion.show(addUserModalView);
+                Application.modalRegion.show(changePasswordModalView);
             },
 
             showNavTabs: function (tabId) {

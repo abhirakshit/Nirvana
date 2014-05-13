@@ -1,17 +1,18 @@
 /**
- * UserController.js 
+ * UserController.js
  *
  * @description ::
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 var _ = require('lodash'),
+    bcrypt = require('bcrypt'),
     async = require('async');
 
-createStaff = function(inputFields, cb) {
+createStaff = function (inputFields, cb) {
     //TODO - Auto gen password
     inputFields.encryptedPassword = inputFields.firstName + "1234";
     //Create User
-    User.create(inputFields).exec(function(err, user){
+    User.create(inputFields).exec(function (err, user) {
         if (err) {
             console.log("Could not create user: " + err);
             cb(err);
@@ -21,13 +22,13 @@ createStaff = function(inputFields, cb) {
         inputFields.user = user.id;
 
         // Create new student
-        Staff.create(inputFields).exec(function(err, newStaff){
+        Staff.create(inputFields).exec(function (err, newStaff) {
             if (err) {
                 console.log("Could not create staff: " + err);
                 cb(err);
             }
 
-            User.update(user.id, {staff: newStaff.id}).exec(function(err, updateduser){
+            User.update(user.id, {staff: newStaff.id}).exec(function (err, updateduser) {
                 if (err) {
                     cb(err);
                 }
@@ -47,35 +48,35 @@ module.exports = {
 
         if (inputFields.role == 'student' || inputFields.role == 'enquiry') {
             async.waterfall([
-                function(callback){
+                function (callback) {
                     UserService.checkForEnquiryStatus(inputFields, callback);
                 },
-                function(inputFields, callback) {
+                function (inputFields, callback) {
                     UserService.createStudent(inputFields, UserService.getCurrentStaffUserId(req), callback);
                 },
-                function(newStudent, callback) {
+                function (newStudent, callback) {
                     UserService.createComment(UserService.getCurrentStaffUserId(req), newStudent.id, "Student Created!", "add", callback);
                 },
-                function(newStudentId, newComment, callback) {
+                function (newStudentId, newComment, callback) {
                     UserService.getStudent(newStudentId, callback);
                 }],
-            function(err, student) {
-                if (err) {
-                    console.log(err);
-                    res.json(err);
-                }
+                function (err, student) {
+                    if (err) {
+                        console.log(err);
+                        res.json(err);
+                    }
 
-                res.json(student);
-            })
+                    res.json(student);
+                })
         } else {
-            createStaff(inputFields, function(staff) {
+            createStaff(inputFields, function (staff) {
                 res.json(staff);
             });
         }
     },
 
-    getAllStaff: function(req, res, next) {
-        User.find({role: 'staff'}).exec(function(err, staffList) {
+    getAllStaff: function (req, res, next) {
+        User.find({role: 'staff'}).exec(function (err, staffList) {
             if (err) {
                 return res.badRequest(err);
             }
@@ -84,14 +85,55 @@ module.exports = {
         })
     },
 
-    getAllStudents: function(req, res, next) {
-        User.find({role: 'student'}).exec(function(err, students) {
+    getAllStudents: function (req, res, next) {
+        User.find({role: 'student'}).exec(function (err, students) {
             if (err) {
                 return res.badRequest(err);
             }
 
             return res.json(students);
         })
+    },
+
+    changePassword: function (req, res) {
+        var id = req.param('id');
+        if (!id) {
+            return res.badRequest('No id provided.');
+        }
+
+        var currentPassword = req.param("currentPassword");
+        var newPassword = req.param("newPassword");
+        if (currentPassword && newPassword) {
+            User.findOne(id).exec(function (err, user) {
+                if (err || !user) {
+                    res.badRequest(err);
+                }
+
+                user.validatePassword(currentPassword, function(err, valid) {
+                    if (err) res.badRequest(err);
+
+                    if (valid) {
+                        User.update(id, {encryptedPassword: newPassword}).exec(function (err, updatedUsers){
+                            if (err) res.badRequest(err);
+
+                            if (!updatedUsers) {
+                                res.send(400, {error: "Could not update password"});
+                            } else {
+                                res.json(updatedUsers[0]);
+                            }
+                        });
+                    } else {
+                        //if password is invalid then return wrong password.
+//                        res.send(400, { error: "Wrong Password" });
+                        res.badRequest("Wrong password");
+                    }
+                });
+
+//                res.json(user);
+            });
+        } else {
+            res.badRequest("Bad input");
+        }
     },
 
     updatePartial: function (req, res, next) {
@@ -142,5 +184,5 @@ module.exports = {
     }
 
 
-	
+
 };

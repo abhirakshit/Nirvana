@@ -127,6 +127,7 @@ define([], function(){
         Application.GET_LOGGED_USER = "get:logged:user";
         Application.GET_USER = "get:user";
         Application.GET_PASSWORD = "get:password";
+        Application.GET_CHANGE_PASSWORD_USER = "get:change:password:user";
         Application.GET_ROLE = "get:role";
         Application.IS_USER_ADMIN = "isUserAdmin";
         Application.IS_STUDENT = "isStudent";

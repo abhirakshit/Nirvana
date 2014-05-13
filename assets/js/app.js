@@ -17,8 +17,8 @@ requirejs.config({
         //Add-On's
         backboneValidation: "lib/backbone-validation/backbone-validation-amd-min",
         backboneSyphon: "lib/backbone-syphon/backbone.syphon.min",
-//        bootstrapEditable: "lib/bootstrap-editable/bootstrap-editable.min", //Glyphicon error for ok and cancel
-        bootstrapEditable: "lib/bootstrap-editable/bootstrap-editable", //Xeditable
+        bootstrapEditable: "lib/bootstrap-editable/bootstrap-editable.min", //Glyphicon error for ok and cancel
+//        bootstrapEditable: "lib/bootstrap-editable/bootstrap-editable", //Xeditable
         select2: "lib/select2/select2", //Needed by Xeditable
 
         //Utils
@@ -26,18 +26,17 @@ requirejs.config({
         jquerySpin: "lib/spin/jquery.spin",
         jqueryUI: "lib/jquery-ui/jquery-ui.min",
         dataTables: "lib/datatables/jquery.dataTables.min",
-//        dataTables: "lib/datatables/jquery.dataTables",
         dataTablesBootstrap: "lib/datatables/dataTables.bootstrap",
         jasnyBootstrap: "lib/jasny-bootstrap/jasny-bootstrap.min",
         bootstrapDateTimePicker: "lib/bootstrap-datetimepicker/bootstrap-datetimepicker",
-//        parsley: "lib/parsley/parsley.min", //Validation plugin
+        jGrowl: "lib/jquery-jgrowl/jquery.jgrowl.min",
+        moment: "lib/moment/moment.min",
 
         //Application Addons
         marionette_config_application: "config/marionette/application",
         marionette_config_module: "config/marionette/module",
         backbone_config_sync: "config/backbone/sync",
-        templateLoader: "config/app/templateLoader/templateLoader",
-        moment: "lib/moment/moment.min"
+        templateLoader: "config/app/templateLoader/templateLoader"
 
         //Theme
 //        app: "theme/app.v1",
@@ -79,6 +78,10 @@ requirejs.config({
         },
 
         jqueryUI: {
+            deps: ["jquery"]
+        },
+
+        jGrowl: {
             deps: ["jquery"]
         },
 
@@ -150,6 +153,7 @@ var dependencies = [
     "dataTables",
     "dataTablesBootstrap",
     "jasnyBootstrap",
+    "jGrowl",
 //    "parsley",
 
 
