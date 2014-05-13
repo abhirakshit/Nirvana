@@ -41,8 +41,8 @@ define([
 
             setupProfile: function() {
                 // Show.setupEditableBox(this.$el, this.model, "firstName", "John", this.model.get('firstName'), 'text', null, 'right');
-                Show.setupEditableBox(this, "firstName", "John", this.model.get('firstName'), 'text', null, 'right');
-                Show.setupEditableBox(this, "lastName", "", this.model.get('lastName'), 'text', null, 'right');
+                Show.setupEditableBox(this, "firstName", "First Name", this.model.get('firstName'), 'text', null, 'right');
+                Show.setupEditableBox(this, "lastName", "Last Name", this.model.get('lastName'), 'text', null, 'right');
                 Show.setupEditableBox(this, "phoneNumber", "Enter Phone", this.model.get('phoneNumber'), 'text', null, 'right');
                 Show.setupEditableBox(this, "email", "Enter Email", this.model.get('email'), 'text', null, 'right');
                 Show.setupEditableBox(this, "address", "Enter Address", this.model.get('address'), 'textarea', null, 'right');

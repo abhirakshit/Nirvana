@@ -1,10 +1,19 @@
 define([
-    "modules/enquiries/show/show_view"
-], function () {
-    Application.module("Enquiries.Show", function (Show, Application, Backbone, Marionette, $, _) {
+    //"modules/enquiries/show/show_view"
+    "modules/student/student_view",
 
-        Show.UPDATE_HISTORY_EVT = "update:history";
-        Show.Controller = Application.Controllers.Base.extend({
+        //Models
+    "modules/entities/user",
+    "modules/entities/comment",
+    "modules/entities/service",
+    "modules/entities/education",
+    "modules/entities/enquiryStatus"
+    
+], function () {
+    Application.module("Student", function (Student, Application, Backbone, Marionette, $, _) {
+
+        Student.UPDATE_HISTORY_EVT = "update:history";
+        Student.Controller = Application.Controllers.Base.extend({
             initialize: function () {
 //                var user = Application.request(Application.GET_LOGGED_USER);
                 var student = Application.request(Application.GET_STUDENT, this.options.studentId);
@@ -31,7 +40,7 @@ define([
                 });
 
                 var that = this;
-                Application.commands.setHandler(Show.UPDATE_HISTORY_EVT, function (student) {
+                Application.commands.setHandler(Student.UPDATE_HISTORY_EVT, function (student) {
                     studentComments = Application.request(Application.GET_STUDENT_COMMENTS, student.id);
                     that.showHistoryView(student, studentComments);
                 });
@@ -51,7 +60,7 @@ define([
             },
 
             showPersonalView: function(student) {
-                var personalView = new Show.views.Personal({
+                var personalView = new Student.views.Personal({
                     model: student
                 });
 
@@ -63,23 +72,23 @@ define([
                 var educationCollection = new Application.Entities.EducationCollection(student.get('educationList'));
 
                 var that = this;
-                var academicView = new Show.views.AcademicComposite({
+                var academicView = new Student.views.AcademicComposite({
                     collection: educationCollection,
                     model: student
                 });
                 this.layout.academicRegion.show(academicView);
 
-                academicView.on(Show.showAddEducationModalEvt, function(view){
-                   console.log("Show modal!!!");
+                academicView.on(Student.showAddEducationModalEvt, function(view){
+                   console.log("Student modal!!!");
 //                    var modalRegion = new Application.Views.ModalRegion({el:'#modal'});
                     var newEducation = Application.request(Application.GET_EDUCATION);
-                    newEducation.attributes.modalId = Show.addEducationFormId;
+                    newEducation.attributes.modalId = Student.addEducationFormId;
 
-                    var addEducationModalView = new Show.views.addEducationForm({
+                    var addEducationModalView = new Student.views.addEducationForm({
                         model: newEducation
                     });
 
-                    addEducationModalView.on(Show.createEducationEvt, function(modalFormView){
+                    addEducationModalView.on(Student.createEducationEvt, function(modalFormView){
                         student.save("addEducation", modalFormView.model.attributes, {
                             wait: true,
                             patch: true,
@@ -87,7 +96,7 @@ define([
                                 console.log("Saved on server!!");
                                 console.dir(updatedStudent);
                                 that.showAcademicView(updatedStudent);
-                                Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
+                                Application.execute(Student.UPDATE_HISTORY_EVT, updatedStudent);
                             },
 
                             error: function(x, response) {
@@ -100,7 +109,7 @@ define([
                     Application.modalRegion.show(addEducationModalView);
                 });
 
-                academicView.on(Show.deleteEducationEvt, function(educationFieldView) {
+                academicView.on(Student.deleteEducationEvt, function(educationFieldView) {
                     console.log('Delete edu...');
                     student.save("removeEducation", educationFieldView.model.attributes, {
                         wait: true,
@@ -109,7 +118,7 @@ define([
                             console.log("Saved on server!!");
                             console.dir(updatedStudent);
                             that.showAcademicView(updatedStudent);
-                            Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
+                            Application.execute(Student.UPDATE_HISTORY_EVT, updatedStudent);
                         },
 
                         error: function(x, response) {
@@ -121,18 +130,18 @@ define([
             },
 
             showHistoryView: function(student, studentComments) {
-                var historyView = new Show.views.History({
+                var historyView = new Student.views.History({
                    model: student,
                    collection: studentComments
                 });
 
-                this.listenTo(historyView, Show.addCommentEvt, function(data) {
+                this.listenTo(historyView, Student.addCommentEvt, function(data) {
                     student.save("comment", data, {
                         wait: true,
                         patch: true,
                         success: function(updatedStudent){
                             console.log("Saved on server!!");
-                            Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
+                            Application.execute(Student.UPDATE_HISTORY_EVT, updatedStudent);
                         },
 
                         error: function(x, response) {
@@ -147,7 +156,7 @@ define([
             showAdminView: function(student, allStaff, allStatus) {
                 var addedStaff = new Application.Entities.UsersCollection(student.get('staff'));
                 var addedStaffIdList = addedStaff.pluck("id");
-                var adminView = new Show.views.Admin({
+                var adminView = new Student.views.Admin({
                     model: student,
                     allStaff: allStaff.getIdToTextMap('name'),
                     addedStaff: addedStaffIdList,
@@ -164,7 +173,7 @@ define([
                 var addedServices = new Application.Entities.ServiceCollection(student.get('services'));
                 var addedServicesIdList = addedServices.pluck("id");
 
-                var careerView = new Show.views.Career({
+                var careerView = new Student.views.Career({
                     model: student,
                     allCountries: allCountries.getIdToTextMap('name'),
                     addedCountries: addedCountriesIdList,
@@ -176,7 +185,7 @@ define([
             },
 
             getLayout: function () {
-                return new Show.views.Layout();
+                return new Student.views.Layout();
             }
 
         });

@@ -215,6 +215,7 @@ require(dependencies,
                 Application.module("Enquiries").start();
                 Application.module("Students").start();
                 Application.module("Staff").start();
+                Application.module("Student").start();
             });
 
 
@@ -225,7 +226,9 @@ require(dependencies,
                 "modules/enquiries/enquiries_app",
                 "modules/settings/settings_app",
                 "modules/students/students_app",
-                "modules/staff/staff_app"
+                "modules/staff/staff_app",
+                "modules/student/student_app"
+
             ], function () {
                 console.log("Start Application...");
                 Application.start();
