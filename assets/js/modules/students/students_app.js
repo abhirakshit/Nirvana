@@ -18,10 +18,11 @@ define([
 //specify all other routes that will run a function, in below both students and students/ will run show mehtod      
         Students.Router = Marionette.AppRouter.extend({
             appRoutes: {
-                "student": "show",
-                "student/": "show",
-                "student/:id": "showStudent",
-                "student/:id/": "showStudent"
+                "students": "show",
+                "students/": "show"
+                // ,
+                // "student/:id": "showStudent",
+                // "student/:id/": "showStudent"
             }
         });
 
@@ -35,7 +36,7 @@ define([
 
 
                 Application.commands.execute(Application.SET_SIDEBAR, "students:show");
-            },
+            }
             
 
 
@@ -48,13 +49,13 @@ define([
             //    // Application.commands.execute()
             // },
 
-            showStudent: function(studentId) {
-                new Students.Controller({
-                    region: Application.pageContentRegion,
-                    studentId: studentId
-                });
-                Application.commands.execute(Application.SET_SIDEBAR, Application.STUDENT_SHOW);
-            }
+            // showStudent: function(studentId) {
+            //     new Students.Controller({
+            //         region: Application.pageContentRegion,
+            //         studentId: studentId
+            //     });
+            //     Application.commands.execute(Application.SET_SIDEBAR, Application.ENQUIRY_SHOW);
+            // }
 
 
         };
