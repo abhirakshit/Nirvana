@@ -93,6 +93,7 @@ define([], function(){
         Application.PROFILES_SHOW = "profiles:show";
         Application.SETTINGS_SHOW = "settings:show";
         Application.PAYMENTS_SHOW = "payments:show";
+        Application.BATCHES_SHOW = "batches:show";
         Application.ENQUIRIES_SHOW = "enquiries:show";
         Application.FORUM_SHOW = "forum:show";
         Application.STAFF_SHOW = 'staff:show';
