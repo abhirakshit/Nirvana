@@ -47,7 +47,7 @@ define([
                         if (!tabId) //Show default tab
                             tabId = Batches.CURRENT_TAB;
                         this.showNavTabs(tabId);
-//                        this.showTab(tabId);
+                        this.showTab(tabId);
 //                    }
                 });
 
@@ -80,22 +80,17 @@ define([
 
             },
 
-//            showTab: function (tabId) {
-////                Application.execute(Application.ENQUIRIES_CONTENT_SHOW, this.layout.enqContentRegion, tabId);
-//                if (Batches.MY_TAB === tabId) {
-//                    Application.execute(Application.ENQUIRIES_CONTENT_MY, this.layout.enqContentRegion);
-//                } else if (Batches.ALL_TAB === tabId) {
-//                    Application.execute(Application.ENQUIRIES_CONTENT_ALL, this.layout.enqContentRegion);
-//                } else if (Batches.ALL_BY_DATE_TAB === tabId) {
-//                    Application.execute(Application.ENQUIRIES_CONTENT_ALL_BY_DATE, this.layout.enqContentRegion);
-//                }
-////                else if (Batches.JOINED_TAB === tabId) {
-////                    Application.execute(Application.ENQUIRIES_CONTENT_JOINED, this.layout.enqContentRegion);
-////                }
+            showTab: function (tabId) {
+//                Application.execute(Application.ENQUIRIES_CONTENT_SHOW, this.layout.enqContentRegion, tabId);
+                if (Batches.CURRENT_TAB === tabId) {
+                    Application.execute(Application.BATCHES_LIST_CURRENT, this.layout.enqContentRegion);
+                } else if (Batches.ALL_TAB === tabId) {
+                    Application.execute(Application.BATCHES_LIST_ALL, this.layout.enqContentRegion);
+                }
 //                else if (Batches.CLOSED_TAB === tabId) {
 //                    Application.execute(Application.ENQUIRIES_CONTENT_CLOSED, this.layout.enqContentRegion);
 //                }
-//            },
+            },
 
             showEnquiry: function(studentId) {
                 Application.execute(Application.ENQUIRY_SHOW, this.layout.enqContentRegion, studentId);

@@ -63,6 +63,8 @@ define([], function(){
         Application.GET_ALL_STAFF = "get:all:staff";
         Application.GET_STAFF = "get:staff";
 
+        Application.GET_BATCHES = "get:batches";
+
         Application.GET_ENQUIRIES = "get:enquiries";
         Application.GET_ENQUIRIES_CLOSED = "get:enquiries:closed";
         Application.GET_ENQUIRIES_ASSIGNED = "get:enquiries:assigned";
@@ -114,6 +116,9 @@ define([], function(){
         Application.ENQUIRIES_CONTENT_ALL_BY_DATE = "enquiries:content:all:by:date";
         Application.ENQUIRIES_CONTENT_JOINED = "enquiries:content:joined";
         Application.ENQUIRIES_CONTENT_CLOSED = "enquiries:content:closed";
+
+        Application.BATCHES_LIST_CURRENT = "batches:list:current";
+        Application.BATCHES_LIST_ALL = "batches:list:all";
 
         Application.SHOW_PROFILE = "showProfile";
         Application.SHOW_ADMIN = "showAdmin";
