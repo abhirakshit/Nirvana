@@ -206,9 +206,11 @@ form.autoPopulatePillContainer {
 /*jGrowl theme*/
 
 div.jGrowlSuccess {
-    background: palegreen !important;
+    background: #27d4a8 !important;
+    opacity: 1 !important;
 }
 
 div.jGrowlError {
-    background: lightsalmon !important;
+    background: #e56371 !important;
+    opacity: 1 !important;
 }

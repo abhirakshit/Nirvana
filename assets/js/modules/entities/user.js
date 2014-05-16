@@ -20,8 +20,29 @@ define([
                 firstName: {required: true},
                 phoneNumber: {required: true},
                 email: {required: true, pattern: 'email'}
-//                password: {required: true},
-//                confirmPassword: {equalTo: 'password'}
+            }
+        });
+
+        Entities.ChangePasswordUser = Application.Entities.Model.extend({
+            urlRoot: Entities.userUrl,
+            validation: {
+                currentPassword: {
+                    required: true
+                },
+
+                newPassword: {
+                    required: true,
+                    fn: 'notEqualToCurrent'
+                },
+
+                confirmPassword: {
+                    equalTo: 'newPassword'
+                }
+            },
+
+            notEqualToCurrent: function(value, attr, computedState) {
+                if (value === computedState.currentPassword)
+                    return "Enter different password";
             }
         });
 
@@ -126,6 +147,14 @@ define([
                 return new Entities.Password();
             },
 
+            getChangePasswordUser: function(userId) {
+                if (!userId)
+                    return null;
+                var user = new Entities.ChangePasswordUser({ id: userId });
+                user.fetch({async: false});
+                return user;
+            },
+
             getUser: function(userId) {
                 if (!userId)
                     return new Entities.User();
@@ -139,7 +168,7 @@ define([
             getAllStudents: function(update) {
 //                if (!Entities.allStudents || update) {
                     Entities.allStudents = new Entities.StudentCollection();
-                    Entities.allStudents.fetch()
+                    Entities.allStudents.fetch();
 //                }
 
                 return Entities.allStudents;
@@ -248,6 +277,10 @@ define([
 
         Application.reqres.setHandler(Application.GET_PASSWORD, function(){
             return API.getPassword();
+        });
+
+        Application.reqres.setHandler(Application.GET_CHANGE_PASSWORD_USER, function(userId){
+            return API.getChangePasswordUser(userId);
         });
 
         Application.reqres.setHandler(Application.IS_USER_ADMIN, function(){

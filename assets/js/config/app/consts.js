@@ -63,6 +63,8 @@ define([], function(){
         Application.GET_ALL_STAFF = "get:all:staff";
         Application.GET_STAFF = "get:staff";
 
+        Application.GET_BATCHES = "get:batches";
+
         Application.GET_ENQUIRIES = "get:enquiries";
         Application.GET_ENQUIRIES_CLOSED = "get:enquiries:closed";
         Application.GET_ENQUIRIES_ASSIGNED = "get:enquiries:assigned";
@@ -96,6 +98,7 @@ define([], function(){
         Application.PROFILES_SHOW = "profiles:show";
         Application.SETTINGS_SHOW = "settings:show";
         Application.PAYMENTS_SHOW = "payments:show";
+        Application.BATCHES_SHOW = "batches:show";
         Application.ENQUIRIES_SHOW = "enquiries:show";
         Application.FORUM_SHOW = "forum:show";
         Application.STAFF_SHOW = 'staff:show';
@@ -117,6 +120,9 @@ define([], function(){
         Application.ENQUIRIES_CONTENT_JOINED = "enquiries:content:joined";
         Application.ENQUIRIES_CONTENT_CLOSED = "enquiries:content:closed";
 
+        Application.BATCHES_LIST_CURRENT = "batches:list:current";
+        Application.BATCHES_LIST_ALL = "batches:list:all";
+
         Application.SHOW_PROFILE = "showProfile";
         Application.SHOW_ADMIN = "showAdmin";
         Application.SHOW_MODULE = "showModule";
@@ -130,6 +136,7 @@ define([], function(){
         Application.GET_LOGGED_USER = "get:logged:user";
         Application.GET_USER = "get:user";
         Application.GET_PASSWORD = "get:password";
+        Application.GET_CHANGE_PASSWORD_USER = "get:change:password:user";
         Application.GET_ROLE = "get:role";
         Application.IS_USER_ADMIN = "isUserAdmin";
         Application.IS_STUDENT = "isStudent";

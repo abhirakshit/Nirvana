@@ -82,7 +82,7 @@ module.exports = {
     beforeUpdate: [
         // Encrypt user's password, if changed
         function (values, cb) {
-            if (!values.password) {
+            if (!values.encryptedPassword) {
                 return cb();
             }
 
@@ -98,7 +98,10 @@ module.exports = {
 
     encryptPassword: function (values, cb) {
         bcrypt.hash(values.encryptedPassword, 10, function (err, encryptedPassword) {
-            if (err) return cb(err);
+            if (err) {
+                console.log(err);
+                return cb(err);
+            }
             values.encryptedPassword = encryptedPassword;
             cb();
         });
