@@ -3,7 +3,7 @@ define([
 ], function(){
     Application.module("Header.Show", function(Show, Application, Backbone, Marionette, $, _) {
         Show.addUserModalFormId = 'addUserModal';
-        Show.createUserEvt = "createUserEvt";
+        Show.CREATE_USER = "CREATE_USER";
 
         Show.views.Layout = Application.Views.Layout.extend({
             template: "header/show/templates/show_layout",
@@ -123,7 +123,7 @@ define([
 
 //                console.log("Add picker");
 
-                this.renderSelect(this.options.roleTypes, "#role");
+                this.renderRoleSelect(this.options.roleTypes, "#role");
 
                 //Add datetime field
                 Application.Views.addDateTimePicker(this.$el.find('#followUpDiv'));
@@ -135,7 +135,7 @@ define([
 
             },
 
-            renderSelect :function (list, element) {
+            renderRoleSelect :function (list, element) {
                 var that = this;
                 _.each(list, function(value){
                     that.$el.find(element).append("<option value='" + value + "'>" + value + "</option>");
@@ -150,7 +150,7 @@ define([
                 var isValid = this.model.isValid(true);
                 if (isValid) {
                     Application.Views.hideModal(Show.addUserModalFormId);
-                    this.trigger(Show.createUserEvt, this, data);
+                    this.trigger(Show.CREATE_USER, this, data);
                 }
             }
 

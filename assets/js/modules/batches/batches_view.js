@@ -13,24 +13,36 @@ define([
         };
         //***//
 
+        Batches.addBatchModalFormId = "addBatchModal";
+        Batches.SHOW_NEW_BATCH_MODAL = "show:new:batch:modal";
+        Batches.CREATE_BATCH = "create:batch";
+
         Batches.views.Layout = Application.Views.Layout.extend({
             template: "views/templates/page_layout",
             regions: {
                 tabsRegion: "#tabs",
-                contentRegion: "#ontent"
+                addButtonRegion: "#addButton",
+                contentRegion: "#content"
             }
         });
 
-//        var tabHtml = "<a href='#'><%=args.text%></a>";
+        Batches.views.AddBatchButton = Application.Views.ItemView.extend({
+            template: "views/templates/tab_add_button",
+
+            events: {
+                "click" : "showAddBatchModal"
+            },
+
+            showAddBatchModal: function(evt){
+                evt.preventDefault();
+                this.trigger(Batches.SHOW_NEW_BATCH_MODAL);
+            }
+
+        });
+
         Batches.views.Tab = Application.Views.ItemView.extend({
             template: "views/templates/tab",
             tagName: "li",
-
-//            template: function(serialized_model) {
-//                return _.template(tabHtml,
-//                    {text: serialized_model.text},
-//                    {variable: 'args'});
-//            },
 
             events: {
                 "click": "showView"
@@ -53,7 +65,6 @@ define([
         });
 
         Batches.views.TabContainer = Application.Views.CompositeView.extend({
-//            template: "batches/templates/tab_container",
             template: "views/templates/tab_container",
             tagName: "span",
             itemViewContainer: "#tabsUL",
@@ -93,39 +104,44 @@ define([
         });
 
 
-//        Batches.views.addStudentForm = Application.Views.ItemView.extend({
-//            template: "batches/templates/add_student_form",
-//
-//            events: {
-//                "click #createNewStudent" : "createNewStudent"
-//            },
-//
-//            onRender: function() {
-//                Backbone.Validation.bind(this);
-//
-//                console.log("Add picker");
-//                //Add datetime field
-//                Application.Views.addDateTimePicker(this.$el.find('#followUpDiv'));
-//
-//                //TODO Add Assigned to
-//
-//
-//                //TODO Add status
-//
-//            },
-//
-//            createNewStudent: function(evt) {
-//                evt.preventDefault();
-//                var data = Backbone.Syphon.serialize(this);
-//                this.model.set(data);
-//
-//                var isValid = this.model.isValid(true);
-//                if (isValid) {
-//                    Application.Views.hideModal(Batches.addStudentModalFormId);
-//                    this.trigger(Batches.createStudentEvt, this, data);
-//                }
-//            }
-//
-//        });
+        Batches.views.AddBatchForm = Application.Views.ItemView.extend({
+            template: "batches/templates/add_batch_form",
+//            template: "header/show/templates/add_user_form",
+
+            events: {
+                "click #createNewBatch" : "createNewBatch"
+            },
+
+            onRender: function() {
+                Backbone.Validation.bind(this);
+
+                this.renderServiceSelect(this.options.allServices, "#service");
+
+                //Add datetime field
+                Application.Views.addDateTimePicker(this.$el.find('#startDateDiv'), null, {pickTime: false});
+                Application.Views.addDateTimePicker(this.$el.find('#endDateDiv'), moment().add('days', 30) ,{pickTime: false});
+
+            },
+
+            renderServiceSelect :function (serviceIdToTextMap, element) {
+                var that = this;
+                _.each(serviceIdToTextMap, function(service){
+                    that.$el.find(element).append("<option value='" + service.id + "'>" + service.text + "</option>");
+                });
+            },
+
+            createNewBatch: function(evt) {
+                evt.preventDefault();
+                var data = Backbone.Syphon.serialize(this);
+                this.model.set(data);
+
+                var isValid = this.model.isValid(true);
+                if (isValid) {
+                    Application.Views.hideModal(Batches.addBatchModalFormId);
+                    this.trigger(Batches.CREATE_BATCH, this, data);
+                }
+            }
+
+        });
     });
 });

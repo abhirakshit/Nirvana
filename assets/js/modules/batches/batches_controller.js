@@ -3,17 +3,18 @@ define([
     "modules/batches/batches_view",
 
     //SubModules
-//    "modules/batches/content/all/all_app",
+    "modules/batches/list/all/batches_all_app",
 //    "modules/batches/content/closed/closed_app",
 //    "modules/batches/content/my/my_app",
 //    "modules/batches/show/show_app",
 
     //Models
     "modules/entities/user",
-    "modules/entities/comment",
+//    "modules/entities/comment",
     "modules/entities/service",
-    "modules/entities/education",
-    "modules/entities/enquiryStatus"
+//    "modules/entities/education",
+//    "modules/entities/enquiryStatus"
+    "modules/entities/batch"
 ], function () {
     Application.module("Batches", function (Batches, Application, Backbone, Marionette, $, _) {
 
@@ -34,6 +35,7 @@ define([
         Batches.Controller = Application.Controllers.Base.extend({
             initialize: function () {
                 var user = Application.request(Application.GET_LOGGED_USER);
+                var allServices = Application.request(Application.GET_SERVICES);
                 var tabId = this.options.tabId;
 //                var studentId = this.options.studentId;
 
@@ -46,19 +48,19 @@ define([
 //                    } else {
                         if (!tabId) //Show default tab
                             tabId = Batches.CURRENT_TAB;
-                        this.showNavTabs(tabId);
+                        this.showNavTabs(tabId, allServices);
                         this.showTab(tabId);
 //                    }
                 });
 
                 this.show(this.layout, {
                     loading: {
-                        entities: [user]
+                        entities: [user, allServices]
                     }
                 });
             },
 
-            showNavTabs: function (tabId) {
+            showNavTabs: function (tabId, allServices) {
                 var tabContainerView = new Batches.views.TabContainer({
                     collection: tabCollection
 //                    model: new Application.Entities.Model({
@@ -78,14 +80,58 @@ define([
                     Application.navigate(Batches.rootRoute + "/" +tabId);
                 });
 
+
+                //Show the add button
+                var addBatchButtonView = new Batches.views.AddBatchButton({
+                    model: new Application.Entities.Model({
+                        modalId: Batches.addBatchModalFormId,
+                        text: "New Batch"
+                    })
+                });
+//                this.listenTo(addBatchButtonView, Batches.SHOW_NEW_BATCH_MODAL, this.showNewBatchModal(allServices));
+                this.listenTo(addBatchButtonView, Batches.SHOW_NEW_BATCH_MODAL, function(){
+                    that.showNewBatchModal(allServices)
+                });
+                this.layout.addButtonRegion.show(addBatchButtonView);
+
+            },
+
+            showNewBatchModal: function(allServices) {
+                console.log("Show batch modal");
+                var newBatch = Application.request(Application.GET_BATCH);
+                newBatch.attributes.modalId = Batches.addBatchModalFormId;
+                var addBatchFormView = new Batches.views.AddBatchForm({
+                    model: newBatch,
+                    allServices: allServices.getIdToTextMap("name")
+                });
+
+//                var that = this;
+                addBatchFormView.on(Batches.CREATE_BATCH, function(modalFormView, data){
+                    modalFormView.model.save(data, {
+                        wait: true,
+                        patch: true,
+                        success: function(newBatch){
+                            console.log("Saved on server!!");
+                            console.dir(newBatch);
+//                            that.showBatch(newBatch);
+
+                        },
+
+                        error: function(x, response) {
+                            console.log("Error on server!! -- " + response.text);
+                            return response;
+                        }
+                    });
+                });
+                Application.modalRegion.show(addBatchFormView);
             },
 
             showTab: function (tabId) {
 //                Application.execute(Application.ENQUIRIES_CONTENT_SHOW, this.layout.enqContentRegion, tabId);
                 if (Batches.CURRENT_TAB === tabId) {
-                    Application.execute(Application.BATCHES_LIST_CURRENT, this.layout.enqContentRegion);
+                    Application.execute(Application.BATCHES_LIST_CURRENT, this.layout.contentRegion);
                 } else if (Batches.ALL_TAB === tabId) {
-                    Application.execute(Application.BATCHES_LIST_ALL, this.layout.enqContentRegion);
+                    Application.execute(Application.BATCHES_LIST_ALL, this.layout.contentRegion);
                 }
 //                else if (Batches.CLOSED_TAB === tabId) {
 //                    Application.execute(Application.ENQUIRIES_CONTENT_CLOSED, this.layout.enqContentRegion);
@@ -93,7 +139,7 @@ define([
             },
 
             showEnquiry: function(studentId) {
-                Application.execute(Application.ENQUIRY_SHOW, this.layout.enqContentRegion, studentId);
+                Application.execute(Application.ENQUIRY_SHOW, this.layout.contentRegion, studentId);
             },
 
             getLayout: function () {

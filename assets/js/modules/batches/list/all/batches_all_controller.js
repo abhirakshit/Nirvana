@@ -1,5 +1,5 @@
 define([
-    "modules/batches/list/all/all_view"
+    "modules/batches/list/all/batches_all_view"
 ], function(){
     Application.module("Batches.List.All", function(All, Application, Backbone, Marionette, $, _) {
 
@@ -13,7 +13,7 @@ define([
 //                    if (this.options.byDate)
 //                        this.setupAllDateTabContent(user, allBatches);
 //                    else
-                        this.setupAllTabContent(user, allBatches);
+//                        this.setupAllTabContent(user, allBatches);
                 });
 
                 this.show(this.layout, {

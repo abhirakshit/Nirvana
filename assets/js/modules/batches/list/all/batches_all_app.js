@@ -1,5 +1,5 @@
 define([
-    "modules/batches/list/all/all_controller"
+    "modules/batches/list/all/batches_all_controller"
 ], function () {
     Application.module("Batches.List.All", function (All, Application, Backbone, Marionette, $, _) {
         var API = {

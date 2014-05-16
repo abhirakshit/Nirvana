@@ -64,6 +64,7 @@ define([], function(){
         Application.GET_STAFF = "get:staff";
 
         Application.GET_BATCHES = "get:batches";
+        Application.GET_BATCH = "get:batch";
 
         Application.GET_ENQUIRIES = "get:enquiries";
         Application.GET_ENQUIRIES_CLOSED = "get:enquiries:closed";
