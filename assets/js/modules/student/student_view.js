@@ -81,6 +81,9 @@ define([
                 Student.setupEditableBox(this.$el, this.model, "phoneNumber", "Enter Phone", this.model.get('phoneNumber'), 'text', null, 'right');
                 Student.setupEditableBox(this.$el, this.model, "email", "Enter Email", this.model.get('email'), 'text');
                 Student.setupEditableBox(this.$el, this.model, "address", "Enter Address", this.model.get('address'), 'textarea', null, 'right');
+                //Student.setupEditableBox(this.$el, this.model, "parentFirstName", "Parent First Name", this.model.get('parentFirstName'), 'textarea', null, 'right');
+                //Student.setupEditableBox(this.$el, this.model, "parentLastName", "Parent Last Name", this.model.get('parentLastName'), 'textarea', null, 'right');
+
             }
         });
 

@@ -77,8 +77,11 @@ define([], function(){
 
         Application.GET_COUNTRIES = "get:countries";
         Application.GET_COUNTRY = "get:country";
-         Application.GET_LOCATIONS = "get:locations";
+        Application.GET_LOCATIONS = "get:locations";
         Application.GET_LOCATION = "get:location";
+        Application.GET_ENROLLMENTS = "get:enrollments";
+        Application.GET_ENROLLMENT = "get:enrollment";
+        Application.GET_ENROLLMENT_BY_STUDENTID = "get:student:enrollment";
 
         Application.GET_SERVICES = "get:services";
         Application.GET_SERVICE = "get:service";

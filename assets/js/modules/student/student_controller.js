@@ -7,7 +7,8 @@ define([
     "modules/entities/comment",
     "modules/entities/service",
     "modules/entities/education",
-    "modules/entities/enquiryStatus"
+    "modules/entities/enquiryStatus",
+    "modules/entities/enroll"
     
 ], function () {
     Application.module("Student", function (Student, Application, Backbone, Marionette, $, _) {
@@ -22,6 +23,7 @@ define([
                 var allServices = Application.request(Application.GET_SERVICES);
                 var allStaff = Application.request(Application.GET_ALL_STAFF);
                 var allStatus = Application.request(Application.GET_STATUS_All);
+                var enrollmentByStudent = Application.request(Application.GET_ENROLLMENT_BY_STUDENTID, this.options.studentId);
                 
 //                var allStudents = Application.request(Application.GET_STUDENTS);
 
@@ -29,13 +31,13 @@ define([
 
                 this.listenTo(this.layout, Application.SHOW, function () {
 //                    console.dir(allStudents);
-                    this.showStudent(student, allCountries, allServices, allStaff, allStatus, studentComments)
+                    this.showStudent(student, allCountries, allServices, allStaff, allStatus, studentComments, enrollmentByStudent)
                 });
 
 
                 this.show(this.layout, {
                     loading: {
-                        entities: [student, allCountries, allServices, allStaff, allStatus]
+                        entities: [student, allCountries, allServices, allStaff, allStatus, enrollmentByStudent]
                     }
                 });
 

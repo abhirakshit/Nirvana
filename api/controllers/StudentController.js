@@ -669,6 +669,56 @@ module.exports = {
                 });
 
         });
+    },
+
+        getPaymentInfo: function (req, res) {
+
+        var id = req.param('id');
+        if (!id) {
+            return res.badRequest('No id provided.');
+        }
+       
+//get all the payments tied to a student id
+        Enroll.find().where({student: [id]}).populate('service').exec(function(err, enrollList){
+          
+          //assign the results to a variable and create an empty array
+            var payments = enrollList;
+            var paymentCollection =[]; 
+           // var serviceCollection = enrollList.service.get('name');
+//console.dir(enrollList);
+//console.log(enrollList[1].service.name);
+//loop through payment table and find all payments assigned to all enrollments for a student
+            async.each(payments, function(payment, callback){
+
+//find all payments for above enrollments                
+                Payment.find().where({enroll: [payment.id]}).populate('enroll').exec(function(err, pay){
+
+                    if (err) {
+                        console.log("Error handling enroll:  " + payment.id + "\n" + err);
+                        callback(err);
+                    }
+
+
+
+//push each result to the array                    
+                paymentCollection.push(pay);
+               
+//tell async that process is completed
+                    callback();
+                })
+            }, function(err){
+                if (err) {
+                    console.log("Could not process payment information. " + err);
+                    res.badRequest("Could not process payment information. " + err);
+                }
+//array1.concat(array2)
+                 res.json(paymentCollection);
+                // res.json(payments);
+            });
+        });
+
+
+
     }
 
 

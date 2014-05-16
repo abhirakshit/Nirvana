@@ -159,7 +159,7 @@ module.exports = {
                     res.badRequest("Could not process location. " + err);
                 }
 
-                res.json(_.sortBy(locationCollection, 'createdAt').reverse());
+                //res.json(_.sortBy(locationCollection, 'createdAt').reverse());
             });
         });
 
