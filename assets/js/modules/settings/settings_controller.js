@@ -10,6 +10,7 @@ define([
         Settings.createAdminEvt = "createAdmin";
         Settings.createSchoolEvt = "createSchool";
         Settings.createCountryEvt = "createCountry";
+        Settings.CREATE_TOPIC = "create:topic";
 
 
         //Event
@@ -23,22 +24,6 @@ define([
             new Application.Entities.Model({text:"Profile", id: Settings.PROFILE_TAB})
 //            new Application.Entities.Model({text:"Admin", id: Settings.ADMIN_TAB})
         ]);
-
-//        Settings.ChangePassword = Application.Entities.Model.extend({
-//            validation: {
-//                currentPassword: {
-//                    required: true
-//                },
-//
-//                newPassword: {
-//                    required: true
-//                },
-//
-//                confirmPassword: {
-//                    equalTo: 'newPassword'
-//                }
-//            }
-//        });
 
         Settings.Controller = Application.Controllers.Base.extend({
             initialize: function () {
@@ -55,7 +40,7 @@ define([
 //
 //
 //                    if (Application.USER_IS_ADMIN) {
-//                        this.showAdminSection(user);
+                        this.showAdminSection(user);
 //                    }
 
                 });
@@ -131,37 +116,49 @@ define([
 //                });
             },
 
-//            showAdminSection: function (user) {
+            showAdminSection: function (user) {
 //                this.adminLayout = new Settings.views.Admin_Layout();
-//                this.layout.adminRegion.show(this.adminLayout);
+                var adminView = new Settings.views.Admin();
+                this.listenTo(adminView, Settings.CREATE_TOPIC, this.showCreateTopicModal);
+
+                this.layout.adminRegion.show(adminView);
 //                this.showAddAdminView();
 //                this.showAddSchoolView();
 //                this.showAddCountryView();
-//            },
-//
-//            showAddCountryView: function () {
-//                var createCountryView = new Settings.views.CreateCountry({
-//                    model: Application.request(Application.GET_COUNTRY)
-//                });
-//                this.adminLayout.addCountryRegion.show(createCountryView);
-//                this.listenTo(createCountryView, Settings.createCountryEvt, function (view) {
-//                    var data = Backbone.Syphon.serialize(view);
-//                    view.model.save(data, {
-//                        wait: true,
-//                        success: function (model) {
-//                            $.jGrowl("New Country added: " + model.get("title"), {theme: 'jGrowlSuccess'});
-//                        },
-//
-//                        error: function (model, response) {
-//                            $.jGrowl("Error saving " + model.get("title"), {theme: 'jGrowlError'});
-//                            console.error("Error Model: " + model.toJSON());
-//                            console.error("Error Response: " + response.statusText);
-//                        }
-//                    });
-//                });
-//
-//            },
-//
+            },
+
+            showCreateTopicModal: function() {
+                console.log('Create topic');
+                var topic = Application.request(Application.GET_TOPIC);
+                topic.attributes.modalId = Settings.changePasswordModalFormId;
+                var changePasswordModalView = new Settings.views.CreateTopic({
+                    model: topic
+                });
+            },
+
+            showAddCountryView: function () {
+                var createCountryView = new Settings.views.CreateCountry({
+                    model: Application.request(Application.GET_COUNTRY)
+                });
+                this.adminLayout.addCountryRegion.show(createCountryView);
+                this.listenTo(createCountryView, Settings.createCountryEvt, function (view) {
+                    var data = Backbone.Syphon.serialize(view);
+                    view.model.save(data, {
+                        wait: true,
+                        success: function (model) {
+                            $.jGrowl("New Country added: " + model.get("title"), {theme: 'jGrowlSuccess'});
+                        },
+
+                        error: function (model, response) {
+                            $.jGrowl("Error saving " + model.get("title"), {theme: 'jGrowlError'});
+                            console.error("Error Model: " + model.toJSON());
+                            console.error("Error Response: " + response.statusText);
+                        }
+                    });
+                });
+
+            },
+
 //            showAddSchoolView: function () {
 //                var createSchoolView = new Settings.views.CreateSchool({
 //                    model: Application.request(Application.SCHOOL_GET)

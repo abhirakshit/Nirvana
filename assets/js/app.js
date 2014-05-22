@@ -213,6 +213,8 @@ require(dependencies,
                 Application.module("Sidebar").start();
                 Application.module("Settings").start();
                 Application.module("Enquiries").start();
+                Application.module("Batches").start();
+                Application.module("Topics").start();
                 Application.module("Students").start();
                 Application.module("Staff").start();
                 Application.module("Student").start();
@@ -225,6 +227,7 @@ require(dependencies,
                 "modules/sidebar/sidebar_app",
                 "modules/enquiries/enquiries_app",
                 "modules/batches/batches_app",
+                "modules/topics/topics_app",
                 "modules/settings/settings_app",
                 "modules/students/students_app",
                 "modules/staff/staff_app",

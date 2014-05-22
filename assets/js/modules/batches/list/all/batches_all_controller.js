@@ -13,7 +13,7 @@ define([
 //                    if (this.options.byDate)
 //                        this.setupAllDateTabContent(user, allBatches);
 //                    else
-//                        this.setupAllTabContent(user, allBatches);
+                        this.setupAllTabContent(user, allBatches);
                 });
 
                 this.show(this.layout, {
@@ -26,16 +26,12 @@ define([
             setupAllTabContent: function(user, allBatches) {
                 var columns = new Application.Entities.Collection([
                     new Application.Entities.Model({columnName: "Name"}),
-                    new Application.Entities.Model({columnName: "Created"}),
-                    new Application.Entities.Model({columnName: "Follow Up"}),
-                    new Application.Entities.Model({columnName: "Phone"}),
-                    new Application.Entities.Model({columnName: "Services"}),
-                    new Application.Entities.Model({columnName: "Countries"}),
-                    new Application.Entities.Model({columnName: "Status"}),
-                    new Application.Entities.Model({columnName: "Assigned To"})
+                    new Application.Entities.Model({columnName: "Start Date"}),
+                    new Application.Entities.Model({columnName: "End Date"}),
+                    new Application.Entities.Model({columnName: "Service"}),
+                    new Application.Entities.Model({columnName: "Type"})
                 ]);
-                this.setUpEnquiryTableView(allBatches.models, columns, "Batches", "allTable", this.layout.pendingBatchesRegion);
-//                this.setUpEnquiryTableView(allBatches, columns, "Batches", "allTable", this.layout.pendingBatchesRegion);
+                this.setupBatchTableView(allBatches, columns, "Batches", "allTable", this.layout.batchesRegion);
             },
 
 //            setupAllDateTabContent: function(user, allBatches) {
@@ -84,24 +80,26 @@ define([
 //                this.setUpEnquiryTableView(futureModels, pendingColumns, "Future Batches", "futureTable",this.layout.futureBatchesRegion);
 //            },
 
-            setUpEnquiryTableView: function(rowModels, headerColumns, tableTitle, tableId, region) {
-                var rows = new Application.Entities.StudentCollection(rowModels);
+            setupBatchTableView: function(rows, headerColumns, tableTitle, tableId, region) {
+//                var rows = new Application.Entities.StudentCollection(rowModels);
                 var tableComposite = this.getTableView(tableId, tableTitle, headerColumns, rows);
 
                 var that = this;
-                this.listenTo(tableComposite, Application.ENQUIRY_SHOW, function(studentId){
-                    Application.execute(Application.ENQUIRY_SHOW, that.options.region, studentId);
+                this.listenTo(tableComposite, Application.BATCH_SHOW, function(batchId){
+                    Application.execute(Application.BATCH_SHOW, that.options.region, batchId);
                 });
                 region.show(tableComposite);
             },
 
             getTableView: function(tableId, title, theadColumns, rows) {
-                return new All.views.TableComposite({
-//                return new All.parent.views.TableComposite({
+                return new Application.Views.Base.views.TableComposite({
+//                return new All.views.TableComposite({
                     model: new Application.Entities.Model({
                         tableId: tableId,
                         title: title,
-                        theadColumns: theadColumns
+                        theadColumns: theadColumns,
+                        childClickEvt: Application.BATCH_SHOW,
+                        rowView: All.views.Row
                     }),
                     collection: rows
                 });

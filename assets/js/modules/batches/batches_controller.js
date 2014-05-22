@@ -97,7 +97,6 @@ define([
             },
 
             showNewBatchModal: function(allServices) {
-                console.log("Show batch modal");
                 var newBatch = Application.request(Application.GET_BATCH);
                 newBatch.attributes.modalId = Batches.addBatchModalFormId;
                 var addBatchFormView = new Batches.views.AddBatchForm({

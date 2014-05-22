@@ -23,7 +23,7 @@ define([], function(){
             template: "settings/templates/admin_layout",
 
             regions : {
-                addAdminRegion: "#addAdmin",
+                addTopicRegion: "#addTopic",
                 addSchoolRegion: "#addSchool",
                 addCountryRegion: "#addCountry"
             }
@@ -32,15 +32,10 @@ define([], function(){
         Settings.views.Layout = Application.Views.Layout.extend({
             template: "settings/templates/settings_layout",
 
-//            regions : {
-//                profileRegion: "#profileSection",
-//                changePasswordRegion: "#changePasswordSection",
-//                adminRegion: "#adminSection"
-//            }
-
             regions: {
                 settingTabRegion: "#settingTabs",
-                settingContentRegion: "#settingContent"
+                settingContentRegion: "#settingContent",
+                adminRegion: "#adminSection"
             }
         });
 
@@ -76,7 +71,19 @@ define([], function(){
             }
         });
 
+        Settings.views.Admin = Application.Views.ItemView.extend({
+            template: "settings/templates/admin_view",
 
+            events: {
+                "click #createTopicBtn": "createTopic"
+            },
+
+            createTopic: function(evt) {
+                evt.preventDefault();
+                this.trigger(Settings.CREATE_TOPIC);
+            }
+
+        });
 
 
         //Header tabs
@@ -290,29 +297,29 @@ define([], function(){
 //
 //        });
 //
-//        Settings.views.CreateCountry = Application.Views.ItemView.extend({
-//            template: "settings/templates/create_country",
-//
-//            events: {
-//                "click #createCountry": "createCountry",
-//                "click #cancelBtn": "toggleViewVisibility",
-//                "click #createCountryBtn": "toggleViewVisibility"
-//            },
-//
-//            onRender: function() {
-//                Backbone.Validation.bind(this);
-//            },
-//
-//            toggleViewVisibility: function(event) {
-//                event.preventDefault();
-//                this.$el.find("#createCountryContainer").fadeToggle();
-//            },
-//
-//            createCountry: function(evt) {
-//                evt.preventDefault();
-//                this.trigger(Settings.createCountryEvt, this);
-//            }
-//
-//        })
+        Settings.views.CreateCountry = Application.Views.ItemView.extend({
+            template: "settings/templates/create_country",
+
+            events: {
+                "click #createCountry": "createCountry",
+                "click #cancelBtn": "toggleViewVisibility",
+                "click #createCountryBtn": "toggleViewVisibility"
+            },
+
+            onRender: function() {
+                Backbone.Validation.bind(this);
+            },
+
+            toggleViewVisibility: function(event) {
+                event.preventDefault();
+                this.$el.find("#createCountryContainer").fadeToggle();
+            },
+
+            createCountry: function(evt) {
+                evt.preventDefault();
+                this.trigger(Settings.createCountryEvt, this);
+            }
+
+        })
     })
 });

@@ -16,6 +16,8 @@ define([
     "modules/views/utils/utils",
     "modules/views/validation/validationMessages",
 
+    "modules/views/base/table_views",
+
     "modules/controllers/base_controller",
     "modules/loading/loading_controller",
 
