@@ -3,7 +3,7 @@ define([
     "modules/topics/topics_view",
 
     //SubModules
-//    "modules/topics/list/all/topics_all_app",
+    "modules/topics/list/all/topics_all_app",
 //    "modules/topics/content/closed/closed_app",
 //    "modules/topics/content/my/my_app",
 //    "modules/topics/show/show_app",
@@ -27,7 +27,7 @@ define([
 //        Topics.CLOSED_TAB = "closed";
 
         var tabCollection = new Application.Entities.Collection([
-            new Application.Entities.Model({text:"Current", id: Topics.CURRENT_TAB}),
+//            new Application.Entities.Model({text:"Current", id: Topics.CURRENT_TAB}),
             new Application.Entities.Model({text:"All", id: Topics.ALL_TAB})
 //            new Application.Entities.Model({text:"Closed", id: Topics.CLOSED_TAB})
         ]);
@@ -47,7 +47,7 @@ define([
 //                        this.showEnquiry(studentId);
 //                    } else {
                         if (!tabId) //Show default tab
-                            tabId = Topics.CURRENT_TAB;
+                            tabId = Topics.ALL_TAB;
                         this.showNavTabs(tabId, allServices);
                         this.showTab(tabId);
 //                    }
@@ -106,22 +106,29 @@ define([
 
 //                var that = this;
                 addTopicFormView.on(Topics.CREATE_TOPIC, function(modalFormView, data){
-                    console.log(data);
-//                    modalFormView.model.save(data, {
-//                        wait: true,
-//                        patch: true,
-//                        success: function(newTopic){
-//                            console.log("Saved on server!!");
-//                            console.dir(newTopic);
-////                            that.showTopic(newTopic);
-//
-//                        },
-//
-//                        error: function(x, response) {
-//                            console.log("Error on server!! -- " + response.text);
-//                            return response;
-//                        }
-//                    });
+
+                    //Save duration value in ms
+                    var duration = moment.duration({
+                        minutes: data.duration_min,
+                        hours: data.duration_hr
+                    });
+
+                    data.duration = duration._milliseconds
+
+                    modalFormView.model.save(data, {
+                        wait: true,
+                        patch: true,
+                        success: function(newTopic){
+                            console.log("Saved on server!!");
+                            console.dir(newTopic);
+//                            that.showTopic(newTopic);
+                        },
+
+                        error: function(x, response) {
+                            console.log("Error on server!! -- " + response.text);
+                            return response;
+                        }
+                    });
                 });
                 Application.modalRegion.show(addTopicFormView);
             },
