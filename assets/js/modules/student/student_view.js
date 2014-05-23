@@ -3,12 +3,15 @@ define([
     Application.module("Student", function (Student, Application, Backbone, Marionette, $, _) {
 
         Student.addEducationFormId = 'addEducationModal';
+
         Student.showAddEducationModalEvt = "showAddEducationModalEvt";
         Student.createEducationEvt = "createEducationEvt";
         Student.deleteEducationEvt = "deleteEducationEvt";
         Student.addCommentEvt = "addCommentEvt";
-
-
+        Student.addEnrollFormId = 'addEnrollModal';
+        Student.showAddEnrollModalEvt = "showAddEnrollModalEvt";
+        Student.createEnrollEvt = "createEnrollEvt";
+        Student.deleteEnrollEvt = "deleteEnrollEvt";
 
         this.prefix = "Student";
         this.templatePath = "js/modules/";
@@ -39,7 +42,8 @@ define([
                 careerRegion: "#career",
                 academicRegion: "#academic",
                 adminRegion: "#admin",
-                historyRegion: "#history"
+                historyRegion: "#history",
+                enrollmentRegion: "#enrollment"
             }
         });
 
@@ -86,6 +90,107 @@ define([
 
             }
         });
+
+        //     Student.views.Enrollment = Application.Views.ItemView.extend({
+        //     template: "student/templates/enrollment_view",
+
+        //     onRender: function() {
+        //         Backbone.Validation.bind(this);
+        //         this.setupEnroll();
+        //     },
+
+        //     setupEnroll: function() {
+        //         Student.setupEditableBox(this.$el, this.model, "enrollDate", "Enroll Date", this.model.get('enrollDate'), 'text', null, 'right');
+        //         Student.setupEditableBox(this.$el, this.model, "totalFee", "TotalFee", this.model.get('totalFee'), 'text', null, 'right');
+        //         //Student.setupEditableBox(this.$el, this.model, "address", "Enter Address", this.model.get('address'), 'textarea', null, 'right');
+        //         //Student.setupEditableBox(this.$el, this.model, "parentFirstName", "Parent First Name", this.model.get('parentFirstName'), 'textarea', null, 'right');
+        //         //Student.setupEditableBox(this.$el, this.model, "parentLastName", "Parent Last Name", this.model.get('parentLastName'), 'textarea', null, 'right');
+
+        //     }
+        // });
+
+     Student.views.addEnrollForm = Application.Views.ItemView.extend({
+            template: "student/templates/enroll_form",
+
+            events: {
+                "click #createEnroll" : "createEnroll"
+            },
+
+            onRender: function() {
+                Backbone.Validation.bind(this);
+            },
+
+            createEnroll: function(evt) {
+                evt.preventDefault();
+                var data = Backbone.Syphon.serialize(this);
+                this.model.set(data);
+
+                var isValid = this.model.isValid(true);
+                if (isValid) {
+                    Application.Views.hideModal(Student.addEnrollFormId);
+                    this.trigger(Student.createEnrollEvt, this);
+                }
+            }
+
+        });
+
+        Student.views.EnrollField = Application.Views.ItemView.extend({
+            template: "student/templates/enroll_field",
+            tagName: "div",
+            className: "col-md-12",
+
+            events: {
+                "mouseenter": "toggleDelete",
+                "mouseleave": "toggleDelete",
+                "click .i-cancel": "deleteEnroll"
+            },
+
+            deleteEnroll: function(evt) {
+                evt.preventDefault();
+                this.trigger(Student.deleteEnrollEvt, this);
+            },
+
+            toggleDelete: function (evt) {
+                evt.preventDefault();
+               // console.log('Mouse hover delete!');
+                var fieldId = this.model.get('totalFee');
+                $('#' + fieldId).toggleClass("basicBorder");
+                $('#' + fieldId).find('.i-cancel').toggleClass("display-none");
+            }
+
+        });
+
+        Student.views.EnrollComposite = Application.Views.CompositeView.extend({
+            template: "student/templates/enrollment_view",
+            itemViewContainer: "#enrollFields",
+            itemView: Student.views.EnrollField,
+
+            initialize: function() {
+                var that = this;
+                this.on(Application.CHILD_VIEW + ":" + Student.deleteEnrollEvt, function(childView) {
+                    that.trigger(Student.deleteEnrollEvt, childView);
+                })
+            },
+
+            serializeData: function() {
+                var data = this.model.toJSON();
+                data.modalId = Student.addEnrollFormId;
+                return data;
+            },
+
+            events: {
+                "click #addEnroll" : "showAddEnrollModal"
+            },
+
+            showAddEnrollModal: function(evt) {
+                evt.preventDefault();
+                this.trigger(Student.showAddEnrollModalEvt, this);
+            }
+        });
+
+
+
+
 
         Student.views.addEducationForm = Application.Views.ItemView.extend({
             template: "student/templates/add_education_form",

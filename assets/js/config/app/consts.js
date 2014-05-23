@@ -73,6 +73,7 @@ define([], function(){
         Application.GET_STUDENT = "get:student";
 
         Application.GET_STUDENT_COMMENTS = "get:student:comments";
+        Application.GET_STUDENT_PAYMENTS = "get:student:payments";
 
         Application.GET_STATUS = "get:status";
         Application.GET_STATUS_All = "get:status:all";
@@ -103,6 +104,8 @@ define([], function(){
         Application.FORUM_SHOW = "forum:show";
         Application.STAFF_SHOW = 'staff:show';
         Application.STUDENT_SHOW = 'student:show';
+
+       // Application.PAYMENTS_SHOW = 'payments:show';
         
 
         Application.STREAM_NAV_SHOW = "stream:nav:show";

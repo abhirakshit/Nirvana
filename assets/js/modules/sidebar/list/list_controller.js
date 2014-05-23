@@ -38,7 +38,7 @@ define([
                     new Application.Entities.Model({id: Application.BATCHES_SHOW, name: "Batch", icon: "fa fa-calendar"}),
                     new Application.Entities.Model({id: Application.SETTINGS_SHOW, name: "Settings", icon: "fa fa-cogs"}),
                     new Application.Entities.Model({id: "students:show", name: "Students", icon: "fa fa-users"}),
-                    new Application.Entities.Model({id: "staff:show", name: "Staff", icon: "fa fa-users"})
+                    new Application.Entities.Model({id: "staff:show", name: "Staff", icon: "fa fa-user-md"})
 //                    new Application.Entities.Model({id: Application.FORUM_SHOW, name: "Forum", icon: "glyphicon glyphicon-globe"})
                 ]);
             },
@@ -52,7 +52,7 @@ define([
                     new Application.Entities.Model({id: Application.BATCHES_SHOW, name: "Batch", icon: "fa fa-calendar"}),
                     new Application.Entities.Model({id: Application.SETTINGS_SHOW, name: "Settings", icon: "fa fa-cogs"}),
                     new Application.Entities.Model({id: "students:show", name: "Students", icon: "fa fa-users"}),
-                new Application.Entities.Model({id: "staff:show", name: "Staff", icon: "fa fa-users"})
+                new Application.Entities.Model({id: "staff:show", name: "Staff", icon: "fa fa-user-md"})
                 ]);
             }
         });
