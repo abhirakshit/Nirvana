@@ -77,30 +77,6 @@ define([
 
             },
 
-            showLocationView: function(staff) {
-
-            },
-
-            // showCareerView: function(student, allCountries, allServices) {
-            //     var addedCountries = new Application.Entities.CountryCollection(student.get('countries'));
-            //     var addedCountriesIdList = addedCountries.pluck("id");
-
-            //     var addedServices = new Application.Entities.ServiceCollection(student.get('services'));
-            //     var addedServicesIdList = addedServices.pluck("id");
-
-            //     var careerView = new Show.views.Career({
-            //         model: student,
-            //         allCountries: allCountries.getIdToTextMap('name'),
-            //         addedCountries: addedCountriesIdList,
-
-            //         allServices: allServices.getIdToTextMap('name'),
-            //         addedServices: addedServicesIdList
-            //     });
-            //     this.layout.careerRegion.show(careerView);
-            // },
-
-
-
 
             getLayout: function () {
                 return new Show.views.Layout();

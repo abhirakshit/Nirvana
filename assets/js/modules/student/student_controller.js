@@ -7,7 +7,8 @@ define([
     "modules/entities/comment",
     "modules/entities/service",
     "modules/entities/education",
-    "modules/entities/enquiryStatus"
+    "modules/entities/enquiryStatus",
+    "modules/entities/enroll"
     
 ], function () {
     Application.module("Student", function (Student, Application, Backbone, Marionette, $, _) {
@@ -22,6 +23,7 @@ define([
                 var allServices = Application.request(Application.GET_SERVICES);
                 var allStaff = Application.request(Application.GET_ALL_STAFF);
                 var allStatus = Application.request(Application.GET_STATUS_All);
+                var enrollmentByStudent = Application.request(Application.GET_ENROLLMENT_BY_STUDENTID, this.options.studentId);
                 
 //                var allStudents = Application.request(Application.GET_STUDENTS);
 
@@ -46,7 +48,7 @@ define([
                 });
             },
 
-            showStudent: function (student, allCountries, allServices, allStaff, allStatus, studentComments) {
+            showStudent: function (student, allCountries, allServices, allStaff, allStatus, studentComments,enrollmentByStudent) {
 
                 this.showPersonalView(student);
 
@@ -57,6 +59,9 @@ define([
                 this.showAdminView(student, allStaff, allStatus);
 
                 this.showHistoryView(student, studentComments);
+
+                this.showEnrollmentView(student, allServices);
+
             },
 
             showPersonalView: function(student) {
@@ -65,6 +70,76 @@ define([
                 });
 
                 this.layout.personalRegion.show(personalView);
+            },
+
+            showEnrollmentView: function(student,allServices){
+      
+                var enrollCollection = new Application.Entities.EnrollCollection(student.get('enrollments'));
+                var addedServices = new Application.Entities.ServiceCollection(student.get('services'));
+                var addedServicesIdList = addedServices.pluck("id");
+
+                var that = this;
+                var enrollView = new Student.views.EnrollComposite({
+                    collection: enrollCollection,
+                    model: student,
+                    allServices: allServices.getIdToTextMap('name'),
+                    addedServices: addedServicesIdList
+                });
+                this.layout.enrollmentRegion.show(enrollView);
+
+                enrollView.on(Student.showAddEnrollModalEvt, function(view){
+                   console.log("Enroll modal!!!");
+//                    var modalRegion = new Application.Views.ModalRegion({el:'#modal'});
+                    var newEnroll = Application.request(Application.GET_ENROLLMENT);
+                    newEnroll.attributes.modalId = Student.addEnrollFormId;
+
+                    var addEnrollModalView = new Student.views.addEnrollForm({
+                        model: newEnroll
+                    });
+
+                    addEnrollModalView.on(Student.createEnrollEvt, function(modalFormView){
+                        student.save("addEnroll", modalFormView.model.attributes, {
+                            wait: true,
+                            patch: true,
+                            success: function(updatedStudent){
+                                console.log("Saved on server!!");
+                                console.dir(updatedStudent);
+                                that.showEnrollView(updatedStudent);
+                                //Application.execute(Student.UPDATE_HISTORY_EVT, updatedStudent);
+                            },
+
+                            error: function(x, response) {
+                                console.log("Error on server!! -- " + response.text);
+                                return response;
+                            }
+                        });
+
+                    });
+                    Application.modalRegion.show(addEnrollModalView);
+                });
+
+                enrollView.on(Student.deleteEnrollEvt, function(enrollFieldView) {
+                    console.log('Delete enrollment...');
+                    student.save("removeEnroll", enrollFieldView.model.attributes, {
+                        wait: true,
+                        patch: true,
+                        success: function(updatedStudent){
+                            console.log("Saved on server!!");
+                            //console.dir(updatedStudent);
+                            //that.showEnrollView(updatedStudent);
+                            //Application.execute(Student.UPDATE_HISTORY_EVT, updatedStudent);
+                        },
+
+                        error: function(x, response) {
+                            console.log("Error on server!! -- " + response.text);
+                            return response;
+                        }
+                    });
+                });
+
+
+
+
             },
 
             showAcademicView: function(student) {

@@ -4,6 +4,7 @@ define([
     "modules/entities/school",
     "modules/entities/country",
     "modules/student/student_app"
+    
 ], function () {
     Application.module("Students", function (Students, Application, Backbone, Marionette, $, _) {
 
@@ -44,12 +45,17 @@ define([
             
                 this.layout.changePasswordRegion.show(studentsView);
 
+    // var that = this;
+    //             this.listenTo(allStaffView, Application.SELECTED_STAFF, function(staffId){
+                    
+    //                 Application.execute(Application.SELECTED_STAFF, that.options.region, staffId);
 
+    //             });
 
                     var that = this;
                 this.listenTo(studentsView, Application.SELECTED_STUDENT, function(studentId){
                    // console.log(Application.SELECTED_STUDENT);
-                    Application.execute(Application.STUDENT_SHOW, this.layout.enqContentRegion, studentId);
+                    Application.execute(Application.SELECTED_STUDENT, this.layout.enqContentRegion, studentId);
                    //console.log('***********Its Working!******************');
 
             //            showEnquiry: function(studentId) {

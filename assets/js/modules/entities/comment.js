@@ -26,24 +26,6 @@ define([], function(){
                 return comments;
             }
 
-//            getComment: function(commentId) {
-//                if (!commentId)
-//                    return new Entities.Comment();
-//
-//                var comment = new Entities.Comment();
-//                comment.id = commentId;
-//                comment.fetch();
-//                return comment;
-//            },
-//
-//            getAllComments: function(update) {
-//                //Update is called after a new comment is added/removed and the collection needs to be updated
-//                if (!Entities.allComments || update){
-//                    Entities.allComments = new Entities.CommentCollection();
-//                    Entities.allComments.fetch();
-//                }
-//                return Entities.allComments;
-//            }
         };
 
         Application.reqres.setHandler(Application.GET_STUDENT_COMMENTS, function(studentId){

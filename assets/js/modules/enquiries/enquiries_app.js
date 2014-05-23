@@ -9,8 +9,8 @@ define([
                 "enquiries/": "show",
                 "enquiries/:tabId": "show",
                 "enquiries/:tabId/": "show",
-                "student/:id": "showStudent",
-                "student/:id/": "showStudent"
+                "enquiry/:id": "showStudent",
+                "enquiry/:id/": "showStudent"
             }
         });
 

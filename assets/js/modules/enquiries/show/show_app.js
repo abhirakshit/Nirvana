@@ -3,7 +3,7 @@ define([
 ], function () {
     Application.module("Enquiries.Show", function (Show, Application, Backbone, Marionette, $, _) {
 
-        Show.rootRoute = "student";
+        Show.rootRoute = "enquiry";
 //        Show.Router = Marionette.AppRouter.extend({
 //            appRoutes: {
 //                "student/:id": "show"
@@ -20,7 +20,7 @@ define([
         };
 
         Application.commands.setHandler(Application.ENQUIRY_SHOW, function (enqContentRegion, studentId) {
-            console.log("Show Student: " + studentId);
+            console.log("Show Enquiry: " + studentId);
             API.show(enqContentRegion, studentId);
             Application.navigate(Show.rootRoute + "/" +studentId);
         });

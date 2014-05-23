@@ -37,7 +37,8 @@ define([
                     new Application.Entities.Model({id: Application.TOPICS_SHOW, name: "Topics", icon: "i i-book"}),
                     new Application.Entities.Model({id: Application.SETTINGS_SHOW, name: "Settings", icon: "fa fa-cogs"}),
                     new Application.Entities.Model({id: "students:show", name: "Students", icon: "fa fa-users"}),
-                    new Application.Entities.Model({id: "staff:show", name: "Staff", icon: "fa fa-users"})
+                    new Application.Entities.Model({id: "staff:show", name: "Staff", icon: "fa fa-user-md"})
+
                 ]);
             },
 
@@ -49,7 +50,7 @@ define([
                     new Application.Entities.Model({id: Application.TOPICS_SHOW, name: "Topics", icon: "i i-book"}),
                     new Application.Entities.Model({id: Application.SETTINGS_SHOW, name: "Settings", icon: "fa fa-cogs"}),
                     new Application.Entities.Model({id: "students:show", name: "Students", icon: "fa fa-users"}),
-                new Application.Entities.Model({id: "staff:show", name: "Staff", icon: "fa fa-users"})
+                new Application.Entities.Model({id: "staff:show", name: "Staff", icon: "fa fa-user-md"})
                 ]);
             }
         });

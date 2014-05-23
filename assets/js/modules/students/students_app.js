@@ -19,10 +19,9 @@ define([
         Students.Router = Marionette.AppRouter.extend({
             appRoutes: {
                 "students": "show",
-                "students/": "show"
-                // ,
-                // "student/:id": "showStudent",
-                // "student/:id/": "showStudent"
+                "students/": "show",
+                "student/:id": "showStudent",
+                "student/:id/": "showStudent"
             }
         });
 
@@ -36,25 +35,26 @@ define([
 
 
                 Application.commands.execute(Application.SET_SIDEBAR, "students:show");
-            }
+            },
             
 
 
-            // showStudent: function(studentId) {
-            //     new Students.Controller({
-            //         region: Application.pageContentRegion,
-            //         studentId: staffId
-            //     });
-            //     Application.commands.execute(Application.SET_SIDEBAR, "students:show");
-            //    // Application.commands.execute()
-            // },
+            showStudent: function(studentId) {
+                new Students.Controller({
+                    region: Application.pageContentRegion,
+                    studentId: studentId
+                });
+                
+                Application.commands.execute(Application.SET_SIDEBAR, "student:show");
+               // Application.commands.execute()
+            }
 
             // showStudent: function(studentId) {
             //     new Students.Controller({
             //         region: Application.pageContentRegion,
             //         studentId: studentId
             //     });
-            //     Application.commands.execute(Application.SET_SIDEBAR, Application.ENQUIRY_SHOW);
+            //     Application.commands.execute(Application.SET_SIDEBAR, Application.STUDENT_SHOW);
             // }
 
 
@@ -67,10 +67,10 @@ define([
 
         Students.on(Application.START, function () {
             console.log("Students start...");
-            //Marionette.TemplateLoader.loadModuleTemplates(Students.Show, function(){
+        //    Marionette.TemplateLoader.loadModuleTemplates(Student.Show, function(){
                 Marionette.TemplateLoader.loadModuleTemplates(Students, Students.setup);
             });
-        //});
+      //  });
 
         Application.commands.setHandler("students:show", function(){
             API.show();
