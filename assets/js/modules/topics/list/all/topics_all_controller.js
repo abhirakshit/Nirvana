@@ -26,10 +26,10 @@ define([
             setupAllTabContent: function(user, allTopics) {
                 var columns = new Application.Entities.Collection([
                     new Application.Entities.Model({columnName: "Name"}),
-                    new Application.Entities.Model({columnName: "Start Date"}),
-                    new Application.Entities.Model({columnName: "End Date"}),
+                    new Application.Entities.Model({columnName: "Section"}),
+                    new Application.Entities.Model({columnName: "Duration"}),
                     new Application.Entities.Model({columnName: "Service"}),
-                    new Application.Entities.Model({columnName: "Type"})
+                    new Application.Entities.Model({columnName: "Description"})
                 ]);
                 this.setupTopicTableView(allTopics, columns, "Topics", "allTable", this.layout.topicsRegion);
             },

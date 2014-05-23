@@ -11,7 +11,7 @@ define([
         };
 
         List_All.views.Layout = Application.Views.Layout.extend({
-            template: "batches/list/templates/list_layout",
+            template: "topics/list/templates/list_layout",
             regions: {
                 topicsRegion: "#topics"
             }
@@ -19,7 +19,7 @@ define([
 
 
         List_All.views.Row = Application.Views.ItemView.extend({
-            template: "batches/list/templates/row",
+            template: "topics/list/templates/row",
             tagName: "tr",
 
             serializeData: function() {

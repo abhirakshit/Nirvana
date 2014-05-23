@@ -6,6 +6,22 @@ define([], function(){
                 showFormattedDate: function(date){
                     return moment(date).format(Application.DATE_FORMAT);
 //                    return moment(this.createdAt).format(Application.DATE_FORMAT);
+                },
+
+                showDurationInSec: function(millsec) {
+//                    return moment.duration(millsec).asMinutes();
+                    console.log(millsec);
+                    var duration = moment.duration(parseInt(millsec));
+                    var hours = duration.hours();
+                    var minutes = duration.minutes();
+
+                    var durationStr = '';
+                    if (hours > 0)
+                        durationStr = hours + ' hour ';
+                    if (minutes > 0)
+                        durationStr += minutes + ' minutes';
+//                    return moment.duration(parseInt(millsec)).minutes();
+                    return durationStr;
                 }
             }
         });

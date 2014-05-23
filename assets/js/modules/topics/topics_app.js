@@ -45,9 +45,9 @@ define([
 ////                Marionette.TemplateLoader.loadModuleTemplates(Topics.Content, function() {
 //                Marionette.TemplateLoader.loadModuleTemplates(Topics.Content.All, function() {
 //                    Marionette.TemplateLoader.loadModuleTemplates(Topics.Content.My, function() {
-//                        Marionette.TemplateLoader.loadModuleTemplates(Topics.List.All, function() {
+                        Marionette.TemplateLoader.loadModuleTemplates(Topics.List.All, function() {
                             Marionette.TemplateLoader.loadModuleTemplates(Topics, Topics.setup);
-//                        });
+                        });
 //                    });
 //                });
 ////                });
