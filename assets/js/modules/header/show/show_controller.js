@@ -77,7 +77,7 @@ define([
                 });
 
                 var that = this;
-                addUserModalView.on(Show.createUserEvt, function(modalFormView, data){
+                addUserModalView.on(Show.CREATE_USER, function(modalFormView, data){
                     modalFormView.model.save(data, {
                         wait: true,
                         patch: true,

@@ -1,12 +1,12 @@
 define([
     //Views
-    "modules/batches/batches_view",
+    "modules/topics/topics_view",
 
     //SubModules
-    "modules/batches/list/all/batches_all_app",
-//    "modules/batches/content/closed/closed_app",
-//    "modules/batches/content/my/my_app",
-//    "modules/batches/show/show_app",
+    "modules/topics/list/all/topics_all_app",
+//    "modules/topics/content/closed/closed_app",
+//    "modules/topics/content/my/my_app",
+//    "modules/topics/show/show_app",
 
     //Models
     "modules/entities/user",
@@ -14,25 +14,25 @@ define([
     "modules/entities/service",
 //    "modules/entities/education",
 //    "modules/entities/enquiryStatus"
-    "modules/entities/batch"
+    "modules/entities/topic"
 ], function () {
-    Application.module("Batches", function (Batches, Application, Backbone, Marionette, $, _) {
+    Application.module("Topics", function (Topics, Application, Backbone, Marionette, $, _) {
 
         //Event
-        Batches.TAB_SELECTED = "tab:selected";
+        Topics.TAB_SELECTED = "tab:selected";
 
         //Enquiry Tab Id's
-        Batches.CURRENT_TAB = "current";
-        Batches.ALL_TAB = "all";
-//        Batches.CLOSED_TAB = "closed";
+        Topics.CURRENT_TAB = "current";
+        Topics.ALL_TAB = "all";
+//        Topics.CLOSED_TAB = "closed";
 
         var tabCollection = new Application.Entities.Collection([
-            new Application.Entities.Model({text:"Current", id: Batches.CURRENT_TAB}),
-            new Application.Entities.Model({text:"All", id: Batches.ALL_TAB}),
-//            new Application.Entities.Model({text:"Closed", id: Batches.CLOSED_TAB})
+//            new Application.Entities.Model({text:"Current", id: Topics.CURRENT_TAB}),
+            new Application.Entities.Model({text:"All", id: Topics.ALL_TAB})
+//            new Application.Entities.Model({text:"Closed", id: Topics.CLOSED_TAB})
         ]);
 
-        Batches.Controller = Application.Controllers.Base.extend({
+        Topics.Controller = Application.Controllers.Base.extend({
             initialize: function () {
                 var user = Application.request(Application.GET_LOGGED_USER);
                 var allServices = Application.request(Application.GET_SERVICES);
@@ -47,7 +47,7 @@ define([
 //                        this.showEnquiry(studentId);
 //                    } else {
                         if (!tabId) //Show default tab
-                            tabId = Batches.CURRENT_TAB;
+                            tabId = Topics.ALL_TAB;
                         this.showNavTabs(tabId, allServices);
                         this.showTab(tabId);
 //                    }
@@ -61,59 +61,67 @@ define([
             },
 
             showNavTabs: function (tabId, allServices) {
-                var tabContainerView = new Batches.views.TabContainer({
+                var tabContainerView = new Topics.views.TabContainer({
                     collection: tabCollection
 //                    model: new Application.Entities.Model({
-//                        modalId: Batches.addStudentModalFormId
+//                        modalId: Topics.addStudentModalFormId
 //                    })
                 });
                 this.layout.tabsRegion.show(tabContainerView);
                 if (tabId) {
                     tabContainerView.selectTabView(tabId);
-                    Application.navigate(Batches.rootRoute + "/" +tabId);
+                    Application.navigate(Topics.rootRoute + "/" +tabId);
                 }
 
                 var that = this;
-                this.listenTo(tabContainerView, Batches.TAB_SELECTED, function(tabId){
+                this.listenTo(tabContainerView, Topics.TAB_SELECTED, function(tabId){
                     that.showTab(tabId);
                     tabContainerView.selectTabView(tabId);
-                    Application.navigate(Batches.rootRoute + "/" +tabId);
+                    Application.navigate(Topics.rootRoute + "/" +tabId);
                 });
 
 
                 //Show the add button
-                var addBatchButtonView = new Batches.views.AddBatchButton({
+                var addTopicButtonView = new Topics.views.AddTopicButton({
                     model: new Application.Entities.Model({
-                        modalId: Batches.addBatchModalFormId,
-                        text: "New Batch"
+                        modalId: Topics.addTopicModalFormId,
+                        text: "New Topic"
                     })
                 });
-//                this.listenTo(addBatchButtonView, Batches.SHOW_NEW_BATCH_MODAL, this.showNewBatchModal(allServices));
-                this.listenTo(addBatchButtonView, Batches.SHOW_NEW_BATCH_MODAL, function(){
-                    that.showNewBatchModal(allServices)
+//                this.listenTo(addTopicButtonView, Topics.SHOW_NEW_TOPIC_MODAL, this.showNewTopicModal(allServices));
+                this.listenTo(addTopicButtonView, Topics.SHOW_NEW_TOPIC_MODAL, function(){
+                    that.showNewTopicModal(allServices)
                 });
-                this.layout.addButtonRegion.show(addBatchButtonView);
+                this.layout.addButtonRegion.show(addTopicButtonView);
 
             },
 
-            showNewBatchModal: function(allServices) {
-                var newBatch = Application.request(Application.GET_BATCH);
-                newBatch.attributes.modalId = Batches.addBatchModalFormId;
-                var addBatchFormView = new Batches.views.AddBatchForm({
-                    model: newBatch,
+            showNewTopicModal: function(allServices) {
+                var newTopic = Application.request(Application.GET_TOPIC);
+                newTopic.attributes.modalId = Topics.addTopicModalFormId;
+                var addTopicFormView = new Topics.views.AddTopicForm({
+                    model: newTopic,
                     allServices: allServices.getIdToTextMap("name")
                 });
 
 //                var that = this;
-                addBatchFormView.on(Batches.CREATE_BATCH, function(modalFormView, data){
+                addTopicFormView.on(Topics.CREATE_TOPIC, function(modalFormView, data){
+
+                    //Save duration value in ms
+                    var duration = moment.duration({
+                        minutes: data.duration_min,
+                        hours: data.duration_hr
+                    });
+
+                    data.duration = duration._milliseconds
+
                     modalFormView.model.save(data, {
                         wait: true,
                         patch: true,
-                        success: function(newBatch){
+                        success: function(newTopic){
                             console.log("Saved on server!!");
-                            console.dir(newBatch);
-//                            that.showBatch(newBatch);
-
+                            console.dir(newTopic);
+//                            that.showTopic(newTopic);
                         },
 
                         error: function(x, response) {
@@ -122,17 +130,17 @@ define([
                         }
                     });
                 });
-                Application.modalRegion.show(addBatchFormView);
+                Application.modalRegion.show(addTopicFormView);
             },
 
             showTab: function (tabId) {
 //                Application.execute(Application.ENQUIRIES_CONTENT_SHOW, this.layout.enqContentRegion, tabId);
-                if (Batches.CURRENT_TAB === tabId) {
-                    Application.execute(Application.BATCHES_LIST_CURRENT, this.layout.contentRegion);
-                } else if (Batches.ALL_TAB === tabId) {
-                    Application.execute(Application.BATCHES_LIST_ALL, this.layout.contentRegion);
+                if (Topics.CURRENT_TAB === tabId) {
+                    Application.execute(Application.TOPICS_LIST_CURRENT, this.layout.contentRegion);
+                } else if (Topics.ALL_TAB === tabId) {
+                    Application.execute(Application.TOPICS_LIST_ALL, this.layout.contentRegion);
                 }
-//                else if (Batches.CLOSED_TAB === tabId) {
+//                else if (Topics.CLOSED_TAB === tabId) {
 //                    Application.execute(Application.ENQUIRIES_CONTENT_CLOSED, this.layout.enqContentRegion);
 //                }
             },
@@ -142,7 +150,7 @@ define([
             },
 
             getLayout: function () {
-                return new Batches.views.Layout();
+                return new Topics.views.Layout();
             }
 
         });

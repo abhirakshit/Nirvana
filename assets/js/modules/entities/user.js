@@ -32,7 +32,7 @@ define([
 
                 newPassword: {
                     required: true,
-                    fn: 'notEqualToCurrent'
+                    fn: 'notEqualToCurrentPassword'
                 },
 
                 confirmPassword: {
@@ -40,7 +40,7 @@ define([
                 }
             },
 
-            notEqualToCurrent: function(value, attr, computedState) {
+            notEqualToCurrentPassword: function(value, attr, computedState) {
                 if (value === computedState.currentPassword)
                     return "Enter different password";
             }

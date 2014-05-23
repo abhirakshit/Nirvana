@@ -1,10 +1,10 @@
 define([
-//    "modules/batches/batches_setup"
+//    "modules/topics/topics_setup"
 ], function () {
-    Application.module("Batches", function (Batches, Application, Backbone, Marionette, $, _) {
+    Application.module("Topics", function (Topics, Application, Backbone, Marionette, $, _) {
 
         //***View Setup
-        this.prefix = "Batches";
+        this.prefix = "Topics";
         this.templatePath = "js/modules/";
         this.views = {};
 
@@ -13,11 +13,11 @@ define([
         };
         //***//
 
-        Batches.addBatchModalFormId = "addBatchModal";
-        Batches.SHOW_NEW_BATCH_MODAL = "show:new:batch:modal";
-        Batches.CREATE_BATCH = "create:batch";
+        Topics.addTopicModalFormId = "addTopicModal";
+        Topics.SHOW_NEW_TOPIC_MODAL = "show:new:topic:modal";
+        Topics.CREATE_TOPIC = "create:topic";
 
-        Batches.views.Layout = Application.Views.Layout.extend({
+        Topics.views.Layout = Application.Views.Layout.extend({
             template: "views/templates/page_layout",
             regions: {
                 tabsRegion: "#tabs",
@@ -26,21 +26,21 @@ define([
             }
         });
 
-        Batches.views.AddBatchButton = Application.Views.ItemView.extend({
+        Topics.views.AddTopicButton = Application.Views.ItemView.extend({
             template: "views/templates/tab_add_button",
 
             events: {
-                "click" : "showAddBatchModal"
+                "click" : "showAddTopicModal"
             },
 
-            showAddBatchModal: function(evt){
+            showAddTopicModal: function(evt){
                 evt.preventDefault();
-                this.trigger(Batches.SHOW_NEW_BATCH_MODAL);
+                this.trigger(Topics.SHOW_NEW_TOPIC_MODAL);
             }
 
         });
 
-        Batches.views.Tab = Application.Views.ItemView.extend({
+        Topics.views.Tab = Application.Views.ItemView.extend({
             template: "views/templates/tab",
             tagName: "li",
 
@@ -59,21 +59,21 @@ define([
             showView: function(evt) {
                 evt.preventDefault();
                 console.log("Show Tab Content: " + this.model.get('text'));
-                this.trigger(Batches.TAB_SELECTED, this);
+                this.trigger(Topics.TAB_SELECTED, this);
             }
 
         });
 
-        Batches.views.TabContainer = Application.Views.CompositeView.extend({
+        Topics.views.TabContainer = Application.Views.CompositeView.extend({
             template: "views/templates/tab_container",
             tagName: "span",
             itemViewContainer: "#tabsUL",
-            itemView: Batches.views.Tab,
+            itemView: Topics.views.Tab,
 
             initialize: function(){
                 var that = this;
-                this.on(Application.CHILD_VIEW + ":" + Batches.TAB_SELECTED, function(childView){
-                    that.trigger(Batches.TAB_SELECTED, childView.model.get('id'));
+                this.on(Application.CHILD_VIEW + ":" + Topics.TAB_SELECTED, function(childView){
+                    that.trigger(Topics.TAB_SELECTED, childView.model.get('id'));
                 });
             },
 
@@ -104,12 +104,12 @@ define([
         });
 
 
-        Batches.views.AddBatchForm = Application.Views.ItemView.extend({
-            template: "batches/templates/add_batch_form",
+        Topics.views.AddTopicForm = Application.Views.ItemView.extend({
+            template: "topics/templates/add_topic_form",
 //            template: "header/show/templates/add_user_form",
 
             events: {
-                "click #createNewBatch" : "createNewBatch"
+                "click #createNewTopic" : "createNewTopic"
             },
 
             onRender: function() {
@@ -118,8 +118,8 @@ define([
                 this.renderServiceSelect(this.options.allServices, "#service");
 
                 //Add datetime field
-                Application.Views.addDateTimePicker(this.$el.find('#startDateDiv'), null, {pickTime: false});
-                Application.Views.addDateTimePicker(this.$el.find('#endDateDiv'), moment().add('days', 30) ,{pickTime: false});
+//                Application.Views.addDateTimePicker(this.$el.find('#startDateDiv'), null, {pickTime: false});
+//                Application.Views.addDateTimePicker(this.$el.find('#endDateDiv'), moment().add('days', 30) ,{pickTime: false});
 
             },
 
@@ -130,15 +130,15 @@ define([
                 });
             },
 
-            createNewBatch: function(evt) {
+            createNewTopic: function(evt) {
                 evt.preventDefault();
                 var data = Backbone.Syphon.serialize(this);
                 this.model.set(data);
 
                 var isValid = this.model.isValid(true);
                 if (isValid) {
-                    Application.Views.hideModal(Batches.addBatchModalFormId);
-                    this.trigger(Batches.CREATE_BATCH, this, data);
+                    Application.Views.hideModal(Topics.addTopicModalFormId);
+                    this.trigger(Topics.CREATE_TOPIC, this, data);
                 }
             }
 

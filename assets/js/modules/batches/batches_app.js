@@ -7,8 +7,8 @@ define([
             appRoutes: {
                 "batches": "show",
                 "batches/": "show",
-//                "batches/:tabId": "show",
-//                "batches/:tabId/": "show",
+                "batches/:tabId": "show",
+                "batches/:tabId/": "show",
 //                "student/:id": "showStudent",
 //                "student/:id/": "showStudent"
             }
@@ -45,9 +45,9 @@ define([
 ////                Marionette.TemplateLoader.loadModuleTemplates(Batches.Content, function() {
 //                Marionette.TemplateLoader.loadModuleTemplates(Batches.Content.All, function() {
 //                    Marionette.TemplateLoader.loadModuleTemplates(Batches.Content.My, function() {
-//                        Marionette.TemplateLoader.loadModuleTemplates(Batches.Content.Closed, function() {
+                        Marionette.TemplateLoader.loadModuleTemplates(Batches.List.All, function() {
                             Marionette.TemplateLoader.loadModuleTemplates(Batches, Batches.setup);
-//                        });
+                        });
 //                    });
 //                });
 ////                });

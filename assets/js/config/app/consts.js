@@ -64,6 +64,10 @@ define([], function(){
         Application.GET_STAFF = "get:staff";
 
         Application.GET_BATCHES = "get:batches";
+        Application.GET_BATCH = "get:batch";
+
+        Application.GET_TOPICS = "get:topics";
+        Application.GET_TOPIC = "get:topic";
 
         Application.GET_ENQUIRIES = "get:enquiries";
         Application.GET_ENQUIRIES_CLOSED = "get:enquiries:closed";
@@ -99,14 +103,20 @@ define([], function(){
         Application.PROFILES_SHOW = "profiles:show";
         Application.SETTINGS_SHOW = "settings:show";
         Application.PAYMENTS_SHOW = "payments:show";
+
         Application.BATCHES_SHOW = "batches:show";
-        Application.ENQUIRIES_SHOW = "enquiries:show";
+        Application.BATCH_SHOW = "batch:show";
+        Application.BATCHES_LIST_CURRENT = "batches:list:current";
+        Application.BATCHES_LIST_ALL = "batches:list:all";
+
+        Application.TOPICS_SHOW = "topics:show";
+        Application.TOPIC_SHOW = "topic:show";
+        Application.TOPICS_LIST_CURRENT = "topics:list:current";
+        Application.TOPICS_LIST_ALL = "topics:list:all";
+
         Application.FORUM_SHOW = "forum:show";
         Application.STAFF_SHOW = 'staff:show';
         Application.STUDENT_SHOW = 'student:show';
-
-       // Application.PAYMENTS_SHOW = 'payments:show';
-        
 
         Application.STREAM_NAV_SHOW = "stream:nav:show";
         Application.CAREER_NAV_SHOW = "career:nav:show";
@@ -114,6 +124,7 @@ define([], function(){
 
 //        Enquiries.SELECTED_ENQUIRY = "selected:enquiry";
 //        Application.ENQUIRY_SELECTED = "enquiry:show";
+        Application.ENQUIRIES_SHOW = "enquiries:show";
         Application.ENQUIRY_SHOW = "enquiry:show";
         Application.ENQUIRIES_NAV_SHOW = "enquiries:nav:show";
 //        Application.ENQUIRIES_CONTENT_SHOW = "enquiries:content:show";
@@ -123,8 +134,6 @@ define([], function(){
         Application.ENQUIRIES_CONTENT_JOINED = "enquiries:content:joined";
         Application.ENQUIRIES_CONTENT_CLOSED = "enquiries:content:closed";
 
-        Application.BATCHES_LIST_CURRENT = "batches:list:current";
-        Application.BATCHES_LIST_ALL = "batches:list:all";
 
         Application.SHOW_PROFILE = "showProfile";
         Application.SHOW_ADMIN = "showAdmin";

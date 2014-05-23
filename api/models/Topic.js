@@ -13,32 +13,23 @@ module.exports = _.merge(_.cloneDeep(infoTable), {
 	attributes: {
         section: {type: 'string'},
 
-//        topic: {type: 'string'},
-
         duration: {type: 'string'},
 
         homework: {type: 'string'},
 
         sequence: {type: 'integer'},
 
-
-
-
         //Association
 
-        // Many to One: Course to Service
+        // Many to One: Topic to Service
         service: {
             model: 'Service'
         },
 
-        //One to One: course to class
+        //Many to One: Topic to Class
         class: {
             model: 'Class'
         }
-
-
-
-
 
 	}
 

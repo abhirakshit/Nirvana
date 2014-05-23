@@ -7,9 +7,12 @@ define([], function () {
             $('.modal-backdrop').remove();
         };
 
-        Views.addDateTimePicker = function (view) {
-            view.datetimepicker();
-            view.data("DateTimePicker").setDate(moment());
+        Views.addDateTimePicker = function (view, showDate, options) {
+            view.datetimepicker(options);
+            if (!showDate)
+                var showDate = moment();
+
+            view.data("DateTimePicker").setDate(showDate);
         };
 
         Views.addDatatable = function (table) {

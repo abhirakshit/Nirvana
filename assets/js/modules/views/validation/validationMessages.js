@@ -42,8 +42,8 @@ Application.module("Views", function (Views, Application, Backbone, Marionette, 
                 return target.text(error);
             } else {
                 if (group.find(".help-block").length === 0) {
+//                    group.first(".controls").append("<p class=\"help-block error-message\"></p>");
                     group.find(".controls").append("<p class=\"help-block error-message\"></p>");
-//                    group.find(".form-control").append("<p class=\"help-block error-message\"></p>");
                 }
                 target = group.find(".help-block");
                 return target.text(error);
