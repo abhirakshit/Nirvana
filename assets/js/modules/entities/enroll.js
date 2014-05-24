@@ -7,7 +7,10 @@ define([], function(){
         Entities.Enroll = Entities.Model.extend({
             urlRoot: Entities.enrollUrl,
             validation: {
-                name: {required: true}
+                service: {required: true},
+                totalFee: {required: true, min: 1},
+                enrollDate: {required: true}
+
             }
         });
 

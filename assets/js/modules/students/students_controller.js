@@ -3,7 +3,7 @@ define([
     "modules/entities/user",
     "modules/entities/school",
     "modules/entities/country",
-    "modules/student/student_app"
+    "modules/students/show/show_app"
     
 ], function () {
     Application.module("Students", function (Students, Application, Backbone, Marionette, $, _) {

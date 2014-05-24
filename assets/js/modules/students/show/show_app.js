@@ -3,8 +3,8 @@ define([
 ], function () {
     Application.module("Students.Show", function (Show, Application, Backbone, Marionette, $, _) {
 
-        Show.rootRoute = "students";
-       // Show.Router = Marionette.AppRouter.extend({
+         Show.rootRoute = "student";
+       // Student.Router = Marionette.AppRouter.extend({
        //     appRoutes: {
        //         "student/:id": "show"
        //     }
@@ -21,12 +21,15 @@ define([
 
 
 
-        Application.commands.setHandler(Application.SELECTED_STUDENT, function (enqContentRegion, studentId) {
-            console.log("Show student: " + studentId);
-
+        Application.commands.setHandler(Application.STUDENT_SHOW, function (enqContentRegion, studentId) {
+            console.log("Student: " + studentId);
             API.show(enqContentRegion, studentId);
             Application.navigate(Show.rootRoute + "/" +studentId);
         });
 
     });
 });
+
+
+
+

@@ -490,6 +490,49 @@ addComment = function(id, staffId, comment, res) {
     );
 };
 
+addEnroll = function(id, staffId, serviceId, totalFee, enrollDate, res){
+    
+
+    async.series([
+
+
+        function(callback){
+            var values = {student: id, service: serviceId, totalFee: totalFee, enrollDate: enrollDate };
+            //create a enrollment for a student id
+            Enroll.create(values).exec(function(err, enroll){
+                if (err){
+                    callback(err);
+
+                }
+                console.log(enroll);
+                callback(null);
+            });
+
+        },
+
+        function(callback){
+            //create a comment that a new enrollment is created
+            var commentStr = '<b>Enrolled:</b> ' + 'Total Fee ' + totalFee ;
+            console.log();
+            UserService.createComment(staffId, id, commentStr, "add", callback)
+
+
+        },
+
+       function(callback) {
+            UserService.getStudent(id, callback, 'enrollments');
+        }
+
+        ], function(err, student){
+            if (err){
+                console.log(err);
+                res.badRequest(err);
+            }
+            res.json(student);
+        });
+}
+
+
 
 stringCleanUp = function(strArr) {
     return strArr.join(", ");
@@ -529,7 +572,15 @@ module.exports = {
             addComment(id, UserService.getCurrentStaffUserId(req), req.body.comment, res);
         } else if (req.body.email) {
             updateEmail(id, UserService.getCurrentStaffUserId(req), req.body, res);
-        } else {
+        } else if(req.body.enroll) {
+            var enroll = req.body.enroll;
+            addEnroll(id, UserService.getCurrentStaffUserId(req), enroll.service, enroll.totalFee, enroll.enrollDate, res);
+        }
+
+
+
+
+        else {
 
             var updateFields = _.merge({}, req.params.all(), req.body);
             async.waterfall([
