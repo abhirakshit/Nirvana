@@ -60,6 +60,7 @@ define([], function(){
         Application.SPECIALIZATION_GET = "specialization:get";
 
         Application.GET_STUDENTS_ASSIGNED = "get:students:assigned";
+        Application.GET_STUDENTS_ENROLLED = "get:students:enrolled";
         Application.GET_ALL_STAFF = "get:all:staff";
         Application.GET_STAFF = "get:staff";
 
@@ -77,7 +78,6 @@ define([], function(){
         Application.GET_STUDENT = "get:student";
 
         Application.GET_STUDENT_COMMENTS = "get:student:comments";
-        Application.GET_STUDENT_PAYMENTS = "get:student:payments";
 
         Application.GET_STATUS = "get:status";
         Application.GET_STATUS_All = "get:status:all";
@@ -89,6 +89,8 @@ define([], function(){
         Application.GET_ENROLLMENTS = "get:enrollments";
         Application.GET_ENROLLMENT = "get:enrollment";
         Application.GET_ENROLLMENT_BY_STUDENTID = "get:student:enrollment";
+        Application.GET_STUDENT_ENROLLMENTS = "get:student:enrollments";
+
 
         Application.GET_SERVICES = "get:services";
         Application.GET_SERVICE = "get:service";
@@ -117,6 +119,7 @@ define([], function(){
         Application.FORUM_SHOW = "forum:show";
         Application.STAFF_SHOW = 'staff:show';
         Application.STUDENT_SHOW = 'student:show';
+        Application.STUDENTS_SHOW = "students:show";
 
         Application.STREAM_NAV_SHOW = "stream:nav:show";
         Application.CAREER_NAV_SHOW = "career:nav:show";

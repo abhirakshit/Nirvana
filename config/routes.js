@@ -48,11 +48,12 @@ module.exports.routes = {
 
     'get /staff/:id/student':           'StaffController.getAssignedStudents',
 
-    'get /staff/:id/location':           'StaffController.getLocation',
+    'get /staff/:id/location':          'StaffController.getLocation',
 
     'patch /staff/:id':                 'StaffController.updatePartial',
-    'get /student/:id/enrollment':          'StudentController.getEnrollments'
-    //'get /student/:id/payment2':          'StudentController.getPaymentOne'
+    'get /student/:id/enrollment':      'StudentController.getEnrollments',
+    'get /student/:id/totalpayment':    'StudentController.getPaymentTotal',
+    'get /student/enrolled':            'StudentController.getEnrolledStudents'
 
 
 

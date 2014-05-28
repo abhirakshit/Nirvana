@@ -10,6 +10,7 @@ define([
         Entities.closedUrl = '/closed';
         Entities.staffUrl = '/staff';
         Entities.userUrl = '/user';
+        Entities.enrolledUrl = '/enrolled';
 //        Entities.allUsersUrl = '/users';
 //        Entities.allCounselorsUrl = "/users/counselors";
 
@@ -252,7 +253,19 @@ define([
                         window.location.reload();
                     }
                 })
+            },
+
+
+            getAllEnrolled: function(update) {
+                Entities.allEnrolled = new Entities.StudentCollection();
+                Entities.allEnrolled.url = Entities.studentUrl + Entities.enrolledUrl;
+                Entities.allEnrolled.fetch();
+
+                return Entities.allEnrolled;
             }
+
+
+
         };
 
         Application.reqres.setHandler(Application.GET_LOGGED_USER, function(){
@@ -322,6 +335,10 @@ define([
 
         Application.reqres.setHandler(Application.LOGOUT, function(){
             return API.logout();
+        });
+
+        Application.reqres.setHandler(Application.GET_STUDENTS_ENROLLED, function(){
+            return API.getAllEnrolled();
         });
 
     });

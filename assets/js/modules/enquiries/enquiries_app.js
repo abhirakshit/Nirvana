@@ -9,8 +9,8 @@ define([
                 "enquiries/": "show",
                 "enquiries/:tabId": "show",
                 "enquiries/:tabId/": "show",
-                "enquiry/:id": "showStudent",
-                "enquiry/:id/": "showStudent"
+                "enquiry/:id": "showEnquiry",
+                "enquiry/:id/": "showEnquiry"
             }
         });
 
@@ -23,7 +23,7 @@ define([
                 Application.commands.execute(Application.SET_SIDEBAR, Application.ENQUIRIES_SHOW);
             },
 
-            showStudent: function(studentId) {
+            showEnquiry: function(studentId) {
                 new Enquiries.Controller({
                     region: Application.pageContentRegion,
                     studentId: studentId

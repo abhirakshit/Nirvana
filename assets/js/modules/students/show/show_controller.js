@@ -8,7 +8,8 @@ define([
     "modules/entities/service",
     "modules/entities/education",
     "modules/entities/enquiryStatus",
-    "modules/entities/enroll"
+    "modules/entities/enroll",
+    "modules/entities/enrollment"
     
 ], function () {
     Application.module("Students.Show", function (Show, Application, Backbone, Marionette, $, _) {
@@ -23,7 +24,7 @@ define([
                 var allServices = Application.request(Application.GET_SERVICES);
                 var allStaff = Application.request(Application.GET_ALL_STAFF);
                 var allStatus = Application.request(Application.GET_STATUS_All);
-                var enrollmentByStudent = Application.request(Application.GET_ENROLLMENT_BY_STUDENTID, this.options.studentId);
+                var enrollmentByStudent = Application.request(Application.GET_STUDENT_ENROLLMENTS, this.options.studentId);
                 
 //                var allStudents = Application.request(Application.GET_STUDENTS);
 
@@ -48,7 +49,7 @@ define([
                 });
             },
 
-            showStudent: function (student, allCountries, allServices, allStaff, allStatus, studentComments,enrollmentByStudent) {
+            showStudent: function (student, allCountries, allServices, allStaff, allStatus, studentComments) {
 
                 this.showPersonalView(student);
 
@@ -77,13 +78,12 @@ define([
                 var enrollCollection = new Application.Entities.EnrollCollection(student.get('enrollments'));
                 var addedServices = new Application.Entities.ServiceCollection(student.get('services'));
                 var addedServicesIdList = addedServices.pluck("id");
-
+//console.log(addedServicesIdList);
                 var that = this;
                 var enrollView = new Show.views.EnrollComposite({
                     collection: enrollCollection,
-                    model: student,
-                    allServices: allServices.getIdToTextMap('name'),
-                    addedServices: addedServicesIdList
+                    model: student
+                    
                 });
                 this.layout.enrollmentRegion.show(enrollView);
 
