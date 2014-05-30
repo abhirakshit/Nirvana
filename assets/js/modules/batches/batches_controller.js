@@ -5,15 +5,11 @@ define([
     //SubModules
     "modules/batches/list/all/batches_all_app",
 //    "modules/batches/content/closed/closed_app",
-//    "modules/batches/content/my/my_app",
-//    "modules/batches/show/show_app",
+    "modules/batches/show/batches_show_app",
 
     //Models
     "modules/entities/user",
-//    "modules/entities/comment",
     "modules/entities/service",
-//    "modules/entities/education",
-//    "modules/entities/enquiryStatus"
     "modules/entities/batch"
 ], function () {
     Application.module("Batches", function (Batches, Application, Backbone, Marionette, $, _) {
@@ -28,7 +24,7 @@ define([
 
         var tabCollection = new Application.Entities.Collection([
             new Application.Entities.Model({text:"Current", id: Batches.CURRENT_TAB}),
-            new Application.Entities.Model({text:"All", id: Batches.ALL_TAB}),
+            new Application.Entities.Model({text:"All", id: Batches.ALL_TAB})
 //            new Application.Entities.Model({text:"Closed", id: Batches.CLOSED_TAB})
         ]);
 
@@ -37,20 +33,20 @@ define([
                 var user = Application.request(Application.GET_LOGGED_USER);
                 var allServices = Application.request(Application.GET_SERVICES);
                 var tabId = this.options.tabId;
-//                var studentId = this.options.studentId;
+                var batchId = this.options.batchId;
 
                 this.layout = this.getLayout();
 
                 this.listenTo(this.layout, Application.SHOW, function () {
-//                    if (studentId) {
-//                        this.showNavTabs();
-//                        this.showEnquiry(studentId);
-//                    } else {
+                    if (batchId) {
+                        this.showNavTabs();
+                        this.showBatch(batchId);
+                    } else {
                         if (!tabId) //Show default tab
-                            tabId = Batches.CURRENT_TAB;
+                            tabId = Batches.ALL_TAB;
                         this.showNavTabs(tabId, allServices);
                         this.showTab(tabId);
-//                    }
+                    }
                 });
 
                 this.show(this.layout, {
@@ -63,9 +59,6 @@ define([
             showNavTabs: function (tabId, allServices) {
                 var tabContainerView = new Batches.views.TabContainer({
                     collection: tabCollection
-//                    model: new Application.Entities.Model({
-//                        modalId: Batches.addStudentModalFormId
-//                    })
                 });
                 this.layout.tabsRegion.show(tabContainerView);
                 if (tabId) {
@@ -137,8 +130,8 @@ define([
 //                }
             },
 
-            showEnquiry: function(studentId) {
-                Application.execute(Application.ENQUIRY_SHOW, this.layout.contentRegion, studentId);
+            showBatch: function(batchId) {
+                Application.execute(Application.BATCH_SHOW, this.layout.contentRegion, batchId);
             },
 
             getLayout: function () {
