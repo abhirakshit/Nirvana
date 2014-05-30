@@ -34,7 +34,7 @@ define([
                 new Students.Controller({ region: Application.pageContentRegion });
 
 
-                Application.commands.execute(Application.SET_SIDEBAR, "students:show");
+                Application.commands.execute(Application.SET_SIDEBAR, Application.STUDENTS_SHOW);
             },
             
             showStudent: function(studentId) {
@@ -43,23 +43,17 @@ define([
                     studentId: studentId
                 });
                 
-                Application.commands.execute(Application.SET_SIDEBAR, "students:show");
-               // Application.commands.execute()
+                Application.commands.execute(Application.SET_SIDEBAR, Application.STUDENTS_SHOW);
             }
 
-            // showStudent: function(studentId) {
-            //     new Students.Controller({
-            //         region: Application.pageContentRegion,
-            //         studentId: studentId
-            //     });
-            //     Application.commands.execute(Application.SET_SIDEBAR, Application.STUDENT_SHOW);
-            // }
-
+     
 
         };
 
         Students.setup = function() {
             new Students.Router({ controller: API });
+         //Application.commands.execute(Application.SET_SIDEBAR, Students.rootRoute);
+
 //            Application.commands.execute(Application.MODULES_LOADED, Students.rootRoute);
         };
 
@@ -70,7 +64,7 @@ define([
             });
        });
 
-        Application.commands.setHandler("students:show", function(){
+        Application.commands.setHandler(Application.STUDENTS_SHOW, function(){
             API.show();
             Application.navigate(Students.rootRoute);
         });

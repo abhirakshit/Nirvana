@@ -150,8 +150,17 @@ define([
 
         Show.views.EnrollField = Application.Views.ItemView.extend({
             template: "students/show/templates/enroll_field",
-            tagName: "div",
-            className: "col-md-12",
+            tagName: "tr",
+            //className: "col-md-12",
+            onRender: function() {
+                Backbone.Validation.bind(this);
+
+                var that = this;
+                _.each(this.options.allServices,function(value){
+                    that.$el.find('#service').append('<tr>' + value.text + "</tr>");
+                });
+
+            },
 
             events: {
                 "mouseenter": "toggleDelete",

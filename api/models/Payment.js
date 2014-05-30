@@ -5,6 +5,10 @@
  * @docs		:: http://sailsjs.org/#!documentation/models
  */
 
+var _ = require('lodash'),
+    async = require('async');
+
+
 module.exports = {
 
 	attributes: {
@@ -28,8 +32,19 @@ module.exports = {
         //One to One - Staff to Payment
         receivedBy: {
             model: 'Staff'
-        }
+        },
+
+        totalPaid: function(){
+
+        this.find({ groupBy: [ this.enroll ], sum: [ 'amount' ] })
+            .done(function(error, response) {
+
+                return response;
+             console.log(response);
+            });
 
 	}
+
+}
 
 };

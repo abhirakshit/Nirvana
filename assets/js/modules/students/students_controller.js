@@ -11,7 +11,7 @@ define([
 
         Students.Controller = Application.Controllers.Base.extend({
             initialize: function () {
-                var user = Application.request(Application.GET_STUDENTS);
+                var user = Application.request(Application.GET_STUDENTS_ENROLLED);
                 this.layout = this.getLayout();
 
                 this.listenTo(this.layout, Application.SHOW, function () {
