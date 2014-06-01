@@ -53,7 +53,7 @@ module.exports.routes = {
 
     'get /student/:id/enrollment':      'StudentController.getEnrollments',
 
-    'get /student/enrolled':            'StudentController.getEnrolledStudents'
+    'get /student/enrolled':            'StudentController.getEnrolledStudents',
 
 
     'patch /batch/:id':                 'BatchController.updatePartial'
