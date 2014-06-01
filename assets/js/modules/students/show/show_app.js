@@ -24,7 +24,7 @@ define([
         Application.commands.setHandler(Application.STUDENT_SHOW, function (enqContentRegion, studentId) {
             console.log("Student: " + studentId);
             API.show(enqContentRegion, studentId);
-            Application.navigate(Show.rootRoute + "/" +studentId);
+            Application.navigate(Show.rootRoute + "/" + studentId);
         });
 
     });

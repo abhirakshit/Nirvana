@@ -148,6 +148,50 @@ define([
 
         });
 
+         Show.views.addPaymentForm = Application.Views.ItemView.extend({
+            template: "students/show/templates/payment_form",
+
+            events: {
+                "click #addPayment" : "addPayment"
+            },
+
+            onRender: function() {
+                Backbone.Validation.bind(this);
+
+                // var that = this;
+                // _.each(this.options.allServices,function(value){
+                //     that.$el.find('#service').append("<option value=" + value.id + '>' + value.text + "</option>");
+                // });
+
+                Application.Views.addDateTimePicker(this.$el.find('#paymentDateDiv'), null, {pickTime: false});
+
+
+            },
+
+
+
+            addPayment: function(evt) {
+                evt.preventDefault();
+                var data = Backbone.Syphon.serialize(this);
+                this.model.set(data);
+
+                //console.log(data);
+
+                var isValid = this.model.isValid(true);
+                if (isValid) {
+                    Application.Views.hideModal(Show.addPaymentFormId);
+
+                    this.trigger(Show.addPaymentEvt, this);
+                }
+            }
+
+        });
+
+
+
+
+
+
         Show.views.EnrollField = Application.Views.ItemView.extend({
             template: "students/show/templates/enroll_field",
             tagName: "tr",
@@ -155,10 +199,10 @@ define([
             onRender: function() {
                 Backbone.Validation.bind(this);
 
-                var that = this;
-                _.each(this.options.allServices,function(value){
-                    that.$el.find('#service').append('<tr>' + value.text + "</tr>");
-                });
+                // var that = this;
+                // _.each(this.options.allServices,function(value){
+                //     that.$el.find('#service').append('<tr>' + value.text + "</tr>");
+                // });
 
             },
 
@@ -176,9 +220,9 @@ define([
             toggleDelete: function (evt) {
                 evt.preventDefault();
                // console.log('Mouse hover delete!');
-                var fieldId = this.model.get('totalFee');
-                $('#' + fieldId).toggleClass("basicBorder");
-                $('#' + fieldId).find('.i-cancel').toggleClass("display-none");
+                // var fieldId = this.model.get('totalFee');
+                // $('#' + fieldId).toggleClass("basicBorder");
+                // $('#' + fieldId).find('.i-cancel').toggleClass("display-none");
             }
 
         });
@@ -198,16 +242,23 @@ define([
             serializeData: function() {
                 var data = this.model.toJSON();
                 data.modalId = Show.addEnrollFormId;
+                data.modalId2 = Show.addPaymentFormId;
                 return data;
             },
 
             events: {
-                "click #addEnroll" : "showAddEnrollModal"
+                "click #addEnroll" : "showAddEnrollModal",
+                "click #addPayment" : "showAddPaymentModal"
             },
 
             showAddEnrollModal: function(evt) {
                 evt.preventDefault();
                 this.trigger(Show.showAddEnrollModalEvt, this);
+            },
+
+            showAddPaymentModal: function(evt) {
+                evt.preventDefault();
+                this.trigger(Show.showAddPaymentModalEvt, this);
             }
         });
 

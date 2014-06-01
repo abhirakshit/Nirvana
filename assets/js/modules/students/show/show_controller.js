@@ -24,32 +24,36 @@ define([
                 var allServices = Application.request(Application.GET_SERVICES);
                 var allStaff = Application.request(Application.GET_ALL_STAFF);
                 var allStatus = Application.request(Application.GET_STATUS_All);
-                var enrollmentByStudent = Application.request(Application.GET_STUDENT_ENROLLMENTS, this.options.studentId);
+                var studentEnrollments = Application.request(Application.GET_STUDENT_ENROLLMENTS, this.options.studentId);
                 
+
+              //  console.log(enrollmentByStudent);
 //                var allStudents = Application.request(Application.GET_STUDENTS);
 
                 this.layout = this.getLayout();
 
                 this.listenTo(this.layout, Application.SHOW, function () {
 //                    console.dir(allStudents);
-                    this.showStudent(student, allCountries, allServices, allStaff, allStatus, studentComments)
+                    this.showStudent(student, allCountries, allServices, allStaff, allStatus, studentComments, studentEnrollments)
                 });
 
 
                 this.show(this.layout, {
                     loading: {
-                        entities: [student, allCountries, allServices, allStaff, allStatus]
+                        entities: [student, allCountries, allServices, allStaff, allStatus, studentEnrollments]
                     }
                 });
 
                 var that = this;
                 Application.commands.setHandler(Show.UPDATE_HISTORY_EVT, function (student) {
                     studentComments = Application.request(Application.GET_STUDENT_COMMENTS, student.id);
+                    
+
                     that.showHistoryView(student, studentComments);
                 });
             },
 
-            showStudent: function (student, allCountries, allServices, allStaff, allStatus, studentComments) {
+            showStudent: function (student, allCountries, allServices, allStaff, allStatus, studentComments,studentEnrollments) {
 
                 this.showPersonalView(student);
 
@@ -61,7 +65,7 @@ define([
 
                 this.showHistoryView(student, studentComments);
 
-                this.showEnrollmentView(student, allServices);
+                this.showEnrollmentView(student, allServices, studentEnrollments);
 
             },
 
@@ -73,18 +77,23 @@ define([
                 this.layout.personalRegion.show(personalView);
             },
 
-            showEnrollmentView: function(student,allServices){
+            showEnrollmentView: function(student,allServices,studentEnrollments){
       
                 var enrollCollection = new Application.Entities.EnrollCollection(student.get('enrollments'));
                 var addedServices = new Application.Entities.ServiceCollection(student.get('services'));
                 var addedServicesIdList = addedServices.pluck("id");
-//console.log(addedServicesIdList);
+               // var enrollmentCollection = new Application.Entities.EnrollmentCollection(studentEnrollments);
+
+                //console.dir(enrollCollection);
+               // console.dir(studentEnrollments);
+
                 var that = this;
                 var enrollView = new Show.views.EnrollComposite({
-                    collection: enrollCollection,
+                    collection: studentEnrollments,
                     model: student
                     
                 });
+
                 this.layout.enrollmentRegion.show(enrollView);
 
                 enrollView.on(Show.showAddEnrollModalEvt, function(view){
@@ -139,7 +148,38 @@ define([
                     });
                 });
 
+//                 enrollView.on(Show.showAddPaymentModalEvt, function(view){
+//                    console.log("Payment modal!!!");
+// //                    var modalRegion = new Application.Views.ModalRegion({el:'#modal'});
+//                     var newEnroll = Application.request(Application.GET_PAYMENT);
+//                     newPayment.attributes.modalId = Show.addPaymentFormId;
 
+//                     var addPaymentModalView = new Show.views.addPaymentForm({
+//                         model: newPayment
+//                        // allServices: allServices.getIdToTextMap('name')
+
+//                     });
+
+//                     addPaymentModalView.on(Show.addPaymentEvt, function(modalFormView){
+//                         student.save("payment", modalFormView.model.attributes, {
+//                             wait: true,
+//                             patch: true,
+//                             success: function(updatedStudent){
+//                                 console.log("Saved on server!!");
+//                                // console.dir(updatedStudent,allServices);
+//                                 that.showPaymentView(updatedStudent,allServices);
+//                                 Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
+//                             },
+
+//                             error: function(x, response) {
+//                                 console.log("Error on server!! -- " + response.text);
+//                                 return response;
+//                             }
+//                         });
+
+//                     });
+//                     Application.modalRegion.show(addPaymentModalView);
+//                 });
 
 
             },

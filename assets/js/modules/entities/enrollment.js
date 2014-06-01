@@ -3,16 +3,16 @@ define([], function(){
 
         Entities.enrollmentUrl = "/enrollment";
 
-        Entities.Comment = Entities.Model.extend({
+        Entities.Enrollment = Entities.Model.extend({
             urlRoot: Entities.enrollmentUrl,
             validation: {
                 name: {required: true}
             }
         });
 
-        Entities.CommentCollection = Entities.Collection.extend({
+        Entities.EnrollmentCollection = Entities.Collection.extend({
             url: Entities.enrollmentUrl,
-            model: Entities.Comment
+            model: Entities.Enrollment
         });
 
         var API = {
@@ -20,7 +20,7 @@ define([], function(){
                 if (!studentId)
                     return null;
 
-                var enrollments = new Entities.CommentCollection();
+                var enrollments = new Entities.EnrollmentCollection();
                 enrollments.url = Entities.studentUrl + "/" + studentId + Entities.enrollmentUrl;
                 enrollments.fetch();
                 return enrollments;

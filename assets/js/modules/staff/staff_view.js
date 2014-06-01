@@ -39,18 +39,8 @@ define([], function(){
                 evt.preventDefault();
                 console.log("Show selected staff: " + this.model);
                 this.trigger('staffs:show', this.model);
-                // console.dir(this.model);
 
             }
-            // ,
-
-            // serializeData: function(){
-            //     var data = this.model.toJSON();
-            //     console.log(data);
-            //     data.locationName = data.location.get('name');
-
-            //     return data;
-            // }
 
         });
 
@@ -65,7 +55,6 @@ define([], function(){
                 var that = this;
                 this.on(Application.CHILD_VIEW + ":" + Application.SELECTED_STAFF, function(childView){
                     that.trigger(Application.SELECTED_STAFF, childView.model.get('id'));
-               //console.log( that.trigger(Application.SELECTED_STAFF, childView.model.get('id')));
 
                 });
             }

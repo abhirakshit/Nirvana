@@ -14,21 +14,41 @@ define([
                 var user = Application.request(Application.GET_STUDENTS_ENROLLED);
                 this.layout = this.getLayout();
 
+                  var studentId = this.options.studentId;
+
                 this.listenTo(this.layout, Application.SHOW, function () {
                     
+                    if(studentId){
 
-                   // this.showStudent(user);
-                    this.showStudents(user);
-
-                   // this.showUserInfoSection(user);
-                    //this.showChangePasswordSection(user);
-
-
-                    if (Application.USER_IS_ADMIN) {
-                        this.showAdminSection(user);
+                        //this is coming from URL
+                        Application.execute(Application.STUDENT_SHOW, this.options.region, studentId);
+                    
+                    } else {
+                              this.showStudents(user);
                     }
 
                 });
+
+
+
+                // this.listenTo(this.layout, Application.SHOW, function () {
+                    
+
+
+
+
+                //    // this.showStudent(user);
+                   
+
+                //    // this.showUserInfoSection(user);
+                //     //this.showChangePasswordSection(user);
+
+
+                //     if (Application.USER_IS_ADMIN) {
+                //         this.showAdminSection(user);
+                //     }
+
+                // });
 
                 //Load layout
 
@@ -53,9 +73,9 @@ define([
     //             });
 
                     var that = this;
-                this.listenTo(studentsView, Application.SELECTED_STUDENT, function(studentId){
+                this.listenTo(studentsView, Application.STUDENT_SHOW, function(studentId){
                    // console.log(Application.SELECTED_STUDENT);
-                    Application.execute(Application.SELECTED_STUDENT, this.layout.enqContentRegion, studentId);
+                    Application.execute(Application.STUDENT_SHOW, this.layout.enqContentRegion, studentId);
                    //console.log('***********Its Working!******************');
 
             //            showEnquiry: function(studentId) {

@@ -13,13 +13,13 @@ define([
     Application.module("Students", function(Students, Application, Backbone, Marionette, $, _) {
 
 //Specify URL routes 'students'
-        Students.rootRoute = "student";
+        Students.rootRoute = "students";
 
 //specify all other routes that will run a function, in below both students and students/ will run show mehtod      
         Students.Router = Marionette.AppRouter.extend({
             appRoutes: {
-                "student": "show",
-                "student/": "show",
+                "students": "show",
+                "students/": "show",
                 "student/:id": "showStudent",
                 "student/:id/": "showStudent"
             }

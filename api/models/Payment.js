@@ -32,18 +32,7 @@ module.exports = {
         //One to One - Staff to Payment
         receivedBy: {
             model: 'Staff'
-        },
-
-        totalPaid: function(){
-
-        this.find({ groupBy: [ this.enroll ], sum: [ 'amount' ] })
-            .done(function(error, response) {
-
-                return response;
-             console.log(response);
-            });
-
-	}
+        }
 
 }
 

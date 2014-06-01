@@ -35,14 +35,15 @@ define([], function(){
                 "click": "selectedStudent"
             },
 
-            selectedStudent: function(){
-                this.trigger('student:show', this.model);
+            selectedStudent: function(evt){
+                evt.preventDefault();
+                this.trigger(Application.STUDENT_SHOW, this.model);
 
             }
 
         });
 
-Application.SELECTED_STUDENT = 'student:show';
+//Application.SELECTED_STUDENT = 'student:show';
 
         Students.views.StudentsCollection = Application.Views.CollectionView.extend({
             itemView: Students.views.Show,
@@ -51,11 +52,11 @@ Application.SELECTED_STUDENT = 'student:show';
             initialize: function(){
                 
                 var that = this;
-                this.on(Application.CHILD_VIEW + ":" + Application.SELECTED_STUDENT, function(childView){
+                this.on(Application.CHILD_VIEW + ":" + Application.STUDENT_SHOW, function(childView){
 
                   //  console.dir(childView.model);
                    // console.log('COLLECTIONVIEW HELLO!!!!');
-                    that.trigger(Application.SELECTED_STUDENT, childView.model.get('id'));
+                    that.trigger(Application.STUDENT_SHOW, childView.model.get('id'));
 
                 });
             }

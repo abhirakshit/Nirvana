@@ -19,21 +19,23 @@
 
 <!-- <span id="<%=totalFee%>"> -->
         <td id="service">
-            <%= service %>
+            <%= service.name %>
+        </td>
+        <td id="totalFee">
+             <%= showOnlyDate(enrollDate) %>
         </td>
         <td>
-            <%= totalFee %>
-        </td>
-        <td>
-            <%= totalFee %>
+           <%= totalFee %>
         </td>
          <td>
-            <%= totalFee %>
+             <%= totalPaid %>
         </td>
         <td>
-            <%= totalFee %>
-        </td>
+             <%= due %>
+         </td>
          <td>
-        <a href="#" data-toggle="modal" data-target><i class="fa fa-plus"></i>Pay</a>
-        </td>
+<span class="badge bg-info" id="addPayment">
+        <!--<a href="#" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Add Education</a>-->
+        <a href="#" data-toggle="modal" data-target="#"><i class="fa fa-rupee"></i> Pay</a>
+    </span>        </td>
 <!-- </span> -->

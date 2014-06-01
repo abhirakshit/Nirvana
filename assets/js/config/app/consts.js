@@ -2,6 +2,7 @@ define([], function(){
     Application.module("Consts", function(Consts, Application) {
 
 //        Application.DATE_FORMAT = "ddd, MMM Do 'YY, h:mm a"; // 'Do' does not work with Xeditable or DataTables sorting
+        Application.DATE_ONLY_FORMAT = "MMM D 'YYYY";
         Application.DATE_FORMAT = "ddd, MMM D 'YY, h:mm a";
         Application.EDITABLE_DATE_FORMAT = "ddd, MMM DD 'YY, h:mm a";
 
@@ -90,6 +91,9 @@ define([], function(){
         Application.GET_ENROLLMENT = "get:enrollment";
         Application.GET_ENROLLMENT_BY_STUDENTID = "get:student:enrollment";
         Application.GET_STUDENT_ENROLLMENTS = "get:student:enrollments";
+
+        Application.GET_PAYMENT = "get:payment";
+
 
 
         Application.GET_SERVICES = "get:services";

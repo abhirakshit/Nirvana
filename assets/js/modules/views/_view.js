@@ -8,6 +8,11 @@ define([], function(){
 //                    return moment(this.createdAt).format(Application.DATE_FORMAT);
                 },
 
+                showOnlyDate: function(date){
+                    return moment(date).format(Application.DATE_ONLY_FORMAT);
+//                    return moment(this.createdAt).format(Application.DATE_FORMAT);
+                },
+
                 showDurationInSec: function(millsec) {
 //                    return moment.duration(millsec).asMinutes();
                     console.log(millsec);

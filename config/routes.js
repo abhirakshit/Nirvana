@@ -52,7 +52,6 @@ module.exports.routes = {
 
     'patch /staff/:id':                 'StaffController.updatePartial',
     'get /student/:id/enrollment':      'StudentController.getEnrollments',
-    'get /student/:id/totalpayment':    'StudentController.getPaymentTotal',
     'get /student/enrolled':            'StudentController.getEnrolledStudents'
 
 

@@ -134,7 +134,7 @@ define([
             // },
 
 
-             getStaff: function(staffId) {
+            getStaff: function(staffId) {
                 if (!staffId)
                     return new Entities.Staff();
 

@@ -737,78 +737,6 @@ module.exports = {
 
 
 
-
-
-
-
-
-        getPaymentTotal: function (req, res) {
-
-        var id = req.param('id');
-        if (!id) {
-            return res.badRequest('No id provided.');
-        }
-       
-//get all the payments tied to a student id
-        Enroll.find().where({student: [id]}).populate('service').exec(function(err, enrollList){
-          
-          //assign the results to a variable and create an empty array
-            var payments = enrollList;
-            var paymentCollection =[]; 
-
-//console.log(enrollList);
-
-           // var serviceCollection = enrollList.service.get('name');
-//console.dir(enrollList);
-//console.log(enrollList[1].service.name);
-//loop through payment table and find all payments assigned to all enrollments for a student
-            async.each(payments, function(payment, callback){
-
-//find all payments for above enrollments                
-                Payment.find().where({enroll: [payment.id]}).populate('enroll').exec(function(err, pay){
-
-                    if (err) {
-                        console.log("Error handling enroll:  " + pay.id + "\n" + err);
-                        callback(err);
-                    }
-//console.log(pay);
-
-//push each result to the payment Collection array defined above                    
-                paymentCollection.push(pay);
-               
-//tell async that process is completed
-                    callback();
-                })
-            }, function(err){
-                if (err) {
-                    console.log("Could not process payment information. " + err);
-                    res.badRequest("Could not process payment information. " + err);
-                }
-//array1.concat(array2)
-                 res.json(paymentCollection);
-                // res.json(payments);
-            });
-        });
-
-
-
-    },
-
-
-
-
-    // getPaymentTotal: function(req,res){
-
-
-    //     var id = req.param('id');
-    //     if (!id) {
-    //         return res.badRequest('No id provided.');
-    //     }
-
-    //     Student.findOne(id).
-
-    // },
-
     getEnrollments: function(req,res) {
 
         var id = req.param('id');
@@ -818,21 +746,35 @@ module.exports = {
 
         Student.findOne(id).populate('enrollments').exec(function(err,student){
 
-    console.log(student);
-    //res.json(student);
+
             var enrollmentList = student.enrollments;
             var enrollmentCollection = [];
             var paid = {};
 
-//console.log(enrollmentList);
             async.each(enrollmentList, function(enroll, callback){
 
-                Enroll.find(enroll.id).populate('payments').populate('service').exec(function(err,enr){
+                Enroll.findOne(enroll.id).populate('payments').populate('service').exec(function(err,enr){
+
+                 // var   summedByEnroll = _(enr.payments).reduce(function(mem, d) {
+                 //        mem[d.enroll] = (mem[d.enroll] || 0) + Number(d.amount);
+
+                 //        return mem;
+                 //    },   {});
+
+               var  sum = _.reduce(_.pluck(enr.payments,'amount'), function (mem, payment){
+                    return Number(mem) + Number(payment);
+                });
+
+    
+                if(!sum) {
+                    sum = 0;
+                } 
+                  enr.totalPaid = sum;
+                  enr.due = Number(enr.totalFee) - Number(enr.totalPaid);
 
                     enrollmentCollection.push(enr);
                     callback();
-
-                })
+                });
 
                 
 
@@ -843,7 +785,6 @@ module.exports = {
                     res.badRequest("Could not process payment information. " + err);
                 }
 
-//array1.concat(array2)
                  res.json(enrollmentCollection);
                 // res.json(payments);
 
