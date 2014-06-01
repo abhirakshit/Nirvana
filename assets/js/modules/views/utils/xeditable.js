@@ -3,7 +3,15 @@ define([], function () {
 
 //        XEditable lib: http://vitalets.github.io/x-editable/index.html
 
-        Views.setupDateTimeEditableBox = function (el, id, emptyText, initialValue, successCB) {
+        Views.setupDateTimeEditableBox = function (el, id, emptyText, initialValue, successCB, placement, viewFormat, templateFormat) {
+            if (!templateFormat) {
+                templateFormat = Application.EDITABLE_FORM_DATE_FORMAT
+            }
+
+            if (!viewFormat) {
+                viewFormat = Application.EDITABLE_DATE_FORMAT
+            }
+
             if (initialValue) {
                 initialValue = moment(initialValue).format(Application.EDITABLE_DATE_FORMAT);
             } else {
@@ -15,8 +23,9 @@ define([], function () {
                 title: emptyText,
                 emptytext: emptyText,
                 value: initialValue,
-                format: Application.EDITABLE_DATE_FORMAT,
-                template: 'DD MMM YYYY hh:mm a', //Template used for displaying dropdowns.
+                placement: placement,
+                format: viewFormat,
+                template: templateFormat, //Template used for displaying dropdowns.
                 combodate: {
                     minYear: 2010,
                     maxYear: 2025,

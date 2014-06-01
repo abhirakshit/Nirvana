@@ -32,7 +32,7 @@ define([
 
                 var that = this;
                 Application.commands.setHandler(Show.UPDATE_HISTORY_EVT, function (student) {
-                    studentComments = Application.request(Application.GET_STUDENT_COMMENTS, student.id);
+//                    studentComments = Application.request(Application.GET_STUDENT_COMMENTS, student.id);
                     that.showHistoryView(student, studentComments);
                 });
             },

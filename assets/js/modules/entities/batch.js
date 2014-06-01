@@ -8,9 +8,22 @@ define([], function(){
             validation: {
                 name: {required: true},
                 startDate: {required: true},
-                endDate: {required: true},
+                endDate: {
+                    required: true,
+                    fn: 'laterThanStart'
+                },
                 service: {required: true}
+            },
+
+            laterThanStart: function(value, attr, computedState) {
+                console.log(value);
+                console.log(attr);
+                console.log(computedState);
+
+                if (moment(computedState.startDate).isAfter(moment(computedState.endDate)))
+                    return "End date should be after start date";
             }
+
         });
 
         Entities.BatchCollection = Entities.Collection.extend({

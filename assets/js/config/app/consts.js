@@ -5,6 +5,8 @@ define([], function(){
         Application.DATE_ONLY_FORMAT = "MMM D 'YYYY";
         Application.DATE_FORMAT = "ddd, MMM D 'YY, h:mm a";
         Application.EDITABLE_DATE_FORMAT = "ddd, MMM DD 'YY, h:mm a";
+        Application.EDITABLE_FORM_DATE_FORMAT = "DD MMM YYYY hh:mm a";
+        Application.BATCH_DATE_FORMAT = "ddd, MMM DD 'YY";
 
         Application.ENQUIRY_ROLE = "enquiry";
         Application.STUDENT_ROLE = "student";

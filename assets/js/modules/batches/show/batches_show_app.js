@@ -1,26 +1,20 @@
 define([
-    "modules/batches/show/show_controller"
+    "modules/batches/show/batches_show_controller"
 ], function () {
     Application.module("Batches.Show", function (Show, Application, Backbone, Marionette, $, _) {
 
-        Show.rootRoute = "batches";
-//        Show.Router = Marionette.AppRouter.extend({
-//            appRoutes: {
-//                "student/:id": "show"
-//            }
-//        });
+        Show.rootRoute = "batch";
 
         var API = {
-            show: function (contentRegion, studentId) {
+            show: function (contentRegion, batchId) {
                 new Show.Controller({
                     region: contentRegion,
-                    studentId: studentId
+                    batchId: batchId
                 });
             }
         };
 
         Application.commands.setHandler(Application.BATCH_SHOW, function (contentRegion, batchId) {
-//            console.log("Show Batch: " + studentId);
             API.show(contentRegion, batchId);
             Application.navigate(Show.rootRoute + "/" +batchId);
         });

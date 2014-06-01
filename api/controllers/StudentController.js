@@ -575,13 +575,7 @@ module.exports = {
         } else if(req.body.enroll) {
             var enroll = req.body.enroll;
             addEnroll(id, UserService.getCurrentStaffUserId(req), enroll.service, enroll.totalFee, enroll.enrollDate, res);
-        }
-
-
-
-
-        else {
-
+        } else {
             var updateFields = _.merge({}, req.params.all(), req.body);
             async.waterfall([
                 // Find student and create change comment

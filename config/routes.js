@@ -44,16 +44,19 @@ module.exports.routes = {
     'get /student/:id/comment':         'StudentController.getComments',
     'get /student/enquiry':             'StudentController.getEnquiries',
     'get /student/enquiry/closed':      'StudentController.getClosedEnquiries',
+    'get /student/:id/enrollment':      'StudentController.getEnrollments',
 
 
     'get /staff/:id/student':           'StaffController.getAssignedStudents',
-
     'get /staff/:id/location':          'StaffController.getLocation',
-
     'patch /staff/:id':                 'StaffController.updatePartial',
+
     'get /student/:id/enrollment':      'StudentController.getEnrollments',
+
     'get /student/enrolled':            'StudentController.getEnrolledStudents'
 
+
+    'patch /batch/:id':                 'BatchController.updatePartial'
 
 
   // If a request to a URL doesn't match any of the custom routes above, it is matched 

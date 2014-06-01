@@ -9,8 +9,8 @@ define([
                 "batches/": "show",
                 "batches/:tabId": "show",
                 "batches/:tabId/": "show",
-//                "student/:id": "showStudent",
-//                "student/:id/": "showStudent"
+                "batch/:batchId": "showBatch",
+                "batch/:batchId/": "showBatch"
             }
         });
 
@@ -23,13 +23,13 @@ define([
                 Application.commands.execute(Application.SET_SIDEBAR, Application.BATCHES_SHOW);
             },
 
-//            showStudent: function(studentId) {
-//                new Batches.Controller({
-//                    region: Application.pageContentRegion,
-//                    studentId: studentId
-//                });
-//                Application.commands.execute(Application.SET_SIDEBAR, Application.ENQUIRIES_SHOW);
-//            }
+            showBatch: function(batchId) {
+                new Batches.Controller({
+                    region: Application.pageContentRegion,
+                    batchId: batchId
+                });
+                Application.commands.execute(Application.SET_SIDEBAR, Application.BATCHES_SHOW);
+            }
         };
 
         Batches.setup = function () {
@@ -41,17 +41,13 @@ define([
 
         Batches.on(Application.START, function () {
             console.log("Batches start...");
-//            Marionette.TemplateLoader.loadModuleTemplates(Batches.Show, function() {
-////                Marionette.TemplateLoader.loadModuleTemplates(Batches.Content, function() {
-//                Marionette.TemplateLoader.loadModuleTemplates(Batches.Content.All, function() {
+            Marionette.TemplateLoader.loadModuleTemplates(Batches.Show, function() {
 //                    Marionette.TemplateLoader.loadModuleTemplates(Batches.Content.My, function() {
                         Marionette.TemplateLoader.loadModuleTemplates(Batches.List.All, function() {
                             Marionette.TemplateLoader.loadModuleTemplates(Batches, Batches.setup);
                         });
 //                    });
-//                });
-////                });
-//            });
+            });
         });
 
         Application.commands.setHandler(Application.BATCHES_SHOW, function (tabId) {
