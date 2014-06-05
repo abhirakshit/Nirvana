@@ -1,6 +1,9 @@
-define([], function(){
-    Application.module("Payments", function(Payments, Application, Backbone, Marionette, $, _) {
-        //Setup
+define([
+//    "modules/payments/payments_setup"
+], function () {
+    Application.module("Payments", function (Payments, Application, Backbone, Marionette, $, _) {
+
+        //***View Setup
         this.prefix = "Payments";
         this.templatePath = "js/modules/";
         this.views = {};
@@ -8,88 +11,38 @@ define([], function(){
         this.template = function (str) {
             return this.prefix + '-' + str;
         };
+        //***//
 
-        // This has been added to only keep class naming consistent with views.
-        this.models = {};
-        this.collections = {};
-        //*************
-
-
-        Payments.changePasswordModalFormId = "changePasswordModal";
-        Payments.changePasswordEvt = "changePasswordEvt";
-
-
-        Payments.views.Admin_Layout = Application.Views.Layout.extend({
-            template: "payments/templates/admin_layout",
-
-            regions : {
-                addAdminRegion: "#addAdmin",
-                addSchoolRegion: "#addSchool",
-                addCountryRegion: "#addCountry"
-            }
-        });
+        Payments.addPaymentModalFormId = "addPaymentModal";
+        Payments.SHOW_NEW_PAYMENT_MODAL = "show:new:payment:modal";
+        Payments.CREATE_PAYMENT = "create:payment";
 
         Payments.views.Layout = Application.Views.Layout.extend({
-            template: "payments/templates/payments_layout",
-
-//            regions : {
-//                profileRegion: "#profileSection",
-//                changePasswordRegion: "#changePasswordSection",
-//                adminRegion: "#adminSection"
-//            }
-
+            template: "views/templates/page_layout",
             regions: {
-                settingTabRegion: "#settingTabs",
-                settingContentRegion: "#settingContent"
+                tabsRegion: "#tabs",
+                addButtonRegion: "#addButton",
+                contentRegion: "#content"
             }
         });
 
-        Payments.views.Profile = Application.Views.ItemView.extend({
-            template: "payments/templates/profile_view",
+        Payments.views.AddPaymentButton = Application.Views.ItemView.extend({
+            template: "views/templates/tab_add_button",
 
             events: {
-                "click #changePasswordBtn": "showChangePasswordModal"
+                "click" : "showAddPaymentModal"
             },
 
-            serializeData: function(){
-                var data = this.model.toJSON();
-                data.modalId = this.options.modalId;
-                return data;
-            },
-
-            showChangePasswordModal: function(evt) {
+            showAddPaymentModal: function(evt){
                 evt.preventDefault();
-                this.trigger(Application.CHANGE_PASSWORD, this.model);
-            },
-
-            onRender: function() {
-                Backbone.Validation.bind(this);
-                this.setupProfile();
-            },
-
-            setupProfile: function() {
-                Payments.setupEditableBox(this.$el, this.model, "firstName", "FirstName", this.model.get('firstName'), 'text', null, 'right');
-                Payments.setupEditableBox(this.$el, this.model, "lastName", "LastName", this.model.get('lastName'), 'text', null, 'right');
-                Payments.setupEditableBox(this.$el, this.model, "phoneNumber", "Enter Phone", this.model.get('phoneNumber'), 'text', null, 'right');
-                Payments.setupEditableBox(this.$el, this.model, "email", "Enter Email", this.model.get('email'), 'text');
-                Payments.setupEditableBox(this.$el, this.model, "address", "Enter Address", this.model.get('address'), 'textarea', null, 'right');
+                this.trigger(Payments.SHOW_NEW_PAYMENT_MODAL);
             }
+
         });
 
-
-
-
-        //Header tabs
-
-        var tabHtml = "<a href='#'><%=args.text%></a>";
         Payments.views.Tab = Application.Views.ItemView.extend({
+            template: "views/templates/tab",
             tagName: "li",
-
-            template: function(serialized_model) {
-                return _.template(tabHtml,
-                    {text: serialized_model.text},
-                    {variable: 'args'});
-            },
 
             events: {
                 "click": "showView"
@@ -112,7 +65,7 @@ define([], function(){
         });
 
         Payments.views.TabContainer = Application.Views.CompositeView.extend({
-            template: "payments/templates/tab_container",
+            template: "views/templates/tab_container",
             tagName: "span",
             itemViewContainer: "#tabsUL",
             itemView: Payments.views.Tab,
@@ -150,169 +103,45 @@ define([], function(){
 
         });
 
-        Payments.views.ChangePassword = Application.Views.ItemView.extend({
-            template: "payments/templates/change_password",
+
+        Payments.views.AddPaymentForm = Application.Views.ItemView.extend({
+            template: "payments/templates/add_payment_form",
+//            template: "header/show/templates/add_user_form",
+
             events: {
-                "click #update": "changePassword"
+                "click #createNewPayment" : "createNewPayment"
             },
 
             onRender: function() {
                 Backbone.Validation.bind(this);
+
+                this.renderServiceSelect(this.options.allServices, "#service");
+
+                //Add datetime field
+//                Application.Views.addDateTimePicker(this.$el.find('#startDateDiv'), null, {pickTime: false});
+//                Application.Views.addDateTimePicker(this.$el.find('#endDateDiv'), moment().add('days', 30) ,{pickTime: false});
+
             },
 
-            changePassword: function(event) {
-                event.preventDefault();
+            renderServiceSelect :function (serviceIdToTextMap, element) {
+                var that = this;
+                _.each(serviceIdToTextMap, function(service){
+                    that.$el.find(element).append("<option value='" + service.id + "'>" + service.text + "</option>");
+                });
+            },
+
+            createNewPayment: function(evt) {
+                evt.preventDefault();
                 var data = Backbone.Syphon.serialize(this);
                 this.model.set(data);
 
                 var isValid = this.model.isValid(true);
                 if (isValid) {
-                    Application.Views.hideModal(Payments.changePasswordModalFormId);
-                    this.trigger(Payments.changePasswordEvt, this, data);
+                    Application.Views.hideModal(Payments.addPaymentModalFormId);
+                    this.trigger(Payments.CREATE_PAYMENT, this, data);
                 }
             }
+
         });
-
-
-
-        Payments.setupEditableBox = function(el, model, id, emptyText, initialValue, type, source, placement){
-            var successCB = function (response, value) {
-                console.log("[" + id + ":" + value + "]");
-                model.save(id, value, {
-                    wait: true,
-                    patch: true,
-                    success: function (updatedStudent) {
-                        console.log("Saved on server!!");
-//                        Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
-                    },
-
-                    error: function (x, response) {
-                        console.log("Error on server!! -- " + response.msg);
-                        return response.msg;
-                    }
-                })
-            };
-
-            Application.Views.setupEditableBox(el, id, emptyText, initialValue, type, source, placement, successCB);
-        };
-
-
-
-//        Payments.views.UserInfo = Application.Views.ItemView.extend({
-////            className: "someClass",
-//            tagName: "section",
-//            template: "payments/templates/userInfo",
-//
-//            serializeData: function(){
-//                var data = this.model.toJSON();
-//                data.role = data.user.role;
-//                return data;
-//            }
-//        });
-//
-//        Payments.views.ChangePassword = Application.Views.ItemView.extend({
-//            template: "payments/templates/change_password",
-//            events: {
-//                "click #changePassword": "changePassword",
-//                "click #cancelBtn": "toggleChangePassword",
-//                "click #changePasswordBtn": "toggleChangePassword"
-//            },
-//
-//            onRender: function() {
-//                Backbone.Validation.bind(this);
-//            },
-//
-//            changePassword: function(event) {
-//                event.preventDefault();
-//                var data = Backbone.Syphon.serialize(this);
-//                this.model.set(data);
-//                console.log(this.model.isValid(true));
-//                if (!this.model.isValid(true))
-//                    return;
-//
-//                this.trigger(Payments.changePasswordEvt, this);
-//                this.toggleChangePassword(event);
-//            },
-//
-//            toggleChangePassword: function(event) {
-//                event.preventDefault();
-//                this.$el.find("#changePasswordContainer").fadeToggle();
-//            }
-//        });
-//
-//        Payments.views.CreateAdmin = Application.Views.ItemView.extend({
-//            template: "payments/templates/create_admin",
-//
-//            events: {
-//                "click #createAdmin": "createAdmin",
-//                "click #cancelBtn": "toggleViewVisibility",
-//                "click #createAdminBtn": "toggleViewVisibility"
-//            },
-//
-//            onRender: function() {
-//                Backbone.Validation.bind(this);
-//            },
-//
-//            toggleViewVisibility: function(event) {
-//                event.preventDefault();
-//                this.$el.find("#createAdminContainer").fadeToggle();
-//            },
-//
-//            createAdmin: function(evt) {
-//                evt.preventDefault();
-//                this.trigger(Payments.createAdminEvt, this);
-//            }
-//
-//        });
-//
-//        Payments.views.CreateSchool = Application.Views.ItemView.extend({
-//            template: "payments/templates/create_school",
-//
-//            events: {
-//                "click #createSchool": "createSchool",
-//                "click #cancelBtn": "toggleViewVisibility",
-//                "click #createSchoolBtn": "toggleViewVisibility"
-//            },
-//
-//            onRender: function() {
-//                Backbone.Validation.bind(this);
-//            },
-//
-//            toggleViewVisibility: function(event) {
-//                event.preventDefault();
-//                this.$el.find("#createSchoolContainer").fadeToggle();
-//            },
-//
-//            createSchool: function(evt) {
-//                evt.preventDefault();
-//                this.trigger(Payments.createSchoolEvt, this);
-//            }
-//
-//        });
-//
-//        Payments.views.CreateCountry = Application.Views.ItemView.extend({
-//            template: "payments/templates/create_country",
-//
-//            events: {
-//                "click #createCountry": "createCountry",
-//                "click #cancelBtn": "toggleViewVisibility",
-//                "click #createCountryBtn": "toggleViewVisibility"
-//            },
-//
-//            onRender: function() {
-//                Backbone.Validation.bind(this);
-//            },
-//
-//            toggleViewVisibility: function(event) {
-//                event.preventDefault();
-//                this.$el.find("#createCountryContainer").fadeToggle();
-//            },
-//
-//            createCountry: function(evt) {
-//                evt.preventDefault();
-//                this.trigger(Payments.createCountryEvt, this);
-//            }
-//
-//        })
-    })
+    });
 });

@@ -9,7 +9,8 @@ define([
     "modules/entities/education",
     "modules/entities/enquiryStatus",
     "modules/entities/enroll",
-    "modules/entities/enrollment"
+    "modules/entities/enrollment",
+    "modules/entities/payment"
     
 ], function () {
     Application.module("Students.Show", function (Show, Application, Backbone, Marionette, $, _) {
@@ -148,38 +149,49 @@ define([
                     });
                 });
 
-//                 enrollView.on(Show.showAddPaymentModalEvt, function(view){
-//                    console.log("Payment modal!!!");
-// //                    var modalRegion = new Application.Views.ModalRegion({el:'#modal'});
-//                     var newEnroll = Application.request(Application.GET_PAYMENT);
-//                     newPayment.attributes.modalId = Show.addPaymentFormId;
+                enrollView.on(Show.showAddPaymentModalEvt, function(view){
+                   console.log("Payment modal!!!");
 
-//                     var addPaymentModalView = new Show.views.addPaymentForm({
-//                         model: newPayment
-//                        // allServices: allServices.getIdToTextMap('name')
+                var enrollId = view.model.id;
+                console.log(enrollId);
+                  // enrollView.add(model, { undocumented: 'arguments' });
+                   //console.log(view);
+               // var enrollCollection = new Application.Entities.EnrollCollection(student.get('enrollments'));
 
-//                     });
+//                    var modalRegion = new Application.Views.ModalRegion({el:'#modal'});
+                    var newPayment = Application.request(Application.GET_PAYMENT);
+                    newPayment.attributes.modalId = Show.addPaymentFormId;
 
-//                     addPaymentModalView.on(Show.addPaymentEvt, function(modalFormView){
-//                         student.save("payment", modalFormView.model.attributes, {
-//                             wait: true,
-//                             patch: true,
-//                             success: function(updatedStudent){
-//                                 console.log("Saved on server!!");
-//                                // console.dir(updatedStudent,allServices);
-//                                 that.showPaymentView(updatedStudent,allServices);
-//                                 Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
-//                             },
+                    var addPaymentModalView = new Show.views.addPaymentForm({
+                        model: newPayment,
+                        enroll: enrollId
+                        //collection: studentEnrollments
+                       // allServices: allServices.getIdToTextMap('name')
 
-//                             error: function(x, response) {
-//                                 console.log("Error on server!! -- " + response.text);
-//                                 return response;
-//                             }
-//                         });
+                    });
 
-//                     });
-//                     Application.modalRegion.show(addPaymentModalView);
-//                 });
+                    addPaymentModalView.on(Show.addPaymentEvt, function(modalFormView){
+
+                      //  console.log(modalFormView);
+                        student.save("payment", modalFormView.model.attributes, {
+                            wait: true,
+                            patch: true,
+                            success: function(updatedStudent){
+                                console.log("Saved on server!!");
+                               // console.dir(updatedStudent,allServices);
+                              //  that.showPaymentView(updatedStudent,allServices);
+                            //    Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
+                            },
+
+                            error: function(x, response) {
+                                console.log("Error on server!! -- " + response.text);
+                                return response;
+                            }
+                        });
+
+                    });
+                    Application.modalRegion.show(addPaymentModalView);
+                });
 
 
             },

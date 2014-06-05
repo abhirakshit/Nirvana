@@ -530,9 +530,52 @@ addEnroll = function(id, staffId, serviceId, totalFee, enrollDate, res){
             }
             res.json(student);
         });
-}
+};
+
+addPayment = function(id, staffId, method, amount, receiptNumber, paymentDate, enrollId, res){
+
+        async.series([
 
 
+        function(callback){
+            var values = {amount: amount, method: method, enroll: enrollId, receiptNumber: receiptNumber, paymentDate: paymentDate, receivedBy: staffId };
+            //create a enrollment for a student id
+            console.log(values);
+            Payment.create(values).exec(function(err, payment){
+                if (err){
+                    callback(err);
+
+                }
+                console.log(payment);
+                callback(null);
+            });
+
+        },
+
+        function(callback){
+            //create a comment that a new enrollment is created
+            var commentStr = '<b>Paid:</b> ' + 'Amount: ' + amount ;
+            console.log();
+            UserService.createComment(staffId, id, commentStr, "add", callback)
+
+
+        },
+
+       function(callback) {
+            UserService.getStudent(id, callback, 'enrollments');
+        }
+
+        ], function(err, student){
+            if (err){
+                console.log(err);
+                res.badRequest(err);
+            }
+            res.json(student);
+        });
+
+
+
+};
 
 stringCleanUp = function(strArr) {
     return strArr.join(", ");
@@ -542,39 +585,44 @@ stringCleanUp = function(strArr) {
 module.exports = {
 
     updatePartial: function (req, res) {
-        var id = req.param('id');
+        var id = req.param('id'),
+            staffId = UserService.getCurrentStaffUserId(req);
+
 //        console.log(_.merge({}, req.params.all(), req.body));
         if (!id) {
             return res.badRequest('No id provided.');
         } else if (req.body.services) {
             //Services
             var serviceIds = _.map(req.body.services, function(stringId) { return parseInt(stringId); });
-            updateServices(id, UserService.getCurrentStaffUserId(req), serviceIds, res);
+            updateServices(id, staffId, serviceIds, res);
         } else if (req.body.countries) {
             //Countries
             var countryIds = _.map(req.body.countries, function(stringId) { return parseInt(stringId); });
-            updateCountries(id, UserService.getCurrentStaffUserId(req), countryIds, res);
+            updateCountries(id, staffId, countryIds, res);
         } else if (req.body.staff) {
             //Counselors
             var staffIds = _.map(req.body.staff, function(stringId) { return parseInt(stringId); });
-            updateStaff(id, UserService.getCurrentStaffUserId(req), staffIds, res);
+            updateStaff(id, staffId, staffIds, res);
         } else if (req.body.enquiryStatus) {
             //enquiryStatus
-            updateEnquiryStatus(id, UserService.getCurrentStaffUserId(req), parseInt(req.body.enquiryStatus), res);
+            updateEnquiryStatus(id, staffId, parseInt(req.body.enquiryStatus), res);
         } else if (req.body.addEducation) {
             //addEducation
-            addEducation(id, UserService.getCurrentStaffUserId(req), req.body.addEducation, res);
+            addEducation(id, staffId, req.body.addEducation, res);
         } else if (req.body.removeEducation) {
             //removeEducation
-            removeEducation(id, UserService.getCurrentStaffUserId(req), req.body.removeEducation, res);
+            removeEducation(id, staffId, req.body.removeEducation, res);
         } else if (req.body.comment) {
             //Add Comment
-            addComment(id, UserService.getCurrentStaffUserId(req), req.body.comment, res);
+            addComment(id, staffId, req.body.comment, res);
         } else if (req.body.email) {
-            updateEmail(id, UserService.getCurrentStaffUserId(req), req.body, res);
+            updateEmail(id, staffId, req.body, res);
         } else if(req.body.enroll) {
             var enroll = req.body.enroll;
-            addEnroll(id, UserService.getCurrentStaffUserId(req), enroll.service, enroll.totalFee, enroll.enrollDate, res);
+            addEnroll(id, staffId, enroll.service, enroll.totalFee, enroll.enrollDate, res);
+        } else if(req.body.payment){
+             var payment = req.body.payment;
+            addPayment(id, staffId,payment.method, payment.amount, payment.receiptNumber, payment.paymentDate,payment.enroll, res);
         } else {
             var updateFields = _.merge({}, req.params.all(), req.body);
             async.waterfall([
@@ -596,7 +644,7 @@ module.exports = {
                     });
                 },
                 function (commentStr, commentType, callback) {
-                    UserService.createComment(UserService.getCurrentStaffUserId(req), id, commentStr, commentType, callback);
+                    UserService.createComment(staffId, id, commentStr, commentType, callback);
                 },
                 //Get updated student
                 function(studentId, comment, callback) {

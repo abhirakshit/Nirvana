@@ -1,51 +1,63 @@
-/*
-This file dependent on payment_controller: defining all dependencies, make sure to add 
-an entry in Nirvana/assets/js/app.js file under Application.addInitializer (this is to make sure application will start)
-section to intialize the application and add under require  "modules/payments/payments_app". */
-
-
 define([
-	"modules/payments/payments_controller"
-	], function(){
-		Application.module("Payments", function(Payments, Application, Backbone, Marionette,$,_){
+    "modules/payments/payments_controller"
+], function () {
+    Application.module("Payments", function (Payments, Application, Backbone, Marionette, $, _) {
+        Payments.rootRoute = "payments";
+        Payments.Router = Marionette.AppRouter.extend({
+            appRoutes: {
+                "payments": "show",
+                "payments/": "show",
+                "payments/:tabId": "show",
+                "payments/:tabId/": "show",
+//                "student/:id": "showStudent",
+//                "student/:id/": "showStudent"
+            }
+        });
 
-			Payments.rootRoute = "payments";
-			Payments.Router = Marionette.AppRouter.extend({
-				AppRoutes: {
-					"payments": "show",
-					"payments/": "show"
-				}
-			});
+        var API = {
+            show: function (tabId) {
+                new Payments.Controller({
+                    region: Application.pageContentRegion,
+                    tabId: tabId
+                });
+                Application.commands.execute(Application.SET_SIDEBAR, Application.PAYMENTS_SHOW);
+            },
 
-			var API = {
-				show: function(){
-					console.log("show payments");
-					new Payments.Controller({
-						region: Application.pageContentRegion
-					});
-					Application.commands.execute(Application.SET_SIDEBAR, Application.PAYMENTS_SHOW);
-				}
-			};
+//            showStudent: function(studentId) {
+//                new Payments.Controller({
+//                    region: Application.pageContentRegion,
+//                    studentId: studentId
+//                });
+//                Application.commands.execute(Application.SET_SIDEBAR, Application.ENQUIRIES_SHOW);
+//            }
+        };
 
-			Payments.setup = function(){
-				new Payments.Router({
-					Controller: API
-				});
-			};
+        Payments.setup = function () {
+            new Payments.Router({
+                controller: API
+            });
+//            Application.commands.execute(Application.MODULES_LOADED, Payments.rootRoute);
+        };
 
-			Payments.on(Application.START, function(){
-				console.log("Payments Start...");
+        Payments.on(Application.START, function () {
+            console.log("Payments start...");
+//            Marionette.TemplateLoader.loadModuleTemplates(Payments.Show, function() {
+////                Marionette.TemplateLoader.loadModuleTemplates(Payments.Content, function() {
+//                Marionette.TemplateLoader.loadModuleTemplates(Payments.Content.All, function() {
+//                    Marionette.TemplateLoader.loadModuleTemplates(Payments.Content.My, function() {
+                        Marionette.TemplateLoader.loadModuleTemplates(Payments.List.All, function() {
+                            Marionette.TemplateLoader.loadModuleTemplates(Payments, Payments.setup);
+                        });
+//                    });
+//                });
+////                });
+//            });
+        });
 
-				Marionette.TemplateLoader.loadModuleTemplates(Payments, Payments.setup);
-			});
+        Application.commands.setHandler(Application.PAYMENTS_SHOW, function (tabId) {
+            API.show(tabId);
+//            Application.navigate(Payments.rootRoute);
+        });
 
-			Application.commands.setHandler(Application.PAYMENTS_SHOW, function(){
-				API.show();
-				Application.navigate(Payments.rootRoute);
-			});
-
-		});
-
-
-
+    });
 });

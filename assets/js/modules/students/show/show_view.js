@@ -9,7 +9,9 @@ define([
         Show.deleteEducationEvt = "deleteEducationEvt";
         Show.addCommentEvt = "addCommentEvt";
         Show.addEnrollFormId = 'addEnrollModal';
+        Show.addPaymentFormId = 'addPaymentModal';
         Show.showAddEnrollModalEvt = "showAddEnrollModalEvt";
+        Show.showAddPaymentModalEvt = "showAddPaymentModalEvt";
         Show.createEnrollEvt = "createEnrollEvt";
         Show.deleteEnrollEvt = "deleteEnrollEvt";
 
@@ -158,24 +160,18 @@ define([
             onRender: function() {
                 Backbone.Validation.bind(this);
 
-                // var that = this;
-                // _.each(this.options.allServices,function(value){
-                //     that.$el.find('#service').append("<option value=" + value.id + '>' + value.text + "</option>");
-                // });
+                this.$el.find('#enroll').append("<<input name='enroll' type='hidden' value=" + this.options.enroll + '>');
 
                 Application.Views.addDateTimePicker(this.$el.find('#paymentDateDiv'), null, {pickTime: false});
 
-
             },
-
-
 
             addPayment: function(evt) {
                 evt.preventDefault();
                 var data = Backbone.Syphon.serialize(this);
                 this.model.set(data);
 
-                //console.log(data);
+                console.log(data);
 
                 var isValid = this.model.isValid(true);
                 if (isValid) {
@@ -188,29 +184,31 @@ define([
         });
 
 
-
-
-
-
         Show.views.EnrollField = Application.Views.ItemView.extend({
             template: "students/show/templates/enroll_field",
             tagName: "tr",
-            //className: "col-md-12",
+            
             onRender: function() {
                 Backbone.Validation.bind(this);
-
-                // var that = this;
-                // _.each(this.options.allServices,function(value){
-                //     that.$el.find('#service').append('<tr>' + value.text + "</tr>");
-                // });
-
             },
 
             events: {
                 "mouseenter": "toggleDelete",
                 "mouseleave": "toggleDelete",
-                "click .i-cancel": "deleteEnroll"
+                "click .i-cancel": "deleteEnroll",
+                "click #addPayment" : "showAddPaymentModal"
             },
+
+
+            serializeData: function() {
+                var data = this.model.toJSON();
+                data.modalId = Show.addPaymentFormId;
+                return data;
+                //console.log(this.options.collection);
+                console.log(data);
+            },
+
+          
 
             deleteEnroll: function(evt) {
                 evt.preventDefault();
@@ -223,6 +221,12 @@ define([
                 // var fieldId = this.model.get('totalFee');
                 // $('#' + fieldId).toggleClass("basicBorder");
                 // $('#' + fieldId).find('.i-cancel').toggleClass("display-none");
+            },
+
+            showAddPaymentModal: function(evt,options) {
+               // console.log('........:' + this.model.id);
+                evt.preventDefault();
+                this.trigger(Show.showAddPaymentModalEvt, this.model);
             }
 
         });
@@ -236,29 +240,38 @@ define([
                 var that = this;
                 this.on(Application.CHILD_VIEW + ":" + Show.deleteEnrollEvt, function(childView) {
                     that.trigger(Show.deleteEnrollEvt, childView);
-                })
+                });
+
+                this.on(Application.CHILD_VIEW + ":" + Show.showAddPaymentModalEvt, function(childView, model) {
+                    that.trigger(Show.showAddPaymentModalEvt, childView);
+                });
+
+
+// contactsListView.on("itemview:contact:show", function(childView,model){
+// //   ContactManager.navigate("contacts/" + model.get("id"));
+// // ContactManager.ContactsApp.Show.Controller.showContact(model);
+
+// ContactManager.trigger("contact:show", model.get('id'));
+// });
+
+
             },
 
             serializeData: function() {
                 var data = this.model.toJSON();
                 data.modalId = Show.addEnrollFormId;
-                data.modalId2 = Show.addPaymentFormId;
+                console.log(data.modalId);
                 return data;
             },
 
             events: {
-                "click #addEnroll" : "showAddEnrollModal",
-                "click #addPayment" : "showAddPaymentModal"
+                "click #addEnroll" : "showAddEnrollModal"
+               
             },
 
             showAddEnrollModal: function(evt) {
                 evt.preventDefault();
                 this.trigger(Show.showAddEnrollModalEvt, this);
-            },
-
-            showAddPaymentModal: function(evt) {
-                evt.preventDefault();
-                this.trigger(Show.showAddPaymentModalEvt, this);
             }
         });
 

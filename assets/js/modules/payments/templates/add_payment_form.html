@@ -1,0 +1,69 @@
+<div class="modal fade" id="<%=modalId%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+     data-backdrop="false">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title panel-heading font-bold" id="myModalLabel">Add Topic</h4>
+            </div>
+            <div class="modal-body">
+                <form class="bs-example form-horizontal">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Name</label>
+
+                        <div class="col-md-10 controls">
+                            <input name="name" type="text" class="form-control" placeholder="">
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Duration</label>
+
+                        <div class="col-md-5 controls">
+                            <div class="input-group">
+                                <input name="duration_hr" type="text" class="form-control" placeholder="1">
+                                <span class="input-group-addon">hr</span>
+                            </div>
+                        </div>
+                        <div class="col-md-5 controls">
+                            <div class="input-group">
+                                <input name="duration_min" type="text" class="form-control" placeholder="15">
+                                <span class="input-group-addon">min</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Section</label>
+
+                        <div class="col-md-10 controls">
+                            <input name="section" type="text" class="form-control" placeholder="">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Service</label>
+
+                        <div class="col-md-10 controls">
+                            <select id="service" name="service" class="form-control"></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Description</label>
+
+                        <div class="col-md-10 controls">
+                            <textarea name="description" class="form-control" placeholder="Details..."></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success btn-s-xs" id="createNewTopic">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

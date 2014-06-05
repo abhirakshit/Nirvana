@@ -95,6 +95,7 @@ define([], function(){
         Application.GET_STUDENT_ENROLLMENTS = "get:student:enrollments";
 
         Application.GET_PAYMENT = "get:payment";
+         Application.GET_PAYMENTS = "get:payments";
 
 
 
