@@ -6,7 +6,7 @@ define([
         List_All.Controller = Application.Controllers.Base.extend({
             initialize: function() {
                 var user = Application.request(Application.GET_LOGGED_USER);
-                var allPayments = Application.request(Application.GET_TOPICS);
+                var allPayments = Application.request(Application.GET_PAYMENTS);
                 this.layout = this.getLayout();
 
                 this.listenTo(this.layout, Application.SHOW, function(){
