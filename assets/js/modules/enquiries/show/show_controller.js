@@ -33,7 +33,10 @@ define([
                 var that = this;
                 Application.commands.setHandler(Show.UPDATE_HISTORY_EVT, function (student) {
 //                    studentComments = Application.request(Application.GET_STUDENT_COMMENTS, student.id);
-                    that.showHistoryView(student, studentComments);
+                    console.log("Refresh History View!!");
+                    console.log(student);
+//                    that.showHistoryView(student, studentComments);
+                    that.showHistoryView(student, Application.request(Application.GET_STUDENT_COMMENTS, student.id));
                 });
             },
 
@@ -70,7 +73,7 @@ define([
                 this.layout.academicRegion.show(academicView);
 
                 academicView.on(Show.showAddEducationModalEvt, function(view){
-                   console.log("Show modal!!!");
+//                   console.log("Show modal!!!");
 //                    var modalRegion = new Application.Views.ModalRegion({el:'#modal'});
                     var newEducation = Application.request(Application.GET_EDUCATION);
                     newEducation.attributes.modalId = Show.addEducationFormId;

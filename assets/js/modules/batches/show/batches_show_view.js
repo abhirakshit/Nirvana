@@ -3,11 +3,15 @@ define([
     Application.module("Batches.Show", function (Show, Application, Backbone, Marionette, $, _) {
 
 //        Show.addEducationFormId = 'addEducationModal';
-//        Show.showAddEducationModalEvt = "showAddEducationModalEvt";
+        Show.showAddEducationModalEvt = "showAddEducationModalEvt";
 //        Show.createEducationEvt = "createEducationEvt";
-//        Show.deleteEducationEvt = "deleteEducationEvt";
+        Show.removeStudentEvt = "removeStudentEvt";
+        Show.addStudentEvt = "addStudentEvt";
 //        Show.addCommentEvt = "addCommentEvt";
 
+        Show.addClassModalFormId = "addClassModal";
+        Show.SHOW_NEW_CLASS_MODAL = "show:new:class:modal";
+        Show.CREATE_CLASS = "create:class";
 
 
         this.prefix = "Show";
@@ -29,6 +33,15 @@ define([
             }
         });
 
+        Show.views.ClassSectionLayout = Application.Views.Layout.extend({
+            template: "batches/show/templates/classes_layout",
+            regions: {
+                addClassBtnRegion: "#addClass",
+                classTableRegion: "#classesTable"
+            }
+
+        });
+
         Show.views.BatchDetails = Application.Views.ItemView.extend({
             template: "batches/show/templates/batch_details_view",
 
@@ -41,9 +54,141 @@ define([
             }
         });
 
-        Show.views.StudentSection = Application.Views.ItemView.extend({
-            template: "batches/show/templates/students_view"
+        Show.views.EnrolledStudentView = Application.Views.ItemView.extend({
+            template: "batches/show/templates/student_field",
+            tagName: "div",
+            className: "col-md-12",
+
+            events: {
+                "mouseenter": "toggleDelete",
+                "mouseleave": "toggleDelete",
+                "click .i-cancel": "deleteStudent"
+            },
+
+            deleteStudent: function(evt) {
+                evt.preventDefault();
+                this.trigger(Show.removeStudentEvt, this);
+            },
+
+            toggleDelete: function (evt) {
+                evt.preventDefault();
+                var fieldId = this.model.get('id');
+                $('#' + fieldId).find('.i-cancel').toggleClass("display-none");
+            }
+
         });
+
+        Show.views.StudentComposite = Application.Views.CompositeView.extend({
+            template: "batches/show/templates/students_view",
+            itemView: Show.views.EnrolledStudentView,
+            itemViewContainer: "#enrolledStudents",
+
+            initialize: function() {
+                var that = this;
+                this.on(Application.CHILD_VIEW + ":" + Show.removeStudentEvt, function(childView) {
+                    that.trigger(Show.removeStudentEvt, childView.model);
+                })
+            },
+
+            onRender: function() {
+//                console.log("Printing this...");
+//                console.dir(this);
+                var that = this;
+                var successCB = function(response, value) {
+                    console.log("Add students: " + value);
+                    that.trigger(Show.addStudentEvt, value);
+                };
+                Application.Views.setupSelect2EditableBox(this.$el, "addStudents", this.options.allStudents, "Add Students", this.options.addedStudents, 'right', successCB)
+            }
+        });
+
+        Show.views.AddClassButton = Application.Views.ItemView.extend({
+            template: "views/templates/tab_add_button",
+
+            events: {
+                "click" : "showAddClassModal"
+            },
+
+            showAddClassModal: function(evt){
+                evt.preventDefault();
+                this.trigger(Show.SHOW_NEW_CLASS_MODAL);
+            }
+
+        });
+
+
+        Show.views.AddClassForm = Application.Views.ItemView.extend({
+            template: "batches/show/templates/add_class_form",
+
+            events: {
+                "click #createNewClass" : "createNewClass"
+            },
+
+            onRender: function() {
+                Backbone.Validation.bind(this);
+
+                this.renderSelect(this.options.allTopics, "#topic");
+                this.renderSelect(this.options.allStaff, "#staff");
+//
+//                //Add datetime field
+                Application.Views.addDateTimePicker(this.$el.find('#dateDiv'));
+//                Application.Views.addDateTimePicker(this.$el.find('#dateDiv'), null, {pickTime: false});
+//                Application.Views.addDateTimePicker(this.$el.find('#timeDiv'), null,{pickDate: false});
+
+            },
+
+            renderSelect :function (idToTextMap, element) {
+                var that = this;
+                _.each(idToTextMap, function(select){
+                    that.$el.find(element).append("<option value='" + select.id + "'>" + select.text + "</option>");
+                });
+                this.$el.find(element).select2();
+            },
+
+            createNewClass: function(evt) {
+                evt.preventDefault();
+                var data = Backbone.Syphon.serialize(this);
+                this.model.set(data);
+
+                if (!data.name) {
+                    var val = _.find(this.options.allTopics, function(topic){
+                        return topic.id == data.topic;
+                    })
+                    data.name = val.text;
+                }
+
+
+                var isValid = this.model.isValid(true);
+                if (isValid) {
+                    Application.Views.hideModal(Show.addClassModalFormId);
+                    this.trigger(Show.CREATE_CLASS, this, data);
+                }
+            }
+
+        });
+
+        Show.views.ClassRow = Application.Views.ItemView.extend({
+            template: "batches/show/templates/class_row",
+            tagName: "tr",
+
+            serializeData: function() {
+                var data = this.model.toJSON();
+//                data.serviceName = data.service.name;
+                data.staffNames = _.pluck(data.staff, 'name').join(', ');
+                return data;
+            },
+
+            events: {
+                "click": "click"
+            },
+
+            click: function(evt) {
+                evt.preventDefault();
+                this.trigger(Application.CLASS_SHOW, this);
+            }
+        });
+
+
 
 
 //        Show.views.Personal = Application.Views.ItemView.extend({
@@ -246,6 +391,7 @@ define([
         };
 
         Show.setupDateTimeEditableBox = function(el, model, id, emptyText, initialValue, placement){
+
             var successCB = function(response, value) {
                 if (!value) {
                     console.log("No value!!!");
@@ -272,6 +418,10 @@ define([
         };
 
         Show.setupSelect2EditableBox = function(el, model, id, source, emptyText, initialValue, placement){
+
+
+            console.log("Printing this...");
+            console.dir(this);
             var successCB = function(response, value) {
 //                console.log(value);
                 model.save(id, value, {

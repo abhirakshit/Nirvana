@@ -49,7 +49,11 @@ define([], function () {
         };
 
 //        Select2 Lib: http://ivaynberg.github.io/select2/
-        Views.setupSelect2EditableBox = function (el, id, source, emptyText, initialValue, placement, successCB) {
+        Views.setupSelect2EditableBox = function (el, id, source, emptyText, initialValue, placement, successCB, multiple) {
+            var multiSelect = true;
+            if (multiple) {
+                multiSelect = multiple
+            }
             el.find('#' + id).editable({
                 source: source,
                 type: "select2",
@@ -60,7 +64,7 @@ define([], function () {
                 // disabled: 'true',
                 select2: {
                     placeholder: emptyText,
-                    multiple: true
+                    multiple: multiSelect
                 },
                 success: successCB
             });

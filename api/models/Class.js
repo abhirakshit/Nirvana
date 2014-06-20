@@ -13,9 +13,11 @@ module.exports = _.merge(_.cloneDeep(infoTable), {
 
         date: {type: 'datetime'},
 
-        startTime: {type: 'datetime'},
+        //Merge startTime with date
+//        startTime: {type: 'datetime'},
 
-        endTime: {type: 'datetime'},
+        // Calculate if needed from topic duration
+//        endTime: {type: 'datetime'},
 
 
         //Association
