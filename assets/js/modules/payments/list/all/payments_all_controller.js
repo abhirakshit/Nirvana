@@ -39,8 +39,8 @@ define([
                 var tableComposite = this.getTableView(tableId, tableTitle, headerColumns, rows);
 
                 var that = this;
-                this.listenTo(tableComposite, Application.TOPIC_SHOW, function(topicId){
-                    Application.execute(Application.TOPIC_SHOW, that.options.region, topicId);
+                this.listenTo(tableComposite, Application.PAYMENT_SHOW, function(paymentId){
+                    Application.execute(Application.PAYMENT_SHOW, that.options.region, paymentId);
                 });
                 region.show(tableComposite);
             },
@@ -52,7 +52,7 @@ define([
                         tableId: tableId,
                         title: title,
                         theadColumns: theadColumns,
-                        childClickEvt: Application.TOPIC_SHOW,
+                        childClickEvt: Application.PAYMENT_SHOW,
                         rowView: List_All.views.Row
                     }),
                     collection: rows

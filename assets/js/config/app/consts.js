@@ -123,6 +123,11 @@ define([], function(){
         Application.TOPICS_LIST_CURRENT = "topics:list:current";
         Application.TOPICS_LIST_ALL = "topics:list:all";
 
+        Application.PAYMENTS_SHOW = "payments:show";
+        Application.PAYMENT_SHOW = "payment:show";
+        Application.PAYMENTS_LIST_CURRENT = "payments:list:current";
+        Application.PAYMENTS_LIST_ALL = "payments:list:all";
+
         Application.FORUM_SHOW = "forum:show";
         Application.STAFF_SHOW = 'staff:show';
         Application.STUDENT_SHOW = 'student:show';

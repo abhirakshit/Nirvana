@@ -23,9 +23,9 @@ define([
             tagName: "tr",
 
             serializeData: function() {
-                var data = this.model.toJSON();
-                data.serviceName = data.service.name;
-                return data;
+                // var data = this.model.toJSON();
+                // data.serviceName = data.service.name;
+                // return data;
             },
 
             events: {
@@ -34,7 +34,7 @@ define([
 
             click: function(evt) {
                 evt.preventDefault();
-                this.trigger(Application.TOPIC_SHOW, this);
+                this.trigger(Application.PAYMENT_SHOW, this);
             }
         });
 

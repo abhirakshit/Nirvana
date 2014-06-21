@@ -11,7 +11,7 @@ define([
             }
         };
 
-        Application.commands.setHandler(Application.TOPICS_LIST_ALL, function (contentRegion) {
+        Application.commands.setHandler(Application.PAYMENTS_LIST_ALL, function (contentRegion) {
             API.show(contentRegion);
         });
 

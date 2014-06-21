@@ -56,7 +56,11 @@ module.exports.routes = {
     'get /student/enrolled':            'StudentController.getEnrolledStudents',
 
 
-    'patch /batch/:id':                 'BatchController.updatePartial'
+    'patch /batch/:id':                 'BatchController.updatePartial',
+
+    'get /student/getpayments':            'StudentController.getTotalPayments'
+
+    
 
 
   // If a request to a URL doesn't match any of the custom routes above, it is matched 

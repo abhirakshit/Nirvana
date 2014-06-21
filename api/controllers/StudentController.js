@@ -797,12 +797,6 @@ module.exports = {
 
                 Enroll.findOne(enroll.id).populate('payments').populate('service').exec(function(err,enr){
 
-                 // var   summedByEnroll = _(enr.payments).reduce(function(mem, d) {
-                 //        mem[d.enroll] = (mem[d.enroll] || 0) + Number(d.amount);
-
-                 //        return mem;
-                 //    },   {});
-
                var  sum = _.reduce(_.pluck(enr.payments,'amount'), function (mem, payment){
                     return Number(mem) + Number(payment);
                 });
@@ -837,7 +831,78 @@ module.exports = {
 
 
 
-    }
+    },
+
+      getTotalPayments: function(req,res) {
+
+        // get all payments for all students
+        //loop through all payments and sum amounts by enroll_id 
+        // loop through all the 
+
+
+
+      Student.find()
+                .populate('services')
+                .populate('countries')
+                .populate('enrollments')
+                .exec(function(err, enrolledStudents){
+
+                 res.json(enrolledStudents);
+
+
+        });
+
+        // var id = req.param('id');
+        // if (!id) {
+        //     return res.badRequest('No id provided.');
+        // }
+
+        // Student.findOne(id).populate('enrollments').exec(function(err,student){
+
+
+        //     var enrollmentList = student.enrollments;
+        //     var enrollmentCollection = [];
+        //     var paid = {};
+
+        //     async.each(enrollmentList, function(enroll, callback){
+
+        //         Enroll.findOne(enroll.id).populate('payments').populate('service').exec(function(err,enr){
+
+        //        var  sum = _.reduce(_.pluck(enr.payments,'amount'), function (mem, payment){
+        //             return Number(mem) + Number(payment);
+        //         });
+
+    
+        //         if(!sum) {
+        //             sum = 0;
+        //         } 
+        //           enr.totalPaid = sum;
+        //           enr.due = Number(enr.totalFee) - Number(enr.totalPaid);
+
+        //             enrollmentCollection.push(enr);
+        //             callback();
+        //         });
+
+                
+
+
+        //     }, function(err){
+        //         if (err) {
+        //             console.log("Could not process payment information. " + err);
+        //             res.badRequest("Could not process payment information. " + err);
+        //         }
+
+        //          res.json(enrollmentCollection);
+        //         // res.json(payments);
+
+
+        //     });
+
+        // });
+
+
+
+    }  
 
 
 	
