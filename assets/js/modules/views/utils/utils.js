@@ -37,6 +37,19 @@ define([], function () {
             $.jGrowl(msg, options);
         };
 
+        Views.getTableView =  function(tableId, title, theadColumns, rows, childClickEvt, rowView) {
+            return new Views.Base.views.TableComposite({
+                model: new Application.Entities.Model({
+                    tableId: tableId,
+                    title: title,
+                    theadColumns: theadColumns,
+                    childClickEvt: childClickEvt,
+                    rowView: rowView
+                }),
+                collection: rows
+            });
+        }
+
 
     });
 });

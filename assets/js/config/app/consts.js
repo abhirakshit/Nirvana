@@ -70,6 +70,9 @@ define([], function(){
         Application.GET_BATCHES = "get:batches";
         Application.GET_BATCH = "get:batch";
 
+        Application.GET_CLASSES = "get:classes";
+        Application.GET_CLASS = "get:class";
+
         Application.GET_TOPICS = "get:topics";
         Application.GET_TOPIC = "get:topic";
 
@@ -112,6 +115,9 @@ define([], function(){
         Application.PROFILES_SHOW = "profiles:show";
         Application.SETTINGS_SHOW = "settings:show";
         Application.PAYMENTS_SHOW = "payments:show";
+
+//        Application.BATCHES_SHOW = "batches:show";
+        Application.CLASS_SHOW = "class:show";
 
         Application.BATCHES_SHOW = "batches:show";
         Application.BATCH_SHOW = "batch:show";

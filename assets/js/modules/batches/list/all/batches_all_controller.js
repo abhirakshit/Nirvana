@@ -35,7 +35,8 @@ define([
             },
 
             setupBatchTableView: function(rows, headerColumns, tableTitle, tableId, region) {
-                var tableComposite = this.getTableView(tableId, tableTitle, headerColumns, rows);
+//                var tableComposite = this.getTableView(tableId, tableTitle, headerColumns, rows, Application.BATCH_SHOW, All.views.Row);
+                var tableComposite = Application.Views.getTableView(tableId, tableTitle, headerColumns, rows, Application.BATCH_SHOW, All.views.Row);
 
                 var that = this;
                 this.listenTo(tableComposite, Application.BATCH_SHOW, function(batchId){
@@ -44,19 +45,19 @@ define([
                 region.show(tableComposite);
             },
 
-            getTableView: function(tableId, title, theadColumns, rows) {
-                return new Application.Views.Base.views.TableComposite({
-//                return new All.views.TableComposite({
-                    model: new Application.Entities.Model({
-                        tableId: tableId,
-                        title: title,
-                        theadColumns: theadColumns,
-                        childClickEvt: Application.BATCH_SHOW,
-                        rowView: All.views.Row
-                    }),
-                    collection: rows
-                });
-            },
+//            getTableView: function(tableId, title, theadColumns, rows, childClickEvt, rowView) {
+//                return new Application.Views.Base.views.TableComposite({
+////                return new All.views.TableComposite({
+//                    model: new Application.Entities.Model({
+//                        tableId: tableId,
+//                        title: title,
+//                        theadColumns: theadColumns,
+//                        childClickEvt: childClickEvt,
+//                        rowView: rowView
+//                    }),
+//                    collection: rows
+//                });
+//            },
 
             getLayout: function() {
                 return new All.views.Layout();

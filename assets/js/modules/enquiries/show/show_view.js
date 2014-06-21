@@ -110,7 +110,7 @@ define([
             toggleDelete: function (evt) {
                 evt.preventDefault();
                 var fieldId = this.model.get('programName');
-                $('#' + fieldId).toggleClass("basicBorder");
+//                $('#' + fieldId).toggleClass("basicBorder");
                 $('#' + fieldId).find('.i-cancel').toggleClass("display-none");
             }
 

@@ -7,18 +7,19 @@
 
 var _ = require('lodash'),
     async = require('async'),
-    moment = require('moment');
+    moment = require('moment'),
+    consts = require('consts');
 
-updateStudent = function(studentId, updateFields, cb) {
-    Student.update(studentId, updateFields, function (err, student) {
-        if (err || !student) {
-            console.log("Could not update student: " + id + "\n" + err);
-            return cb(err);
-        }
-
-        cb(null, student)
-    });
-};
+//updateStudent = function(studentId, updateFields, cb) {
+//    Student.update(studentId, updateFields, function (err, student) {
+//        if (err || !student) {
+//            console.log("Could not update student: " + id + "\n" + err);
+//            return cb(err);
+//        }
+//
+//        cb(null, student)
+//    });
+//};
 
 getCommentStrFromUpdateFields = function(updateFields, student) {
     //Remove id
@@ -43,10 +44,12 @@ getCommentStrFromUpdateFields = function(updateFields, student) {
         //Check for other String updates
         if (oldVal) {
             comment.str = "<b>" + Utils.capitalizeFirst(key) + ":</b> <i>'" + oldVal + "'</i> to <i>'" + newVal + "'</i>"
-            comment.type = "change";
+//            comment.type = "change";
+            comment.type = consts.COMMENT_CHANGE;
         } else {
             comment.str= "<b>" + Utils.capitalizeFirst(key) + ":</b> " + newVal;
-            comment.type = "add";
+//            comment.type = "add";
+            comment.type = consts.COMMENT_ADD;
         }
     });
     return comment;
@@ -100,7 +103,8 @@ updateServices = function (id, staffId, updatedServiceIdArr, res) {
                 var commentType = "";
                 if (addedServiceNameArr.length > 0) {
                     commentStr = "<b>Service(s):</b> " + stringCleanUp(addedServiceNameArr);
-                    commentType = "add";
+//                    commentType = "add";
+                    commentType = consts.COMMENT_ADD;
                 }
 
                 if (removedServiceNameArr.length > 0) {
@@ -108,7 +112,7 @@ updateServices = function (id, staffId, updatedServiceIdArr, res) {
                         commentStr = commentStr + "<br />";
 
                     commentStr = commentStr + "<b>Service(s):</b> " + stringCleanUp(removedServiceNameArr);
-                    commentType = "remove";
+                    commentType = consts.COMMENT_REMOVE;
                 }
 
                 callback(null, commentStr, commentType);
@@ -180,7 +184,7 @@ updateCountries = function (id, staffId, updatedCountryIdArr, res) {
                 var commentType = "";
                 if (addedCountryNameArr.length > 0) {
                     commentStr = "<b>Countries:</b> " + stringCleanUp(addedCountryNameArr);
-                    commentType = "add";
+                    commentType = consts.COMMENT_ADD;
                 }
 
                 if (removedCountryNameArr.length > 0) {
@@ -188,7 +192,7 @@ updateCountries = function (id, staffId, updatedCountryIdArr, res) {
                         commentStr = commentStr + "<br />";
 
                     commentStr = commentStr + "<b>Countries:</b> " + stringCleanUp(removedCountryNameArr);
-                    commentType = "remove";
+                    commentType = consts.COMMENT_REMOVE;
                 }
 
                 callback(null, commentStr, commentType);
@@ -237,7 +241,8 @@ updateEnquiryStatus = function (id, staffId, newEnquiryStatusId, res) {
                     var oldStatusName = oldEnqStatus.name;
                     var newStatusName = _.find(allEnquiryStatus, {'id': newEnqStatusId}).name;
                     var commentStr = "<b>EnquiryStatus:</b> <i>'" + oldStatusName + "'</i> to <i>'" + newStatusName + "'</i>";
-                    callback(null, commentStr, "change");
+//                    callback(null, commentStr, "change");
+                    callback(null, commentStr, consts.COMMENT_CHANGE);
                 });
             },
             function (commentStr, commentType, callback) {
@@ -281,10 +286,14 @@ updateStaff = function (id, staffId, updatedStaffIdArr, res) {
                     _.forEach(toAdd, function (id) {
                         student.staff.add(id);
                     });
-                    student.save();
-                    return callback(null, toRemove, toAdd, student);
+                    student.save(function(err,  s){
+                        if (err) callback(err);
+                        callback(null, toRemove, toAdd, s);
+                    });
                 });
             },
+
+            //Create comment string
             function(staffRemoved, staffAdded, student, callback) {
                 Staff.find().exec(function(err, allStaff){
                     var addedStaffNameArr = [];
@@ -305,7 +314,8 @@ updateStaff = function (id, staffId, updatedStaffIdArr, res) {
                     var commentType = "";
                     if (addedStaffNameArr.length > 0) {
                         commentStr = "<b>Staff:</b> " + stringCleanUp(addedStaffNameArr);
-                        commentType = "add";
+//                        commentType = "add";
+                        commentType = consts.COMMENT_ADD;
                     }
 
                     if (removedStaffNameArr.length > 0) {
@@ -313,7 +323,7 @@ updateStaff = function (id, staffId, updatedStaffIdArr, res) {
                             commentStr = commentStr + "<br />";
 
                         commentStr = commentStr + "<b>Staff:</b> " + stringCleanUp(removedStaffNameArr);
-                        commentType = "remove";
+                        commentType = consts.COMMENT_REMOVE;
                     }
 
                     callback(null, commentStr, commentType);
@@ -359,7 +369,8 @@ updateStaff = function (id, staffId, updatedStaffIdArr, res) {
                             }
 
                             var commentStr = "<b>Education:</b> " + newEducation.programName+ ", " + newEducation.score;
-                            return callback(null, commentStr, "add");
+//                            return callback(null, commentStr, "add");
+                            return callback(null, commentStr, consts.COMMENT_ADD);
                         });
                     });
                 },
@@ -404,7 +415,8 @@ removeEducation = function(id, staffId, education, res) {
 
                         var commentStr = "<b>Education:</b> " + deletedEducation[0].programName + ", " + deletedEducation[0].score;
                         student.save();
-                        return callback(null, commentStr, "remove");
+//                        return callback(null, commentStr, "remove");
+                        return callback(null, commentStr, consts.COMMENT_REMOVE);
                     });
 
                 });
@@ -514,9 +526,8 @@ addEnroll = function(id, staffId, serviceId, totalFee, enrollDate, res){
             //create a comment that a new enrollment is created
             var commentStr = '<b>Enrolled:</b> ' + 'Total Fee ' + totalFee ;
             console.log();
-            UserService.createComment(staffId, id, commentStr, "add", callback)
-
-
+//            UserService.createComment(staffId, id, commentStr, "add", callback)
+            UserService.createComment(staffId, id, commentStr, consts.COMMENT_ADD, callback)
         },
 
        function(callback) {
@@ -556,9 +567,8 @@ addPayment = function(id, staffId, method, amount, receiptNumber, paymentDate, e
             //create a comment that a new enrollment is created
             var commentStr = '<b>Paid:</b> ' + 'Amount: ' + amount ;
             console.log();
-            UserService.createComment(staffId, id, commentStr, "add", callback)
-
-
+//            UserService.createComment(staffId, id, commentStr, "add", callback)
+            UserService.createComment(staffId, id, commentStr, consts.COMMENT_ADD, callback)
         },
 
        function(callback) {
@@ -741,7 +751,7 @@ module.exports = {
 
 
         /*
-        This is a round about way of getting the closed enquiries.
+        TODO: This is a round about way of getting the closed enquiries.
         We should find out why the above does not work
          */
         EnquiryStatus.find({name: {'!': 'Closed'}}).exec(function(err, enqStatusList){
