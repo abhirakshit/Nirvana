@@ -58,9 +58,9 @@ module.exports.routes = {
 
     'patch /batch/:id':                 'BatchController.updatePartial',
 
-    'get /student/getpayments':            'StudentController.getTotalPayments'
+    'get /student/:id/totalpayment':      'StudentController.getTotalPayments'
 
-    
+   // 'get /payments/totalpayment':    'PaymentController.totalPaymentsByEnrollId'
 
 
   // If a request to a URL doesn't match any of the custom routes above, it is matched 

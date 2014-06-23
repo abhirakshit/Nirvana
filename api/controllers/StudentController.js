@@ -848,67 +848,78 @@ module.exports = {
         // get all payments for all students
         //loop through all payments and sum amounts by enroll_id 
         // loop through all the 
+        var id = req.param('id');
+        if (!id) {
+            return res.badRequest('No id provided.');
+        }
+
+        Student.findOne(id).populate('enrollments').exec(function(err,student){
 
 
+            var enrollmentList = student.enrollments;
+            var enrollmentCollection = [];
+            var paid = {};
 
-      Student.find()
-                .populate('services')
-                .populate('countries')
-                .populate('enrollments')
-                .exec(function(err, enrolledStudents){
+            async.each(enrollmentList, function(enroll, callback){
 
-                 res.json(enrolledStudents);
+                Enroll.findOne(enroll.id).populate('payments').populate('service').exec(function(err,enr){
 
-
-        });
-
-        // var id = req.param('id');
-        // if (!id) {
-        //     return res.badRequest('No id provided.');
-        // }
-
-        // Student.findOne(id).populate('enrollments').exec(function(err,student){
-
-
-        //     var enrollmentList = student.enrollments;
-        //     var enrollmentCollection = [];
-        //     var paid = {};
-
-        //     async.each(enrollmentList, function(enroll, callback){
-
-        //         Enroll.findOne(enroll.id).populate('payments').populate('service').exec(function(err,enr){
-
-        //        var  sum = _.reduce(_.pluck(enr.payments,'amount'), function (mem, payment){
-        //             return Number(mem) + Number(payment);
-        //         });
+               var  sum = _.reduce(_.pluck(enr.payments,'amount'), function (mem, payment){
+                    return Number(mem) + Number(payment);
+                });
 
     
-        //         if(!sum) {
-        //             sum = 0;
-        //         } 
-        //           enr.totalPaid = sum;
-        //           enr.due = Number(enr.totalFee) - Number(enr.totalPaid);
+                if(!sum) {
+                    sum = 0;
+                } 
+                  enr.totalPaid = sum;
+                  enr.due = Number(enr.totalFee) - Number(enr.totalPaid);
 
-        //             enrollmentCollection.push(enr);
-        //             callback();
-        //         });
+                    enrollmentCollection.push(enr);
+                    callback();
+                });
 
                 
 
 
-        //     }, function(err){
-        //         if (err) {
-        //             console.log("Could not process payment information. " + err);
-        //             res.badRequest("Could not process payment information. " + err);
-        //         }
+            }, function(err){
+                if (err) {
+                    console.log("Could not process payment information. " + err);
+                    res.badRequest("Could not process payment information. " + err);
+                }
 
-        //          res.json(enrollmentCollection);
-        //         // res.json(payments);
+                var payment = {};
+
+                var  totalDue = _.reduce(_.pluck(enrollmentCollection, 'due'), function (mem, due){
+                    return Number(mem) + Number(due);
+                });
+
+                var  totalPaid = _.reduce(_.pluck(enrollmentCollection, 'totalPaid'), function (mem, totalPaid){
+                    return Number(mem) + Number(totalPaid);
+                });
+
+                var  totalFee = _.reduce(_.pluck(enrollmentCollection, 'totalFee'), function (mem, totalFee){
+                    return Number(mem) + Number(totalFee);
+                });
+
+                payment.student = id;
+                payment.totalFee = totalFee;
+                payment.totalPaid = totalPaid;
+                payment.totalDue = totalDue;
+                
 
 
-        //     });
+                console.log('Total Due: ' + totalDue + ' Total Paid: ' + totalPaid + ' Total Fee: ' + totalFee);
 
-        // });
+                 res.json(payment);
+
+
+            });
+
+        });
+
+
+
 
 
 
