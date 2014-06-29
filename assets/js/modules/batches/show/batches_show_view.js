@@ -10,6 +10,8 @@ define([
 //        Show.addCommentEvt = "addCommentEvt";
 
         Show.addClassModalFormId = "addClassModal";
+        Show.deleteClassModalFormId = "deleteClassModal";
+
         Show.SHOW_NEW_CLASS_MODAL = "show:new:class:modal";
         Show.CREATE_CLASS = "create:class";
 
@@ -39,11 +41,19 @@ define([
                 addClassBtnRegion: "#addClass",
                 classTableRegion: "#classesTable"
             }
-
         });
 
         Show.views.BatchDetails = Application.Views.ItemView.extend({
             template: "batches/show/templates/batch_details_view",
+
+            events: {
+                "click #deleteBatch": "deleteBatch"
+            },
+
+            deleteBatch: function(evt) {
+                evt.preventDefault();
+                this.trigger(Application.DELETE, this.model.get('id'));
+            },
 
             onRender: function() {
                 Show.setupEditableBox(this.$el, this.model, "name", "Name", this.model.get('name'), 'text', null, 'right');
@@ -91,22 +101,41 @@ define([
             },
 
             onRender: function() {
-//                console.log("Printing this...");
-//                console.dir(this);
                 var that = this;
                 var successCB = function(response, value) {
                     console.log("Add students: " + value);
                     that.trigger(Show.addStudentEvt, value);
                 };
-                Application.Views.setupSelect2EditableBox(this.$el, "addStudents", this.options.allStudents, "Add Students", this.options.addedStudents, 'right', successCB)
+                var multiSelectOptions = {
+                    multiple: true,
+                    placeholder: "Start Typing...",
+                    minimumInputLength: 1
+                };
+
+                Application.Views.setupSelect2EditableBox(this.$el, "addStudents", this.options.allStudents,
+                    "Add Students", this.options.addedStudents, 'right', successCB, multiSelectOptions)
             }
+        });
+
+        Show.views.DeleteBatchButton = Application.Views.ItemView.extend({
+            template: "views/templates/round_button",
+
+            events: {
+                "click" : "deleteBatchModal"
+            },
+
+            deleteBatchModal: function(evt){
+                evt.preventDefault();
+                this.trigger(Application.CONFIRM);
+            }
+
         });
 
         Show.views.AddClassButton = Application.Views.ItemView.extend({
             template: "views/templates/tab_add_button",
 
             events: {
-                "click" : "showAddClassModal"
+                "click a" : "showAddClassModal"
             },
 
             showAddClassModal: function(evt){
@@ -117,7 +146,7 @@ define([
         });
 
 
-        Show.views.AddClassForm = Application.Views.ItemView.extend({
+        Show.views.ClassForm = Application.Views.ItemView.extend({
             template: "batches/show/templates/add_class_form",
 
             events: {
@@ -125,22 +154,25 @@ define([
             },
 
             onRender: function() {
+
                 Backbone.Validation.bind(this);
 
-                this.renderSelect(this.options.allTopics, "#topic");
-                this.renderSelect(this.options.allStaff, "#staff");
+                this.renderSelect(this.options.allTopics, "#topic", this.model.get('topic'));
+                this.renderSelect(this.options.allStaff, "#staff", this.model.get('staff'));
 //
 //                //Add datetime field
-                Application.Views.addDateTimePicker(this.$el.find('#dateDiv'));
-//                Application.Views.addDateTimePicker(this.$el.find('#dateDiv'), null, {pickTime: false});
-//                Application.Views.addDateTimePicker(this.$el.find('#timeDiv'), null,{pickDate: false});
-
+                Application.Views.addDateTimePicker(this.$el.find('#dateDiv'), moment(this.model.get('date')));
             },
 
-            renderSelect :function (idToTextMap, element) {
+            renderSelect :function (idToTextMap, element, selectedId) {
                 var that = this;
+                console.log(selectedId);
                 _.each(idToTextMap, function(select){
-                    that.$el.find(element).append("<option value='" + select.id + "'>" + select.text + "</option>");
+                    if (selectedId && select.id === selectedId) {
+                        that.$el.find(element).append("<option value=" + select.id + " selected=selected" + ">" + select.text + "</option>");
+                    } else {
+                        that.$el.find(element).append("<option value=" + select.id + ">" + select.text + "</option>");
+                    }
                 });
                 this.$el.find(element).select2();
             },
@@ -153,10 +185,9 @@ define([
                 if (!data.name) {
                     var val = _.find(this.options.allTopics, function(topic){
                         return topic.id == data.topic;
-                    })
+                    });
                     data.name = val.text;
                 }
-
 
                 var isValid = this.model.isValid(true);
                 if (isValid) {
@@ -171,20 +202,28 @@ define([
             template: "batches/show/templates/class_row",
             tagName: "tr",
 
-            serializeData: function() {
-                var data = this.model.toJSON();
-//                data.serviceName = data.service.name;
-                data.staffNames = _.pluck(data.staff, 'name').join(', ');
-                return data;
-            },
+//            serializeData: function() {
+//                var data = this.model.toJSON();
+//                if (data.staff){
+//                    data.staffName = data.staff.name;
+//                }
+//                return data;
+//            },
 
             events: {
-                "click": "click"
+                "click": "click",
+                "click .edit": "edit",
+                "click .delete": "delete"
             },
 
-            click: function(evt) {
+            edit: function(evt) {
                 evt.preventDefault();
                 this.trigger(Application.CLASS_SHOW, this);
+            },
+
+            delete: function(evt) {
+                evt.preventDefault();
+                this.trigger(Application.DELETE);
             }
         });
 

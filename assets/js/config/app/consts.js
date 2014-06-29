@@ -18,6 +18,8 @@ define([], function(){
         Application.SHOW = "show";
         Application.CLOSE = "close";
         Application.LOGOUT = "logout";
+        Application.DELETE = "delete";
+        Application.CONFIRM = "confirm";
 
 
         Application.UPDATE_VIEW = "update:view";
@@ -64,11 +66,14 @@ define([], function(){
 
         Application.GET_STUDENTS_ASSIGNED = "get:students:assigned";
         Application.GET_STUDENTS_ENROLLED = "get:students:enrolled";
+
         Application.GET_ALL_STAFF = "get:all:staff";
         Application.GET_STAFF = "get:staff";
+        Application.GET_STAFF_NAME = "get:staff:name";
 
         Application.GET_BATCHES = "get:batches";
         Application.GET_BATCH = "get:batch";
+        Application.GET_BATCH_CLASSES = "get:batch:classes";
 
         Application.GET_CLASSES = "get:classes";
         Application.GET_CLASS = "get:class";
@@ -104,6 +109,7 @@ define([], function(){
 
         Application.GET_SERVICES = "get:services";
         Application.GET_SERVICE = "get:service";
+        Application.GET_SERVICE_NAME = "get:service:name";
 
         Application.GET_EDUCATION_LIST = "get:education:list";
         Application.GET_EDUCATION = "get:education";

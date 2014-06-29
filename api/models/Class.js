@@ -16,7 +16,7 @@ module.exports = _.merge(_.cloneDeep(infoTable), {
         //Merge startTime with date
 //        startTime: {type: 'datetime'},
 
-        // Calculate if needed from topic duration
+
 //        endTime: {type: 'datetime'},
 
 
@@ -49,13 +49,18 @@ module.exports = _.merge(_.cloneDeep(infoTable), {
 //            model: 'Topic'
 //        },
 
-        //Many to One Topic to Class
-        topics: {
-            collection: 'Topic',
-            via: 'class'
+        //Many to One Classes to Topic
+//        topics: {
+//            collection: 'Topic',
+//            via: 'class'
+//        },
+
+        //Many to One Classes to Topic
+        topic: {
+            model: 'Topic'
         },
 
-        //One to Many: Batch to class
+        //One to Many: Batch to Classes
         batch: {
             model: 'Batch'
         }

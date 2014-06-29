@@ -24,7 +24,13 @@ define([
 
             serializeData: function() {
                 var data = this.model.toJSON();
-                data.serviceName = data.service.name;
+                var service = data.service;
+                if (service.name) {
+                    data.serviceName = service.name;
+                } else {
+                    console.log(service);
+                }
+//                data.serviceName = data.service.name;
                 return data;
             },
 

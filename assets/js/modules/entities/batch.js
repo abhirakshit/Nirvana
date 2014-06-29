@@ -49,6 +49,22 @@ define([], function(){
                     Entities.allBatches.fetch();
                 }
                 return Entities.allBatches;
+            },
+
+            getBatchClasses: function(batchId) {
+                if(!batchId) {
+                    console.error("Batch id is null");
+                    return new Entities.ClassCollection();
+                }
+
+                var batch = this.getAllBatches().get(batchId);
+                var classArr = batch.get('classes');
+
+                _.forEach(classArr, function(classModel){
+                   classModel.staffName = Application.request(Application.GET_STAFF_NAME, classModel.staff)
+                });
+//                return new Entities.ClassCollection(batch.get('classes'))
+                return new Entities.ClassCollection(classArr);
             }
         };
 
@@ -58,6 +74,10 @@ define([], function(){
 
         Application.reqres.setHandler(Application.GET_BATCH, function(batchId){
             return API.getBatch(batchId);
+        });
+
+        Application.reqres.setHandler(Application.GET_BATCH_CLASSES, function(batchId){
+            return API.getBatchClasses(batchId);
         });
     })
 });

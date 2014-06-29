@@ -9,15 +9,22 @@ define([], function(){
                 name: {required: true},
                 section: {required: true},
                 duration_hr: {
-                    required: false,
+//                    required: false,
                     range: [1, 5],
+                    pattern: 'digits',
                     msg: 'Hour between 1-5 and Min between 1-59'
                 },
 
                 duration_min: {
-                    required: false,
+//                    required: false,
+                    pattern: 'digits',
                     range: [1, 59],
                     msg: 'Hour between 1-5 and Min between 1-59'
+                },
+                sequence: {
+                    required: false,
+                    pattern: 'digits',
+                    range: [1, 20]
                 }
             }
         });

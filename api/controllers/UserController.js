@@ -6,7 +6,9 @@
  */
 var _ = require('lodash'),
     bcrypt = require('bcrypt'),
-    async = require('async');
+    async = require('async'),
+    consts = require('consts');
+
 
 createStaff = function (inputFields, cb) {
     //TODO - Auto gen password
@@ -44,7 +46,7 @@ module.exports = {
 
     create: function (req, res, next) {
         var inputFields = _.merge({}, req.params.all(), req.body);
-//        console.log(inputFields);
+        console.log(inputFields);
 
         if (inputFields.role == 'student' || inputFields.role == 'enquiry') {
             async.waterfall([
@@ -55,7 +57,7 @@ module.exports = {
                     UserService.createStudent(inputFields, UserService.getCurrentStaffUserId(req), callback);
                 },
                 function (newStudent, callback) {
-                    UserService.createComment(UserService.getCurrentStaffUserId(req), newStudent.id, "Student Created!", "add", callback);
+                    UserService.createComment(UserService.getCurrentStaffUserId(req), newStudent.id, "Student Created!", consts.COMMENT_ADD, callback);
                 },
                 function (newStudentId, newComment, callback) {
                     UserService.getStudent(newStudentId, callback);

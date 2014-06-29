@@ -32,6 +32,7 @@ define([
             initialize: function () {
                 var user = Application.request(Application.GET_LOGGED_USER);
                 var allServices = Application.request(Application.GET_SERVICES);
+                var allBatches = Application.request(Application.GET_BATCHES);
                 var tabId = this.options.tabId;
                 var batchId = this.options.batchId;
 
@@ -44,19 +45,19 @@ define([
                     } else {
                         if (!tabId) //Show default tab
                             tabId = Batches.ALL_TAB;
-                        this.showNavTabs(tabId, allServices);
+                        this.showNavTabs(tabId, allServices, allBatches);
                         this.showTab(tabId);
                     }
                 });
 
                 this.show(this.layout, {
                     loading: {
-                        entities: [user, allServices]
+                        entities: [user, allServices, allBatches]
                     }
                 });
             },
 
-            showNavTabs: function (tabId, allServices) {
+            showNavTabs: function (tabId, allServices, allBatches) {
                 var tabContainerView = new Batches.views.TabContainer({
                     collection: tabCollection
                 });
@@ -83,13 +84,13 @@ define([
                 });
 //                this.listenTo(addBatchButtonView, Batches.SHOW_NEW_BATCH_MODAL, this.showNewBatchModal(allServices));
                 this.listenTo(addBatchButtonView, Batches.SHOW_NEW_BATCH_MODAL, function(){
-                    that.showNewBatchModal(allServices)
+                    that.showNewBatchModal(allServices, allBatches)
                 });
                 this.layout.addButtonRegion.show(addBatchButtonView);
 
             },
 
-            showNewBatchModal: function(allServices) {
+            showNewBatchModal: function(allServices, allBatches) {
                 var newBatch = Application.request(Application.GET_BATCH);
                 newBatch.attributes.modalId = Batches.addBatchModalFormId;
                 var addBatchFormView = new Batches.views.AddBatchForm({
@@ -97,15 +98,18 @@ define([
                     allServices: allServices.getIdToTextMap("name")
                 });
 
-//                var that = this;
+                var that = this;
                 addBatchFormView.on(Batches.CREATE_BATCH, function(modalFormView, data){
                     modalFormView.model.save(data, {
                         wait: true,
                         patch: true,
                         success: function(newBatch){
                             console.log("Saved on server!!");
-                            console.dir(newBatch);
-//                            that.showBatch(newBatch);
+//                            console.dir(newBatch);
+                            allBatches.add(newBatch);
+                            that.showBatch(newBatch.id);
+
+//                            Application.execute(Application.BATCHES_LIST_ALL, that.layout.contentRegion);
 
                         },
 

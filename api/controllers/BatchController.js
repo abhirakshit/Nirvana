@@ -116,6 +116,36 @@ removeStudent = function(batchId, staffId, removeStudentId, res) {
 
 module.exports = {
 
+    create: function(req, res) {
+        var batchId = req.param('id'),
+            staffId = UserService.getCurrentStaffUserId(req);
+        var batchAttr = _.merge({}, req.params.all(), req.body);
+        console.log(_.merge({}, req.params.all(), req.body));
+
+        //Create batch
+        Batch.create(batchAttr).exec(function(err, batch) {
+            if (err || !batch) {
+                res.json(err);
+            }
+
+            Batch.findOne(batch.id).
+                populate('service').
+//                populate('students').
+//                populate('classes').
+                exec(function(err, updatedBatch){
+                if (err || !batch) {
+                    res.json(err);
+                }
+                console.log(updatedBatch);
+                res.json(updatedBatch);
+            })
+        });
+
+        //Create Comment about who created it
+
+        //
+    },
+
     updatePartial: function (req, res) {
         var batchId = req.param('id'),
             staffId = UserService.getCurrentStaffUserId(req);

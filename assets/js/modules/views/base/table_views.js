@@ -1,17 +1,14 @@
 define([
-    "modules/views/_view",
-    "modules/views/collectionview",
-    "modules/views/compositeview",
-    "modules/views/itemview"
+    "modules/views/base/base_setup"
 ], function(){
     Application.module("Views.Base", function(Base, Application, Backbone, Marionette, $, _) {
-        this.prefix = "Base";
-        this.templatePath = "js/modules/";
-        this.views = {};
-
-        this.template = function (str) {
-            return this.prefix + '-' + str;
-        };
+//        this.prefix = "Base";
+//        this.templatePath = "js/modules/";
+//        this.views = {};
+//
+//        this.template = function (str) {
+//            return this.prefix + '-' + str;
+//        };
 
         //Table Head
         Base.views.TableHeadColumn = Application.Views.ItemView.extend({
@@ -38,11 +35,16 @@ define([
             itemViewContainer: "tbody",
 
             initialize: function(){
-                console.log('Base table composite');
+//                console.log('Base table composite');
                 var that = this;
                 var childClickEvt = this.model.get('childClickEvt');
                 this.on(Application.CHILD_VIEW + ":" + childClickEvt, function(childView){
                     that.trigger(childClickEvt, childView.model.get('id'));
+                });
+
+                //Delete
+                this.on(Application.CHILD_VIEW + ":" + Application.DELETE, function(childView){
+                    that.trigger(Application.DELETE, childView.model.get('id'));
                 });
             },
 
@@ -59,15 +61,10 @@ define([
                 this.$el.find("thead").append(theadView.render().el);
 
                 //Add Datatables
-                Application.Views.addDatatable(this.$el.find('#' + this.model.get('tableId')));
+                Application.Views.addDatatable(this.$el.find('#' + this.model.get('tableId')), this.options.dataTableOptions);
             }
         });
 
 
-        //TODO find a base_app to move these to
-        Base.setup = function() {
-            console.log("Setup base table views")
-        };
-        Marionette.TemplateLoader.loadModuleTemplates(Base, Base.setup);
     });
 });

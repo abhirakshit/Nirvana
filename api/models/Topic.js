@@ -26,9 +26,15 @@ module.exports = _.merge(_.cloneDeep(infoTable), {
             model: 'Service'
         },
 
-        //Many to One: Topic to Class
-        class: {
-            model: 'Class'
+        //Many to One: Classes to Topic
+//        class: {
+//            model: 'Class'
+//        },
+
+        //Many to One: Classes to Topic
+        classes: {
+            collection: 'Class',
+            via: 'topic'
         }
 
 	}

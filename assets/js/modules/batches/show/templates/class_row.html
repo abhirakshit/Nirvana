@@ -1,3 +1,11 @@
 <td><%=name%></td>
 <td><%=showFormattedDate(date)%></td>
-<td><%=staffNames%></td>
+<td><%=staffName%></td>
+<td class="rowlink-skip">
+    <a href="#" class="edit" data-toggle="modal" data-target="#addClassModal">
+        <i class="i i-pencil"></i>
+    </a>
+    <a href="#" class="delete" data-toggle="modal" data-target="#deleteClassModal">
+        <i class="i i-cross2"></i>
+    </a>
+</td>

@@ -1,11 +1,12 @@
-<!--<div class="modal fade" id="<%=modalId%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">-->
-<div class="modal fade" id="<%=modalId%>" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+<div class="modal fade" id="<%=modalId%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+<!--<div class="modal fade" id="<%=modalId%>" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">-->
 
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title panel-heading font-bold" id="myModalLabel">Add Batch</h4>
+                <!--<h4 class="modal-title panel-heading font-bold" id="myModalLabel">Add/Edit Class</h4>-->
+                <h4 class="modal-title panel-heading font-bold" id="myModalLabel"><%=formHeader%></h4>
             </div>
             <div class="modal-body">
                 <form class="bs-example form-horizontal">
@@ -61,7 +62,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success btn-s-xs" id="createNewClass">Create</button>
+                        <!--<button type="submit" class="btn btn-success btn-s-xs" id="createNewClass">Create</button>-->
+                        <button type="submit" class="btn btn-success btn-s-xs" id="createNewClass"><%=formBtnText%></button>
                     </div>
                 </form>
             </div>

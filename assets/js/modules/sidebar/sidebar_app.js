@@ -22,7 +22,7 @@ define([
         };
 
         Sidebar.on(Application.START, function () {
-            console.log("Sidebar start...")
+            console.log("Sidebar start...");
             Marionette.TemplateLoader.loadModuleTemplates(Sidebar.List, Sidebar.setup);
         });
 

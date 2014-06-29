@@ -4,6 +4,9 @@ define([], function(){
 //            templateHelpers: function() {}
             templateHelpers: {
                 showFormattedDate: function(date){
+                    if (!date)
+                        return "";
+
                     return moment(date).format(Application.DATE_FORMAT);
 //                    return moment(this.createdAt).format(Application.DATE_FORMAT);
                 },

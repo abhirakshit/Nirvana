@@ -26,6 +26,20 @@ define([], function(){
                 return service;
             },
 
+            getServiceName: function(serviceId) {
+                if (!serviceId) {
+                    console.log("Need service Id.")
+                    return "";
+                }
+
+                var service = this.getAllServices().get(serviceId);
+                if (!service) {
+                    console.log("Could not find service for id: " + serviceId)
+                    return "";
+                }
+                return service.get('name');
+            },
+
             getAllServices: function(update) {
                 //Update is called after a new service is added/removed and the collection needs to be updated
                 if (!Entities.allServices || update){
@@ -42,6 +56,10 @@ define([], function(){
 
         Application.reqres.setHandler(Application.GET_SERVICE, function(serviceId){
             return API.getService(serviceId);
+        });
+
+        Application.reqres.setHandler(Application.GET_SERVICE_NAME, function(serviceId){
+            return API.getServiceName(serviceId);
         });
     })
 });

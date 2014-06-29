@@ -144,6 +144,20 @@ define([
 
             },
 
+            getStaffName: function(staffId) {
+                if (!staffId) {
+                    console.log("Need staff Id.");
+                    return "";
+                }
+
+                var staff = this.getAllStaff().get(staffId);
+                if (!staff) {
+                    console.log("Could not find staff for id: " + staffId);
+                    return "";
+                }
+                return staff.get('name');
+            },
+
             getPassword: function() {
                 return new Entities.Password();
             },
@@ -256,7 +270,7 @@ define([
             },
 
 
-            getAllEnrolled: function(update) {
+            getAllEnrolled: function() {
                 Entities.allEnrolled = new Entities.StudentCollection();
                 Entities.allEnrolled.url = Entities.studentUrl + Entities.enrolledUrl;
                 Entities.allEnrolled.fetch();
@@ -316,9 +330,12 @@ define([
             return API.getAllStaff(update);
         });
 
-        
         Application.reqres.setHandler(Application.GET_STAFF, function(staffId){
             return API.getStaff(staffId);
+        });
+
+        Application.reqres.setHandler(Application.GET_STAFF_NAME, function(staffId){
+            return API.getStaffName(staffId);
         });
 
         Application.reqres.setHandler(Application.GET_STUDENTS_ASSIGNED, function(userId){

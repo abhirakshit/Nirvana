@@ -20,7 +20,7 @@ define([
                     region: Application.pageContentRegion,
                     tabId: tabId
                 });
-                Application.commands.execute(Application.SET_SIDEBAR, Application.BATCHES_SHOW);
+//                Application.commands.execute(Application.SET_SIDEBAR, Application.BATCHES_SHOW);
             },
 
             showBatch: function(batchId) {
@@ -28,7 +28,7 @@ define([
                     region: Application.pageContentRegion,
                     batchId: batchId
                 });
-                Application.commands.execute(Application.SET_SIDEBAR, Application.BATCHES_SHOW);
+//                Application.commands.execute(Application.SET_SIDEBAR, Application.BATCHES_SHOW);
             }
         };
 

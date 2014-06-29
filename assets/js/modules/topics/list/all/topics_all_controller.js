@@ -40,6 +40,7 @@ define([
 
                 var that = this;
                 this.listenTo(tableComposite, Application.TOPIC_SHOW, function(topicId){
+                    console.log("Show topic");
                     Application.execute(Application.TOPIC_SHOW, that.options.region, topicId);
                 });
                 region.show(tableComposite);

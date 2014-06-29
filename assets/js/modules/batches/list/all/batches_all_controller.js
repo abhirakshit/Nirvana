@@ -34,30 +34,16 @@ define([
                 this.setupBatchTableView(allBatches, columns, "Batches", "allTable", this.layout.batchesRegion);
             },
 
-            setupBatchTableView: function(rows, headerColumns, tableTitle, tableId, region) {
-//                var tableComposite = this.getTableView(tableId, tableTitle, headerColumns, rows, Application.BATCH_SHOW, All.views.Row);
-                var tableComposite = Application.Views.getTableView(tableId, tableTitle, headerColumns, rows, Application.BATCH_SHOW, All.views.Row);
+            setupBatchTableView: function(allBatches, headerColumns, tableTitle, tableId, region) {
+                var tableComposite = Application.Views.getTableView(tableId, tableTitle, headerColumns, allBatches, Application.BATCH_SHOW, All.views.Row);
 
                 var that = this;
                 this.listenTo(tableComposite, Application.BATCH_SHOW, function(batchId){
                     Application.execute(Application.BATCH_SHOW, that.options.region, batchId);
                 });
+
                 region.show(tableComposite);
             },
-
-//            getTableView: function(tableId, title, theadColumns, rows, childClickEvt, rowView) {
-//                return new Application.Views.Base.views.TableComposite({
-////                return new All.views.TableComposite({
-//                    model: new Application.Entities.Model({
-//                        tableId: tableId,
-//                        title: title,
-//                        theadColumns: theadColumns,
-//                        childClickEvt: childClickEvt,
-//                        rowView: rowView
-//                    }),
-//                    collection: rows
-//                });
-//            },
 
             getLayout: function() {
                 return new All.views.Layout();

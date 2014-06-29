@@ -703,11 +703,13 @@ module.exports = {
     },
 
     getEnquiries: function (req, res) {
-        EnquiryStatus.find().where({name: ['Enrolled', 'Closed']}).exec(function(err, enqStatusList){
+//        EnquiryStatus.find().where({name: ['Enrolled', 'Closed']}).exec(function(err, enqStatusList){
+        EnquiryStatus.find().where({name: [consts.ENQ_STATUS_ENROLLED, consts.ENQ_STATUS_CLOSED]}).exec(function(err, enqStatusList){
             var enrolledId, closedId;
             while (enqStatusList.length) {
                 var enquiry = enqStatusList.pop();
-                if (enquiry.name === 'Enrolled')
+//                if (enquiry.name === 'Enrolled')
+                if (enquiry.name === consts.ENQ_STATUS_ENROLLED)
                     enrolledId = enquiry.id;
                 else
                     closedId = enquiry.id;
@@ -733,36 +735,8 @@ module.exports = {
 
 
         //TODO Why does this way does not work
-//        EnquiryStatus.findOne().where({name: 'Closed'}).exec(function(err, enqStatus){
-//            var closedId = enqStatus.id;
-//            console.log("Enq: " + closedId);
-//            Student
-//                .find({enquiryStatus: closedId})
-////                .populate('services')
-////                .populate('countries')
-////                .populate('staff')
-////                .populate('enquiryStatus')
-//                .exec(function(err, students){
-//                    res.json(students);
-//                });
-//
-//        });
-
-
-
-        /*
-        TODO: This is a round about way of getting the closed enquiries.
-        We should find out why the above does not work
-         */
-        EnquiryStatus.find({name: {'!': 'Closed'}}).exec(function(err, enqStatusList){
-
-            var enqIdArr = [];
-            while (enqStatusList.length) {
-                var enquiry = enqStatusList.pop();
-                enqIdArr.push(enquiry.id);
-            }
-            Student
-                .find({enquiryStatus: {'!' : enqIdArr}})
+        EnquiryStatus.findOne().where({name: consts.ENQ_STATUS_CLOSED}).exec(function(err, enqStatus){
+            Student.find({enquiryStatus: enqStatus.id})
                 .populate('services')
                 .populate('countries')
                 .populate('staff')
@@ -772,19 +746,46 @@ module.exports = {
                 });
 
         });
+
+
+
+        /*
+        TODO: This is a round about way of getting the closed enquiries.
+        We should find out why the above does not work
+         */
+//        EnquiryStatus.find({name: {'!': 'Closed'}}).exec(function(err, enqStatusList){
+//        EnquiryStatus.find({name: {'!': consts.ENQ_STATUS_CLOSED}}).exec(function(err, enqStatusList){
+//
+//            var enqIdArr = [];
+//            while (enqStatusList.length) {
+//                var enquiry = enqStatusList.pop();
+//                enqIdArr.push(enquiry.id);
+//            }
+//            Student
+//                .find({enquiryStatus: {'!' : enqIdArr}})
+//                .populate('services')
+//                .populate('countries')
+//                .populate('staff')
+//                .populate('enquiryStatus')
+//                .exec(function(err, students){
+//                    res.json(students);
+//                });
+//
+//        });
     },
 
    getEnrolledStudents: function (req, res) {
-        Student.find().where({enquiryStatus: 8})
-                .populate('services')
-                .populate('countries')
-                .populate('staff')
-                .populate('enquiryStatus').exec(function(err, enrolledStudents){
+       EnquiryStatus.findOne({name: consts.ENQ_STATUS_ENROLLED}).exec(function(err, enqStatusEnrolled) {
+            Student.find({enquiryStatus: enqStatusEnrolled.id})
+                    .populate('services')
+                    .populate('countries')
+                    .populate('staff')
+                    .populate('enquiryStatus').
+                exec(function(err, enrolledStudents){
+                     res.json(enrolledStudents);
+                });
+       })
 
-                 res.json(enrolledStudents);
-
-
-        });
     },
 
 
