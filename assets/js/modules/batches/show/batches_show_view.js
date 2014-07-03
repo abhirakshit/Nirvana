@@ -202,13 +202,14 @@ define([
             template: "batches/show/templates/class_row",
             tagName: "tr",
 
-//            serializeData: function() {
-//                var data = this.model.toJSON();
-//                if (data.staff){
-//                    data.staffName = data.staff.name;
-//                }
-//                return data;
-//            },
+            serializeData: function() {
+                var data = this.model.toJSON();
+                data.staffName = "";
+                if (data.staff){
+                    data.staffName = data.staff.name;
+                }
+                return data;
+            },
 
             events: {
                 "click": "click",

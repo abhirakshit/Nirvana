@@ -29,13 +29,26 @@ define([
             },
 
             events: {
-                "click": "click"
+//                "click": "click",
+                "click .edit": "edit",
+                "click .delete": "delete"
             },
 
-            click: function(evt) {
+//            click: function(evt) {
+//                evt.preventDefault();
+//                this.trigger(Application.TOPIC_SHOW, this);
+//            },
+
+            edit: function(evt) {
                 evt.preventDefault();
                 this.trigger(Application.TOPIC_SHOW, this);
+            },
+
+            delete: function(evt) {
+                evt.preventDefault();
+                this.trigger(Application.DELETE);
             }
+
         });
 
     });

@@ -12,14 +12,15 @@ define([], function(){
 //                    required: false,
                     range: [1, 5],
                     pattern: 'digits',
-                    msg: 'Hour between 1-5 and Min between 1-59'
+                    msg: 'Hour between 1-5 and Min between 0-59'
                 },
 
                 duration_min: {
-//                    required: false,
+                    required: false,
                     pattern: 'digits',
-                    range: [1, 59],
-                    msg: 'Hour between 1-5 and Min between 1-59'
+                    range: [0, 59],
+                    msg: 'Hour between 1-5 and Min between 0-59'
+//                    msg: 'Hour between 1-5 and Min between 1-59'
                 },
                 sequence: {
                     required: false,
@@ -39,28 +40,45 @@ define([], function(){
                 if (!topicId)
                     return new Entities.Topic();
 
-                var topic = new Entities.Topic();
-                topic.id = topicId;
-                topic.fetch();
-                return topic;
+                return this.getAllTopics(true).get(topicId);
             },
 
-            getAllTopics: function(update) {
-                //Update is called after a new topic is added/removed and the collection needs to be updated
-                if (!Entities.allTopics || update){
+            getAllTopics: function(waitForFetch) {
+                if (!Entities.allTopics){
                     Entities.allTopics = new Entities.TopicCollection();
-                    Entities.allTopics.fetch();
+                    if (waitForFetch) {
+                        Entities.allTopics.fetch({async:false});
+                    } else {
+                        Entities.allTopics.fetch();
+                    }
                 }
                 return Entities.allTopics;
+            },
+
+            getAllTopicsForService: function(serviceId) {
+                var topicArr = _.filter(this.getAllTopics(true).models, function(topic) {
+                    return topic.get('service').id == serviceId;
+                });
+
+                return new Entities.TopicCollection(topicArr);
             }
         };
 
-        Application.reqres.setHandler(Application.GET_TOPICS, function(update){
-            return API.getAllTopics(update);
+        Application.reqres.setHandler(Application.GET_TOPICS, function(){
+            return API.getAllTopics();
+        });
+
+        Application.reqres.setHandler(Application.GET_TOPICS_SERVICE, function(serviceId){
+            return API.getAllTopicsForService(serviceId);
         });
 
         Application.reqres.setHandler(Application.GET_TOPIC, function(topicId){
             return API.getTopic(topicId);
+        });
+
+        Application.commands.setHandler(Application.UPDATE_TOPICS, function (newTopic) {
+            console.log("Adding topic");
+            API.getAllTopics().add(newTopic);
         });
     })
 });

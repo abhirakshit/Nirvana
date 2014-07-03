@@ -2,6 +2,7 @@ define([], function(){
     Application.module("Entities", function(Entities, Application, Backbone, Marionette, $, _) {
 
         Entities.batchUrl = "/batch";
+        Entities.classUrl = "/class";
 
         Entities.Batch = Entities.Model.extend({
             urlRoot: Entities.batchUrl,
@@ -16,10 +17,6 @@ define([], function(){
             },
 
             laterThanStart: function(value, attr, computedState) {
-                console.log(value);
-                console.log(attr);
-                console.log(computedState);
-
                 if (moment(computedState.startDate).isAfter(moment(computedState.endDate)))
                     return "End date should be after start date";
             }
@@ -31,15 +28,26 @@ define([], function(){
             model: Entities.Batch
         });
 
+        Entities.Class = Entities.Model.extend({
+            urlRoot: Entities.classUrl,
+            validation: {
+                date: {required: true},
+                topic: {required: true},
+                staff: {required: true}
+            }
+        });
+
+        Entities.ClassCollection = Entities.Collection.extend({
+            url: Entities.classUrl,
+            model: Entities.Class
+        });
+
         var API = {
             getBatch: function(batchId) {
                 if (!batchId)
                     return new Entities.Batch();
 
-                var batch = new Entities.Batch();
-                batch.id = batchId;
-                batch.fetch();
-                return batch;
+                return this.getAllBatches().get(batchId);
             },
 
             getAllBatches: function(update) {
@@ -57,14 +65,26 @@ define([], function(){
                     return new Entities.ClassCollection();
                 }
 
-                var batch = this.getAllBatches().get(batchId);
-                var classArr = batch.get('classes');
+                var batchClasses = new Entities.ClassCollection();
+                batchClasses.url = Entities.batchUrl + "/" + batchId + Entities.classUrl;
+                batchClasses.fetch();
+                return batchClasses;
+            },
 
-                _.forEach(classArr, function(classModel){
-                   classModel.staffName = Application.request(Application.GET_STAFF_NAME, classModel.staff)
-                });
-//                return new Entities.ClassCollection(batch.get('classes'))
-                return new Entities.ClassCollection(classArr);
+            getClass: function(classId) {
+                if (!classId)
+                    return new Entities.Class();
+
+                return this.getAllBatches().get(classId);
+            },
+
+            getAllClasses: function(update) {
+                //Update is called after a new class is added/removed and the collection needs to be updated
+                if (!Entities.allClasses || update){
+                    Entities.allClasses = new Entities.ClassCollection();
+                    Entities.allClasses.fetch();
+                }
+                return Entities.allClasses;
             }
         };
 
@@ -78,6 +98,14 @@ define([], function(){
 
         Application.reqres.setHandler(Application.GET_BATCH_CLASSES, function(batchId){
             return API.getBatchClasses(batchId);
+        });
+
+        Application.reqres.setHandler(Application.GET_CLASSES, function(update){
+            return API.getAllClasses(update);
+        });
+
+        Application.reqres.setHandler(Application.GET_CLASS, function(classId){
+            return API.getClass(classId);
         });
     })
 });

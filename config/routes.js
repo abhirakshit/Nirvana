@@ -37,28 +37,26 @@ module.exports.routes = {
 
   // Custom routes here...
 
-    'patch /user/changePassword/:id':   'UserController.changePassword',
+    'patch         /user/changePassword/:id':     'UserController.changePassword',
+
+    'patch         /student/:id':                 'StudentController.updatePartial',
+    'get           /student/:id/comment':         'StudentController.getComments',
+    'get           /student/enquiry':             'StudentController.getEnquiries',
+    'get           /student/enquiry/closed':      'StudentController.getClosedEnquiries',
+    'get           /student/enrolled':            'StudentController.getEnrolledStudents',
+    'get           /student/:id/enrollment':      'StudentController.getEnrollments',
+//    'get /student/:id/enrollment':      'StudentController.getEnrollments',
+    'get           /student/:id/totalpayment':    'StudentController.getTotalPayments',
+    'get           /student/service/:id':         'StudentController.getServiceEnrolledStudents',
 
 
-    'patch /student/:id':               'StudentController.updatePartial',
-    'get /student/:id/comment':         'StudentController.getComments',
-    'get /student/enquiry':             'StudentController.getEnquiries',
-    'get /student/enquiry/closed':      'StudentController.getClosedEnquiries',
-    'get /student/:id/enrollment':      'StudentController.getEnrollments',
+    'get           /staff/:id/student':           'StaffController.getAssignedStudents',
+    'get           /staff/:id/location':          'StaffController.getLocation',
+    'patch         /staff/:id':                   'StaffController.updatePartial',
 
+    'patch         /batch/:id':                   'BatchController.updatePartial',
+    'get           /batch/:id/class':             'BatchController.getClasses'
 
-    'get /staff/:id/student':           'StaffController.getAssignedStudents',
-    'get /staff/:id/location':          'StaffController.getLocation',
-    'patch /staff/:id':                 'StaffController.updatePartial',
-
-    'get /student/:id/enrollment':      'StudentController.getEnrollments',
-
-    'get /student/enrolled':            'StudentController.getEnrolledStudents',
-
-
-    'patch /batch/:id':                 'BatchController.updatePartial',
-
-    'get /student/:id/totalpayment':      'StudentController.getTotalPayments'
 
    // 'get /payments/totalpayment':    'PaymentController.totalPaymentsByEnrollId'
 

@@ -1,5 +1,5 @@
 /**
- * StudentController.js 
+ * StudentController.js
  *
  * @description ::
  * @docs        :: http://sailsjs.org/#!documentation/controllers
@@ -21,7 +21,7 @@ var _ = require('lodash'),
 //    });
 //};
 
-getCommentStrFromUpdateFields = function(updateFields, student) {
+getCommentStrFromUpdateFields = function (updateFields, student) {
     //Remove id
     delete updateFields['id'];
 
@@ -30,7 +30,7 @@ getCommentStrFromUpdateFields = function(updateFields, student) {
     var comment = {};
 
     //Currently only one field
-    _.forEach(keyArray, function(key){
+    _.forEach(keyArray, function (key) {
         var newVal = updateFields[key];
         var oldVal = oldValues[key];
 
@@ -47,7 +47,7 @@ getCommentStrFromUpdateFields = function(updateFields, student) {
 //            comment.type = "change";
             comment.type = consts.COMMENT_CHANGE;
         } else {
-            comment.str= "<b>" + Utils.capitalizeFirst(key) + ":</b> " + newVal;
+            comment.str = "<b>" + Utils.capitalizeFirst(key) + ":</b> " + newVal;
 //            comment.type = "add";
             comment.type = consts.COMMENT_ADD;
         }
@@ -61,7 +61,7 @@ getCommentStrFromUpdateFields = function(updateFields, student) {
 updateServices = function (id, staffId, updatedServiceIdArr, res) {
 
     async.waterfall([
-        function(callback){
+        function (callback) {
             Student.findOne(id).populate('services').exec(function (err, student) {
 
                 var existingServiceIdArr = _.map(student.services, function (service) {
@@ -84,16 +84,16 @@ updateServices = function (id, staffId, updatedServiceIdArr, res) {
                 return callback(null, toRemove, toAdd, student);
             });
         },
-        function(servicesRemoved, servicesAdded, student, callback) {
-            Service.find().exec(function(err, allServices){
+        function (servicesRemoved, servicesAdded, student, callback) {
+            Service.find().exec(function (err, allServices) {
                 var addedServiceNameArr = [];
                 var removedServiceNameArr = [];
-                _.forEach(servicesRemoved, function(serviceId){
+                _.forEach(servicesRemoved, function (serviceId) {
                     var serviceName = _.find(allServices, {'id': serviceId}).name;
                     removedServiceNameArr.push(serviceName);
                 });
 
-                _.forEach(servicesAdded, function(serviceId){
+                _.forEach(servicesAdded, function (serviceId) {
 //                    console.log(_.find(allServices, {'id': serviceId}));
                     var serviceName = _.find(allServices, {'id': serviceId}).name;
                     addedServiceNameArr.push(serviceName);
@@ -121,11 +121,11 @@ updateServices = function (id, staffId, updatedServiceIdArr, res) {
         function (commentStr, commentType, callback) {
             UserService.createComment(staffId, id, commentStr, commentType, callback);
         },
-        function (studentId, newComment, callback){
+        function (studentId, newComment, callback) {
             UserService.getStudent(id, callback);
         }
 
-    ], function(err, student){
+    ], function (err, student) {
         if (err) {
             console.log(err);
             return err;
@@ -143,7 +143,7 @@ updateServices = function (id, staffId, updatedServiceIdArr, res) {
 updateCountries = function (id, staffId, updatedCountryIdArr, res) {
 
     async.waterfall([
-        function(callback){
+        function (callback) {
             Student.findOne(id).populate('countries').exec(function (err, student) {
 
                 var existingCountriesIdArr = _.map(student.countries, function (country) {
@@ -163,19 +163,19 @@ updateCountries = function (id, staffId, updatedCountryIdArr, res) {
                 });
                 student.save();
                 return callback(null, toRemove, toAdd, student);
-    //            return student;
+                //            return student;
             });
         },
-        function(countriesRemoved, countriesAdded, student, callback) {
-            Country.find().exec(function(err, allCountries){
+        function (countriesRemoved, countriesAdded, student, callback) {
+            Country.find().exec(function (err, allCountries) {
                 var addedCountryNameArr = [];
                 var removedCountryNameArr = [];
-                _.forEach(countriesRemoved, function(countryId){
+                _.forEach(countriesRemoved, function (countryId) {
                     var countryName = _.find(allCountries, {'id': countryId}).name;
                     removedCountryNameArr.push(countryName);
                 });
 
-                _.forEach(countriesAdded, function(countryId){
+                _.forEach(countriesAdded, function (countryId) {
                     var countryName = _.find(allCountries, {'id': countryId}).name;
                     addedCountryNameArr.push(countryName);
                 });
@@ -201,18 +201,18 @@ updateCountries = function (id, staffId, updatedCountryIdArr, res) {
         function (commentStr, commentType, callback) {
             UserService.createComment(staffId, id, commentStr, commentType, callback);
         },
-        function (studentId, newComment, callback){
+        function (studentId, newComment, callback) {
             UserService.getStudent(id, callback);
         }
 
     ],
-    function(err, student){
-        if (err) {
-            console.log(err);
-            return err;
-        }
-        return res.json(student);
-    });
+        function (err, student) {
+            if (err) {
+                console.log(err);
+                return err;
+            }
+            return res.json(student);
+        });
 
 };
 
@@ -222,13 +222,13 @@ updateCountries = function (id, staffId, updatedCountryIdArr, res) {
 updateEnquiryStatus = function (id, staffId, newEnquiryStatusId, res) {
     async.waterfall(
         [
-            function(callback) {
+            function (callback) {
                 Student.findOne(id).populate('enquiryStatus').exec(function (err, student) {
                     if (err || !student) {
                         callback(err)
                     }
                     var oldEnquiryStatus = student.enquiryStatus;
-                    Student.update({id:id}, {enquiryStatus: newEnquiryStatusId}).exec(function(err, updatedStudent){
+                    Student.update({id: id}, {enquiryStatus: newEnquiryStatusId}).exec(function (err, updatedStudent) {
                         if (err || !updatedStudent) {
                             callback(err);
                         }
@@ -236,8 +236,8 @@ updateEnquiryStatus = function (id, staffId, newEnquiryStatusId, res) {
                     });
                 });
             },
-            function(oldEnqStatus, newEnqStatusId, callback) {
-                EnquiryStatus.find().exec(function(err, allEnquiryStatus){
+            function (oldEnqStatus, newEnqStatusId, callback) {
+                EnquiryStatus.find().exec(function (err, allEnquiryStatus) {
                     var oldStatusName = oldEnqStatus.name;
                     var newStatusName = _.find(allEnquiryStatus, {'id': newEnqStatusId}).name;
                     var commentStr = "<b>EnquiryStatus:</b> <i>'" + oldStatusName + "'</i> to <i>'" + newStatusName + "'</i>";
@@ -248,12 +248,12 @@ updateEnquiryStatus = function (id, staffId, newEnquiryStatusId, res) {
             function (commentStr, commentType, callback) {
                 UserService.createComment(staffId, id, commentStr, commentType, callback);
             },
-            function (studentId, newComment, callback){
+            function (studentId, newComment, callback) {
                 UserService.getStudent(id, callback);
             }
 
         ],
-        function(err, student){
+        function (err, student) {
             if (err) {
                 console.log(err);
                 return err;
@@ -269,7 +269,7 @@ updateEnquiryStatus = function (id, staffId, newEnquiryStatusId, res) {
 updateStaff = function (id, staffId, updatedStaffIdArr, res) {
     async.waterfall(
         [
-            function(callback) {
+            function (callback) {
                 Student.findOne(id).populate('staff').exec(function (err, student) {
                     var existingCounselorIdArr = _.map(student.staff, function (staff) {
                         return staff.id
@@ -286,7 +286,7 @@ updateStaff = function (id, staffId, updatedStaffIdArr, res) {
                     _.forEach(toAdd, function (id) {
                         student.staff.add(id);
                     });
-                    student.save(function(err,  s){
+                    student.save(function (err, s) {
                         if (err) callback(err);
                         callback(null, toRemove, toAdd, s);
                     });
@@ -294,17 +294,17 @@ updateStaff = function (id, staffId, updatedStaffIdArr, res) {
             },
 
             //Create comment string
-            function(staffRemoved, staffAdded, student, callback) {
-                Staff.find().exec(function(err, allStaff){
+            function (staffRemoved, staffAdded, student, callback) {
+                Staff.find().exec(function (err, allStaff) {
                     var addedStaffNameArr = [];
                     var removedStaffNameArr = [];
-                    _.forEach(staffRemoved, function(staffId){
+                    _.forEach(staffRemoved, function (staffId) {
                         var staffName = _.find(allStaff, {'id': staffId}).fullName();
                         if (staffName)
                             removedStaffNameArr.push(staffName);
                     });
 
-                    _.forEach(staffAdded, function(staffId){
+                    _.forEach(staffAdded, function (staffId) {
                         var staffName = _.find(allStaff, {'id': staffId}).fullName();
                         if (staffName)
                             addedStaffNameArr.push(staffName);
@@ -332,11 +332,11 @@ updateStaff = function (id, staffId, updatedStaffIdArr, res) {
             function (commentStr, commentType, callback) {
                 UserService.createComment(staffId, id, commentStr, commentType, callback);
             },
-            function (studentId, newComment, callback){
+            function (studentId, newComment, callback) {
                 UserService.getStudent(id, callback);
             }
         ],
-        function(err, student){
+        function (err, student) {
             if (err) {
                 console.log(err);
                 return err;
@@ -347,58 +347,58 @@ updateStaff = function (id, staffId, updatedStaffIdArr, res) {
 };
 
 /**
-     * Add Education
-     */
-    addEducation = function(id, staffId, education, res) {
-        async.waterfall(
-            [
-                function(callback) {
-                    Student.findOne(id).populate('educationList').exec(function (err, student){
+ * Add Education
+ */
+addEducation = function (id, staffId, education, res) {
+    async.waterfall(
+        [
+            function (callback) {
+                Student.findOne(id).populate('educationList').exec(function (err, student) {
                     // Check if an education with same name exists
-                        if (_.contains(student.educationList, education.programName)){
-                            console.log("Education exists: " + education.programName);
-                            return callback("Education exists: " + education.programName);
-                        }
+                    if (_.contains(student.educationList, education.programName)) {
+                        console.log("Education exists: " + education.programName);
+                        return callback("Education exists: " + education.programName);
+                    }
 
                     // Create new Education
-                        education.student = student.id;
-                        Education.create(education).exec(function(err, newEducation) {
-                            if (err) {
-                                console.log("Error creating edu: " + err);
-                                return callback(err);
-                            }
+                    education.student = student.id;
+                    Education.create(education).exec(function (err, newEducation) {
+                        if (err) {
+                            console.log("Error creating edu: " + err);
+                            return callback(err);
+                        }
 
-                            var commentStr = "<b>Education:</b> " + newEducation.programName+ ", " + newEducation.score;
+                        var commentStr = "<b>Education:</b> " + newEducation.programName + ", " + newEducation.score;
 //                            return callback(null, commentStr, "add");
-                            return callback(null, commentStr, consts.COMMENT_ADD);
-                        });
+                        return callback(null, commentStr, consts.COMMENT_ADD);
                     });
-                },
-                function (commentStr, commentType, callback) {
-                    UserService.createComment(staffId, id, commentStr, commentType, callback);
-                },
-                function (studentId, newComment, callback){
-                    UserService.getStudent(id, callback, 'educationList');
-                }
-            ],
-            function(err, student) {
-                if (err) {
-                    console.log(err);
-                    return err;
-                }
-                return res.json(student);
+                });
+            },
+            function (commentStr, commentType, callback) {
+                UserService.createComment(staffId, id, commentStr, commentType, callback);
+            },
+            function (studentId, newComment, callback) {
+                UserService.getStudent(id, callback, 'educationList');
             }
-        );
-    };
+        ],
+        function (err, student) {
+            if (err) {
+                console.log(err);
+                return err;
+            }
+            return res.json(student);
+        }
+    );
+};
 /**
  * Remove Education
  */
-removeEducation = function(id, staffId, education, res) {
+removeEducation = function (id, staffId, education, res) {
 
     async.waterfall(
         [
-            function(callback) {
-                Student.findOne(id).populate('educationList').exec(function(err, student){
+            function (callback) {
+                Student.findOne(id).populate('educationList').exec(function (err, student) {
                     if (err) {
                         console.log("Error removing edu: " + err);
                         return callback(err);
@@ -407,7 +407,7 @@ removeEducation = function(id, staffId, education, res) {
                     student.educationList.remove(parseInt(education.id));
 
                     //Remove from education Table
-                    Education.destroy(education.id).exec(function(err, deletedEducation) {
+                    Education.destroy(education.id).exec(function (err, deletedEducation) {
                         if (err) {
                             console.log("Error removing edu: " + err);
                             return callback(err);
@@ -424,11 +424,11 @@ removeEducation = function(id, staffId, education, res) {
             function (commentStr, commentType, callback) {
                 UserService.createComment(staffId, id, commentStr, commentType, callback);
             },
-            function (studentId, newComment, callback){
+            function (studentId, newComment, callback) {
                 UserService.getStudent(id, callback, 'educationList');
             }
         ],
-        function(err, student) {
+        function (err, student) {
             if (err) {
                 console.log(err);
                 return err;
@@ -439,24 +439,24 @@ removeEducation = function(id, staffId, education, res) {
 };
 
 /*
-Email has to be updated both in student and user table
+ Email has to be updated both in student and user table
  */
-updateEmail = function(id, staffId, updateFields, res) {
+updateEmail = function (id, staffId, updateFields, res) {
     async.waterfall([
-        function(callback){
-            Student.findOne(id).exec(function (err, student){
+        function (callback) {
+            Student.findOne(id).exec(function (err, student) {
                 var comment = getCommentStrFromUpdateFields(updateFields, student);
                 callback(null, comment.str, comment.type);
             });
         },
         //Update Student and User with new data
-        function(commentStr, commentType, callback) {
+        function (commentStr, commentType, callback) {
             Student.update(id, updateFields, function (err, updatedStudents) {
                 if (err) {
                     return callback(err);
                 }
 
-                User.update(updatedStudents[0].user, updateFields, function(err, updatedUser){
+                User.update(updatedStudents[0].user, updateFields, function (err, updatedUser) {
                     if (err) {
                         return callback(err);
                     }
@@ -469,10 +469,10 @@ updateEmail = function(id, staffId, updateFields, res) {
             UserService.createComment(staffId, id, commentStr, commentType, callback);
         },
         //Get updated student
-        function(studentId, comment, callback) {
+        function (studentId, comment, callback) {
             UserService.getStudent(id, callback);
         }
-    ], function(err, student){
+    ], function (err, student) {
         if (err) {
             console.log(err);
             res.badRequest(err);
@@ -481,18 +481,18 @@ updateEmail = function(id, staffId, updateFields, res) {
     })
 };
 
-addComment = function(id, staffId, comment, res) {
+addComment = function (id, staffId, comment, res) {
     async.series([
-        function(callback) {
+        function (callback) {
 //            console.log(req.body.comment);
             var commentStr = "<b>Comment:</b> " + comment.commentText;
             UserService.createComment(staffId, id, commentStr, "comment", callback)
         },
-        function(callback) {
+        function (callback) {
             UserService.getStudent(id, callback);
         }
     ],
-        function(err, student){
+        function (err, student) {
             if (err) {
                 console.log(err);
                 res.badRequest(err);
@@ -502,17 +502,13 @@ addComment = function(id, staffId, comment, res) {
     );
 };
 
-addEnroll = function(id, staffId, serviceId, totalFee, enrollDate, res){
-    
-
+addEnroll = function (id, staffId, serviceId, totalFee, enrollDate, res) {
     async.series([
-
-
-        function(callback){
+        function (callback) {
             var values = {student: id, service: serviceId, totalFee: totalFee, enrollDate: enrollDate };
             //create a enrollment for a student id
-            Enroll.create(values).exec(function(err, enroll){
-                if (err){
+            Enroll.create(values).exec(function (err, enroll) {
+                if (err) {
                     callback(err);
 
                 }
@@ -522,38 +518,38 @@ addEnroll = function(id, staffId, serviceId, totalFee, enrollDate, res){
 
         },
 
-        function(callback){
+        function (callback) {
             //create a comment that a new enrollment is created
-            var commentStr = '<b>Enrolled:</b> ' + 'Total Fee ' + totalFee ;
+            var commentStr = '<b>Enrolled:</b> ' + 'Total Fee ' + totalFee;
             console.log();
 //            UserService.createComment(staffId, id, commentStr, "add", callback)
             UserService.createComment(staffId, id, commentStr, consts.COMMENT_ADD, callback)
         },
 
-       function(callback) {
+        function (callback) {
             UserService.getStudent(id, callback, 'enrollments');
         }
 
-        ], function(err, student){
-            if (err){
-                console.log(err);
-                res.badRequest(err);
-            }
-            res.json(student);
-        });
+    ], function (err, student) {
+        if (err) {
+            console.log(err);
+            res.badRequest(err);
+        }
+        res.json(student);
+    });
 };
 
-addPayment = function(id, staffId, method, amount, receiptNumber, paymentDate, enrollId, res){
+addPayment = function (id, staffId, method, amount, receiptNumber, paymentDate, enrollId, res) {
 
-        async.series([
+    async.series([
 
 
-        function(callback){
+        function (callback) {
             var values = {amount: amount, method: method, enroll: enrollId, receiptNumber: receiptNumber, paymentDate: paymentDate, receivedBy: staffId };
             //create a enrollment for a student id
             console.log(values);
-            Payment.create(values).exec(function(err, payment){
-                if (err){
+            Payment.create(values).exec(function (err, payment) {
+                if (err) {
                     callback(err);
 
                 }
@@ -563,31 +559,30 @@ addPayment = function(id, staffId, method, amount, receiptNumber, paymentDate, e
 
         },
 
-        function(callback){
+        function (callback) {
             //create a comment that a new enrollment is created
-            var commentStr = '<b>Paid:</b> ' + 'Amount: ' + amount ;
+            var commentStr = '<b>Paid:</b> ' + 'Amount: ' + amount;
             console.log();
 //            UserService.createComment(staffId, id, commentStr, "add", callback)
             UserService.createComment(staffId, id, commentStr, consts.COMMENT_ADD, callback)
         },
 
-       function(callback) {
+        function (callback) {
             UserService.getStudent(id, callback, 'enrollments');
         }
 
-        ], function(err, student){
-            if (err){
-                console.log(err);
-                res.badRequest(err);
-            }
-            res.json(student);
-        });
-
+    ], function (err, student) {
+        if (err) {
+            console.log(err);
+            res.badRequest(err);
+        }
+        res.json(student);
+    });
 
 
 };
 
-stringCleanUp = function(strArr) {
+stringCleanUp = function (strArr) {
     return strArr.join(", ");
 };
 
@@ -603,15 +598,21 @@ module.exports = {
             return res.badRequest('No id provided.');
         } else if (req.body.services) {
             //Services
-            var serviceIds = _.map(req.body.services, function(stringId) { return parseInt(stringId); });
+            var serviceIds = _.map(req.body.services, function (stringId) {
+                return parseInt(stringId);
+            });
             updateServices(id, staffId, serviceIds, res);
         } else if (req.body.countries) {
             //Countries
-            var countryIds = _.map(req.body.countries, function(stringId) { return parseInt(stringId); });
+            var countryIds = _.map(req.body.countries, function (stringId) {
+                return parseInt(stringId);
+            });
             updateCountries(id, staffId, countryIds, res);
         } else if (req.body.staff) {
             //Counselors
-            var staffIds = _.map(req.body.staff, function(stringId) { return parseInt(stringId); });
+            var staffIds = _.map(req.body.staff, function (stringId) {
+                return parseInt(stringId);
+            });
             updateStaff(id, staffId, staffIds, res);
         } else if (req.body.enquiryStatus) {
             //enquiryStatus
@@ -627,24 +628,25 @@ module.exports = {
             addComment(id, staffId, req.body.comment, res);
         } else if (req.body.email) {
             updateEmail(id, staffId, req.body, res);
-        } else if(req.body.enroll) {
+        } else if (req.body.enroll) {
             var enroll = req.body.enroll;
+            console.log(req.body.enroll);
             addEnroll(id, staffId, enroll.service, enroll.totalFee, enroll.enrollDate, res);
-        } else if(req.body.payment){
-             var payment = req.body.payment;
-            addPayment(id, staffId,payment.method, payment.amount, payment.receiptNumber, payment.paymentDate,payment.enroll, res);
+        } else if (req.body.payment) {
+            var payment = req.body.payment;
+            addPayment(id, staffId, payment.method, payment.amount, payment.receiptNumber, payment.paymentDate, payment.enroll, res);
         } else {
             var updateFields = _.merge({}, req.params.all(), req.body);
             async.waterfall([
                 // Find student and create change comment
-                function(callback){
-                    Student.findOne(id).exec(function (err, student){
+                function (callback) {
+                    Student.findOne(id).exec(function (err, student) {
                         var comment = getCommentStrFromUpdateFields(updateFields, student);
                         callback(null, comment.str, comment.type);
                     });
                 },
                 //Update Student with new data
-                function(commentStr, commentType, callback) {
+                function (commentStr, commentType, callback) {
                     Student.update(id, updateFields, function (err, updated) {
                         if (err) {
                             console.log("Could not update student: " + id + "\n" + err);
@@ -657,18 +659,18 @@ module.exports = {
                     UserService.createComment(staffId, id, commentStr, commentType, callback);
                 },
                 //Get updated student
-                function(studentId, comment, callback) {
+                function (studentId, comment, callback) {
 //                    console.log("Get updated student");
                     UserService.getStudent(id, callback);
                 }
             ],
-            function(err, student){
-                if (err) {
-                    console.log(err);
-                    res.badRequest(err);
-                }
-                res.json(student);
-            });
+                function (err, student) {
+                    if (err) {
+                        console.log(err);
+                        res.badRequest(err);
+                    }
+                    res.json(student);
+                });
 
         }
     },
@@ -679,11 +681,11 @@ module.exports = {
             return res.badRequest('No id provided.');
         }
 
-        Student.findOne(id).populate('commentsReceived').exec(function(err, student){
+        Student.findOne(id).populate('commentsReceived').exec(function (err, student) {
             var commentsReceived = student.commentsReceived;
             var commentCollection = [];
-            async.each(commentsReceived, function(comment, callback){
-                Comment.findOne(comment.id).populate('added').exec(function(err, comm){
+            async.each(commentsReceived, function (comment, callback) {
+                Comment.findOne(comment.id).populate('added').exec(function (err, comm) {
                     if (err) {
                         console.log("Error handling comment:  " + comment.id + "\n" + err);
                         callback(err);
@@ -691,7 +693,7 @@ module.exports = {
                     commentCollection.push(comm);
                     callback();
                 })
-            }, function(err){
+            }, function (err) {
                 if (err) {
                     console.log("Could not process comments. " + err);
                     res.badRequest("Could not process comment. " + err);
@@ -704,7 +706,7 @@ module.exports = {
 
     getEnquiries: function (req, res) {
 //        EnquiryStatus.find().where({name: ['Enrolled', 'Closed']}).exec(function(err, enqStatusList){
-        EnquiryStatus.find().where({name: [consts.ENQ_STATUS_ENROLLED, consts.ENQ_STATUS_CLOSED]}).exec(function(err, enqStatusList){
+        EnquiryStatus.find().where({name: [consts.ENQ_STATUS_ENROLLED, consts.ENQ_STATUS_CLOSED]}).exec(function (err, enqStatusList) {
             var enrolledId, closedId;
             while (enqStatusList.length) {
                 var enquiry = enqStatusList.pop();
@@ -717,134 +719,114 @@ module.exports = {
 
             Student
                 .find({
-                    enquiryStatus: {'!' : [closedId, enrolledId]}
+                    enquiryStatus: {'!': [closedId, enrolledId]}
                 })
                 .populate('services')
                 .populate('countries')
                 .populate('staff')
                 .populate('enquiryStatus')
-                .exec(function(err, students){
-                res.json(students);
-            });
+                .exec(function (err, students) {
+                    res.json(students);
+                });
 
         });
     },
 
 
     getClosedEnquiries: function (req, res) {
-
-
-        //TODO Why does this way does not work
-        EnquiryStatus.findOne().where({name: consts.ENQ_STATUS_CLOSED}).exec(function(err, enqStatus){
+        EnquiryStatus.findOne().where({name: consts.ENQ_STATUS_CLOSED}).exec(function (err, enqStatus) {
             Student.find({enquiryStatus: enqStatus.id})
                 .populate('services')
                 .populate('countries')
                 .populate('staff')
                 .populate('enquiryStatus')
-                .exec(function(err, students){
+                .exec(function (err, students) {
                     res.json(students);
                 });
-
         });
-
-
-
-        /*
-        TODO: This is a round about way of getting the closed enquiries.
-        We should find out why the above does not work
-         */
-//        EnquiryStatus.find({name: {'!': 'Closed'}}).exec(function(err, enqStatusList){
-//        EnquiryStatus.find({name: {'!': consts.ENQ_STATUS_CLOSED}}).exec(function(err, enqStatusList){
-//
-//            var enqIdArr = [];
-//            while (enqStatusList.length) {
-//                var enquiry = enqStatusList.pop();
-//                enqIdArr.push(enquiry.id);
-//            }
-//            Student
-//                .find({enquiryStatus: {'!' : enqIdArr}})
-//                .populate('services')
-//                .populate('countries')
-//                .populate('staff')
-//                .populate('enquiryStatus')
-//                .exec(function(err, students){
-//                    res.json(students);
-//                });
-//
-//        });
     },
 
-   getEnrolledStudents: function (req, res) {
-       EnquiryStatus.findOne({name: consts.ENQ_STATUS_ENROLLED}).exec(function(err, enqStatusEnrolled) {
+    getEnrolledStudents: function (req, res) {
+        EnquiryStatus.findOne({name: consts.ENQ_STATUS_ENROLLED}).exec(function (err, enqStatusEnrolled) {
             Student.find({enquiryStatus: enqStatusEnrolled.id})
-                    .populate('services')
-                    .populate('countries')
-                    .populate('staff')
-                    .populate('enquiryStatus').
-                exec(function(err, enrolledStudents){
-                     res.json(enrolledStudents);
+                .populate('services')
+                .populate('countries')
+                .populate('staff')
+                .populate('enquiryStatus').
+                exec(function (err, enrolledStudents) {
+                    res.json(enrolledStudents);
                 });
-       })
-
+        })
     },
 
-
-
-    getEnrollments: function(req,res) {
+    getEnrollments: function (req, res) {
 
         var id = req.param('id');
         if (!id) {
             return res.badRequest('No id provided.');
         }
 
-        Student.findOne(id).populate('enrollments').exec(function(err,student){
-
-
+        Student.findOne(id).populate('enrollments').exec(function (err, student) {
             var enrollmentList = student.enrollments;
             var enrollmentCollection = [];
             var paid = {};
 
-            async.each(enrollmentList, function(enroll, callback){
+            async.each(enrollmentList, function (enroll, callback) {
 
-                Enroll.findOne(enroll.id).populate('payments').populate('service').exec(function(err,enr){
+                Enroll.findOne(enroll.id).populate('payments').populate('service').exec(function (err, enr) {
 
-               var  sum = _.reduce(_.pluck(enr.payments,'amount'), function (mem, payment){
-                    return Number(mem) + Number(payment);
-                });
+                    var sum = _.reduce(_.pluck(enr.payments, 'amount'), function (mem, payment) {
+                        return Number(mem) + Number(payment);
+                    });
 
-    
-                if(!sum) {
-                    sum = 0;
-                } 
-                  enr.totalPaid = sum;
-                  enr.due = Number(enr.totalFee) - Number(enr.totalPaid);
+
+                    if (!sum) {
+                        sum = 0;
+                    }
+                    enr.totalPaid = sum;
+                    enr.due = Number(enr.totalFee) - Number(enr.totalPaid);
 
                     enrollmentCollection.push(enr);
                     callback();
                 });
-
-                
-
-
-            }, function(err){
+            }, function (err) {
                 if (err) {
                     console.log("Could not process payment information. " + err);
                     res.badRequest("Could not process payment information. " + err);
                 }
 
-                 res.json(enrollmentCollection);
+                res.json(enrollmentCollection);
                 // res.json(payments);
-
-
             });
-
         });
-
-
-
     },
 
-      getTotalPayments: function(req,res) {
+    /**
+     * Get all students enrolled in a particular service
+     * @param req (should have service id)
+     * @param res
+     * @returns Array of students
+     */
+    getServiceEnrolledStudents: function (req, res) {
+        var serviceId = req.param('id');
+        if (!serviceId) {
+            return res.badRequest('No service id provided.');
+        }
+
+        // Find all enrolled students
+        EnquiryStatus.findOne({name: consts.ENQ_STATUS_ENROLLED}).exec(function (err, enqStatusEnrolled) {
+            Student.find({enquiryStatus: enqStatusEnrolled.id})
+                .populate('enrollments', {service: serviceId})
+                .exec(function (err, students) {
+                    res.json(
+                        _.filter(students, function (student){
+                        return student.enrollments.length > 0;
+                    }))
+                });
+        })
+    },
+
+    getTotalPayments: function (req, res) {
 
         // get all payments for all students
         //loop through all payments and sum amounts by enroll_id 
@@ -854,36 +836,32 @@ module.exports = {
             return res.badRequest('No id provided.');
         }
 
-        Student.findOne(id).populate('enrollments').exec(function(err,student){
-
-
+        Student.findOne(id).populate('enrollments').exec(function (err, student) {
             var enrollmentList = student.enrollments;
             var enrollmentCollection = [];
             var paid = {};
 
-            async.each(enrollmentList, function(enroll, callback){
+            async.each(enrollmentList, function (enroll, callback) {
 
-                Enroll.findOne(enroll.id).populate('payments').populate('service').exec(function(err,enr){
+                Enroll.findOne(enroll.id).populate('payments').populate('service').exec(function (err, enr) {
 
-               var  sum = _.reduce(_.pluck(enr.payments,'amount'), function (mem, payment){
-                    return Number(mem) + Number(payment);
-                });
+                    var sum = _.reduce(_.pluck(enr.payments, 'amount'), function (mem, payment) {
+                        return Number(mem) + Number(payment);
+                    });
 
-    
-                if(!sum) {
-                    sum = 0;
-                } 
-                  enr.totalPaid = sum;
-                  enr.due = Number(enr.totalFee) - Number(enr.totalPaid);
+
+                    if (!sum) {
+                        sum = 0;
+                    }
+                    enr.totalPaid = sum;
+                    enr.due = Number(enr.totalFee) - Number(enr.totalPaid);
 
                     enrollmentCollection.push(enr);
                     callback();
                 });
 
-                
 
-
-            }, function(err){
+            }, function (err) {
                 if (err) {
                     console.log("Could not process payment information. " + err);
                     res.badRequest("Could not process payment information. " + err);
@@ -891,15 +869,15 @@ module.exports = {
 
                 var payment = {};
 
-                var  totalDue = _.reduce(_.pluck(enrollmentCollection, 'due'), function (mem, due){
+                var totalDue = _.reduce(_.pluck(enrollmentCollection, 'due'), function (mem, due) {
                     return Number(mem) + Number(due);
                 });
 
-                var  totalPaid = _.reduce(_.pluck(enrollmentCollection, 'totalPaid'), function (mem, totalPaid){
+                var totalPaid = _.reduce(_.pluck(enrollmentCollection, 'totalPaid'), function (mem, totalPaid) {
                     return Number(mem) + Number(totalPaid);
                 });
 
-                var  totalFee = _.reduce(_.pluck(enrollmentCollection, 'totalFee'), function (mem, totalFee){
+                var totalFee = _.reduce(_.pluck(enrollmentCollection, 'totalFee'), function (mem, totalFee) {
                     return Number(mem) + Number(totalFee);
                 });
 
@@ -907,12 +885,11 @@ module.exports = {
                 payment.totalFee = totalFee;
                 payment.totalPaid = totalPaid;
                 payment.totalDue = totalDue;
-                
 
 
                 console.log('Total Due: ' + totalDue + ' Total Paid: ' + totalPaid + ' Total Fee: ' + totalFee);
 
-                 res.json(payment);
+                res.json(payment);
 
 
             });
@@ -920,12 +897,8 @@ module.exports = {
         });
 
 
+    }
 
 
 
-
-    }  
-
-
-	
 };

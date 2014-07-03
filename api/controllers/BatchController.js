@@ -45,7 +45,6 @@ addStudents = function (batchId, staffId, newStudentIdArr, res) {
 
             function (batchName, addedStudentIdArr, callback) {
                 var commentStr = "Batch: " + batchName;
-                console.log(consts);
                 //Create all comments before sending updated batch
                 async.each(addedStudentIdArr, function (studentId, cb){
                     UserService.createComment(staffId, studentId, commentStr, consts.COMMENT_ADD, cb);
@@ -56,7 +55,11 @@ addStudents = function (batchId, staffId, newStudentIdArr, res) {
             },
 
             function (callback){
-                Batch.findOne(batchId).populate('students').exec(function(err, batch) {
+                Batch.findOne(batchId).
+                    populate('students').
+                    populate('service').
+                    populate('classes').
+                    exec(function(err, batch) {
                     if (err) callback(err);
 
                     callback(null, batch);
@@ -75,7 +78,6 @@ addStudents = function (batchId, staffId, newStudentIdArr, res) {
 };
 
 removeStudent = function(batchId, staffId, removeStudentId, res) {
-
     async.waterfall([
         function (callback) {
             Batch.findOne(batchId).populate('students').exec(function(err, batch){
@@ -97,7 +99,11 @@ removeStudent = function(batchId, staffId, removeStudentId, res) {
         },
 
         function (studentId, comment, callback){
-            Batch.findOne(batchId).populate('students').exec(function(err, batch) {
+            Batch.findOne(batchId).
+                populate('students').
+                populate('service').
+                populate('classes').
+                exec(function(err, batch) {
                 if (err) callback(err);
                 callback(null, batch);
             })
@@ -149,7 +155,7 @@ module.exports = {
     updatePartial: function (req, res) {
         var batchId = req.param('id'),
             staffId = UserService.getCurrentStaffUserId(req);
-        console.log(_.merge({}, req.params.all(), req.body));
+//        console.log(_.merge({}, req.params.all(), req.body));
         if (!batchId) {
             return res.badRequest('No id provided.');
         } else if (req.body.addStudents) {
@@ -166,6 +172,19 @@ module.exports = {
                 res.json(updated[0]);
             });
         }
+    },
+
+    getClasses: function(req, res) {
+        var batchId = req.param('id');
+        Class.find({'batch': batchId})
+            .populate('staff')
+            .populate('topic')
+            .exec(function(err, classList) {
+            if (err) {
+                return res.json(err);
+            }
+
+            res.json(classList);
+        });
     }
-	
 };

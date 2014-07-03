@@ -54,6 +54,8 @@ module.exports = {
 
         source: {type: 'string'},
 
+        //TODO check default value as date
+//        followUp: {type: 'datetime', defaultsTo: moment()},
         followUp: {type: 'datetime'},
 
         enquiryDate: {type: 'datetime'},

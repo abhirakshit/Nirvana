@@ -5,7 +5,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title panel-heading font-bold" id="myModalLabel">Add Topic</h4>
+                <!--<h4 class="modal-title panel-heading font-bold" id="myModalLabel">Add Topic</h4>-->
+                <h4 class="modal-title panel-heading font-bold" id="myModalLabel"><%=formTitle%></h4>
             </div>
             <div class="modal-body">
                 <form class="bs-example form-horizontal">
@@ -68,7 +69,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success btn-s-xs" id="createNewTopic">Create</button>
+                        <!--<button type="submit" class="btn btn-success btn-s-xs" id="createNewTopic">Create</button>-->
+                        <button type="submit" class="btn btn-success btn-s-xs" id="submit"><%=formBtnText%></button>
                     </div>
                 </form>
             </div>

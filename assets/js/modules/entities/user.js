@@ -274,8 +274,14 @@ define([
                 Entities.allEnrolled = new Entities.StudentCollection();
                 Entities.allEnrolled.url = Entities.studentUrl + Entities.enrolledUrl;
                 Entities.allEnrolled.fetch();
-
                 return Entities.allEnrolled;
+            },
+
+            getAllEnrolledInService: function(serviceId) {
+                Entities.allServiceEnrolled = new Entities.StudentCollection();
+                Entities.allServiceEnrolled.url = Entities.studentUrl + Entities.serviceUrl + "/" + serviceId;
+                Entities.allServiceEnrolled.fetch({async: false});
+                return Entities.allServiceEnrolled;
             }
 
 
@@ -356,6 +362,10 @@ define([
 
         Application.reqres.setHandler(Application.GET_STUDENTS_ENROLLED, function(){
             return API.getAllEnrolled();
+        });
+
+        Application.reqres.setHandler(Application.GET_STUDENTS_ENROLLED_SERVICE, function(serviceId){
+            return API.getAllEnrolledInService(serviceId);
         });
 
     });

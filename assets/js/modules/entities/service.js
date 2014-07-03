@@ -40,9 +40,8 @@ define([], function(){
                 return service.get('name');
             },
 
-            getAllServices: function(update) {
-                //Update is called after a new service is added/removed and the collection needs to be updated
-                if (!Entities.allServices || update){
+            getAllServices: function() {
+                if (!Entities.allServices){
                     Entities.allServices = new Entities.ServiceCollection();
                     Entities.allServices.fetch();
                 }

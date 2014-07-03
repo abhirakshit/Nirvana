@@ -54,7 +54,7 @@ define([
                 });
             },
 
-            showStudent: function (student, allCountries, allServices, allStaff, allStatus, studentComments,studentEnrollments) {
+            showStudent: function (student, allCountries, allServices, allStaff, allStatus, studentComments, studentEnrollments) {
 
                 this.showPersonalView(student);
 
@@ -78,21 +78,17 @@ define([
                 this.layout.personalRegion.show(personalView);
             },
 
-            showEnrollmentView: function(student,allServices,studentEnrollments){
+            showEnrollmentView: function(student, allServices, studentEnrollments){
       
                 var enrollCollection = new Application.Entities.EnrollCollection(student.get('enrollments'));
                 var addedServices = new Application.Entities.ServiceCollection(student.get('services'));
                 var addedServicesIdList = addedServices.pluck("id");
                // var enrollmentCollection = new Application.Entities.EnrollmentCollection(studentEnrollments);
 
-                //console.dir(enrollCollection);
-               // console.dir(studentEnrollments);
-
                 var that = this;
                 var enrollView = new Show.views.EnrollComposite({
                     collection: studentEnrollments,
                     model: student
-                    
                 });
 
                 this.layout.enrollmentRegion.show(enrollView);
@@ -110,12 +106,13 @@ define([
                     });
 
                     addEnrollModalView.on(Show.createEnrollEvt, function(modalFormView){
+                        console.log('Save enrollment...');
+                        console.log(modalFormView.model.attributes);
                         student.save("enroll", modalFormView.model.attributes, {
                             wait: true,
                             patch: true,
                             success: function(updatedStudent){
                                 console.log("Saved on server!!");
-                               // console.dir(updatedStudent,allServices);
                                 that.showEnrollmentView(updatedStudent,allServices);
                                 Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
                             },
@@ -136,7 +133,7 @@ define([
                         wait: true,
                         patch: true,
                         success: function(updatedStudent){
-                           // console.log("Saved on server!!");
+                           console.log("Saved on server!!");
                            // console.dir(updatedStudent);
                            // that.showEnrollView(updatedStudent);
                             //Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);

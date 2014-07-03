@@ -97,7 +97,6 @@ define([
                 var tabView = this.children.find(function(tab){
                     return tab.model.get('id') == tabId;
                 });
-
                 tabView.select();
             }
 
@@ -106,39 +105,50 @@ define([
 
         Topics.views.AddTopicForm = Application.Views.ItemView.extend({
             template: "topics/templates/add_topic_form",
-//            template: "header/show/templates/add_user_form",
 
             events: {
-                "click #createNewTopic" : "createNewTopic"
+                "click #submit" : "submit"
             },
 
             onRender: function() {
                 Backbone.Validation.bind(this);
 
-                this.renderServiceSelect(this.options.allServices, "#service");
+                var data = this.model.attributes;
+                //Set duration
+                if (this.model.get('duration')) {
+                    var duration = moment.duration(Number(this.model.get('duration')));
+                    data.duration_hr = duration.hours();
+                    data.duration_min = duration.minutes();
+                }
 
-                //Add datetime field
-//                Application.Views.addDateTimePicker(this.$el.find('#startDateDiv'), null, {pickTime: false});
-//                Application.Views.addDateTimePicker(this.$el.find('#endDateDiv'), moment().add('days', 30) ,{pickTime: false});
+                Backbone.Syphon.deserialize(this, data);
+
+                //Set service dropdown
+                this.renderSelect(this.options.allServices, "#service", this.model.get('service'));
 
             },
 
-            renderServiceSelect :function (serviceIdToTextMap, element) {
+            renderSelect :function (idToTextMap, element, object) {
                 var that = this;
-                _.each(serviceIdToTextMap, function(service){
-                    that.$el.find(element).append("<option value='" + service.id + "'>" + service.text + "</option>");
+                _.each(idToTextMap, function(select){
+                    if (object && select.id === object.id) {
+                        that.$el.find(element).append("<option value=" + select.id + " selected=selected" + ">" + select.text + "</option>");
+                    } else {
+                        that.$el.find(element).append("<option value=" + select.id + ">" + select.text + "</option>");
+                    }
                 });
+                this.$el.find(element).select2();
             },
 
-            createNewTopic: function(evt) {
+            submit: function(evt) {
                 evt.preventDefault();
                 var data = Backbone.Syphon.serialize(this);
                 this.model.set(data);
 
                 var isValid = this.model.isValid(true);
                 if (isValid) {
-                    Application.Views.hideModal(Topics.addTopicModalFormId);
-                    this.trigger(Topics.CREATE_TOPIC, this, data);
+                    Application.Views.hideModal(this.model.get('modalId'));
+                    this.trigger(Application.SUBMIT, this, data);
                 }
             }
 

@@ -115,7 +115,7 @@ define([
             onRender: function() {
                 Backbone.Validation.bind(this);
 
-                this.renderServiceSelect(this.options.allServices, "#service");
+                this.renderSelect(this.options.allServices, "#service");
 
                 //Add datetime field
                 Application.Views.addDateTimePicker(this.$el.find('#startDateDiv'), null, {pickTime: false});
@@ -123,7 +123,7 @@ define([
 
             },
 
-            renderServiceSelect :function (serviceIdToTextMap, element) {
+            renderSelect :function (serviceIdToTextMap, element) {
                 var that = this;
                 _.each(serviceIdToTextMap, function(service){
                     that.$el.find(element).append("<option value='" + service.id + "'>" + service.text + "</option>");

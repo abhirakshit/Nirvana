@@ -36,6 +36,7 @@ define([
             initialize: function () {
                 var user = Application.request(Application.GET_LOGGED_USER);
                 var allServices = Application.request(Application.GET_SERVICES);
+//                var allTopics = Application.request(Application.GET_TOPICS);
                 var tabId = this.options.tabId;
 //                var studentId = this.options.studentId;
 
@@ -63,11 +64,9 @@ define([
             showNavTabs: function (tabId, allServices) {
                 var tabContainerView = new Topics.views.TabContainer({
                     collection: tabCollection
-//                    model: new Application.Entities.Model({
-//                        modalId: Topics.addStudentModalFormId
-//                    })
                 });
                 this.layout.tabsRegion.show(tabContainerView);
+
                 if (tabId) {
                     tabContainerView.selectTabView(tabId);
                     Application.navigate(Topics.rootRoute + "/" +tabId);
@@ -80,7 +79,6 @@ define([
                     Application.navigate(Topics.rootRoute + "/" +tabId);
                 });
 
-
                 //Show the add button
                 var addTopicButtonView = new Topics.views.AddTopicButton({
                     model: new Application.Entities.Model({
@@ -88,7 +86,6 @@ define([
                         text: "New Topic"
                     })
                 });
-//                this.listenTo(addTopicButtonView, Topics.SHOW_NEW_TOPIC_MODAL, this.showNewTopicModal(allServices));
                 this.listenTo(addTopicButtonView, Topics.SHOW_NEW_TOPIC_MODAL, function(){
                     that.showNewTopicModal(allServices)
                 });
@@ -99,14 +96,14 @@ define([
             showNewTopicModal: function(allServices) {
                 var newTopic = Application.request(Application.GET_TOPIC);
                 newTopic.attributes.modalId = Topics.addTopicModalFormId;
+                newTopic.attributes.formTitle = "Add Topic";
+                newTopic.attributes.formBtnText = "Create";
                 var addTopicFormView = new Topics.views.AddTopicForm({
                     model: newTopic,
                     allServices: allServices.getIdToTextMap("name")
                 });
 
-//                var that = this;
-                addTopicFormView.on(Topics.CREATE_TOPIC, function(modalFormView, data){
-
+                addTopicFormView.on(Application.SUBMIT, function(modalFormView, data){
                     //Save duration value in ms
                     var duration = moment.duration({
                         minutes: data.duration_min,
@@ -115,16 +112,15 @@ define([
 
                     data.duration = duration._milliseconds
 
-                    modalFormView.model.save(data, {
+                    newTopic.save(data, {
                         wait: true,
-                        patch: true,
-                        success: function(newTopic){
-                            console.log("Saved on server!!");
-                            console.dir(newTopic);
-//                            that.showTopic(newTopic);
+                        success: function(savedTopic){
+                            Application.execute(Application.UPDATE_TOPICS, savedTopic);
+                            Application.Views.showSuccessMsg("Added topic: " + savedTopic.get('name'));
                         },
 
                         error: function(x, response) {
+                            Application.Views.showErrorMsg("Could not update topic: " + newTopic.get('name'));
                             console.log("Error on server!! -- " + response.text);
                             return response;
                         }
@@ -140,9 +136,6 @@ define([
                 } else if (Topics.ALL_TAB === tabId) {
                     Application.execute(Application.TOPICS_LIST_ALL, this.layout.contentRegion);
                 }
-//                else if (Topics.CLOSED_TAB === tabId) {
-//                    Application.execute(Application.ENQUIRIES_CONTENT_CLOSED, this.layout.enqContentRegion);
-//                }
             },
 
             showEnquiry: function(studentId) {
