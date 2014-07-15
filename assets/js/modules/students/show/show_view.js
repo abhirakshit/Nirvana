@@ -14,6 +14,7 @@ define([
         Show.showAddPaymentModalEvt = "showAddPaymentModalEvt";
         Show.createEnrollEvt = "createEnrollEvt";
         Show.deleteEnrollEvt = "deleteEnrollEvt";
+        Show.addPaymentEvt = "addPaymentEvt";
 
         this.prefix = "Show";
         this.templatePath = "js/modules/";
@@ -24,19 +25,14 @@ define([
         };
 
 
-        // This has been added to only keep class naming consistent with views.
-        this.models = {};
-        this.collections = {};
-        //*************
-
-
-
-
-
+//        // This has been added to only keep class naming consistent with views.
+//        this.models = {};
+//        this.collections = {};
+//        //*************
 
 
         Show.views.Layout = Application.Views.Layout.extend({
-           // template: "students/show/templates/student_layout",
+            // template: "students/show/templates/student_layout",
             template: "students/show/templates/student_layout",
 //            className: "someClass",
             regions: {
@@ -48,12 +44,6 @@ define([
                 enrollmentRegion: "#enrollment"
             }
         });
-
-
-
-
-
-
 
 //        var successCB = function (response, value) {
 //            console.log(value);
@@ -76,12 +66,12 @@ define([
         Show.views.Personal = Application.Views.ItemView.extend({
             template: "students/show/templates/personal_view",
 
-            onRender: function() {
+            onRender: function () {
                 Backbone.Validation.bind(this);
                 this.setupProfile();
             },
 
-            setupProfile: function() {
+            setupProfile: function () {
                 Show.setupEditableBox(this.$el, this.model, "firstName", "FirstName", this.model.get('firstName'), 'text', null, 'right');
                 Show.setupEditableBox(this.$el, this.model, "lastName", "LastName", this.model.get('lastName'), 'text', null, 'right');
                 Show.setupEditableBox(this.$el, this.model, "phoneNumber", "Enter Phone", this.model.get('phoneNumber'), 'text', null, 'right');
@@ -111,29 +101,25 @@ define([
         //     }
         // });
 
-     Show.views.addEnrollForm = Application.Views.ItemView.extend({
+        Show.views.addEnrollForm = Application.Views.ItemView.extend({
             template: "students/show/templates/enroll_form",
 
             events: {
-                "click #createEnrollment" : "createEnrollment"
+                "click #createEnrollment": "createEnrollment"
             },
 
-            onRender: function() {
+            onRender: function () {
                 Backbone.Validation.bind(this);
 
                 var that = this;
-                _.each(this.options.allServices,function(value){
+                _.each(this.options.allServices, function (value) {
                     that.$el.find('#service').append("<option value=" + value.id + '>' + value.text + "</option>");
                 });
 
                 Application.Views.addDateTimePicker(this.$el.find('#enrollDateDiv'), null, {pickTime: false});
-
-
             },
 
-
-
-            createEnrollment: function(evt) {
+            createEnrollment: function (evt) {
                 evt.preventDefault();
                 var data = Backbone.Syphon.serialize(this);
                 this.model.set(data);
@@ -150,25 +136,32 @@ define([
 
         });
 
-         Show.views.addPaymentForm = Application.Views.ItemView.extend({
+        Show.views.addPaymentForm = Application.Views.ItemView.extend({
             template: "students/show/templates/payment_form",
 
-            events: {
-                "click #addPayment" : "addPayment"
+            serializeData: function () {
+                var data = this.model.toJSON();
+                data.due = this.options.due;
+                return data;
             },
 
-            onRender: function() {
+            events: {
+                "click #addPayment": "addPayment"
+            },
+
+            onRender: function () {
                 Backbone.Validation.bind(this);
 
-                this.$el.find('#enroll').append("<<input name='enroll' type='hidden' value=" + this.options.enroll + '>');
+//                this.$el.find('#enroll').append("<<input name='enroll' type='hidden' value=" + this.options.enroll + '>');
 
                 Application.Views.addDateTimePicker(this.$el.find('#paymentDateDiv'), null, {pickTime: false});
 
             },
 
-            addPayment: function(evt) {
+            addPayment: function (evt) {
                 evt.preventDefault();
                 var data = Backbone.Syphon.serialize(this);
+                data.enroll = this.options.enroll;
                 this.model.set(data);
 
                 console.log(data);
@@ -176,7 +169,6 @@ define([
                 var isValid = this.model.isValid(true);
                 if (isValid) {
                     Application.Views.hideModal(Show.addPaymentFormId);
-
                     this.trigger(Show.addPaymentEvt, this);
                 }
             }
@@ -187,8 +179,8 @@ define([
         Show.views.EnrollField = Application.Views.ItemView.extend({
             template: "students/show/templates/enroll_field",
             tagName: "tr",
-            
-            onRender: function() {
+
+            onRender: function () {
                 Backbone.Validation.bind(this);
             },
 
@@ -196,11 +188,11 @@ define([
                 "mouseenter": "toggleDelete",
                 "mouseleave": "toggleDelete",
                 "click .i-cancel": "deleteEnroll",
-                "click #addPayment" : "showAddPaymentModal"
+                "click #addPayment": "showAddPaymentModal"
             },
 
 
-            serializeData: function() {
+            serializeData: function () {
                 var data = this.model.toJSON();
                 data.modalId = Show.addPaymentFormId;
                 return data;
@@ -208,23 +200,22 @@ define([
                 console.log(data);
             },
 
-          
 
-            deleteEnroll: function(evt) {
+            deleteEnroll: function (evt) {
                 evt.preventDefault();
                 this.trigger(Show.deleteEnrollEvt, this);
             },
 
             toggleDelete: function (evt) {
                 evt.preventDefault();
-               // console.log('Mouse hover delete!');
+                // console.log('Mouse hover delete!');
                 // var fieldId = this.model.get('totalFee');
                 // $('#' + fieldId).toggleClass("basicBorder");
                 // $('#' + fieldId).find('.i-cancel').toggleClass("display-none");
             },
 
-            showAddPaymentModal: function(evt,options) {
-               // console.log('........:' + this.model.id);
+            showAddPaymentModal: function (evt, options) {
+                // console.log('........:' + this.model.id);
                 evt.preventDefault();
                 this.trigger(Show.showAddPaymentModalEvt, this.model);
             }
@@ -236,13 +227,13 @@ define([
             itemViewContainer: "#enrollFields",
             itemView: Show.views.EnrollField,
 
-            initialize: function() {
+            initialize: function () {
                 var that = this;
-                this.on(Application.CHILD_VIEW + ":" + Show.deleteEnrollEvt, function(childView) {
+                this.on(Application.CHILD_VIEW + ":" + Show.deleteEnrollEvt, function (childView) {
                     that.trigger(Show.deleteEnrollEvt, childView);
                 });
 
-                this.on(Application.CHILD_VIEW + ":" + Show.showAddPaymentModalEvt, function(childView, model) {
+                this.on(Application.CHILD_VIEW + ":" + Show.showAddPaymentModalEvt, function (childView, model) {
                     that.trigger(Show.showAddPaymentModalEvt, childView);
                 });
 
@@ -257,7 +248,7 @@ define([
 
             },
 
-            serializeData: function() {
+            serializeData: function () {
                 var data = this.model.toJSON();
                 data.modalId = Show.addEnrollFormId;
                 console.log(data.modalId);
@@ -265,32 +256,29 @@ define([
             },
 
             events: {
-                "click #addEnroll" : "showAddEnrollModal"
-               
+                "click #addEnroll": "showAddEnrollModal"
+
             },
 
-            showAddEnrollModal: function(evt) {
+            showAddEnrollModal: function (evt) {
                 evt.preventDefault();
                 this.trigger(Show.showAddEnrollModalEvt, this);
             }
         });
 
 
-
-
-
         Show.views.addEducationForm = Application.Views.ItemView.extend({
             template: "students/show/templates/add_education_form",
 
             events: {
-                "click #createEducationInfo" : "createEducationInfo"
+                "click #createEducationInfo": "createEducationInfo"
             },
 
-            onRender: function() {
+            onRender: function () {
                 Backbone.Validation.bind(this);
             },
 
-            createEducationInfo: function(evt) {
+            createEducationInfo: function (evt) {
                 evt.preventDefault();
                 var data = Backbone.Syphon.serialize(this);
                 this.model.set(data);
@@ -315,7 +303,7 @@ define([
                 "click .i-cancel": "deleteEducation"
             },
 
-            deleteEducation: function(evt) {
+            deleteEducation: function (evt) {
                 evt.preventDefault();
                 this.trigger(Show.deleteEducationEvt, this);
             },
@@ -334,24 +322,24 @@ define([
             itemViewContainer: "#educationFields",
             itemView: Show.views.EducationField,
 
-            initialize: function() {
+            initialize: function () {
                 var that = this;
-                this.on(Application.CHILD_VIEW + ":" + Show.deleteEducationEvt, function(childView) {
+                this.on(Application.CHILD_VIEW + ":" + Show.deleteEducationEvt, function (childView) {
                     that.trigger(Show.deleteEducationEvt, childView);
                 })
             },
 
-            serializeData: function() {
+            serializeData: function () {
                 var data = this.model.toJSON();
                 data.modalId = Show.addEducationFormId;
                 return data;
             },
 
             events: {
-                "click #addEducationInfo" : "showAddEducationModal"
+                "click #addEducationInfo": "showAddEducationModal"
             },
 
-            showAddEducationModal: function(evt) {
+            showAddEducationModal: function (evt) {
                 evt.preventDefault();
                 this.trigger(Show.showAddEducationModalEvt, this);
             }
@@ -360,12 +348,12 @@ define([
         Show.views.Career = Application.Views.ItemView.extend({
             template: "students/show/templates/career_view",
 
-            onRender: function() {
+            onRender: function () {
                 Backbone.Validation.bind(this);
                 this.setupCareerView();
             },
 
-            setupCareerView: function() {
+            setupCareerView: function () {
                 Show.setupSelect2EditableBox(this.$el, this.model, "countries", this.options.allCountries, "Add Country", this.options.addedCountries, 'right');
                 Show.setupSelect2EditableBox(this.$el, this.model, "services", this.options.allServices, "Add Service", this.options.addedServices, 'right');
                 Show.setupEditableBox(this.$el, this.model, "intake", "Enter Intake", this.model.get('intake'), 'text', null, 'right');
@@ -378,16 +366,16 @@ define([
         Show.views.Comment = Application.Views.ItemView.extend({
             template: "students/show/templates/comment_view",
 
-            serializeData: function() {
+            serializeData: function () {
                 var comment = this.model.toJSON();
                 var iconClass, iconColor;
                 if (comment.type == "remove") {
                     iconClass = 'fa fa-times';
                     iconColor = 'red';
-                } else if(comment.type == 'comment') {
+                } else if (comment.type == 'comment') {
                     iconClass = 'fa fa-comment';
                     iconColor = 'cornflowerblue';
-                } else if(comment.type == 'change') {
+                } else if (comment.type == 'change') {
                     iconClass = 'i i-switch';
                     iconColor = 'blueviolet';
                 } else {
@@ -410,11 +398,11 @@ define([
                 'click #addComment': 'addComment'
             },
 
-            onRender: function() {
+            onRender: function () {
                 Backbone.Validation.bind(this);
             },
 
-            addComment: function(evt) {
+            addComment: function (evt) {
                 evt.preventDefault();
                 var data = Backbone.Syphon.serialize(this);
 //                data.type = "comment";
@@ -426,12 +414,12 @@ define([
         Show.views.Admin = Application.Views.ItemView.extend({
             template: "students/show/templates/admin_view",
 
-            onRender: function() {
+            onRender: function () {
                 Backbone.Validation.bind(this);
                 this.setupAdminView();
             },
 
-            setupAdminView: function() {
+            setupAdminView: function () {
                 Show.setupSelect2EditableBox(this.$el, this.model, "staff", this.options.allStaff, "Assigned To", this.options.addedStaff);
                 Show.setupEditableBox(this.$el, this.model, "enquiryStatus", "Add Status", this.model.get('enquiryStatus').id, 'select', this.options.allStatus);
                 Show.setupEditableBox(this.$el, this.model, "remarks", "Enter Remarks", this.model.get('remarks'), 'textarea');
@@ -441,7 +429,7 @@ define([
         });
 
         //TODO All these need to be moved to the controller
-        Show.setupEditableBox = function(el, model, id, emptyText, initialValue, type, source, placement){
+        Show.setupEditableBox = function (el, model, id, emptyText, initialValue, type, source, placement) {
             var successCB = function (response, value) {
 //                console.log("[" + id + ":" + value + "]");
                 model.save(id, value, {
@@ -462,8 +450,8 @@ define([
             Application.Views.setupEditableBox(el, id, emptyText, initialValue, type, source, placement, successCB);
         };
 
-        Show.setupDateTimeEditableBox = function(el, model, id, emptyText, initialValue){
-            var successCB = function(response, value) {
+        Show.setupDateTimeEditableBox = function (el, model, id, emptyText, initialValue) {
+            var successCB = function (response, value) {
 //                console.log("[" + id + ":" + value + "]");
                 if (!value) {
                     console.log("No value!!!");
@@ -473,12 +461,12 @@ define([
                 model.save(id, value, {
                     wait: true,
                     patch: true,
-                    success: function(updatedStudent){
+                    success: function (updatedStudent) {
                         console.log("Saved on server!!");
                         Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
                     },
 
-                    error: function(x, response) {
+                    error: function (x, response) {
                         console.log("Error on server!! -- " + response);
                         return response.msg;
                     }
@@ -489,19 +477,18 @@ define([
         };
 
 
-
-        Show.setupSelect2EditableBox = function(el, model, id, source, emptyText, initialValue, placement){
-            var successCB = function(response, value) {
+        Show.setupSelect2EditableBox = function (el, model, id, source, emptyText, initialValue, placement) {
+            var successCB = function (response, value) {
                 console.log(value);
                 model.save(id, value, {
                     wait: true,
                     patch: true,
-                    success: function(updatedStudent){
+                    success: function (updatedStudent) {
                         console.log("Saved on server!!");
                         Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
                     },
 
-                    error: function(x, response) {
+                    error: function (x, response) {
                         console.dir(response);
                         console.log("Error on server!! -- " + response.msg);
                         return response.msg;

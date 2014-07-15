@@ -10,10 +10,10 @@ define([
         Settings.createAdminEvt = "createAdmin";
         Settings.createSchoolEvt = "createSchool";
         Settings.createCountryEvt = "createCountry";
-        Settings.CREATE_TOPIC = "create:topic";
 
 
         //Event
+        Settings.CREATE_TOPIC = "create:topic";
         Settings.TAB_SELECTED = "tab:selected";
 
         //Enquiry Tab Id's
@@ -21,26 +21,33 @@ define([
         Settings.ADMIN_TAB = "admin";
 
         var tabCollection = new Application.Entities.Collection([
-            new Application.Entities.Model({text:"Profile", id: Settings.PROFILE_TAB})
+            new Application.Entities.Model({text:"Profile", id: Settings.PROFILE_TAB}),
+            new Application.Entities.Model({text:"Admin", id: Settings.ADMIN_TAB})
 //            new Application.Entities.Model({text:"Admin", id: Settings.ADMIN_TAB})
         ]);
 
         Settings.Controller = Application.Controllers.Base.extend({
             initialize: function () {
                 var user = Application.request(Application.GET_LOGGED_USER);
+                var tabId = this.options.tabId;
+
                 this.layout = this.getLayout();
 
                 this.listenTo(this.layout, Application.SHOW, function () {
-                    this.showNavTabs();
-                    this.showProfile(user);
 
+                    if (!tabId) {
+                        tabId = Settings.PROFILE_TAB;
+                    }
+
+                    this.showNavTabs(tabId);
+                    this.showProfile(user);
 
 //                    this.showUserInfoSection(user);
 //                    this.showChangePasswordSection(user);
 //
 //
 //                    if (Application.USER_IS_ADMIN) {
-                        this.showAdminSection(user);
+//                        this.showAdminSection(user);
 //                    }
 
                 });
@@ -103,17 +110,29 @@ define([
                     collection: tabCollection
                 });
                 this.layout.settingTabRegion.show(tabContainerView);
-                if (tabId) {
+
+//                if (tabId) {
                     tabContainerView.selectTabView(tabId);
                     Application.navigate(Settings.rootRoute + "/" +tabId);
-                }
+//                }
 
-//                var that = this;
-//                this.listenTo(tabContainerView, Enquiries.TAB_SELECTED, function(tabId){
-//                    that.showTab(tabId);
-//                    tabContainerView.selectTabView(tabId);
-//                    Application.navigate(Enquiries.rootRoute + "/" +tabId);
-//                });
+                var that = this;
+                this.listenTo(tabContainerView, Settings.TAB_SELECTED, function(tabId){
+                    that.showTab(tabId);
+                    tabContainerView.selectTabView(tabId);
+                    Application.navigate(Settings.rootRoute + "/" +tabId);
+                });
+            },
+
+            showTab: function (tabId) {
+                if (Settings.PROFILE_TAB === tabId) {
+                    Application.execute(Application.SETTINGS_PROFILE, this.layout.contentRegion);
+                } else if (Settings.ADMIN_TAB === tabId) {
+                    Application.execute(Application.SETTINGS_ADMIN, this.layout.contentRegion);
+                }
+//                else if (Batches.CLOSED_TAB === tabId) {
+//                    Application.execute(Application.ENQUIRIES_CONTENT_CLOSED, this.layout.enqContentRegion);
+//                }
             },
 
             showAdminSection: function (user) {

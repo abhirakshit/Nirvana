@@ -44,7 +44,7 @@ define([
                         this.showBatch(batchId);
                     } else {
                         if (!tabId) //Show default tab
-                            tabId = Batches.ALL_TAB;
+                            tabId = Batches.CURRENT_TAB;
                         this.showNavTabs(tabId, allServices, allBatches);
                         this.showTab(tabId);
                     }

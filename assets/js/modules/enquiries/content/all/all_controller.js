@@ -14,7 +14,7 @@ define([
                     if (this.options.byDate)
                         this.setupAllDateTabContent(user, allEnquiries);
                     else
-                        this.setupAllTabContent(user, allEnquiries);
+                        this.setupTabContent(user, allEnquiries);
                 });
 
                 this.show(this.layout, {
@@ -24,7 +24,7 @@ define([
                 });
             },
 
-            setupAllTabContent: function(user, allEnquiries) {
+            setupTabContent: function(user, allEnquiries) {
                 var columns = new Application.Entities.Collection([
                     new Application.Entities.Model({columnName: "Name"}),
                     new Application.Entities.Model({columnName: "Created"}),

@@ -1,18 +1,15 @@
 define([
     "modules/entities/base/models",
     "modules/entities/base/collections"
-], function(){
-    Application.module("Entities", function(Entities, Application, Backbone, Marionette, $, _) {
+], function () {
+    Application.module("Entities", function (Entities, Application, Backbone, Marionette, $, _) {
 
-//        Entities.studentUrl = '/student';
         Entities.studentUrl = '/student';
         Entities.enquiryUrl = '/enquiry';
         Entities.closedUrl = '/closed';
         Entities.staffUrl = '/staff';
         Entities.userUrl = '/user';
         Entities.enrolledUrl = '/enrolled';
-//        Entities.allUsersUrl = '/users';
-//        Entities.allCounselorsUrl = "/users/counselors";
 
         Entities.loggedUserId = window.userId.replace(/&quot;/g, '');
         Entities.User = Entities.Model.extend({
@@ -41,7 +38,7 @@ define([
                 }
             },
 
-            notEqualToCurrentPassword: function(value, attr, computedState) {
+            notEqualToCurrentPassword: function (value, attr, computedState) {
                 if (value === computedState.currentPassword)
                     return "Enter different password";
             }
@@ -72,7 +69,7 @@ define([
             model: Entities.Student
         });
 
-           Entities.StaffCollection = Entities.Collection.extend({
+        Entities.StaffCollection = Entities.Collection.extend({
             url: Entities.staffUrl,
             model: Entities.Staff
         });
@@ -92,7 +89,7 @@ define([
 
         var API = {
 
-            getStudentsAssigned: function(userId) {
+            getStudentsAssigned: function (userId) {
                 if (!userId) {
                     userId = Entities.loggedUser.get('id');
                 }
@@ -102,18 +99,19 @@ define([
                 return studentsAssigned;
             },
 
-            getEnquiriesAssigned: function(userId) {
-                if (!userId) {
-                    userId = Entities.loggedUser.get('id');
+            getEnquiriesAssigned: function (staffId) {
+                if (!staffId) {
+                    console.log("Staff id not found");
+                    staffId = Entities.loggedUser.get('id');
                 }
 
                 var studentsAssigned = new Entities.StudentCollection();
-                studentsAssigned.url = Entities.staffUrl + "/" + userId + Entities.studentUrl;
+                studentsAssigned.url = Entities.staffUrl + "/" + staffId + Entities.studentUrl;
                 studentsAssigned.fetch();
                 return studentsAssigned;
             },
 
-            getAllStaff: function(update) {
+            getAllStaff: function (update) {
                 if (!Entities.allStaff || update) {
                     Entities.allStaff = new Entities.StaffCollection();
                     Entities.allStaff.url = Entities.staffUrl;
@@ -123,18 +121,7 @@ define([
                 return Entities.allStaff;
             },
 
-            // getStaff: function(staffId) {
-            //     if (!staffId)
-            //         return new Entities.Staff();
-
-            //     var staff = new Entities.Staff({id: staffId});
-            //     staff.id = staffId;
-            //     staff.fetch();
-            //     return staff;
-            // },
-
-
-            getStaff: function(staffId) {
+            getStaff: function (staffId) {
                 if (!staffId)
                     return new Entities.Staff();
 
@@ -144,7 +131,7 @@ define([
 
             },
 
-            getStaffName: function(staffId) {
+            getStaffName: function (staffId) {
                 if (!staffId) {
                     console.log("Need staff Id.");
                     return "";
@@ -158,11 +145,11 @@ define([
                 return staff.get('name');
             },
 
-            getPassword: function() {
+            getPassword: function () {
                 return new Entities.Password();
             },
 
-            getChangePasswordUser: function(userId) {
+            getChangePasswordUser: function (userId) {
                 if (!userId)
                     return null;
                 var user = new Entities.ChangePasswordUser({ id: userId });
@@ -170,7 +157,7 @@ define([
                 return user;
             },
 
-            getUser: function(userId) {
+            getUser: function (userId) {
                 if (!userId)
                     return new Entities.User();
 
@@ -180,16 +167,13 @@ define([
 
             },
 
-            getAllStudents: function(update) {
-//                if (!Entities.allStudents || update) {
-                    Entities.allStudents = new Entities.StudentCollection();
-                    Entities.allStudents.fetch();
-//                }
-
+            getAllStudents: function () {
+                Entities.allStudents = new Entities.StudentCollection();
+                Entities.allStudents.fetch();
                 return Entities.allStudents;
             },
 
-            getAllEnquiries: function(update) {
+            getAllEnquiries: function () {
                 Entities.allEnquiries = new Entities.StudentCollection();
                 Entities.allEnquiries.url = Entities.studentUrl + Entities.enquiryUrl;
                 Entities.allEnquiries.fetch();
@@ -197,7 +181,7 @@ define([
                 return Entities.allEnquiries;
             },
 
-            getAllClosedEnquiries: function(update) {
+            getAllClosedEnquiries: function () {
                 Entities.allEnquiries = new Entities.StudentCollection();
                 Entities.allEnquiries.url = Entities.studentUrl + Entities.enquiryUrl + Entities.closedUrl;
                 Entities.allEnquiries.fetch();
@@ -205,7 +189,7 @@ define([
                 return Entities.allEnquiries;
             },
 
-            getStudent: function(userId) {
+            getStudent: function (userId) {
                 if (!userId)
                     return new Entities.Student();
 
@@ -255,118 +239,138 @@ define([
                 return role == Application.STAFF_ROLE;
             },
 
-            getRole: function() {
+            getRole: function () {
                 return this.getLoggedUser().attributes.role;
             },
 
             logout: function () {
                 $.ajax({
                     url: Application.LOGOUT,
-                    success: function() {
+                    success: function () {
                         console.log("Logged Out...");
                         window.location.reload();
                     }
                 })
             },
 
-
-            getAllEnrolled: function() {
+            getEnrolledStudents: function () {
                 Entities.allEnrolled = new Entities.StudentCollection();
                 Entities.allEnrolled.url = Entities.studentUrl + Entities.enrolledUrl;
                 Entities.allEnrolled.fetch();
                 return Entities.allEnrolled;
             },
 
-            getAllEnrolledInService: function(serviceId) {
+            getStudentsEnrolledInService: function (serviceId) {
                 Entities.allServiceEnrolled = new Entities.StudentCollection();
                 Entities.allServiceEnrolled.url = Entities.studentUrl + Entities.serviceUrl + "/" + serviceId;
                 Entities.allServiceEnrolled.fetch({async: false});
                 return Entities.allServiceEnrolled;
             }
 
-
-
         };
 
-        Application.reqres.setHandler(Application.GET_LOGGED_USER, function(){
-            return API.getLoggedUser();
-        });
 
-        Application.reqres.setHandler(Application.GET_USER, function(userId){
-            return API.getUser(userId);
-        });
-
-        Application.reqres.setHandler(Application.GET_STUDENTS, function(update){
-            return API.getAllStudents(update);
-        });
-
-        Application.reqres.setHandler(Application.GET_ENQUIRIES, function(update){
-            return API.getAllEnquiries(update);
-        });
-
-        Application.reqres.setHandler(Application.GET_STUDENT, function(studentId){
-            return API.getStudent(studentId);
-        });
-
-        Application.reqres.setHandler(Application.GET_PASSWORD, function(){
-            return API.getPassword();
-        });
-
-        Application.reqres.setHandler(Application.GET_CHANGE_PASSWORD_USER, function(userId){
+        /**
+         * USER
+         */
+        Application.reqres.setHandler(Application.GET_CHANGE_PASSWORD_USER, function (userId) {
             return API.getChangePasswordUser(userId);
         });
 
-        Application.reqres.setHandler(Application.IS_USER_ADMIN, function(){
+        Application.reqres.setHandler(Application.IS_USER_ADMIN, function () {
             return API.isAdmin();
         });
 
-        Application.reqres.setHandler(Application.GET_ROLE, function(){
+        Application.reqres.setHandler(Application.GET_ROLE, function () {
             return API.getRole();
         });
 
-        Application.reqres.setHandler(Application.IS_STUDENT, function(){
+        Application.reqres.setHandler(Application.IS_STUDENT, function () {
             return API.isStudent();
         });
 
-        Application.reqres.setHandler(Application.IS_COUNSELOR, function(){
+        Application.reqres.setHandler(Application.IS_COUNSELOR, function () {
             return API.isCounselor();
         });
 
-        Application.reqres.setHandler(Application.GET_ALL_STAFF, function(update){
-            return API.getAllStaff(update);
+        Application.reqres.setHandler(Application.GET_LOGGED_USER, function () {
+            return API.getLoggedUser();
         });
 
-        Application.reqres.setHandler(Application.GET_STAFF, function(staffId){
-            return API.getStaff(staffId);
+        Application.reqres.setHandler(Application.GET_USER, function (userId) {
+            return API.getUser(userId);
         });
 
-        Application.reqres.setHandler(Application.GET_STAFF_NAME, function(staffId){
-            return API.getStaffName(staffId);
+        Application.reqres.setHandler(Application.GET_PASSWORD, function () {
+            return API.getPassword();
         });
 
-        Application.reqres.setHandler(Application.GET_STUDENTS_ASSIGNED, function(userId){
-            return API.getStudentsAssigned(userId);
-        });
-
-        Application.reqres.setHandler(Application.GET_ENQUIRIES_ASSIGNED, function(userId){
-            return API.getEnquiriesAssigned(userId);
-        });
-
-        Application.reqres.setHandler(Application.GET_ENQUIRIES_CLOSED, function(){
-            return API.getAllClosedEnquiries(false);
-        });
-
-        Application.reqres.setHandler(Application.LOGOUT, function(){
+        Application.reqres.setHandler(Application.LOGOUT, function () {
             return API.logout();
         });
 
-        Application.reqres.setHandler(Application.GET_STUDENTS_ENROLLED, function(){
-            return API.getAllEnrolled();
+
+        /**
+         * STUDENT
+         */
+
+        Application.reqres.setHandler(Application.GET_STUDENTS, function (update) {
+            return API.getAllStudents(update);
         });
 
-        Application.reqres.setHandler(Application.GET_STUDENTS_ENROLLED_SERVICE, function(serviceId){
-            return API.getAllEnrolledInService(serviceId);
+        Application.reqres.setHandler(Application.GET_STUDENT, function (studentId) {
+            return API.getStudent(studentId);
         });
+
+        Application.reqres.setHandler(Application.GET_STUDENTS_ENROLLED, function () {
+            return API.getEnrolledStudents();
+        });
+
+        Application.reqres.setHandler(Application.GET_STUDENTS_ENROLLED_SERVICE, function (serviceId) {
+            return API.getStudentsEnrolledInService(serviceId);
+        });
+
+//        Application.reqres.setHandler(Application.GET_STUDENT_ENROLLMENTS, function(studentId){
+//            return API.getStudentEnrollments(studentId);
+//        });
+
+
+        /**
+         * ENQUIRY
+         */
+        Application.reqres.setHandler(Application.GET_ENQUIRIES, function (update) {
+            return API.getAllEnquiries(update);
+        });
+
+        Application.reqres.setHandler(Application.GET_ENQUIRIES_CLOSED, function () {
+            return API.getAllClosedEnquiries(false);
+        });
+
+
+        /**
+         * STAFF
+         */
+
+        Application.reqres.setHandler(Application.GET_ALL_STAFF, function (update) {
+            return API.getAllStaff(update);
+        });
+
+        Application.reqres.setHandler(Application.GET_STAFF, function (staffId) {
+            return API.getStaff(staffId);
+        });
+
+        Application.reqres.setHandler(Application.GET_STAFF_NAME, function (staffId) {
+            return API.getStaffName(staffId);
+        });
+
+        Application.reqres.setHandler(Application.GET_STUDENTS_ASSIGNED, function (staffId) {
+            return API.getStudentsAssigned(staffId);
+        });
+
+        Application.reqres.setHandler(Application.GET_ENQUIRIES_ASSIGNED, function (staffId) {
+            return API.getEnquiriesAssigned(staffId);
+        });
+
 
     });
 });

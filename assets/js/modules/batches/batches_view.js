@@ -106,8 +106,6 @@ define([
 
         Batches.views.AddBatchForm = Application.Views.ItemView.extend({
             template: "batches/templates/add_batch_form",
-//            template: "header/show/templates/add_user_form",
-
             events: {
                 "click #createNewBatch" : "createNewBatch"
             },

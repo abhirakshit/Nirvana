@@ -90,13 +90,14 @@ define([], function(){
 
         var tabHtml = "<a href='#'><%=args.text%></a>";
         Settings.views.Tab = Application.Views.ItemView.extend({
+            template: "views/templates/tab",
             tagName: "li",
 
-            template: function(serialized_model) {
-                return _.template(tabHtml,
-                    {text: serialized_model.text},
-                    {variable: 'args'});
-            },
+//            template: function(serialized_model) {
+//                return _.template(tabHtml,
+//                    {text: serialized_model.text},
+//                    {variable: 'args'});
+//            },
 
             events: {
                 "click": "showView"
@@ -119,7 +120,8 @@ define([], function(){
         });
 
         Settings.views.TabContainer = Application.Views.CompositeView.extend({
-            template: "settings/templates/tab_container",
+//            template: "settings/templates/tab_container",
+            template: "views/templates/tab_container",
             tagName: "span",
             itemViewContainer: "#tabsUL",
             itemView: Settings.views.Tab,

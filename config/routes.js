@@ -55,7 +55,8 @@ module.exports.routes = {
     'patch         /staff/:id':                   'StaffController.updatePartial',
 
     'patch         /batch/:id':                   'BatchController.updatePartial',
-    'get           /batch/:id/class':             'BatchController.getClasses'
+    'get           /batch/:id/class':             'BatchController.getClasses',
+    'get           /batch/current':               'BatchController.getCurrentBatches'
 
 
    // 'get /payments/totalpayment':    'PaymentController.totalPaymentsByEnrollId'

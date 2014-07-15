@@ -1,5 +1,5 @@
 /**
- * BatchController.js 
+ * BatchController.js
  *
  * @description ::
  * @docs        :: http://sailsjs.org/#!documentation/controllers
@@ -13,9 +13,9 @@ var _ = require('lodash'),
 addStudents = function (batchId, staffId, newStudentIdArr, res) {
     async.waterfall(
         [
-            function(callback) {
+            function (callback) {
                 //Add new students to the batch
-                Batch.findOne(batchId).populate('students').exec(function(err, batch) {
+                Batch.findOne(batchId).populate('students').exec(function (err, batch) {
                     if (err) {
                         callback(err);
                     }
@@ -27,7 +27,7 @@ addStudents = function (batchId, staffId, newStudentIdArr, res) {
                         return student.id;
                     });
                     var addedStudentIdArr = [];
-                    _.forEach(newStudentIdArr, function(studentId) {
+                    _.forEach(newStudentIdArr, function (studentId) {
                         //Student already exists
                         if (_.contains(existingStudentsIdArr, studentId)) return;
 
@@ -36,7 +36,7 @@ addStudents = function (batchId, staffId, newStudentIdArr, res) {
                         addedStudentIdArr.push(studentId);
                     });
 
-                    batch.save(function(err,  s){
+                    batch.save(function (err, s) {
                         if (err) callback(err);
                         callback(null, batch.name, addedStudentIdArr);
                     });
@@ -46,27 +46,27 @@ addStudents = function (batchId, staffId, newStudentIdArr, res) {
             function (batchName, addedStudentIdArr, callback) {
                 var commentStr = "Batch: " + batchName;
                 //Create all comments before sending updated batch
-                async.each(addedStudentIdArr, function (studentId, cb){
+                async.each(addedStudentIdArr, function (studentId, cb) {
                     UserService.createComment(staffId, studentId, commentStr, consts.COMMENT_ADD, cb);
-                }, function(err) {
+                }, function (err) {
                     if (err) callback(err);
                     callback(null);
                 });
             },
 
-            function (callback){
+            function (callback) {
                 Batch.findOne(batchId).
                     populate('students').
                     populate('service').
                     populate('classes').
-                    exec(function(err, batch) {
-                    if (err) callback(err);
+                    exec(function (err, batch) {
+                        if (err) callback(err);
 
-                    callback(null, batch);
-                })
+                        callback(null, batch);
+                    })
             }
         ],
-        function(err, batch) {
+        function (err, batch) {
             if (err || !batch) {
                 console.log(err);
                 return err;
@@ -77,16 +77,16 @@ addStudents = function (batchId, staffId, newStudentIdArr, res) {
     );
 };
 
-removeStudent = function(batchId, staffId, removeStudentId, res) {
+removeStudent = function (batchId, staffId, removeStudentId, res) {
     async.waterfall([
         function (callback) {
-            Batch.findOne(batchId).populate('students').exec(function(err, batch){
+            Batch.findOne(batchId).populate('students').exec(function (err, batch) {
                 if (err) {
                     callback(err);
                 }
 
                 batch.students.remove(parseInt(removeStudentId));
-                batch.save(function(err, batch){
+                batch.save(function (err, batch) {
                     if (err) callback(err);
                     callback(null, batch.name);
                 });
@@ -98,15 +98,15 @@ removeStudent = function(batchId, staffId, removeStudentId, res) {
             UserService.createComment(staffId, removeStudentId, commentStr, consts.COMMENT_REMOVE, callback);
         },
 
-        function (studentId, comment, callback){
+        function (studentId, comment, callback) {
             Batch.findOne(batchId).
                 populate('students').
                 populate('service').
                 populate('classes').
-                exec(function(err, batch) {
-                if (err) callback(err);
-                callback(null, batch);
-            })
+                exec(function (err, batch) {
+                    if (err) callback(err);
+                    callback(null, batch);
+                })
         }
     ],
         function (err, batch) {
@@ -122,14 +122,14 @@ removeStudent = function(batchId, staffId, removeStudentId, res) {
 
 module.exports = {
 
-    create: function(req, res) {
+    create: function (req, res) {
         var batchId = req.param('id'),
             staffId = UserService.getCurrentStaffUserId(req);
         var batchAttr = _.merge({}, req.params.all(), req.body);
         console.log(_.merge({}, req.params.all(), req.body));
 
         //Create batch
-        Batch.create(batchAttr).exec(function(err, batch) {
+        Batch.create(batchAttr).exec(function (err, batch) {
             if (err || !batch) {
                 res.json(err);
             }
@@ -138,13 +138,13 @@ module.exports = {
                 populate('service').
 //                populate('students').
 //                populate('classes').
-                exec(function(err, updatedBatch){
-                if (err || !batch) {
-                    res.json(err);
-                }
-                console.log(updatedBatch);
-                res.json(updatedBatch);
-            })
+                exec(function (err, updatedBatch) {
+                    if (err || !batch) {
+                        res.json(err);
+                    }
+                    console.log(updatedBatch);
+                    res.json(updatedBatch);
+                })
         });
 
         //Create Comment about who created it
@@ -174,17 +174,31 @@ module.exports = {
         }
     },
 
-    getClasses: function(req, res) {
+    getClasses: function (req, res) {
         var batchId = req.param('id');
         Class.find({'batch': batchId})
             .populate('staff')
             .populate('topic')
-            .exec(function(err, classList) {
-            if (err) {
-                return res.json(err);
-            }
+            .exec(function (err, classList) {
+                if (err) {
+                    return res.json(err);
+                }
 
-            res.json(classList);
-        });
+                res.json(classList);
+            });
+    },
+
+    getCurrentBatches: function (req, res) {
+        Batch.find({endDate: { '>': moment().toDate()}})
+            .populate('service')
+            .populate('classes')
+            .populate('students')
+            .exec(function (err, batchList) {
+                if (err) {
+                    return res.json(err);
+                }
+
+                res.json(batchList);
+            })
     }
 };

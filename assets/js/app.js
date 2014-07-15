@@ -62,7 +62,6 @@ requirejs.config({
             deps: ["jquery"]
         },
 
-
         bootstrapEditable: {
             deps: ["bootstrap"]
         },
@@ -211,14 +210,14 @@ require(dependencies,
                 Application.module("Header").start();
                 Application.module("Footer").start();
                 Application.module("Sidebar").start();
-                Application.module("Settings").start();
+//                Application.module("Settings").start();
                 Application.module("Enquiries").start();
                 Application.module("Batches").start();
                 Application.module("Topics").start();
                 Application.module("Students").start();
                 Application.module("Staff").start();
                 //Application.module("Student").start();
-                Application.module("Payments").start();
+//                Application.module("Payments").start();
 
             });
 
@@ -230,7 +229,7 @@ require(dependencies,
                 "modules/enquiries/enquiries_app",
                 "modules/batches/batches_app",
                 "modules/topics/topics_app",
-                "modules/settings/settings_app",
+//                "modules/settings/settings_app",
                 "modules/students/students_app",
                 "modules/staff/staff_app",
                // "modules/student/student_app",

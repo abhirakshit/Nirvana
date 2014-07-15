@@ -33,8 +33,7 @@ define([
             new Application.Entities.Model({text:"All By Date", id: Enquiries.ALL_BY_DATE_TAB}),
             new Application.Entities.Model({text:"All", id: Enquiries.ALL_TAB}),
 //            new Application.Entities.Model({text:"Joined", id: Enquiries.JOINED_TAB}),
-            new Application.Entities.Model({text:"Closed", id: Enquiries.CLOSED_TAB}),
-            new Application.Entities.Model({text:"Test", id: "test"})
+            new Application.Entities.Model({text:"Closed", id: Enquiries.CLOSED_TAB})
         ]);
 
         Enquiries.Controller = Application.Controllers.Base.extend({

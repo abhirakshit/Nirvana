@@ -12,10 +12,9 @@ define([
     "modules/views/itemview",
     "modules/views/layout",
     "modules/views/region",
+    "modules/views/validation/validationMessages",
     "modules/views/utils/xeditable",
     "modules/views/utils/utils",
-    "modules/views/validation/validationMessages",
-
     "modules/views/base/base_app",
 
     "modules/controllers/base_controller",

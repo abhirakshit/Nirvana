@@ -13,7 +13,7 @@ define([
 //                    if (this.options.byDate)
 //                        this.setupAllDateTabContent(user, allPayments);
 //                    else
-                        this.setupAllTabContent(user, allPayments);
+                        this.setupTabContent(user, allPayments);
                 });
 
                 this.show(this.layout, {
@@ -23,7 +23,7 @@ define([
                 });
             },
 
-            setupAllTabContent: function(user, allPayments) {
+            setupTabContent: function(user, allPayments) {
                 var columns = new Application.Entities.Collection([
                     new Application.Entities.Model({columnName: "Name"}),
                     new Application.Entities.Model({columnName: "Section"}),

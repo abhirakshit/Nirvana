@@ -4,16 +4,10 @@ define([
 
     //SubModules
     "modules/topics/list/all/topics_all_app",
-//    "modules/topics/content/closed/closed_app",
-//    "modules/topics/content/my/my_app",
-//    "modules/topics/show/show_app",
 
     //Models
     "modules/entities/user",
-//    "modules/entities/comment",
     "modules/entities/service",
-//    "modules/entities/education",
-//    "modules/entities/enquiryStatus"
     "modules/entities/topic"
 ], function () {
     Application.module("Topics", function (Topics, Application, Backbone, Marionette, $, _) {

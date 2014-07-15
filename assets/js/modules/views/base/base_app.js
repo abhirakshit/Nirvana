@@ -1,6 +1,7 @@
 define([
     "modules/views/base/modal_views",
-    "modules/views/base/table_views"
+    "modules/views/base/table_views",
+    "modules/views/base/tab_views"
 ], function(){
     Application.module("Views.Base", function(Base, Application, Backbone, Marionette, $, _) {
 

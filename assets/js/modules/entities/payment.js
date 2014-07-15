@@ -8,23 +8,29 @@ define([], function(){
         Entities.Payment = Entities.Model.extend({
             urlRoot: Entities.paymentUrl,
             validation: {
-                amount: {required: true},
+                amount: {
+                    required: true,
+                    min: 1,
+                    fn: 'lessThanDue'
+                },
                 receiptNumber: {required: true, min: 1},
                 method: {required: true},
                 paymentDate: {required: true},
                 enroll: {required: true}
+            },
 
+            lessThanDue: function(value, attr, computedState) {
+                if (value >= Number(computedState.due))
+                    return "Amount is greater than due amount";
             }
         });
         
         Entities.TotalPayment = Entities.Model.extend({
-            urlRoot: Entities.TotalpaymentUrl,
-           
+            urlRoot: Entities.TotalpaymentUrl
         });
 
 
         Entities.PaymentCollection = Entities.Collection.extend({
-//            url: Entities.allPaymentsUrl,
             url: Entities.paymentUrl,
             model: Entities.Payment
         });

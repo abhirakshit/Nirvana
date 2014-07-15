@@ -74,6 +74,7 @@ define([], function(){
         Application.GET_STAFF_NAME = "get:staff:name";
 
         Application.GET_BATCHES = "get:batches";
+        Application.GET_BATCHES_CURRENT = "get:batches:current";
         Application.GET_BATCH = "get:batch";
         Application.GET_BATCH_CLASSES = "get:batch:classes";
 
@@ -126,7 +127,9 @@ define([], function(){
         Application.SETTINGS_SHOW = "settings:show";
         Application.PAYMENTS_SHOW = "payments:show";
 
-//        Application.BATCHES_SHOW = "batches:show";
+        Application.SETTINGS_PROFILE = "settings:profile";
+        Application.SETTINGS_ADMIN = "settings:admin";
+
         Application.CLASS_SHOW = "class:show";
 
         Application.BATCHES_SHOW = "batches:show";
@@ -138,6 +141,9 @@ define([], function(){
         Application.TOPIC_SHOW = "topic:show";
         Application.TOPICS_LIST_CURRENT = "topics:list:current";
         Application.TOPICS_LIST_ALL = "topics:list:all";
+
+        Application.STUDENTS_LIST_ACTIVE = "students:list:active";
+        Application.STUDENTS_LIST_ALL = "students:list:all";
 
         Application.PAYMENTS_SHOW = "payments:show";
         Application.PAYMENT_SHOW = "payment:show";
@@ -176,6 +182,7 @@ define([], function(){
         Application.CONTROLLER_ID = "controller";
 
 //        Application.USER_URL = '/user';
+        Application.TAB_SELECTED = "tab:selected";
         Application.GET_LOGGED_USER = "get:logged:user";
         Application.GET_USER = "get:user";
         Application.GET_PASSWORD = "get:password";

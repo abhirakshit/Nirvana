@@ -14,7 +14,7 @@ define([
 //                    if (this.options.byDate)
 //                        this.setupAllDateTabContent(user, allTopics);
 //                    else
-                        this.setupAllTabContent(user, allTopics, allServices);
+                        this.setupTabContent(user, allTopics, allServices);
                 });
 
                 this.show(this.layout, {
@@ -24,7 +24,7 @@ define([
                 });
             },
 
-            setupAllTabContent: function(user, allTopics, allServices) {
+            setupTabContent: function(user, allTopics, allServices) {
                 var columns = new Application.Entities.Collection([
                     new Application.Entities.Model({columnName: "Name"}),
                     new Application.Entities.Model({columnName: "Section"}),
@@ -33,10 +33,10 @@ define([
                     new Application.Entities.Model({columnName: "Description"}),
                     new Application.Entities.Model({columnName: "Edit/Delete"})
                 ]);
-                this.setupTopicTableView(allTopics, columns, "Topics", "allTable", this.layout.topicsRegion, allServices);
+                this.setupTableView(allTopics, columns, "Topics", "allTable", this.layout.topicsRegion, allServices);
             },
 
-            setupTopicTableView: function(allTopics, headerColumns, tableTitle, tableId, region, allServices) {
+            setupTableView: function(allTopics, headerColumns, tableTitle, tableId, region, allServices) {
                 var tableComposite = this.getTableView(tableId, tableTitle, headerColumns, allTopics);
 
                 var that = this;

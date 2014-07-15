@@ -58,6 +58,7 @@ define([], function(){
         Application.reqres.setHandler(Application.GET_ENROLLMENT, function(enrollId){
             return API.getEnroll(enrollId);
         });
+
         Application.reqres.setHandler(Application.GET_ENROLLMENT_BY_STUDENTID, function(studentId){
             return API.getEnrollByStudentId(studentId);
         });

@@ -9,20 +9,27 @@ define([], function(){
             return this.prefix + '-' + str;
         };
 
-        // This has been added to only keep class naming consistent with views.
-        this.models = {};
-        this.collections = {};
-        //*************
+//        // This has been added to only keep class naming consistent with views.
+//        this.models = {};
+//        this.collections = {};
+//        //*************
 
 
         Students.views.Layout = Application.Views.Layout.extend({
-            template: "students/templates/students_layout",
-
-            regions : {
-                profileRegion: "#profileSection",
-                changePasswordRegion: "#changePasswordSection",
-                adminRegion: "#adminSection"
+            template: "views/templates/page_layout",
+            regions: {
+                tabsRegion: "#tabs",
+                addButtonRegion: "#addButton",
+                contentRegion: "#content"
             }
+
+//            template: "students/templates/students_layout",
+//
+//            regions : {
+//                profileRegion: "#profileSection",
+//                changePasswordRegion: "#changePasswordSection",
+//                adminRegion: "#adminSection"
+//            }
         });
 
 
@@ -38,7 +45,6 @@ define([], function(){
             selectedStudent: function(evt){
                 evt.preventDefault();
                 this.trigger(Application.STUDENT_SHOW, this.model);
-
             }
 
         });

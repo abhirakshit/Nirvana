@@ -50,13 +50,21 @@ define([], function(){
                 return this.getAllBatches().get(batchId);
             },
 
-            getAllBatches: function(update) {
-                //Update is called after a new batch is added/removed and the collection needs to be updated
-                if (!Entities.allBatches || update){
+            getAllBatches: function() {
+                if (!Entities.allBatches){
                     Entities.allBatches = new Entities.BatchCollection();
                     Entities.allBatches.fetch();
                 }
                 return Entities.allBatches;
+            },
+
+            getCurrentBatches: function() {
+                if (!Entities.currentBatches){
+                    Entities.currentBatches = new Entities.BatchCollection();
+                    Entities.currentBatches.url = Entities.batchUrl + "/current";
+                    Entities.currentBatches.fetch();
+                }
+                return Entities.currentBatches;
             },
 
             getBatchClasses: function(batchId) {
@@ -89,7 +97,11 @@ define([], function(){
         };
 
         Application.reqres.setHandler(Application.GET_BATCHES, function(update){
-            return API.getAllBatches(update);
+            return API.getAllBatches();
+        });
+
+        Application.reqres.setHandler(Application.GET_BATCHES_CURRENT, function(update){
+            return API.getCurrentBatches();
         });
 
         Application.reqres.setHandler(Application.GET_BATCH, function(batchId){
