@@ -6,7 +6,7 @@ define([
 ], function () {
     Application.module("Settings", function (Settings, Application, Backbone, Marionette, $, _) {
 
-        Settings.changePasswordEvt = "changePassword";
+//        Settings.changePasswordEvt = "changePassword";
         Settings.createAdminEvt = "createAdmin";
         Settings.createSchoolEvt = "createSchool";
         Settings.createCountryEvt = "createCountry";
@@ -40,7 +40,8 @@ define([
                     }
 
                     this.showNavTabs(tabId);
-                    this.showProfile(user);
+                    this.showTab(tabId);
+//                    this.showProfile(user);
 
 //                    this.showUserInfoSection(user);
 //                    this.showChangePasswordSection(user);
@@ -58,6 +59,14 @@ define([
                     }
                 });
 
+            },
+
+            showTab: function (tabId) {
+                if (Settings.PROFILE_TAB === tabId) {
+                    Application.execute(Application.SETTINGS_PROFILE, this.layout.contentRegion);
+                } else if (Settings.ADMIN_TAB === tabId) {
+                    Application.execute(Application.SETTINGS_ADMIN, this.layout.contentRegion);
+                }
             },
 
             showProfile: function (user) {

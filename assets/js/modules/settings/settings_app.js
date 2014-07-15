@@ -34,9 +34,11 @@ define([
 
         Settings.on(Application.START, function () {
             console.log("Settings start...");
-            Marionette.TemplateLoader.loadModuleTemplates(Settings.Admin, function(){
-                Marionette.TemplateLoader.loadModuleTemplates(Settings, Settings.setup);
-            });
+            Marionette.TemplateLoader.loadModuleTemplates(Settings.Profile, function(){
+                Marionette.TemplateLoader.loadModuleTemplates(Settings.Admin, function(){
+                    Marionette.TemplateLoader.loadModuleTemplates(Settings, Settings.setup);
+                });
+            })
         });
 
         Application.commands.setHandler(Application.SETTINGS_SHOW, function(){

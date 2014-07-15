@@ -30,46 +30,53 @@ define([], function(){
         });
 
         Settings.views.Layout = Application.Views.Layout.extend({
-            template: "settings/templates/settings_layout",
-
+            template: "views/templates/page_layout",
             regions: {
-                settingTabRegion: "#settingTabs",
-                settingContentRegion: "#settingContent",
-                adminRegion: "#adminSection"
+                tabsRegion: "#tabs",
+                addButtonRegion: "#addButton",
+                contentRegion: "#content"
             }
+
+//            template: "settings/templates/settings_layout",
+//
+//            regions: {
+//                settingTabRegion: "#settingTabs",
+//                settingContentRegion: "#settingContent",
+//                adminRegion: "#adminSection"
+//            }
         });
 
-        Settings.views.Profile = Application.Views.ItemView.extend({
-            template: "settings/templates/profile_view",
-
-            events: {
-                "click #changePasswordBtn": "showChangePasswordModal"
-            },
-
-            serializeData: function(){
-                var data = this.model.toJSON();
-                data.modalId = this.options.modalId;
-                return data;
-            },
-
-            showChangePasswordModal: function(evt) {
-                evt.preventDefault();
-                this.trigger(Application.CHANGE_PASSWORD, this.model);
-            },
-
-            onRender: function() {
-                Backbone.Validation.bind(this);
-                this.setupProfile();
-            },
-
-            setupProfile: function() {
-                Settings.setupEditableBox(this.$el, this.model, "firstName", "FirstName", this.model.get('firstName'), 'text', null, 'right');
-                Settings.setupEditableBox(this.$el, this.model, "lastName", "LastName", this.model.get('lastName'), 'text', null, 'right');
-                Settings.setupEditableBox(this.$el, this.model, "phoneNumber", "Enter Phone", this.model.get('phoneNumber'), 'text', null, 'right');
-                Settings.setupEditableBox(this.$el, this.model, "email", "Enter Email", this.model.get('email'), 'text');
-                Settings.setupEditableBox(this.$el, this.model, "address", "Enter Address", this.model.get('address'), 'textarea', null, 'right');
-            }
-        });
+//        Settings.views.Profile = Application.Views.ItemView.extend({
+//            template: "settings/templates/profile_view",
+//
+//            events: {
+//                "click #changePasswordBtn": "showChangePasswordModal"
+//            },
+//
+//            serializeData: function(){
+//                var data = this.model.toJSON();
+//                data.modalId = this.options.modalId;
+//                return data;
+//            },
+//
+//            showChangePasswordModal: function(evt) {
+//                evt.preventDefault();
+//                this.trigger(Application.CHANGE_PASSWORD, this.model);
+//            },
+//
+//            onRender: function() {
+//                Backbone.Validation.bind(this);
+//                this.setupProfile();
+//            },
+//
+//            setupProfile: function() {
+//                Settings.setupEditableBox(this.$el, this.model, "firstName", "FirstName", this.model.get('firstName'), 'text', null, 'right');
+//                Settings.setupEditableBox(this.$el, this.model, "lastName", "LastName", this.model.get('lastName'), 'text', null, 'right');
+//                Settings.setupEditableBox(this.$el, this.model, "phoneNumber", "Enter Phone", this.model.get('phoneNumber'), 'text', null, 'right');
+//                Settings.setupEditableBox(this.$el, this.model, "email", "Enter Email", this.model.get('email'), 'text');
+//                Settings.setupEditableBox(this.$el, this.model, "address", "Enter Address", this.model.get('address'), 'textarea', null, 'right');
+//            }
+//        });
 
         Settings.views.Admin = Application.Views.ItemView.extend({
             template: "settings/templates/admin_view",
@@ -184,26 +191,26 @@ define([], function(){
 
 
 
-        Settings.setupEditableBox = function(el, model, id, emptyText, initialValue, type, source, placement){
-            var successCB = function (response, value) {
-                console.log("[" + id + ":" + value + "]");
-                model.save(id, value, {
-                    wait: true,
-                    patch: true,
-                    success: function (updatedStudent) {
-                        console.log("Saved on server!!");
-//                        Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
-                    },
-
-                    error: function (x, response) {
-                        console.log("Error on server!! -- " + response.msg);
-                        return response.msg;
-                    }
-                })
-            };
-
-            Application.Views.setupEditableBox(el, id, emptyText, initialValue, type, source, placement, successCB);
-        };
+//        Settings.setupEditableBox = function(el, model, id, emptyText, initialValue, type, source, placement){
+//            var successCB = function (response, value) {
+//                console.log("[" + id + ":" + value + "]");
+//                model.save(id, value, {
+//                    wait: true,
+//                    patch: true,
+//                    success: function (updatedStudent) {
+//                        console.log("Saved on server!!");
+////                        Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
+//                    },
+//
+//                    error: function (x, response) {
+//                        console.log("Error on server!! -- " + response.msg);
+//                        return response.msg;
+//                    }
+//                })
+//            };
+//
+//            Application.Views.setupEditableBox(el, id, emptyText, initialValue, type, source, placement, successCB);
+//        };
 
 
 
