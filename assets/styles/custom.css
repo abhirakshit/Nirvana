@@ -4,22 +4,6 @@ html {
     /*overflow-y: scroll !important;*/
 }
 
-/*.modalDialog {*/
-    /*position: fixed;*/
-    /*font-family: Arial, Helvetica, sans-serif;*/
-    /*top: 0;*/
-    /*right: 0;*/
-    /*bottom: 0;*/
-    /*left: 0;*/
-    /*background: rgba(0,0,0,0.8);*/
-    /*z-index: 99999;*/
-    /*opacity:0;*/
-    /*-webkit-transition: opacity 400ms ease-in;*/
-    /*-moz-transition: opacity 400ms ease-in;*/
-    /*transition: opacity 400ms ease-in;*/
-    /*pointer-events: none;*/
-/*}*/
-
 .navbar .beta {
     font-size: 0.5em;
     padding-left: 2px;
@@ -98,6 +82,24 @@ h4 hr,h2 hr, .sectionHeader hr {
 
 
 /*Specific*/
+
+.showSectionHeader {
+    color: white;
+    background-color: #1aae88;
+    font-weight: bold;
+    margin-bottom: 5px;
+    /*border: solid 1px #ffff00;*/
+}
+
+.showSectionHeaderWithTopMargin {
+    color: white;
+    background-color: #1aae88;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    /*border: solid 1px #ffff00;*/
+}
+
 .tableDiv {
 	margin-bottom: 30px;
 }
@@ -153,45 +155,6 @@ form.autoPopulatePillContainer {
 
 .comment-container {
     margin-bottom: 10px;
-}
-
-/*.streamLink {*/
-    /*margin: 5px 5px 5px 0;*/
-    /*padding: 3px 3px 8px 3px;*/
-    /*font-size: 1em;*/
-    /*display: inline-block;*/
-    /*word-wrap: normal;*/
-/*}*/
-.streamLink {
-    border-radius: 4px;
-    cursor: pointer;
-    text-align: center;
-    font-size: 1.8em;
-    height: 60px;
-    /*background: #AA4E4E;*/
-    color: #FFF;
-    padding-top: 15px;
-}
-
-.streamLink.biology {
-    border: solid 1px #bd4848;
-    background: #bd4848;
-}
-.streamLink.commerce {
-    border: solid 1px #728231;
-    background: #728231;
-}
-.streamLink.engineering {
-    border: solid 1px #3e3eb3;
-    background: #3e3eb3;
-}
-.streamLink.arts {
-    border: solid 1px #8c4380;
-    background: #8c4380;
-}
-
-.streamLinkComposite {
-    margin: 20px 0;
 }
 
 .searchNav {

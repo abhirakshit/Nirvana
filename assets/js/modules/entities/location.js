@@ -7,7 +7,15 @@ define([], function(){
         Entities.Location = Entities.Model.extend({
             urlRoot: Entities.locationUrl,
             validation: {
-                name: {required: true}
+                name: {
+                    required: true,
+                    fn: 'doesNotExist'
+                }
+            },
+
+            doesNotExist: function (value, attr, computedState) {
+                if (_.contains(computedState.existingNames, value))
+                    return "Location already exists";
             }
         });
 

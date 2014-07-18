@@ -9,8 +9,9 @@ define([
                 });
             }
         };
-        Application.commands.setHandler(Application.SETTINGS_PROFILE, function(contentRegion){
-            API.show(contentRegion);
+
+        Application.commands.setHandler(Application.SETTINGS_PROFILE, function(region){
+            API.show(region);
         });
     })
 });

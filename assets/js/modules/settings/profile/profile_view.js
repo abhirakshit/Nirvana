@@ -54,7 +54,6 @@ define([], function () {
 
         Profile.setupEditableBox = function(el, model, id, emptyText, initialValue, type, source, placement){
             var successCB = function (response, value) {
-                console.log("[" + id + ":" + value + "]");
                 model.save(id, value, {
                     wait: true,
                     patch: true,
@@ -73,5 +72,27 @@ define([], function () {
             Application.Views.setupEditableBox(el, id, emptyText, initialValue, type, source, placement, successCB);
         };
 
+        Profile.views.ChangePassword = Application.Views.ItemView.extend({
+            template: "settings/templates/change_password",
+            events: {
+                "click #update": "changePassword"
+            },
+
+            onRender: function() {
+                Backbone.Validation.bind(this);
+            },
+
+            changePassword: function(event) {
+                event.preventDefault();
+                var data = Backbone.Syphon.serialize(this);
+                this.model.set(data);
+
+                var isValid = this.model.isValid(true);
+                if (isValid) {
+                    Application.Views.hideModal(Profile.changePasswordModalFormId);
+                    this.trigger(Profile.changePasswordEvt, this, data);
+                }
+            }
+        });
     })
 });

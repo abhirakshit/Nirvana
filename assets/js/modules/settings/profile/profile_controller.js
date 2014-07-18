@@ -6,8 +6,6 @@ define([
         Profile.Controller = Application.Controllers.Base.extend({
             initialize: function() {
                 var user = Application.request(Application.GET_LOGGED_USER);
-                var allTopics = Application.request(Application.GET_TOPICS);
-                var allServices = Application.request(Application.GET_SERVICES);
 
                 this.layout = this.getLayout();
 
@@ -18,7 +16,7 @@ define([
 
                 this.show(this.layout, {
                     loading: {
-                        entities: [user, allTopics, allServices]
+                        entities: [user]
                     }
                 });
             },
@@ -64,8 +62,6 @@ define([
                 });
                 Application.modalRegion.show(changePasswordModalView);
             },
-
-
 
             getLayout: function () {
                 return new Profile.views.Layout();

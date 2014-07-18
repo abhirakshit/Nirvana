@@ -231,9 +231,9 @@ require(dependencies,
                 "modules/topics/topics_app",
                 "modules/settings/settings_app",
                 "modules/students/students_app",
-                "modules/staff/staff_app",
+                "modules/staff/staff_app"
                // "modules/student/student_app",
-                "modules/payments/payments_app"
+//                "modules/payments/payments_app"
 
             ], function () {
                 console.log("Start Application...");

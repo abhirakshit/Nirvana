@@ -7,7 +7,15 @@ define([], function(){
         Entities.Country = Entities.Model.extend({
             urlRoot: Entities.countryUrl,
             validation: {
-                name: {required: true}
+                name: {
+                    required: true,
+                    fn: 'doesNotExist'
+                }
+            },
+
+            doesNotExist: function (value, attr, computedState) {
+                if (_.contains(computedState.existingNames, value))
+                    return "Country already exists";
             }
         });
 

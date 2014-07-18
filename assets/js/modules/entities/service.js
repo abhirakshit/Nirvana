@@ -1,12 +1,21 @@
-define([], function(){
-    Application.module("Entities", function(Entities, Application, Backbone, Marionette, $, _) {
+define([], function () {
+    Application.module("Entities", function (Entities, Application, Backbone, Marionette, $, _) {
 
         Entities.serviceUrl = "/service";
 
         Entities.Service = Entities.Model.extend({
             urlRoot: Entities.serviceUrl,
             validation: {
-                name: {required: true}
+                name: {
+                    required: true,
+                    fn: 'doesNotExist'
+                }
+
+            },
+
+            doesNotExist: function (value, attr, computedState) {
+                if (_.contains(computedState.existingNames, value))
+                    return "Service already exists";
             }
         });
 
@@ -16,7 +25,7 @@ define([], function(){
         });
 
         var API = {
-            getService: function(serviceId) {
+            getService: function (serviceId) {
                 if (!serviceId)
                     return new Entities.Service();
 
@@ -26,7 +35,7 @@ define([], function(){
                 return service;
             },
 
-            getServiceName: function(serviceId) {
+            getServiceName: function (serviceId) {
                 if (!serviceId) {
                     console.log("Need service Id.")
                     return "";
@@ -40,8 +49,8 @@ define([], function(){
                 return service.get('name');
             },
 
-            getAllServices: function() {
-                if (!Entities.allServices){
+            getAllServices: function () {
+                if (!Entities.allServices) {
                     Entities.allServices = new Entities.ServiceCollection();
                     Entities.allServices.fetch();
                 }
@@ -49,15 +58,15 @@ define([], function(){
             }
         };
 
-        Application.reqres.setHandler(Application.GET_SERVICES, function(update){
+        Application.reqres.setHandler(Application.GET_SERVICES, function (update) {
             return API.getAllServices(update);
         });
 
-        Application.reqres.setHandler(Application.GET_SERVICE, function(serviceId){
+        Application.reqres.setHandler(Application.GET_SERVICE, function (serviceId) {
             return API.getService(serviceId);
         });
 
-        Application.reqres.setHandler(Application.GET_SERVICE_NAME, function(serviceId){
+        Application.reqres.setHandler(Application.GET_SERVICE_NAME, function (serviceId) {
             return API.getServiceName(serviceId);
         });
     })

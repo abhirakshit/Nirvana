@@ -10,7 +10,6 @@ define([
                 "settings/": "show",
                 "settings/:tabId": "show",
                 "settings/:tabId/": "show"
-
             }
         });
 
@@ -42,6 +41,7 @@ define([
         });
 
         Application.commands.setHandler(Application.SETTINGS_SHOW, function(){
+            console.log("Settings show...");
             API.show();
             Application.navigate(Settings.rootRoute);
         });
