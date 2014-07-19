@@ -34,7 +34,7 @@ define([
                 var compModel = new Application.Entities.Model({
                     modalId: addLocationModalId,
                     headerText: "Locations",
-                    headerClass: "showSectionHeader",
+                    headerClass: "showSectionHeader col-md-12",
                     btnText: "Add Location"
                 });
 
@@ -60,8 +60,8 @@ define([
                         existingNames: allLocations.pluck('name')
                     });
 
-                    addLocationModalView.on(Admin.createEducationEvt, function (data) {
-                        newLocation.save(data, {
+                    addLocationModalView.on(Admin.createMetaEvt, function () {
+                        newLocation.save([], {
                             wait: true,
                             patch: true,
                             success: function (location) {
@@ -85,7 +85,7 @@ define([
                 var compModel = new Application.Entities.Model({
                     modalId: addServiceModalId,
                     headerText: "Services",
-                    headerClass: "showSectionHeaderWithTopMargin",
+                    headerClass: "showSectionHeaderWithTopMargin col-md-12",
                     btnText: "Add Service"
                 });
 
@@ -111,8 +111,8 @@ define([
                         existingNames: allServices.pluck('name')
                     });
 
-                    addServiceModalView.on(Admin.createEducationEvt, function (data) {
-                        newService.save(data, {
+                    addServiceModalView.on(Admin.createMetaEvt, function () {
+                        newService.save([], {
                             wait: true,
                             patch: true,
                             success: function (service) {
@@ -136,7 +136,7 @@ define([
                 var compModel = new Application.Entities.Model({
                     modalId: addCountryModalId,
                     headerText: "Countries",
-                    headerClass: "showSectionHeader",
+                    headerClass: "showSectionHeader col-md-12",
                     btnText: "Add Country"
                 });
 
@@ -162,8 +162,8 @@ define([
                         existingNames: allCountries.pluck('name')
                     });
 
-                    addCountryModalView.on(Admin.createEducationEvt, function (data) {
-                        newCountry.save(data, {
+                    addCountryModalView.on(Admin.createMetaEvt, function () {
+                        newCountry.save([], {
                             wait: true,
                             patch: true,
                             success: function (country) {
@@ -187,7 +187,7 @@ define([
                 var compModel = new Application.Entities.Model({
                     modalId: addStatusModalId,
                     headerText: "Status Types",
-                    headerClass: "showSectionHeaderWithTopMargin",
+                    headerClass: "showSectionHeaderWithTopMargin col-md-12",
                     btnText: "Add Status"
                 });
 
@@ -203,7 +203,7 @@ define([
                 });
 
                 this.listenTo(statusTypeView, Admin.showAddModalEvt, function () {
-                    var newStatus = Application.request(Application.GET_COUNTRY);
+                    var newStatus = Application.request(Application.GET_STATUS);
 
                     var addStatusModalView = new Admin.views.AddModalForm({
                         model: newStatus,
@@ -213,8 +213,8 @@ define([
                         existingNames: allStatusTypes.pluck('name')
                     });
 
-                    addStatusModalView.on(Admin.createEducationEvt, function (data) {
-                        newStatus.save(data, {
+                    addStatusModalView.on(Admin.createMetaEvt, function () {
+                        newStatus.save([], {
                             wait: true,
                             patch: true,
                             success: function (country) {

@@ -26,6 +26,7 @@ define([
                 var data = this.model.toJSON();
                 data.serviceNames = _.pluck(data.services, 'name').join(', ');
                 data.staffNames = _.pluck(data.staff, 'name').join(', ');
+                data.locationNames = _.pluck(data.locations, 'name').join(', ');
                 return data;
             },
 

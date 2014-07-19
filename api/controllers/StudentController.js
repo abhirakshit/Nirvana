@@ -58,11 +58,11 @@ getCommentStrFromUpdateFields = function (updateFields, student) {
 /**
  * Updates services for a enquiry.
  */
-updateServices = function (id, staffId, updatedServiceIdArr, res) {
+updateServices = function (studentId, staffId, updatedServiceIdArr, res) {
 
     async.waterfall([
         function (callback) {
-            Student.findOne(id).populate('services').exec(function (err, student) {
+            Student.findOne(studentId).populate('services').exec(function (err, student) {
 
                 var existingServiceIdArr = _.map(student.services, function (service) {
                     return service.id;
@@ -99,30 +99,25 @@ updateServices = function (id, staffId, updatedServiceIdArr, res) {
                     addedServiceNameArr.push(serviceName);
                 });
 
-                var commentStr = "";
-                var commentType = "";
+                var comments = [];
                 if (addedServiceNameArr.length > 0) {
-                    commentStr = "<b>Service(s):</b> " + stringCleanUp(addedServiceNameArr);
-//                    commentType = "add";
-                    commentType = consts.COMMENT_ADD;
+                    var commentStr = "<b>Service(s):</b> " + stringCleanUp(addedServiceNameArr);
+                    comments.push({comment: commentStr, type: consts.COMMENT_ADD, added: staffId, received: studentId})
                 }
 
                 if (removedServiceNameArr.length > 0) {
-                    if (addedServiceNameArr.length > 0)
-                        commentStr = commentStr + "<br />";
-
-                    commentStr = commentStr + "<b>Service(s):</b> " + stringCleanUp(removedServiceNameArr);
-                    commentType = consts.COMMENT_REMOVE;
+                    var commentStr = "<b>Service(s):</b> " + stringCleanUp(removedServiceNameArr);
+                    comments.push({comment: commentStr, type: consts.COMMENT_REMOVE, added: staffId, received: studentId})
                 }
 
-                callback(null, commentStr, commentType);
+                callback(null, comments);
             });
         },
-        function (commentStr, commentType, callback) {
-            UserService.createComment(staffId, id, commentStr, commentType, callback);
+        function (comments, callback) {
+            UserService.createComments(comments, callback);
         },
-        function (studentId, newComment, callback) {
-            UserService.getStudent(id, callback);
+        function (newComment, callback) {
+            UserService.getStudent(studentId, callback);
         }
 
     ], function (err, student) {
@@ -140,11 +135,11 @@ updateServices = function (id, staffId, updatedServiceIdArr, res) {
 /**
  * Updates countries for a user.
  */
-updateCountries = function (id, staffId, updatedCountryIdArr, res) {
+updateCountries = function (studentId, staffId, updatedCountryIdArr, res) {
 
     async.waterfall([
         function (callback) {
-            Student.findOne(id).populate('countries').exec(function (err, student) {
+            Student.findOne(studentId).populate('countries').exec(function (err, student) {
 
                 var existingCountriesIdArr = _.map(student.countries, function (country) {
                     return country.id
@@ -180,29 +175,26 @@ updateCountries = function (id, staffId, updatedCountryIdArr, res) {
                     addedCountryNameArr.push(countryName);
                 });
 
-                var commentStr = "";
-                var commentType = "";
+
+                var comments = [];
                 if (addedCountryNameArr.length > 0) {
-                    commentStr = "<b>Countries:</b> " + stringCleanUp(addedCountryNameArr);
-                    commentType = consts.COMMENT_ADD;
+                    var commentStr = "<b>Country:</b> " + stringCleanUp(addedCountryNameArr);
+                    comments.push({comment: commentStr, type: consts.COMMENT_ADD, added: staffId, received: studentId})
                 }
 
                 if (removedCountryNameArr.length > 0) {
-                    if (addedCountryNameArr.length > 0)
-                        commentStr = commentStr + "<br />";
-
-                    commentStr = commentStr + "<b>Countries:</b> " + stringCleanUp(removedCountryNameArr);
-                    commentType = consts.COMMENT_REMOVE;
+                    var commentStr = "<b>Country:</b> " + stringCleanUp(removedCountryNameArr);
+                    comments.push({comment: commentStr, type: consts.COMMENT_REMOVE, added: staffId, received: studentId})
                 }
 
-                callback(null, commentStr, commentType);
+                callback(null, comments);
             });
         },
-        function (commentStr, commentType, callback) {
-            UserService.createComment(staffId, id, commentStr, commentType, callback);
+        function (comments, callback) {
+            UserService.createComments(comments, callback);
         },
-        function (studentId, newComment, callback) {
-            UserService.getStudent(id, callback);
+        function (newComment, callback) {
+            UserService.getStudent(studentId, callback);
         }
 
     ],
@@ -263,14 +255,95 @@ updateEnquiryStatus = function (id, staffId, newEnquiryStatusId, res) {
     );
 };
 
+
 /**
- * Updates Staff for a user.
+ * Updates Locations for a user.
  */
-updateStaff = function (id, staffId, updatedStaffIdArr, res) {
+updateLocations = function (studentId, staffId, updatedLocationsIdArr, res) {
     async.waterfall(
         [
             function (callback) {
-                Student.findOne(id).populate('staff').exec(function (err, student) {
+                Student.findOne(studentId).populate('locations').exec(function (err, student) {
+                    var existingLocationsIdArr = _.map(student.locations, function (location) {
+                        return location.id
+                    });
+                    var toRemove = _.difference(existingLocationsIdArr, updatedLocationsIdArr);
+                    var toAdd = _.difference(updatedLocationsIdArr, existingLocationsIdArr);
+
+                    //Remove all
+                    _.forEach(toRemove, function (id) {
+                        student.locations.remove(id);
+                    });
+
+                    //Add new
+                    _.forEach(toAdd, function (id) {
+                        student.locations.add(id);
+                    });
+
+                    student.save(function (err, s) {
+                        if (err) callback(err);
+                        callback(null, toRemove, toAdd, s);
+                    });
+                });
+            },
+
+            //Create comment string
+            function (locationsRemoved, locationsAdded, student, callback) {
+                Location.find().exec(function (err, allLocations) {
+                    var addedLocationNameArr = [];
+                    var removedLocationNameArr = [];
+                    _.forEach(locationsRemoved, function (locationId) {
+                        var locationName = _.find(allLocations, {'id': locationId}).name;
+                        if (locationName)
+                            removedLocationNameArr.push(locationName);
+                    });
+
+                    _.forEach(locationsAdded, function (locationId) {
+                        var locationName = _.find(allLocations, {'id': locationId}).name;
+                        if (locationName)
+                            addedLocationNameArr.push(locationName);
+                    });
+
+                    var comments = [];
+                    if (addedLocationNameArr.length > 0) {
+                        var commentStr = "<b>Location(s):</b> " + stringCleanUp(addedLocationNameArr);
+                        comments.push({comment: commentStr, type: consts.COMMENT_ADD, added: staffId, received: studentId})
+                    }
+
+                    if (removedLocationNameArr.length > 0) {
+                        var commentStr = "<b>Location(s):</b> " + stringCleanUp(removedLocationNameArr);
+                        comments.push({comment: commentStr, type: consts.COMMENT_REMOVE, added: staffId, received: studentId})
+                    }
+
+                    callback(null, comments);
+                });
+            },
+            function (comments, callback) {
+                UserService.createComments(comments, callback);
+            },
+            function (newComment, callback) {
+                UserService.getStudent(studentId, callback);
+            }
+        ],
+        function (err, student) {
+            if (err) {
+                console.log(err);
+                return err;
+            }
+            return res.json(student);
+        }
+    );
+};
+
+
+/**
+ * Updates Staff for a user.
+ */
+updateStaff = function (studentId, staffId, updatedStaffIdArr, res) {
+    async.waterfall(
+        [
+            function (callback) {
+                Student.findOne(studentId).populate('staff').exec(function (err, student) {
                     var existingCounselorIdArr = _.map(student.staff, function (staff) {
                         return staff.id
                     });
@@ -310,30 +383,25 @@ updateStaff = function (id, staffId, updatedStaffIdArr, res) {
                             addedStaffNameArr.push(staffName);
                     });
 
-                    var commentStr = "";
-                    var commentType = "";
+                    var comments = [];
                     if (addedStaffNameArr.length > 0) {
-                        commentStr = "<b>Staff:</b> " + stringCleanUp(addedStaffNameArr);
-//                        commentType = "add";
-                        commentType = consts.COMMENT_ADD;
+                        var commentStr = "<b>Staff:</b> " + stringCleanUp(addedStaffNameArr);
+                        comments.push({comment: commentStr, type: consts.COMMENT_ADD, added: staffId, received: studentId})
                     }
 
                     if (removedStaffNameArr.length > 0) {
-                        if (addedStaffNameArr.length > 0)
-                            commentStr = commentStr + "<br />";
-
-                        commentStr = commentStr + "<b>Staff:</b> " + stringCleanUp(removedStaffNameArr);
-                        commentType = consts.COMMENT_REMOVE;
+                        var commentStr = "<b>Staff:</b> " + stringCleanUp(removedStaffNameArr);
+                        comments.push({comment: commentStr, type: consts.COMMENT_REMOVE, added: staffId, received: studentId})
                     }
 
-                    callback(null, commentStr, commentType);
+                    callback(null, comments);
                 });
             },
-            function (commentStr, commentType, callback) {
-                UserService.createComment(staffId, id, commentStr, commentType, callback);
+            function (comments, callback) {
+                UserService.createComments(comments, callback);
             },
-            function (studentId, newComment, callback) {
-                UserService.getStudent(id, callback);
+            function (newComment, callback) {
+                UserService.getStudent(studentId, callback);
             }
         ],
         function (err, student) {
@@ -614,6 +682,12 @@ module.exports = {
                 return parseInt(stringId);
             });
             updateStaff(id, staffId, staffIds, res);
+        } else if (req.body.locations) {
+            //Counselors
+            var locationIds = _.map(req.body.locations, function (stringId) {
+                return parseInt(stringId);
+            });
+            updateLocations(id, staffId, locationIds, res);
         } else if (req.body.enquiryStatus) {
             //enquiryStatus
             updateEnquiryStatus(id, staffId, parseInt(req.body.enquiryStatus), res);
@@ -660,7 +734,6 @@ module.exports = {
                 },
                 //Get updated student
                 function (studentId, comment, callback) {
-//                    console.log("Get updated student");
                     UserService.getStudent(id, callback);
                 }
             ],
@@ -705,7 +778,6 @@ module.exports = {
     },
 
     getEnquiries: function (req, res) {
-//        EnquiryStatus.find().where({name: ['Enrolled', 'Closed']}).exec(function(err, enqStatusList){
         EnquiryStatus.find().where({name: [consts.ENQ_STATUS_ENROLLED, consts.ENQ_STATUS_CLOSED]}).exec(function (err, enqStatusList) {
             var enrolledId, closedId;
             while (enqStatusList.length) {
@@ -732,7 +804,6 @@ module.exports = {
         });
     },
 
-
     getClosedEnquiries: function (req, res) {
         EnquiryStatus.findOne().where({name: consts.ENQ_STATUS_CLOSED}).exec(function (err, enqStatus) {
             Student.find({enquiryStatus: enqStatus.id})
@@ -751,16 +822,18 @@ module.exports = {
             Student.find({enquiryStatus: enqStatusEnrolled.id})
                 .populate('services')
                 .populate('countries')
+                .populate('locations')
                 .populate('staff')
                 .populate('enquiryStatus').
                 exec(function (err, enrolledStudents) {
                     res.json(enrolledStudents);
+
+
                 });
         })
     },
 
     getEnrollments: function (req, res) {
-
         var id = req.param('id');
         if (!id) {
             return res.badRequest('No id provided.');
@@ -827,7 +900,6 @@ module.exports = {
     },
 
     getTotalPayments: function (req, res) {
-
         // get all payments for all students
         //loop through all payments and sum amounts by enroll_id 
         // loop through all the 
@@ -842,13 +914,10 @@ module.exports = {
             var paid = {};
 
             async.each(enrollmentList, function (enroll, callback) {
-
                 Enroll.findOne(enroll.id).populate('payments').populate('service').exec(function (err, enr) {
-
                     var sum = _.reduce(_.pluck(enr.payments, 'amount'), function (mem, payment) {
                         return Number(mem) + Number(payment);
                     });
-
 
                     if (!sum) {
                         sum = 0;
@@ -859,8 +928,6 @@ module.exports = {
                     enrollmentCollection.push(enr);
                     callback();
                 });
-
-
             }, function (err) {
                 if (err) {
                     console.log("Could not process payment information. " + err);
@@ -885,13 +952,8 @@ module.exports = {
                 payment.totalFee = totalFee;
                 payment.totalPaid = totalPaid;
                 payment.totalDue = totalDue;
-
-
-                console.log('Total Due: ' + totalDue + ' Total Paid: ' + totalPaid + ' Total Fee: ' + totalFee);
-
+//                console.log('Total Due: ' + totalDue + ' Total Paid: ' + totalPaid + ' Total Fee: ' + totalFee);
                 res.json(payment);
-
-
             });
 
         });

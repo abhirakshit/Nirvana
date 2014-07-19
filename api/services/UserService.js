@@ -3,6 +3,18 @@ var _ = require('lodash'),
     moment = require('moment');
 
 module.exports = {
+    createComments : function(comments, cb) {
+        Comment.create(comments).exec(function(err, newComments){
+            if (err || !newComments) {
+                console.log("Could not create comment: " + newComments + "\n" + err);
+                cb(err);
+            }
+
+//            console.log(newComments);
+            cb(null, newComments);
+        });
+    },
+
     createComment : function(staffId, studentId, commentStr, commentType, cb) {
         var commentAttribs = {
             comment: commentStr,

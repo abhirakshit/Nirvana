@@ -220,6 +220,7 @@ define([
 
             setupAdminView: function() {
                 Show.setupSelect2EditableBox(this.$el, this.model, "staff", this.options.allStaff, "Assigned To", this.options.addedStaff);
+                Show.setupSelect2EditableBox(this.$el, this.model, "locations", this.options.allLocations, "Add Location", this.options.addedLocations);
                 Show.setupEditableBox(this.$el, this.model, "enquiryStatus", "Add Status", this.model.get('enquiryStatus').id, 'select', this.options.allStatus);
                 Show.setupEditableBox(this.$el, this.model, "remarks", "Enter Remarks", this.model.get('remarks'), 'textarea');
                 Show.setupEditableBox(this.$el, this.model, "source", "Enter Source", this.model.get('source'), 'text');

@@ -24,19 +24,31 @@ define([
                 var allServices = Application.request(Application.GET_SERVICES);
                 var allStaff = Application.request(Application.GET_ALL_STAFF);
                 var allStatus = Application.request(Application.GET_STATUS_All);
+                var allLocations = Application.request(Application.GET_LOCATIONS);
                 var studentEnrollments = Application.request(Application.GET_STUDENT_ENROLLMENTS, this.options.studentId);
 
                 this.layout = this.getLayout();
 
                 this.listenTo(this.layout, Application.SHOW, function () {
 //                    console.dir(allStudents);
-                    this.showStudent(student, allCountries, allServices, allStaff, allStatus, studentComments, studentEnrollments)
+//                    this.showStudent(student, allCountries, allServices, allStaff, allStatus, studentComments, studentEnrollments)
+                    this.showPersonalView(student);
+
+                    this.showAcademicView(student);
+
+                    this.showCareerView(student, allCountries, allServices);
+
+                    this.showAdminView(student, allStaff, allStatus, allLocations);
+
+                    this.showHistoryView(student, studentComments);
+
+                    this.showEnrollmentView(student, allServices, studentEnrollments);
                 });
 
 
                 this.show(this.layout, {
                     loading: {
-                        entities: [student, allCountries, allServices, allStaff, allStatus, studentEnrollments]
+                        entities: [student, allCountries, allServices, allStaff, allStatus, studentEnrollments, allLocations]
                     }
                 });
 
@@ -47,22 +59,22 @@ define([
                 });
             },
 //
-            showStudent: function (student, allCountries, allServices, allStaff, allStatus, studentComments, studentEnrollments) {
-
-                this.showPersonalView(student);
-
-                this.showAcademicView(student);
-
-                this.showCareerView(student, allCountries, allServices);
-
-                this.showAdminView(student, allStaff, allStatus);
-
-                this.showHistoryView(student, studentComments);
-
-                this.showEnrollmentView(student, allServices, studentEnrollments);
-//                this.showEnrollmentView(student, allServices);
-
-            },
+//            showStudent: function (student, allCountries, allServices, allStaff, allStatus, studentComments, studentEnrollments) {
+//
+//                this.showPersonalView(student);
+//
+//                this.showAcademicView(student);
+//
+//                this.showCareerView(student, allCountries, allServices);
+//
+//                this.showAdminView(student, allStaff, allStatus);
+//
+//                this.showHistoryView(student, studentComments);
+//
+//                this.showEnrollmentView(student, allServices, studentEnrollments);
+////                this.showEnrollmentView(student, allServices);
+//
+//            },
 
             showPersonalView: function (student) {
                 var personalView = new Show.views.Personal({
@@ -73,12 +85,7 @@ define([
             },
 
             showEnrollmentView: function (student, allServices, studentEnrollments) {
-//            showEnrollmentView: function(student, allServices){
-
-//                var enrollCollection = new Application.Entities.EnrollCollection(student.get('enrollments'));
-//                var studentEnrollments = new Application.Entities.EnrollCollection(student.get('enrollments'));
-                var addedServices = new Application.Entities.ServiceCollection(student.get('services'));
-//                var addedServicesIdList = addedServices.pluck("id");
+//                var addedServices = new Application.Entities.ServiceCollection(student.get('services'));
 
                 var that = this;
                 var enrollView = new Show.views.EnrollComposite({
@@ -89,7 +96,7 @@ define([
                 this.layout.enrollmentRegion.show(enrollView);
 
                 enrollView.on(Show.showAddEnrollModalEvt, function (view) {
-                    console.log("Enroll modal!!!");
+//                    console.log("Enroll modal!!!");
                     var newEnroll = Application.request(Application.GET_ENROLLMENT);
                     newEnroll.attributes.modalId = Show.addEnrollFormId;
 
@@ -256,13 +263,20 @@ define([
                 this.layout.historyRegion.show(historyView);
             },
 
-            showAdminView: function (student, allStaff, allStatus) {
+            showAdminView: function (student, allStaff, allStatus, allLocations) {
                 var addedStaff = new Application.Entities.StaffCollection(student.get('staff'));
                 var addedStaffIdList = addedStaff.pluck("id");
+
+                var addedLocations = new Application.Entities.LocationCollection(student.get('locations'));
+                var addedLocationIdList = addedLocations.pluck("id");
+
+
                 var adminView = new Show.views.Admin({
                     model: student,
                     allStaff: allStaff.getIdToTextMap('name'),
                     addedStaff: addedStaffIdList,
+                    allLocations: allLocations.getIdToTextMap('name'),
+                    addedLocations: addedLocationIdList,
                     allStatus: allStatus.getValueToTextMap('name')
                 });
                 this.layout.adminRegion.show(adminView);
