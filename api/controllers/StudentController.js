@@ -755,7 +755,9 @@ module.exports = {
         }
 
         Student.findOne(id).populate('commentsReceived').exec(function (err, student) {
+  
             var commentsReceived = student.commentsReceived;
+
             var commentCollection = [];
             async.each(commentsReceived, function (comment, callback) {
                 Comment.findOne(comment.id).populate('added').exec(function (err, comm) {
@@ -824,11 +826,11 @@ module.exports = {
                 .populate('countries')
                 .populate('locations')
                 .populate('staff')
-                .populate('enquiryStatus').
+                .populate('enquiryStatus')
+                .populate('enrollments').
                 exec(function (err, enrolledStudents) {
                     
         var  studentCollection = [];
-
 
         async.each(enrolledStudents, function (student, callback) {
 
@@ -838,8 +840,7 @@ module.exports = {
             return res.badRequest('No id provided.');
         }
 
-        Student.findOne(id).populate('enrollments').exec(function (err, enrolled) {
-            var enrollmentList = enrolled.enrollments;
+            var enrollmentList = student.enrollments;
             var enrollmentCollection = [];
 
             var paid = {};
@@ -880,9 +881,22 @@ module.exports = {
                     return Number(mem) + Number(totalFee);
                 });
 
-                student.totalFee = Number(totalFee);
-                student.totalPaid = Number(totalPaid);
-                student.totalDue = totalDue;
+                if(totalFee === null) {
+                    totalFee = 0;
+                } else {
+                student.totalFee = Number(totalFee);}
+                      if(totalPaid === null) {
+                    totalPaid = 0;
+                } else {
+                student.totalPaid = Number(totalPaid);}
+
+                if(totalDue === null) {
+                    totalDue = 0;
+                } else {
+                student.totalDue = Number(totalDue);}    
+
+                //student.totalPaid = Number(totalPaid);
+               // student.totalDue = totalDue;
 
 
                 studentCollection.push(student);
@@ -890,14 +904,6 @@ module.exports = {
 
 
             });
-
-
-        });
-
-
-
-
-
 
 
             }, function (err) {
@@ -924,7 +930,10 @@ module.exports = {
         }
 
         Student.findOne(id).populate('enrollments').exec(function (err, student) {
-            var enrollmentList = student.enrollments;
+           
+
+          var enrollmentList = student.enrollments;
+          
             var enrollmentCollection = [];
             var paid = {};
 
@@ -984,9 +993,7 @@ module.exports = {
     },
 
     getTotalPayments: function (req, res) {
-        // get all payments for all students
-        //loop through all payments and sum amounts by enroll_id 
-        // loop through all the 
+  
         var id = req.param('id');
         if (!id) {
             return res.badRequest('No id provided.');
