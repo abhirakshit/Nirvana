@@ -826,7 +826,91 @@ module.exports = {
                 .populate('staff')
                 .populate('enquiryStatus').
                 exec(function (err, enrolledStudents) {
-                    res.json(enrolledStudents);
+                    
+        var  studentCollection = [];
+
+
+        async.each(enrolledStudents, function (student, callback) {
+
+
+        var id = student.id;
+        if (!id) {
+            return res.badRequest('No id provided.');
+        }
+
+        Student.findOne(id).populate('enrollments').exec(function (err, enrolled) {
+            var enrollmentList = enrolled.enrollments;
+            var enrollmentCollection = [];
+
+            var paid = {};
+
+            async.each(enrollmentList, function (enroll, callback) {
+                Enroll.findOne(enroll.id).populate('payments').populate('service').exec(function (err, enr) {
+
+                    var sum = _.reduce(_.pluck(enr.payments, 'amount'), function (mem, payment) {
+                        return Number(mem) + Number(payment);
+                    });
+
+                    if (!sum) {
+                        sum = 0;
+                    }
+                    enr.totalPaid = sum;
+                    enr.due = Number(enr.totalFee) - Number(enr.totalPaid);
+
+                    enrollmentCollection.push(enr);
+                    callback();
+                });
+            }, function (err) {
+                if (err) {
+                    console.log("Could not process payment information. " + err);
+                    res.badRequest("Could not process payment information. " + err);
+                }
+
+                var payment = {};
+
+                var totalDue = _.reduce(_.pluck(enrollmentCollection, 'due'), function (mem, due) {
+                    return Number(mem) + Number(due);
+                });
+
+                var totalPaid = _.reduce(_.pluck(enrollmentCollection, 'totalPaid'), function (mem, totalPaid) {
+                    return Number(mem) + Number(totalPaid);
+                });
+
+                var totalFee = _.reduce(_.pluck(enrollmentCollection, 'totalFee'), function (mem, totalFee) {
+                    return Number(mem) + Number(totalFee);
+                });
+
+                student.totalFee = Number(totalFee);
+                student.totalPaid = Number(totalPaid);
+                student.totalDue = totalDue;
+
+
+                studentCollection.push(student);
+                callback();
+
+
+            });
+
+
+        });
+
+
+
+
+
+
+
+            }, function (err) {
+                if (err) {
+                    console.log("Could not process payment information. " + err);
+                    res.badRequest("Could not process payment information. " + err);
+                }
+                  //  console.log(studentCollection);
+                res.json(studentCollection);
+
+
+                });
+
 
 
                 });
