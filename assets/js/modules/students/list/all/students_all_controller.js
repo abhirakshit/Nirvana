@@ -37,7 +37,11 @@ define([
 //                this.setupTableView(allStudents, columns, "Students", "allTable", this.layout.studentsRegion, allServices);
 
                 var that = this;
-                var tableComposite = this.getTableView("allTable", "Students", headerColumns, allStudents);
+    var title = '<i style="color: green;" class="i i-users3"></i>&nbsp;Students';
+
+
+
+                var tableComposite = this.getTableView("allTable", title, headerColumns, allStudents);
                 this.listenTo(tableComposite, Application.STUDENT_SHOW, function(studentId){
                     Application.execute(Application.STUDENT_SHOW, that.options.region, studentId);
                 });

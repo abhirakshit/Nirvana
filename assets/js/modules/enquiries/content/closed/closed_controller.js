@@ -32,7 +32,11 @@ define([
                     new Application.Entities.Model({columnName: "Assigned To"})
                 ]);
 //                this.setUpEnquiryTableView(closedEnquiries.models, columns, "Closed Enquiries", "closedTable", this.layout.pendingEnquiriesRegion);
-                this.setUpEnquiryTableView(closedEnquiries, columns, "Closed Enquiries", "closedTable", this.layout.pendingEnquiriesRegion);
+        
+     
+        var title = '<i style="color: red;" class="fa fa-sort-alpha-asc"></i>&nbsp;Closed Enquiries';
+
+         this.setUpEnquiryTableView(closedEnquiries, columns, title, "closedTable", this.layout.pendingEnquiriesRegion);
             },
 
             setUpEnquiryTableView: function(rows, headerColumns, tableTitle, tableId, region) {

@@ -56,7 +56,7 @@ define([
                     new Application.Entities.Model({columnName: "Status"}),
                     new Application.Entities.Model({columnName: "Assigned To"})
                 ]);
-                var title = 'Pending Enquiries&nbsp;<i style="color: red;" class="fa fa-exclamation-triangle"></i>';
+                var title = '<i style="color: red;" class="fa fa-exclamation-triangle"></i>&nbsp;Pending Enquiries';
 //                this.setUpEnquiryTableView(pendingModels, pendingColumns, "Pending Enquiries", "pendingTable",this.layout.pendingEnquiriesRegion);
                 this.setUpEnquiryTableView(pendingModels, pendingColumns, title, "pendingTable",this.layout.pendingEnquiriesRegion);
 
@@ -74,7 +74,10 @@ define([
                     new Application.Entities.Model({columnName: "Status"}),
                     new Application.Entities.Model({columnName: "Assigned To"})
                 ]);
-                this.setUpEnquiryTableView(todaysModels, todaysColumns, "Todays Enquiries", "todaysTable", this.layout.todaysEnquiriesRegion);
+                
+     var todaysEnquiries = '<i style="color: green;" class="i i-phone2"></i>&nbsp;Todays Enquiries'
+
+        this.setUpEnquiryTableView(todaysModels, todaysColumns, todaysEnquiries, "todaysTable", this.layout.todaysEnquiriesRegion);
 
                 //Future
                 var futureModels = _.filter(allEnquiries.models, function(student){
@@ -82,7 +85,9 @@ define([
 //                    return moment().isBefore(student.get('followUp'));
                 });
 
-                this.setUpEnquiryTableView(futureModels, pendingColumns, "Future Enquiries", "futureTable",this.layout.futureEnquiriesRegion);
+               var futureEnquiries = '<i style="color: orange;" class="i i-paperplane"></i>&nbsp;Future Enquiries'
+
+                this.setUpEnquiryTableView(futureModels, pendingColumns, futureEnquiries, "futureTable",this.layout.futureEnquiriesRegion);
             },
 
             setUpEnquiryTableView: function(rowModels, headerColumns, tableTitle, tableId, region) {

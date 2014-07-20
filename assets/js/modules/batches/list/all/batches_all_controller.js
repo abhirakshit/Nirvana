@@ -35,7 +35,11 @@ define([
                     new Application.Entities.Model({columnName: "Service"}),
                     new Application.Entities.Model({columnName: "Type"})
                 ]);
-                this.setupBatchTableView(allBatches, columns, "Batches", "allTable", this.layout.batchesRegion);
+                
+        var title = '<i style="color: green;" class="fa fa-sort-amount-asc"></i>&nbsp;Batches';
+
+
+                this.setupBatchTableView(allBatches, columns, title, "allTable", this.layout.batchesRegion);
             },
 
             setupBatchTableView: function (allBatches, headerColumns, tableTitle, tableId, region) {

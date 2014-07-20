@@ -33,7 +33,10 @@ define([
                     new Application.Entities.Model({columnName: "Description"}),
                     new Application.Entities.Model({columnName: "Edit/Delete"})
                 ]);
-                this.setupTableView(allTopics, columns, "Topics", "allTable", this.layout.topicsRegion, allServices);
+                
+        var title = '<i style="color: green;" class="i i-stack"></i>&nbsp;Topics';
+
+                this.setupTableView(allTopics, columns, title, "allTable", this.layout.topicsRegion, allServices);
             },
 
             setupTableView: function(allTopics, headerColumns, tableTitle, tableId, region, allServices) {
