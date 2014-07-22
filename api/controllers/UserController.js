@@ -20,10 +20,10 @@ createStaff = function (inputFields, cb) {
             cb(err);
         }
 
-        //Attach Student to User
+        //Attach Staff to User
         inputFields.user = user.id;
 
-        // Create new student
+        // Create new staff
         Staff.create(inputFields).exec(function (err, newStaff) {
             if (err) {
                 console.log("Could not create staff: " + err);
@@ -38,7 +38,6 @@ createStaff = function (inputFields, cb) {
                 cb(newStaff);
             });
         });
-
     });
 };
 
@@ -48,7 +47,8 @@ module.exports = {
         var inputFields = _.merge({}, req.params.all(), req.body);
         console.log(inputFields);
 
-        if (inputFields.role == 'student' || inputFields.role == 'enquiry') {
+//        if (inputFields.role == 'student' || inputFields.role == 'enquiry') {
+        if (inputFields.role == consts.STUDENT || inputFields.role == consts.ENQUIRY) {
             async.waterfall([
                 function (callback) {
                     UserService.checkForEnquiryStatus(inputFields, callback);

@@ -31,7 +31,7 @@ define([
                     new Application.Entities.Model({columnName: "Location"}),
                     new Application.Entities.Model({columnName: "Enroll Date"}),
                     new Application.Entities.Model({columnName: "Service"}),
-                    new Application.Entities.Model({columnName: "Due"}),
+                    new Application.Entities.Model({columnName: "Total Due (<i class='fa fa-rupee'>)"}),
                     new Application.Entities.Model({columnName: "Assigned To"})
                 ]);
 //                this.setupTableView(allStudents, columns, "Students", "allTable", this.layout.studentsRegion, allServices);

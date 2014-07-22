@@ -19,3 +19,6 @@ consts.define('ENQ_STATUS_VISITED', 'Visited');
 consts.define('ENQ_STATUS_EWI', 'Expected Walk In');
 consts.define('ENQ_STATUS_TO_CALL', 'To Call');
 consts.define('ENQ_STATUS_ENROLLED', 'Enrolled');
+
+consts.define('STUDENT', 'student');
+consts.define('ENQUIRY', 'enquiry');

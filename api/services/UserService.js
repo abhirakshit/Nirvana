@@ -1,10 +1,11 @@
 var _ = require('lodash'),
     async = require('async'),
-    moment = require('moment');
+    moment = require('moment'),
+    consts = require('consts');
 
 module.exports = {
-    createComments : function(comments, cb) {
-        Comment.create(comments).exec(function(err, newComments){
+    createComments: function (comments, cb) {
+        Comment.create(comments).exec(function (err, newComments) {
             if (err || !newComments) {
                 console.log("Could not create comment: " + newComments + "\n" + err);
                 cb(err);
@@ -15,14 +16,14 @@ module.exports = {
         });
     },
 
-    createComment : function(staffId, studentId, commentStr, commentType, cb) {
+    createComment: function (staffId, studentId, commentStr, commentType, cb) {
         var commentAttribs = {
             comment: commentStr,
             type: commentType,
             added: staffId,
             received: studentId
         };
-        Comment.create(commentAttribs).exec(function(err, newComment){
+        Comment.create(commentAttribs).exec(function (err, newComment) {
             if (err || !newComment) {
                 console.log("Could not create comment: " + newComment + "\n" + err);
                 cb(err);
@@ -32,7 +33,7 @@ module.exports = {
         });
     },
 
-    getStudent : function (studentId, cb, populateField) {
+    getStudent: function (studentId, cb, populateField) {
         if (populateField) {
             Student.findOne(studentId).populate(populateField).exec(function (err, student) {
                 if (err) {
@@ -53,15 +54,17 @@ module.exports = {
 
     },
 
-    getCurrentStaffUserId : function (req) {
-    //    console.log("Session User");
-    //    console.log(req.session.user);
+    getCurrentStaffUserId: function (req) {
         return req.session.user.staff;
     },
 
-    checkForEnquiryStatus : function(inputFields, cb) {
+    checkForEnquiryStatus: function (inputFields, cb) {
         if (!inputFields.enquiryStatus) {
-            var defaultEnqName = 'In Progress';
+            var defaultEnqName = consts.ENQ_STATUS_IN_PROGRESS;
+            if (inputFields.role == consts.STUDENT) {
+                defaultEnqName = consts.ENQ_STATUS_ENROLLED;
+            }
+
             //If no enquiry status set to default
             EnquiryStatus.findOne({name: defaultEnqName}).exec(function (err, enqStatus) {
                 if (err || !enqStatus) {
@@ -76,9 +79,9 @@ module.exports = {
         }
     },
 
-    createStudent : function(inputFields, staffId, cb) {
+    createStudent: function (inputFields, staffId, cb) {
         inputFields.encryptedPassword = inputFields.firstName + "1234";
-        User.create(inputFields).exec(function(err, user){
+        User.create(inputFields).exec(function (err, user) {
             if (err) {
                 console.log("Could not create user: " + err);
                 cb(err);
@@ -88,20 +91,21 @@ module.exports = {
             inputFields.user = user.id;
 
             // Create new student
-            Student.create(inputFields).exec(function(err, newStudent){
-                console.log("Create student with staff id: " + staffId);
+            Student.create(inputFields).exec(function (err, newStudent) {
                 if (err) {
                     console.log("Could not create student: " + err);
                     cb(err);
                 }
 
                 //Add associations
+
                 //Check for assigned or assign current logged in
                 var staffIdArr;
                 if (inputFields.staff) {
-                    staffIdArr = _.map(inputFields.staff, function(stringId) { return parseInt(stringId); });
+                    staffIdArr = _.map(inputFields.staff, function (stringId) {
+                        return parseInt(stringId);
+                    });
                 } else {
-                    console.log("Adding staff id: " + staffId);
                     staffIdArr = [staffId];
                 }
 
@@ -112,7 +116,7 @@ module.exports = {
                 //This should be followed by getStudentById
                 newStudent.save();
 
-                User.update(user.id, {student: newStudent.id}).exec(function(err, updateduser){
+                User.update(user.id, {student: newStudent.id}).exec(function (err, updateduser) {
                     if (err) {
                         cb(err);
                     }
@@ -120,7 +124,7 @@ module.exports = {
                     cb(newStudent);
                 });
 
-    //            cb(null, newStudent.id);
+                //            cb(null, newStudent.id);
             });
 
         });
