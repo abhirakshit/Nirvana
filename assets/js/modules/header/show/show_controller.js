@@ -9,7 +9,6 @@ define([
                 this.layout = this.getLayout();
                 this.listenTo(this.layout, Application.SHOW, function(){
                     this.showAppName();
-//                    this.showAddUser();
                     this.showUserDropDown();
                 });
 
@@ -19,15 +18,6 @@ define([
             getLayout: function () {
                 return new Show.views.Layout();
             },
-
-//            showAddUser: function() {
-//                var addUserButtonView = new Show.views.AddUserBtn({
-//                    model: new Application.Entities.Model({
-//                        modalId: Show.addUserModalFormId
-//                    })
-//                });
-//                this.layout.addUserRegion.show(addUserButtonView);
-//            },
 
             showAppName: function() {
                 var appNameView = new Show.views.AppLabel({
@@ -50,6 +40,10 @@ define([
                 });
 
                 this.listenTo(userDropDownCollectionView, Application.CREATE_USER, this.createUser);
+
+                this.listenTo(userDropDownCollectionView, Application.SHOW_PROFILE, function() {
+                    Application.execute(Application.SETTINGS_SHOW);
+                });
 
                 this.show(userDropDownCollectionView, {
                     region: this.layout.userDropDownRegion
@@ -121,14 +115,14 @@ define([
             },
 
             showUser: function(user, role) {
-                if (Application.ENQUIRY_ROLE == role)
+                if (Application.ENQUIRY_ROLE == role) {
                     Application.execute(Application.ENQUIRY_SHOW, this.layout.enqContentRegion, user.id);
-                else if (Application.STUDENT_ROLE == role) {
-
+                } else if (Application.STUDENT_ROLE == role) {
+                    Application.execute(Application.STUDENT_SHOW, this.layout.enqContentRegion, user.id);
                 } else if (Application.ADMIN_ROLE == role) {
-
+                    Application.execute(Application.STAFF_SHOW, this.layout.enqContentRegion, user.id);
                 } else if (Application.STAFF_ROLE == role) {
-
+                    Application.execute(Application.STAFF_SHOW, this.layout.enqContentRegion, user.id);
                 }
             }
         })

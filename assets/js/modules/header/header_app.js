@@ -16,7 +16,6 @@ define([
 
         Header.on(Application.START, function () {
             console.log("Header start...");
-//            Marionette.TemplateLoader.loadModuleTemplates(Header.List, Header.setup);
             Marionette.TemplateLoader.loadModuleTemplates(Header.Show, Header.setup);
         });
 

@@ -47,7 +47,9 @@ define([
         });
 
 
-        var userDropDownOptionHtml = '<a href="<%=args.optionUrl%>"><i class="fa fa-<%=args.iconClass%>"></span>&nbsp<%=args.optionText%></a>';
+//        var userDropDownOptionHtml = '<a href="<%=args.optionUrl%>"><i class="fa fa-<%=args.iconClass%>"></span>&nbsp<%=args.optionText%></a>';
+        var userDropDownOptionHtml = '<a href="#"><i class="fa fa-<%=args.iconClass%>">' +
+            '</span>&nbsp<%=args.optionText%></a>';
         Show.views.UserDropDownOption = Marionette.ItemView.extend({
             tagName: "li",
 
@@ -57,7 +59,7 @@ define([
 
             template: function(serialized_model) {
                 return _.template(userDropDownOptionHtml,{
-                    optionUrl: serialized_model.optionUrl,
+//                    optionUrl: serialized_model.optionUrl,
                     optionText: serialized_model.optionText,
                     iconClass: serialized_model.iconClass
                 }, {variable: "args"})
@@ -97,12 +99,12 @@ define([
 
             showProfile: function(event) {
                 event.preventDefault();
-                Application.request(Application.SHOW_PROFILE);
+                this.trigger(Application.SHOW_PROFILE);
             },
 
             showAdmin: function() {
                 event.preventDefault();
-                Application.request(Application.SHOW_ADMIN);
+//                this.trigger(Application.SHOW_ADMIN);
             },
 
             logout: function() {

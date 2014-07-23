@@ -37,6 +37,7 @@ define([
 //            className: "someClass",
             regions: {
                 personalRegion: "#personal",
+                parentRegion: "#parent",
                 careerRegion: "#career",
                 academicRegion: "#academic",
                 adminRegion: "#admin",
@@ -45,23 +46,6 @@ define([
             }
         });
 
-//        var successCB = function (response, value) {
-//            console.log(value);
-//            model.save(id, value, {
-//                wait: true,
-//                patch: true,
-//                success: function (updatedStudent) {
-//                    console.log("Saved on server!!");
-//                    Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
-//                },
-//
-//                error: function (x, response) {
-//                    console.dir(response);
-//                    console.log("Error on server!! -- " + response.msg);
-//                    return response.msg;
-//                }
-//            });
-//        }
 
         Show.views.Personal = Application.Views.ItemView.extend({
             template: "students/show/templates/personal_view",
@@ -83,23 +67,21 @@ define([
             }
         });
 
-        //     Show.views.Enrollment = Application.Views.ItemView.extend({
-        //     template: "students/show/templates/enrollment_view",
+        Show.views.Parent = Application.Views.ItemView.extend({
+            template: "students/show/templates/parent_view",
 
-        //     onRender: function() {
-        //         Backbone.Validation.bind(this);
-        //         this.setupEnroll();
-        //     },
+            onRender: function () {
+                Backbone.Validation.bind(this);
+                this.setupParentProfile();
+            },
 
-        //     setupEnroll: function() {
-        //         Show.setupEditableBox(this.$el, this.model, "enrollDate", "Enroll Date", this.model.get('enrollDate'), 'text', null, 'right');
-        //         Show.setupEditableBox(this.$el, this.model, "totalFee", "TotalFee", this.model.get('totalFee'), 'text', null, 'right');
-        //         //Show.setupEditableBox(this.$el, this.model, "address", "Enter Address", this.model.get('address'), 'textarea', null, 'right');
-        //         //Show.setupEditableBox(this.$el, this.model, "parentFirstName", "Parent First Name", this.model.get('parentFirstName'), 'textarea', null, 'right');
-        //         //Show.setupEditableBox(this.$el, this.model, "parentLastName", "Parent Last Name", this.model.get('parentLastName'), 'textarea', null, 'right');
-
-        //     }
-        // });
+            setupParentProfile: function () {
+                Show.setupEditableBox(this.$el, this.model, "parentFirstName", "First Name", this.model.get('parentFirstName'), 'text', null, 'right');
+                Show.setupEditableBox(this.$el, this.model, "parentLastName", "Last Name", this.model.get('parentLastName'), 'text', null, 'right');
+                Show.setupEditableBox(this.$el, this.model, "parentPhoneNumber", "Enter Phone", this.model.get('parentPhoneNumber'), 'text', null, 'right');
+                Show.setupEditableBox(this.$el, this.model, "parentEmail", "Enter Email", this.model.get('parentEmail'), 'text');
+            }
+        });
 
         Show.views.addEnrollForm = Application.Views.ItemView.extend({
             template: "students/show/templates/enroll_form",

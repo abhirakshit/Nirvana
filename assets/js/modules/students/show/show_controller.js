@@ -30,9 +30,9 @@ define([
                 this.layout = this.getLayout();
 
                 this.listenTo(this.layout, Application.SHOW, function () {
-//                    console.dir(allStudents);
-//                    this.showStudent(student, allCountries, allServices, allStaff, allStatus, studentComments, studentEnrollments)
                     this.showPersonalView(student);
+
+                    this.showParentView(student);
 
                     this.showAcademicView(student);
 
@@ -58,23 +58,6 @@ define([
                     that.showHistoryView(student, studentComments);
                 });
             },
-//
-//            showStudent: function (student, allCountries, allServices, allStaff, allStatus, studentComments, studentEnrollments) {
-//
-//                this.showPersonalView(student);
-//
-//                this.showAcademicView(student);
-//
-//                this.showCareerView(student, allCountries, allServices);
-//
-//                this.showAdminView(student, allStaff, allStatus);
-//
-//                this.showHistoryView(student, studentComments);
-//
-//                this.showEnrollmentView(student, allServices, studentEnrollments);
-////                this.showEnrollmentView(student, allServices);
-//
-//            },
 
             showPersonalView: function (student) {
                 var personalView = new Show.views.Personal({
@@ -82,6 +65,14 @@ define([
                 });
 
                 this.layout.personalRegion.show(personalView);
+            },
+
+            showParentView: function (student) {
+                var parentView = new Show.views.Parent({
+                    model: student
+                });
+
+                this.layout.parentRegion.show(parentView);
             },
 
             showEnrollmentView: function (student, allServices, studentEnrollments) {
