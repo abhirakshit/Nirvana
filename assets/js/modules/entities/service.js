@@ -37,7 +37,7 @@ define([], function () {
 
             getServiceName: function (serviceId) {
                 if (!serviceId) {
-                    console.log("Need service Id.")
+                    console.log("Need service id")
                     return "";
                 }
 
@@ -47,6 +47,25 @@ define([], function () {
                     return "";
                 }
                 return service.get('name');
+            },
+
+            getServiceNames: function (serviceIdArr) {
+                if (!serviceIdArr || !(serviceIdArr instanceof Array)) {
+                    console.log("Need service id array")
+                    return "";
+                }
+
+                var that = this;
+                var serviceNameArr = [];
+                _.forEach(serviceIdArr, function(serviceId){
+                    var service = that.getAllServices().get(serviceId);
+                    if (!service) {
+                        console.log("Could not find service for id: " + serviceId);
+                    } else {
+                        serviceNameArr.push(service.get('name'));
+                    }
+                });
+                return serviceNameArr;
             },
 
             getAllServices: function () {
@@ -68,6 +87,10 @@ define([], function () {
 
         Application.reqres.setHandler(Application.GET_SERVICE_NAME, function (serviceId) {
             return API.getServiceName(serviceId);
+        });
+
+        Application.reqres.setHandler(Application.GET_SERVICE_NAMES, function (serviceIdArr) {
+            return API.getServiceNames(serviceIdArr);
         });
     })
 });

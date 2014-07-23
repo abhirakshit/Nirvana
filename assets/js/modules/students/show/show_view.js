@@ -197,7 +197,7 @@ define([
                 data.modalId = Show.addPaymentFormId;
                 return data;
                 //console.log(this.options.collection);
-                console.log(data);
+//                console.log(data);
             },
 
 

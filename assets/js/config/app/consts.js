@@ -115,6 +115,7 @@ define([], function(){
         Application.GET_SERVICES = "get:services";
         Application.GET_SERVICE = "get:service";
         Application.GET_SERVICE_NAME = "get:service:name";
+        Application.GET_SERVICE_NAMES = "get:service:names";
 
         Application.GET_EDUCATION_LIST = "get:education:list";
         Application.GET_EDUCATION = "get:education";

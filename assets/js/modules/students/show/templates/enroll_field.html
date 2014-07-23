@@ -1,20 +1,20 @@
-
-        <td id="service">
-            <%= service.name %>
-        </td>
-        <td id="totalFee">
-             <%= showOnlyDate(enrollDate) %>
-        </td>
-        <td>
-           <i class="fa fa-rupee"></i><%='&nbsp' + totalFee %>
-        </td>
-         <td>
-           <i class="fa fa-rupee"></i><%='&nbsp' + totalPaid %>
-        </td>
-        <td>
-             <i class="fa fa-rupee"></i><%='&nbsp' + due %>
-         </td>
-         <td>
+<td id="service">
+    <%= service.name %>
+</td>
+<td id="totalFee">
+    <%= showOnlyDate(enrollDate) %>
+</td>
+<td>
+    <!--<i class="fa fa-rupee"></i><%='&nbsp' + totalFee %>-->
+    <%=totalFee%>
+</td>
+<td>
+    <%=totalPaid%>
+</td>
+<td>
+    <%=due%>
+</td>
+<td>
 <span class="badge bg-info" id="addPayment">
         <a href="#" data-toggle="modal" data-target="#<%=modalId%>"><i class="fa fa-rupee"></i> Pay</a>
-    </span>        </td>
+    </span></td>

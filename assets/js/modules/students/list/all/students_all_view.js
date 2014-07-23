@@ -24,14 +24,23 @@ define([
 
             serializeData: function() {
                 var data = this.model.toJSON();
-                data.serviceNames = _.pluck(data.services, 'name').join(', ');
+//                data.serviceNames = _.pluck(data.services, 'name').join(', ');
+                data.serviceNames = this.findEnrollmentNameList(data.enrollments);
+
                 data.staffNames = _.pluck(data.staff, 'name').join(', ');
                 data.locationNames = _.pluck(data.locations, 'name').join(', ');
                 return data;
             },
 
+            findEnrollmentNameList : function(enrollments) {
+                var serviceIdArr = _.uniq(_.pluck(enrollments, 'service'));
+                var allServicesNames = Application.request(Application.GET_SERVICE_NAMES, serviceIdArr);
+//                console.log(allServicesNames.join(', '));
+                return allServicesNames.join(', ');
+            },
+
             events: {
-                "click": "click",
+                "click": "click"
 //                "click .edit": "edit",
 //                "click .delete": "delete"
             },
