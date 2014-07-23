@@ -10,17 +10,6 @@ var _ = require('lodash'),
     moment = require('moment'),
     consts = require('consts');
 
-//updateStudent = function(studentId, updateFields, cb) {
-//    Student.update(studentId, updateFields, function (err, student) {
-//        if (err || !student) {
-//            console.log("Could not update student: " + id + "\n" + err);
-//            return cb(err);
-//        }
-//
-//        cb(null, student)
-//    });
-//};
-
 getCommentStrFromUpdateFields = function (updateFields, student) {
     //Remove id
     delete updateFields['id'];

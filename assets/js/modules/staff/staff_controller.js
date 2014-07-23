@@ -49,10 +49,6 @@ define([
                     Application.execute(Application.SELECTED_STAFF, that.options.region, staffId);
 
                 });
-
-
-
-
             },
 
             showSelectedStaff: function(userId){

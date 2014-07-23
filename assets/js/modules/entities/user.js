@@ -125,10 +125,7 @@ define([
                 if (!staffId)
                     return new Entities.Staff();
 
-                var staff = new Entities.Staff({id: staffId});
-                staff.fetch();
-                return staff;
-
+                return this.getAllStaff().get(staffId);
             },
 
             getStaffName: function (staffId) {
