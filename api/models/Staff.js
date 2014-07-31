@@ -24,11 +24,11 @@ module.exports = {
         gender: {type: 'string', defaultsTo: 'male'},
 
         //Many to Many: Location to User
-        locations: {
-            collection: 'Location',
-            via: 'staff',
-            dominant: true
-        },
+//        locations: {
+//            collection: 'Location',
+//            via: 'staff',
+//            dominant: true
+//        },
 
         //One to One: User to Staff
         user: {

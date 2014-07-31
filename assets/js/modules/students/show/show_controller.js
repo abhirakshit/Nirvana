@@ -19,17 +19,22 @@ define([
         Show.Controller = Application.Controllers.Base.extend({
             initialize: function () {
                 var student = Application.request(Application.GET_STUDENT, this.options.studentId);
-                var studentComments = Application.request(Application.GET_STUDENT_COMMENTS, this.options.studentId);
                 var allCountries = Application.request(Application.GET_COUNTRIES);
                 var allServices = Application.request(Application.GET_SERVICES);
                 var allStaff = Application.request(Application.GET_ALL_STAFF);
                 var allStatus = Application.request(Application.GET_STATUS_All);
                 var allLocations = Application.request(Application.GET_LOCATIONS);
+
+                var studentComments = Application.request(Application.GET_STUDENT_COMMENTS, this.options.studentId);
                 var studentEnrollments = Application.request(Application.GET_STUDENT_ENROLLMENTS, this.options.studentId);
 
                 this.layout = this.getLayout();
 
                 this.listenTo(this.layout, Application.SHOW, function () {
+                    if (!student) {
+                        Application.execute(Application.STUDENTS_LIST_ALL, this.region);
+                    }
+
                     this.showPersonalView(student);
 
                     this.showParentView(student);
@@ -41,14 +46,17 @@ define([
                     this.showAdminView(student, allStaff, allStatus, allLocations);
 
                     this.showHistoryView(student, studentComments);
+//                    this.showHistoryView(student);
 
                     this.showEnrollmentView(student, allServices, studentEnrollments);
+//                    this.showEnrollmentView(student, allServices);
                 });
 
 
                 this.show(this.layout, {
                     loading: {
-                        entities: [student, allCountries, allServices, allStaff, allStatus, studentEnrollments, allLocations]
+//                        entities: [student, allCountries, allServices, allStaff, allStatus, studentEnrollments, allLocations]
+                        entities: [student, allCountries, allServices, allStaff, allStatus, allLocations]
                     }
                 });
 
@@ -76,8 +84,8 @@ define([
             },
 
             showEnrollmentView: function (student, allServices, studentEnrollments) {
-//                var addedServices = new Application.Entities.ServiceCollection(student.get('services'));
-
+//            showEnrollmentView: function (student, allServices) {
+//                var studentEnrollments = new Application.Entities.EnrollmentCollection(student.get('enrollments'))
                 var that = this;
                 var enrollView = new Show.views.EnrollComposite({
                     collection: studentEnrollments,
@@ -98,14 +106,10 @@ define([
                     });
 
                     addEnrollModalView.on(Show.createEnrollEvt, function (modalFormView) {
-                        console.log('Save enrollment...');
-                        console.log(modalFormView.model.attributes);
                         student.save("enroll", modalFormView.model.attributes, {
                             wait: true,
                             patch: true,
                             success: function (updatedStudent) {
-                                console.log("Saved on server!!");
-                                console.dir(updatedStudent);
                                 var studentEnrollments = Application.request(Application.GET_STUDENT_ENROLLMENTS, updatedStudent.get('id'));
                                 that.showEnrollmentView(updatedStudent, allServices, studentEnrollments);
                                 Application.execute(Show.UPDATE_HISTORY_EVT, updatedStudent);
@@ -231,6 +235,8 @@ define([
             },
 
             showHistoryView: function (student, studentComments) {
+//            showHistoryView: function (student) {
+//                var studentComments = new Application.Entities.CommentCollection(student.get('commentsReceived'));
                 var historyView = new Show.views.History({
                     model: student,
                     collection: studentComments
@@ -258,7 +264,7 @@ define([
                 var addedStaff = new Application.Entities.StaffCollection(student.get('staff'));
                 var addedStaffIdList = addedStaff.pluck("id");
 
-                var addedLocations = new Application.Entities.LocationCollection(student.get('locations'));
+                var addedLocations = new Application.Entities.LocationCollection(student.get('user').locations);
                 var addedLocationIdList = addedLocations.pluck("id");
 
 

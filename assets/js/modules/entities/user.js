@@ -191,7 +191,13 @@ define([
                     return new Entities.Student();
 
                 var student = new Entities.Student({id: userId});
-                student.fetch();
+                student.fetch({
+                    error: function(model, xhr, options) {
+                        console.log(model);
+                        console.log(xhr);
+                        console.log(options);
+                    }
+                });
                 return student;
 
             },

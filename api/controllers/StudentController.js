@@ -52,11 +52,14 @@ updateServices = function (studentId, staffId, updatedServiceIdArr, res) {
     async.waterfall([
         function (callback) {
             Student.findOne(studentId).populate('services').exec(function (err, student) {
+                if (err || !student) {
+                    console.log("Could not find student with id: " + studentId + "\n" + err);
+                    callback(err);
+                }
 
                 var existingServiceIdArr = _.map(student.services, function (service) {
                     return service.id;
                 });
-//                console.log(updatedServiceIdArr);
                 var toRemove = _.difference(existingServiceIdArr, updatedServiceIdArr);
                 var toAdd = _.difference(updatedServiceIdArr, existingServiceIdArr);
 
@@ -75,6 +78,10 @@ updateServices = function (studentId, staffId, updatedServiceIdArr, res) {
         },
         function (servicesRemoved, servicesAdded, student, callback) {
             Service.find().exec(function (err, allServices) {
+                if (err || !allServices) {
+                    console.log("Could not find services." + "\n" + err);
+                    callback(err);
+                }
                 var addedServiceNameArr = [];
                 var removedServiceNameArr = [];
                 _.forEach(servicesRemoved, function (serviceId) {
@@ -90,13 +97,19 @@ updateServices = function (studentId, staffId, updatedServiceIdArr, res) {
 
                 var comments = [];
                 if (addedServiceNameArr.length > 0) {
-                    var commentStr = "<b>Service(s):</b> " + stringCleanUp(addedServiceNameArr);
-                    comments.push({comment: commentStr, type: consts.COMMENT_ADD, added: staffId, received: studentId})
+                    comments.push({
+                        comment: "<b>Service(s):</b> " + stringCleanUp(addedServiceNameArr),
+                        type: consts.COMMENT_ADD,
+                        added: staffId,
+                        received: studentId})
                 }
 
                 if (removedServiceNameArr.length > 0) {
-                    var commentStr = "<b>Service(s):</b> " + stringCleanUp(removedServiceNameArr);
-                    comments.push({comment: commentStr, type: consts.COMMENT_REMOVE, added: staffId, received: studentId})
+                    comments.push({
+                        comment: "<b>Service(s):</b> " + stringCleanUp(removedServiceNameArr),
+                        type: consts.COMMENT_REMOVE,
+                        added: staffId,
+                        received: studentId})
                 }
 
                 callback(null, comments);
@@ -115,7 +128,6 @@ updateServices = function (studentId, staffId, updatedServiceIdArr, res) {
             return err;
         }
 
-//        console.log("returning successfully");
         return res.json(student);
     });
 
@@ -129,6 +141,9 @@ updateCountries = function (studentId, staffId, updatedCountryIdArr, res) {
     async.waterfall([
         function (callback) {
             Student.findOne(studentId).populate('countries').exec(function (err, student) {
+                if (err || !student) {
+                    callback(err);
+                }
 
                 var existingCountriesIdArr = _.map(student.countries, function (country) {
                     return country.id
@@ -152,6 +167,9 @@ updateCountries = function (studentId, staffId, updatedCountryIdArr, res) {
         },
         function (countriesRemoved, countriesAdded, student, callback) {
             Country.find().exec(function (err, allCountries) {
+                if (err || !allCountries) {
+                    callback(err);
+                }
                 var addedCountryNameArr = [];
                 var removedCountryNameArr = [];
                 _.forEach(countriesRemoved, function (countryId) {
@@ -172,8 +190,8 @@ updateCountries = function (studentId, staffId, updatedCountryIdArr, res) {
                 }
 
                 if (removedCountryNameArr.length > 0) {
-                    var commentStr = "<b>Country:</b> " + stringCleanUp(removedCountryNameArr);
-                    comments.push({comment: commentStr, type: consts.COMMENT_REMOVE, added: staffId, received: studentId})
+                    var commentStr1 = "<b>Country:</b> " + stringCleanUp(removedCountryNameArr);
+                    comments.push({comment: commentStr1, type: consts.COMMENT_REMOVE, added: staffId, received: studentId})
                 }
 
                 callback(null, comments);
@@ -219,6 +237,9 @@ updateEnquiryStatus = function (id, staffId, newEnquiryStatusId, res) {
             },
             function (oldEnqStatus, newEnqStatusId, callback) {
                 EnquiryStatus.find().exec(function (err, allEnquiryStatus) {
+                    if (err || allEnquiryStatus) {
+                        callback(err);
+                    }
                     var oldStatusName = oldEnqStatus.name;
                     var newStatusName = _.find(allEnquiryStatus, {'id': newEnqStatusId}).name;
                     var commentStr = "<b>EnquiryStatus:</b> <i>'" + oldStatusName + "'</i> to <i>'" + newStatusName + "'</i>";
@@ -252,7 +273,11 @@ updateLocations = function (studentId, staffId, updatedLocationsIdArr, res) {
     async.waterfall(
         [
             function (callback) {
+                //TODO Needs update as location info has moved to User table
                 Student.findOne(studentId).populate('locations').exec(function (err, student) {
+                    if (err || !student) {
+                        callback(err);
+                    }
                     var existingLocationsIdArr = _.map(student.locations, function (location) {
                         return location.id
                     });
@@ -270,7 +295,7 @@ updateLocations = function (studentId, staffId, updatedLocationsIdArr, res) {
                     });
 
                     student.save(function (err, s) {
-                        if (err) callback(err);
+                        if (err || !s) callback(err);
                         callback(null, toRemove, toAdd, s);
                     });
                 });
@@ -279,6 +304,9 @@ updateLocations = function (studentId, staffId, updatedLocationsIdArr, res) {
             //Create comment string
             function (locationsRemoved, locationsAdded, student, callback) {
                 Location.find().exec(function (err, allLocations) {
+                    if (err || !allLocations) {
+                        callback(err);
+                    }
                     var addedLocationNameArr = [];
                     var removedLocationNameArr = [];
                     _.forEach(locationsRemoved, function (locationId) {
@@ -300,8 +328,8 @@ updateLocations = function (studentId, staffId, updatedLocationsIdArr, res) {
                     }
 
                     if (removedLocationNameArr.length > 0) {
-                        var commentStr = "<b>Location(s):</b> " + stringCleanUp(removedLocationNameArr);
-                        comments.push({comment: commentStr, type: consts.COMMENT_REMOVE, added: staffId, received: studentId})
+                        var commentStr1 = "<b>Location(s):</b> " + stringCleanUp(removedLocationNameArr);
+                        comments.push({comment: commentStr1, type: consts.COMMENT_REMOVE, added: staffId, received: studentId})
                     }
 
                     callback(null, comments);
@@ -333,6 +361,9 @@ updateStaff = function (studentId, staffId, updatedStaffIdArr, res) {
         [
             function (callback) {
                 Student.findOne(studentId).populate('staff').exec(function (err, student) {
+                    if (err || !student) {
+                        callback(err);
+                    }
                     var existingCounselorIdArr = _.map(student.staff, function (staff) {
                         return staff.id
                     });
@@ -358,6 +389,9 @@ updateStaff = function (studentId, staffId, updatedStaffIdArr, res) {
             //Create comment string
             function (staffRemoved, staffAdded, student, callback) {
                 Staff.find().exec(function (err, allStaff) {
+                    if (err || !allStaff) {
+                        callback(err)
+                    }
                     var addedStaffNameArr = [];
                     var removedStaffNameArr = [];
                     _.forEach(staffRemoved, function (staffId) {
@@ -379,8 +413,8 @@ updateStaff = function (studentId, staffId, updatedStaffIdArr, res) {
                     }
 
                     if (removedStaffNameArr.length > 0) {
-                        var commentStr = "<b>Staff:</b> " + stringCleanUp(removedStaffNameArr);
-                        comments.push({comment: commentStr, type: consts.COMMENT_REMOVE, added: staffId, received: studentId})
+                        var commentStr1 = "<b>Staff:</b> " + stringCleanUp(removedStaffNameArr);
+                        comments.push({comment: commentStr1, type: consts.COMMENT_REMOVE, added: staffId, received: studentId})
                     }
 
                     callback(null, comments);
@@ -411,6 +445,9 @@ addEducation = function (id, staffId, education, res) {
         [
             function (callback) {
                 Student.findOne(id).populate('educationList').exec(function (err, student) {
+                    if (err || !student) {
+                        callback(err);
+                    }
                     // Check if an education with same name exists
                     if (_.contains(student.educationList, education.programName)) {
                         console.log("Education exists: " + education.programName);
@@ -420,13 +457,12 @@ addEducation = function (id, staffId, education, res) {
                     // Create new Education
                     education.student = student.id;
                     Education.create(education).exec(function (err, newEducation) {
-                        if (err) {
+                        if (err || !newEducation) {
                             console.log("Error creating edu: " + err);
-                            return callback(err);
+                            callback(err);
                         }
 
                         var commentStr = "<b>Education:</b> " + newEducation.programName + ", " + newEducation.score;
-//                            return callback(null, commentStr, "add");
                         return callback(null, commentStr, consts.COMMENT_ADD);
                     });
                 });
@@ -502,6 +538,9 @@ updateEmail = function (id, staffId, updateFields, res) {
     async.waterfall([
         function (callback) {
             Student.findOne(id).exec(function (err, student) {
+                if (err || !student) {
+                    callback(err);
+                }
                 var comment = getCommentStrFromUpdateFields(updateFields, student);
                 callback(null, comment.str, comment.type);
             });
@@ -509,12 +548,12 @@ updateEmail = function (id, staffId, updateFields, res) {
         //Update Student and User with new data
         function (commentStr, commentType, callback) {
             Student.update(id, updateFields, function (err, updatedStudents) {
-                if (err) {
+                if (err || !updatedStudents) {
                     return callback(err);
                 }
 
                 User.update(updatedStudents[0].user, updateFields, function (err, updatedUser) {
-                    if (err) {
+                    if (err || !updatedUser) {
                         return callback(err);
                     }
                     callback(null, commentStr, commentType);
@@ -532,7 +571,7 @@ updateEmail = function (id, staffId, updateFields, res) {
     ], function (err, student) {
         if (err) {
             console.log(err);
-            res.badRequest(err);
+            return res.badRequest(err);
         }
         res.json(student);
     })
@@ -543,16 +582,17 @@ addComment = function (id, staffId, comment, res) {
         function (callback) {
 //            console.log(req.body.comment);
             var commentStr = "<b>Comment:</b> " + comment.commentText;
-            UserService.createComment(staffId, id, commentStr, "comment", callback)
+//            UserService.createComment(staffId, id, commentStr, "comment", callback)
+            UserService.createComment(staffId, id, commentStr, consts.COMMENT_ADD, callback)
         },
         function (callback) {
             UserService.getStudent(id, callback);
         }
     ],
         function (err, student) {
-            if (err) {
+            if (err || !student) {
                 console.log(err);
-                res.badRequest(err);
+                return res.badRequest(err);
             }
             res.json(student);
         }
@@ -565,7 +605,7 @@ addEnroll = function (id, staffId, serviceId, totalFee, enrollDate, res) {
             var values = {student: id, service: serviceId, totalFee: totalFee, enrollDate: enrollDate };
             //create a enrollment for a student id
             Enroll.create(values).exec(function (err, enroll) {
-                if (err) {
+                if (err || !enroll) {
                     callback(err);
 
                 }
@@ -588,9 +628,9 @@ addEnroll = function (id, staffId, serviceId, totalFee, enrollDate, res) {
         }
 
     ], function (err, student) {
-        if (err) {
+        if (err || !student) {
             console.log(err);
-            res.badRequest(err);
+            return res.badRequest(err);
         }
         res.json(student);
     });
@@ -604,13 +644,11 @@ addPayment = function (id, staffId, method, amount, receiptNumber, paymentDate, 
         function (callback) {
             var values = {amount: amount, method: method, enroll: enrollId, receiptNumber: receiptNumber, paymentDate: paymentDate, receivedBy: staffId };
             //create a enrollment for a student id
-            console.log(values);
             Payment.create(values).exec(function (err, payment) {
-                if (err) {
+                if (err || !payment) {
                     callback(err);
 
                 }
-                console.log(payment);
                 callback(null);
             });
 
@@ -629,14 +667,70 @@ addPayment = function (id, staffId, method, amount, receiptNumber, paymentDate, 
         }
 
     ], function (err, student) {
-        if (err) {
+        if (err || !student) {
             console.log(err);
-            res.badRequest(err);
+            return res.badRequest(err);
         }
         res.json(student);
     });
 
 
+};
+
+/**
+ * This will get all the relations. Populate comments with creator info. Update enrollements
+ * with payment info.
+ * @param id: Student Id
+ */
+findStudent = function (id) {
+    Student.findOne(id)
+        .populate('commentsReceived')
+        .populate('services')
+        .populate('countries')
+//        .populate('locations')
+        .populate('staff')
+        .populate('enquiryStatus')
+        .populate('enrollments')
+        .exec(function (err, student){
+            if (err || !student) {
+
+                async.parallel([
+                    function(callback) {
+                        //Populate comments
+                        var commentsReceived = student.commentsReceived;
+                        var commentCollection = [];
+                        async.each(commentsReceived, function (comment, callback) {
+                            Comment.findOne(comment.id).populate('added').exec(function (err, comm) {
+                                if (err) {
+                                    console.log("Error handling comment:  " + comment.id + "\n" + err);
+                                    callback(err);
+                                }
+                                commentCollection.push(comm);
+                                callback();
+                            })
+                        }, function (err) {
+                            if (err) {
+                                console.log("Could not process comments. " + err);
+                                return res.badRequest("Could not process comment. " + err);
+                            }
+
+                            res.json(_.sortBy(commentCollection, 'createdAt').reverse());
+                        });
+                    },
+
+                    function(callback) {
+                        //Populate Enrollments
+
+                    }
+
+                ], function(err, results) {
+
+                });
+
+
+                //Enrollments
+            }
+        });
 };
 
 stringCleanUp = function (strArr) {
@@ -676,6 +770,7 @@ module.exports = {
             var locationIds = _.map(req.body.locations, function (stringId) {
                 return parseInt(stringId);
             });
+            //TODO Needs update as location info has moved to User table
             updateLocations(id, staffId, locationIds, res);
         } else if (req.body.enquiryStatus) {
             //enquiryStatus
@@ -704,14 +799,17 @@ module.exports = {
                 // Find student and create change comment
                 function (callback) {
                     Student.findOne(id).exec(function (err, student) {
+                        if (err || !student) {
+                            callback(err);
+                        }
                         var comment = getCommentStrFromUpdateFields(updateFields, student);
                         callback(null, comment.str, comment.type);
                     });
                 },
                 //Update Student with new data
                 function (commentStr, commentType, callback) {
-                    Student.update(id, updateFields, function (err, updated) {
-                        if (err) {
+                    Student.update(id, updateFields, function (err, updatedStudent) {
+                        if (err || !updatedStudent) {
                             console.log("Could not update student: " + id + "\n" + err);
                             return callback(err);
                         }
@@ -729,11 +827,20 @@ module.exports = {
                 function (err, student) {
                     if (err) {
                         console.log(err);
-                        res.badRequest(err);
+                        return res.badRequest(err);
                     }
                     res.json(student);
                 });
 
+        }
+    },
+
+    find: function (req, res) {
+        var id = req.param('id');
+        if (!id) {
+            return res.badRequest('No id provided.');
+        } else {
+            return res.json(findStudent(id));
         }
     },
 
@@ -744,9 +851,11 @@ module.exports = {
         }
 
         Student.findOne(id).populate('commentsReceived').exec(function (err, student) {
-  
-            var commentsReceived = student.commentsReceived;
+            if (err || !student) {
+                return res.badRequest("Could not find student for id: " + id + "\n" + err);
+            }
 
+            var commentsReceived = student.commentsReceived;
             var commentCollection = [];
             async.each(commentsReceived, function (comment, callback) {
                 Comment.findOne(comment.id).populate('added').exec(function (err, comm) {
@@ -760,7 +869,7 @@ module.exports = {
             }, function (err) {
                 if (err) {
                     console.log("Could not process comments. " + err);
-                    res.badRequest("Could not process comment. " + err);
+                    return res.badRequest("Could not process comment. " + err);
                 }
 
                 res.json(_.sortBy(commentCollection, 'createdAt').reverse());
@@ -769,30 +878,38 @@ module.exports = {
     },
 
     getEnquiries: function (req, res) {
-        EnquiryStatus.find().where({name: [consts.ENQ_STATUS_ENROLLED, consts.ENQ_STATUS_CLOSED]}).exec(function (err, enqStatusList) {
-            var enrolledId, closedId;
-            while (enqStatusList.length) {
-                var enquiry = enqStatusList.pop();
-//                if (enquiry.name === 'Enrolled')
-                if (enquiry.name === consts.ENQ_STATUS_ENROLLED)
-                    enrolledId = enquiry.id;
-                else
-                    closedId = enquiry.id;
-            }
+        EnquiryStatus
+            .find()
+            .where({name: [consts.ENQ_STATUS_ENROLLED, consts.ENQ_STATUS_CLOSED]})
+            .exec(function (err, enqStatusList) {
+                if (err || !enqStatusList) {
+                    return res.badRequest("Could not find enquiry status list." + "\n" + err);
+                }
+                var enrolledId, closedId;
+                while (enqStatusList.length) {
+                    var enquiry = enqStatusList.pop();
+                    if (enquiry.name === consts.ENQ_STATUS_ENROLLED)
+                        enrolledId = enquiry.id;
+                    else
+                        closedId = enquiry.id;
+                }
 
-            Student
-                .find({
-                    enquiryStatus: {'!': [closedId, enrolledId]}
-                })
-                .populate('services')
-                .populate('countries')
-                .populate('staff')
-                .populate('enquiryStatus')
-                .exec(function (err, students) {
-                    res.json(students);
-                });
+                Student
+                    .find({
+                        enquiryStatus: {'!': [closedId, enrolledId]}
+                    })
+                    .populate('services')
+                    .populate('countries')
+                    .populate('staff')
+                    .populate('enquiryStatus')
+                    .exec(function (err, students) {
+                        if (err || !students) {
+                            return res.badRequest("Could not find students." + "\n" + err);
+                        }
+                        res.json(students);
+                    });
 
-        });
+            });
     },
 
     getClosedEnquiries: function (req, res) {
@@ -803,6 +920,9 @@ module.exports = {
                 .populate('staff')
                 .populate('enquiryStatus')
                 .exec(function (err, students) {
+                    if (err || !students) {
+                        return res.badRequest("Could not find students." + "\n" + err);
+                    }
                     res.json(students);
                 });
         });
@@ -810,104 +930,108 @@ module.exports = {
 
     getEnrolledStudents: function (req, res) {
         EnquiryStatus.findOne({name: consts.ENQ_STATUS_ENROLLED}).exec(function (err, enqStatusEnrolled) {
+            if (err || !enqStatusEnrolled) {
+                return res.badRequest("Could not find Enrolled enquiry status." + "\n" + err);
+            }
             Student.find({enquiryStatus: enqStatusEnrolled.id})
                 .populate('services')
                 .populate('countries')
-                .populate('locations')
+//                .populate('locations')
                 .populate('staff')
                 .populate('enquiryStatus')
                 .populate('enrollments').
                 exec(function (err, enrolledStudents) {
-                    
-        var  studentCollection = [];
-
-        async.each(enrolledStudents, function (student, callback) {
-
-
-        var id = student.id;
-        if (!id) {
-            return res.badRequest('No id provided.');
-        }
-
-            var enrollmentList = student.enrollments;
-            var enrollmentCollection = [];
-
-            var paid = {};
-
-            async.each(enrollmentList, function (enroll, callback) {
-                Enroll.findOne(enroll.id).populate('payments').populate('service').exec(function (err, enr) {
-
-                    var sum = _.reduce(_.pluck(enr.payments, 'amount'), function (mem, payment) {
-                        return Number(mem) + Number(payment);
-                    });
-
-                    if (!sum) {
-                        sum = 0;
+                    if (err || !enrolledStudents) {
+                        return res.badRequest("Could not find enrolled students." + "\n" + err);
                     }
-                    enr.totalPaid = sum;
-                    enr.due = Number(enr.totalFee) - Number(enr.totalPaid);
 
-                    enrollmentCollection.push(enr);
-                    callback();
-                });
-            }, function (err) {
-                if (err) {
-                    console.log("Could not process payment information. " + err);
-                    res.badRequest("Could not process payment information. " + err);
-                }
+                    var studentCollection = [];
+                    async.each(enrolledStudents, function (student, callback) {
+                        var id = student.id;
+                        if (!id) {
+                            return res.badRequest('No id provided.');
+                        }
 
-                var payment = {};
+                        var enrollmentList = student.enrollments;
+                        var enrollmentCollection = [];
 
-                var totalDue = _.reduce(_.pluck(enrollmentCollection, 'due'), function (mem, due) {
-                    return Number(mem) + Number(due);
-                });
+                        var paid = {};
+                        async.each(enrollmentList, function (enroll, callback) {
+                            Enroll.findOne(enroll.id).populate('payments').populate('service').exec(function (err, enr) {
+                                if (err || !enr) {
+                                    callback(err);
+                                }
+                                var sum = _.reduce(_.pluck(enr.payments, 'amount'), function (mem, payment) {
+                                    return Number(mem) + Number(payment);
+                                });
 
-                var totalPaid = _.reduce(_.pluck(enrollmentCollection, 'totalPaid'), function (mem, totalPaid) {
-                    return Number(mem) + Number(totalPaid);
-                });
+                                if (!sum) {
+                                    sum = 0;
+                                }
+                                enr.totalPaid = sum;
+                                enr.due = Number(enr.totalFee) - Number(enr.totalPaid);
 
-                var totalFee = _.reduce(_.pluck(enrollmentCollection, 'totalFee'), function (mem, totalFee) {
-                    return Number(mem) + Number(totalFee);
-                });
+                                enrollmentCollection.push(enr);
+                                callback();
+                            });
+                        }, function (err) {
+                            if (err) {
+                                console.log("Could not process payment information. " + err);
+                                return res.badRequest("Could not process payment information. " + err);
+                            }
 
-                if(totalFee === null) {
-                    totalFee = 0;
-                } else {
-                student.totalFee = Number(totalFee);}
-                      if(totalPaid === null) {
-                    totalPaid = 0;
-                } else {
-                student.totalPaid = Number(totalPaid);}
+                            var payment = {};
 
-                if(totalDue === null) {
-                    totalDue = 0;
-                } else {
-                student.totalDue = Number(totalDue);}    
+                            var totalDue = _.reduce(_.pluck(enrollmentCollection, 'due'), function (mem, due) {
+                                return Number(mem) + Number(due);
+                            });
 
-                //student.totalPaid = Number(totalPaid);
-               // student.totalDue = totalDue;
+                            var totalPaid = _.reduce(_.pluck(enrollmentCollection, 'totalPaid'), function (mem, totalPaid) {
+                                return Number(mem) + Number(totalPaid);
+                            });
 
+                            var totalFee = _.reduce(_.pluck(enrollmentCollection, 'totalFee'), function (mem, totalFee) {
+                                return Number(mem) + Number(totalFee);
+                            });
 
-                studentCollection.push(student);
-                callback();
+                            if (totalFee === null) {
+                                totalFee = 0;
+                            } else {
+                                student.totalFee = Number(totalFee);
+                            }
+                            if (totalPaid === null) {
+                                totalPaid = 0;
+                            } else {
+                                student.totalPaid = Number(totalPaid);
+                            }
 
+                            if (totalDue === null) {
+                                totalDue = 0;
+                            } else {
+                                student.totalDue = Number(totalDue);
+                            }
 
-            });
-
-
-            }, function (err) {
-                if (err) {
-                    console.log("Could not process payment information. " + err);
-                    res.badRequest("Could not process payment information. " + err);
-                }
-                  //  console.log(studentCollection);
-                res.json(studentCollection);
-
-
-                });
+                            //student.totalPaid = Number(totalPaid);
+                            // student.totalDue = totalDue;
 
 
+                            studentCollection.push(student);
+                            callback();
 
+
+                        });
+
+
+                    }, function (err) {
+                        if (err) {
+                            console.log("Could not process payment information. " + err);
+                            return res.badRequest("Could not process payment information. " + err);
+                        }
+                        //  console.log(studentCollection);
+                        res.json(studentCollection);
+
+
+                    });
                 });
         })
     },
@@ -919,16 +1043,20 @@ module.exports = {
         }
 
         Student.findOne(id).populate('enrollments').exec(function (err, student) {
-           
+            if (err || !student) {
+                return res.badRequest("Could not find student for id: " + id + "\n" + err);
+            }
 
-          var enrollmentList = student.enrollments;
-          
+            var enrollmentList = student.enrollments;
             var enrollmentCollection = [];
             var paid = {};
 
             async.each(enrollmentList, function (enroll, callback) {
 
                 Enroll.findOne(enroll.id).populate('payments').populate('service').exec(function (err, enr) {
+                    if (err || !enr) {
+                        callback(err);
+                    }
 
                     var sum = _.reduce(_.pluck(enr.payments, 'amount'), function (mem, payment) {
                         return Number(mem) + Number(payment);
@@ -947,7 +1075,7 @@ module.exports = {
             }, function (err) {
                 if (err) {
                     console.log("Could not process payment information. " + err);
-                    res.badRequest("Could not process payment information. " + err);
+                    return res.badRequest("Could not process payment information. " + err);
                 }
 
                 res.json(enrollmentCollection);
@@ -970,31 +1098,43 @@ module.exports = {
 
         // Find all enrolled students
         EnquiryStatus.findOne({name: consts.ENQ_STATUS_ENROLLED}).exec(function (err, enqStatusEnrolled) {
+            if (err || !enqStatusEnrolled) {
+                return res.badRequest("Could not find enquiry status for : " + consts.ENQ_STATUS_ENROLLED + "\n" + err);
+            }
             Student.find({enquiryStatus: enqStatusEnrolled.id})
                 .populate('enrollments', {service: serviceId})
                 .exec(function (err, students) {
+                    if (err || !students) {
+                        return res.badRequest("Could not find students." + "\n" + err);
+                    }
                     res.json(
-                        _.filter(students, function (student){
-                        return student.enrollments.length > 0;
-                    }))
+                        _.filter(students, function (student) {
+                            return student.enrollments.length > 0;
+                        }))
                 });
         })
     },
 
     getTotalPayments: function (req, res) {
-  
+
         var id = req.param('id');
         if (!id) {
             return res.badRequest('No id provided.');
         }
 
         Student.findOne(id).populate('enrollments').exec(function (err, student) {
+            if (err || !student) {
+                return res.badRequest("Could not find student for id: " + id + "\n" + err);
+            }
             var enrollmentList = student.enrollments;
             var enrollmentCollection = [];
             var paid = {};
 
             async.each(enrollmentList, function (enroll, callback) {
                 Enroll.findOne(enroll.id).populate('payments').populate('service').exec(function (err, enr) {
+                    if (err || !enr) {
+                        return res.badRequest("Could not find enroll for id: " + enroll.id + "\n" + err);
+                    }
                     var sum = _.reduce(_.pluck(enr.payments, 'amount'), function (mem, payment) {
                         return Number(mem) + Number(payment);
                     });
@@ -1011,7 +1151,7 @@ module.exports = {
             }, function (err) {
                 if (err) {
                     console.log("Could not process payment information. " + err);
-                    res.badRequest("Could not process payment information. " + err);
+                    return res.badRequest("Could not process payment information. " + err);
                 }
 
                 var payment = {};
@@ -1037,10 +1177,5 @@ module.exports = {
             });
 
         });
-
-
     }
-
-
-
 };

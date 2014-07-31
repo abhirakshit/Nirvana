@@ -38,6 +38,8 @@ define([
             showRealView: function(realView, loadingView, config) {
                 var that = this;
                 Application.execute(Application.WHEN_FETCHED, config.entities, function(){
+                    console.log("When fetched callback...");
+                    console.log(config.entities);
                     switch (config.loadingType) {
                         case Loading.TYPE_OPACITY:
                             that.region.currentView.$el.removeAttr("style");
@@ -47,9 +49,6 @@ define([
                                 return realView.close();
                             }
                     }
-
-//                    console.log("Show real view...");
-//                    console.dir(config.entities);
                     if (!config.debug) {
                         that.show(realView);
                     }

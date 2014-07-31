@@ -11,26 +11,26 @@ module.exports = {
 
     index: function (req, res) {
         if (req.session.isAuthenticated) {
-//            console.log('Show index...');
             return res.view('main/index', {
                 _layoutFile: '../layout_index',
                 loggedUser: req.session.user
             });
         } else {
-            console.log('Show login...');
             return res.view('main/login');
         }
     },
 
 
     login: function (req, res, next) {
-        console.log("Trying to login...");
         var email = req.param("email");
         var password = req.param("password");
+        if (!email || !password) {
+            return res.view('main/login', {error: "Incorrect Username or Password"});
+        }
 
         User.findOneByEmail(email, function foundUser(err, usr) {
             if (err || !usr) {
-                res.send(500, { error: "DB Error" });
+                return res.view('main/login', {error: "Incorrect Username or Password"});
             }
 
             // Compare password from the form params to the encrypted password of the user found.
@@ -46,18 +46,15 @@ module.exports = {
                         res.redirect('/');
 
                     } else {
-//if password is invalid then return wrong password.
-                        res.send(400, { error: "Wrong Password" });
+                        return res.view('main/login', {error: "Incorrect Username or Password"});
                     }
                 });
 
             } else {
-// if incorrect email was entered then user not found.
-                res.send(404, { error: "User not found!" });
+                // if incorrect email was entered then user not found.
+                return res.view('main/login', {error: "Incorrect Username or Password"});
             }
-
         });
-
     },
 
 

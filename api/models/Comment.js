@@ -15,15 +15,11 @@ module.exports = {
         //Many to One: Staff to comment
         added: {
             model: 'Staff'
-//            collection: 'Staff',
-//            via: 'addedComments'
         },
 
-        //Many to many Comments added for a User
+        //Many to one Comments added for a student
         received: {
             model: 'Student'
-//            collection: 'Student',
-//            via: 'commentsReceived'
         }
 
 	}

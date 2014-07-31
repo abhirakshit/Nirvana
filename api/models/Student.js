@@ -18,7 +18,7 @@ module.exports = {
 
         lastName: {type: 'string'},
 
-        phoneNumber: {type: 'string', defaultsTo: '1112223333', required: true},
+        phoneNumber: {type: 'string', defaultsTo: 'unknown', required: true},
 
         address: {type: 'text'},
 
@@ -30,7 +30,7 @@ module.exports = {
 
         parentLastName: {type: 'string'},
 
-        parentPhoneNumber: {type: 'string'},
+        parentPhoneNumber: {type: 'integer'},
 
         parentEmail: {type: 'email', unique: true},
 
@@ -62,12 +62,12 @@ module.exports = {
 
         //Associations
 
-        //Many to Many: Location to User
-        locations: {
-            collection: 'Location',
-            via: 'students',
-            dominant: true
-        },
+//        //Many to Many: Location to User
+//        locations: {
+//            collection: 'Location',
+//            via: 'students',
+//            dominant: true
+//        },
 
         //One to One: User to Student
         user: {
@@ -150,6 +150,54 @@ module.exports = {
             else
                 return this.firstName;
         }
-	}
+	},
+
+    /**
+     * Assign a student in one or more staff.
+     * @param  {Object}   options
+     *            => staffArr {Array} list of staff ids
+     *            => id {Integer} id of the enrolling user
+     * @param  {Function} cb
+     */
+    assignStaff: function (options, errCb, cb) {
+        Student.findOne(options.id).exec(function (err, theStudent) {
+            if (err || !theStudent) {
+                return Utils.logQueryError(err, theStudent, 'Student not found.', errCb)
+            }
+
+            _.forEach(options.staffArr, function(staffId){
+                theStudent.staff.add(staffId);
+            });
+            theStudent.save(cb);
+        });
+    },
+
+    assignCountries: function (options, errCb, cb) {
+        Student.findOne(options.id).exec(function (err, theStudent) {
+            if (err || !theStudent) {
+                return Utils.logQueryError(err, theStudent, 'Student not found.', errCb)
+            }
+
+            _.forEach(options.countries, function(countryId){
+                theStudent.countries.add(countryId);
+            });
+            theStudent.save(cb);
+        });
+    },
+
+    assignServices: function (options, errCb, cb) {
+        Student.findOne(options.id).exec(function (err, theStudent) {
+            if (err || !theStudent) {
+                return Utils.logQueryError(err, theStudent, 'Student not found.', errCb)
+            }
+
+            _.forEach(options.services, function(serviceId){
+                theStudent.services.add(serviceId);
+            });
+            theStudent.save(cb);
+        });
+    }
+
+
 
 };

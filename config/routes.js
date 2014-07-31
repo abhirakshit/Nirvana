@@ -39,6 +39,7 @@ module.exports.routes = {
 
     'patch         /user/changePassword/:id':     'UserController.changePassword',
 
+//    'get           /student/:id':                 'StudentController.find',
     'patch         /student/:id':                 'StudentController.updatePartial',
     'get           /student/:id/comment':         'StudentController.getComments',
     'get           /student/enquiry':             'StudentController.getEnquiries',

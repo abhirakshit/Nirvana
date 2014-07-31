@@ -403,20 +403,60 @@ module.exports.bootstrap = function (cb) {
         cb();
     };
 
-    var populate = function() {
+    var populate = function(cb) {
         async.series([
-            createCountries(callback),
-            createServices(callback),
-            createStatusTypes(callback),
-//            //Users
-            createAdmin(callback),
-            createStaff(callback),
-//            deleteAllStudents(cb),
-            createStudents(callback),
-            associateStudents(callback)
-        ], callback);
-    };
+//            createCountries(callback),
+//            createServices(callback),
+//            createStatusTypes(callback),
+////            //Users
+//            createAdmin(callback),
+//            createStaff(callback),
+////            deleteAllStudents(cb),
+//            createStudents(callback),
+//            associateStudents(callback)
 
-//    populate(cb);
-  cb();
+            function(callback) {
+                CSVLoaderService.loadCountries("data/", "countries.csv", callback);
+            },
+            function(callback) {
+                CSVLoaderService.loadServices("data/", "services.csv", callback);
+            },
+            function(callback) {
+                CSVLoaderService.loadStatusTypes("data/", "statusTypes.csv", callback);
+            },
+            function(callback) {
+                CSVLoaderService.loadLocations("data/", "locations.csv", callback);
+            },
+            function(callback) {
+                CSVLoaderService.loadStaff("data/", "staff.csv", callback);
+            },
+            function(callback) {
+                CSVLoaderService.loadStudents("data/", "students.csv", callback);
+            },
+            //Associations
+            function(callback) { //Location
+                CSVLoaderService.loadUserLocation("data/", "user_location.csv", callback);
+            },
+            function(callback) { //Staff
+                CSVLoaderService.loadStudentStaff("data/", "student_staff.csv", callback);
+            },
+            function(callback) { //Country
+                CSVLoaderService.loadStudentCountry("data/", "student_country.csv", callback);
+            },
+            function(callback) { //Service
+                CSVLoaderService.loadStudentService("data/", "student_service.csv", callback);
+            },
+            function(callback) { //Comment
+                CSVLoaderService.loadStudentComment("data/", "student_comment.csv", callback);
+            }
+
+        ], function(err, results){
+            if (err) {
+                sails.log.error(err);
+            }
+            cb();
+        });
+    };
+    populate(cb);
+//  cb();
 };

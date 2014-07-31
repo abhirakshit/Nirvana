@@ -4,37 +4,66 @@
         <div>
             <div class="jumbotron">
                 <div class="row">
-                    <h1>Tracker<span class="beta">beta</span></h1>
+                    <h1>Nirvana<span class="beta">beta</span></h1>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-9" style="padding: 10px">
                     <h3>Create quickly. Manage effortlessly.</h3>
-                    <p>A hassle free way to create, manage and track your students.</p>
+                    <p>A hassle free way to mange your center.</p>
                 </div>
 
 
                 <div class="col-md-3" id="login-signup-form">
                     <div id="login">
-                        <form class="form-horizontal" role="form" action="/login" method="post">
-                            <div class="form-group">
-                                <div class="col-sm-10">
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                        <form action="/login" method="post">
+                            <div class="list-group">
+                                <div class="list-group-item">
+                                    <label>Email</label>
+                                    <input type="email" placeholder="Email" id="email" name="email" class="form-control no-border">
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-10">
-                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                                <div class="list-group-item">
+                                    <label>Password</label>
+                                    <input type="password" placeholder="Password" id="password" name="password" class="form-control no-border">
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-10">
-                                    <button type="submit" class="btn btn-default">Sign in</button>
+                            <% if (typeof error != 'undefined') {%>
+                                <div class="list-group-item">
+                                    <i class="fa fa-exclamation" style="color: red"></i>
+                                    <span style="color: red"><%=error%></span>
                                 </div>
+                            <%}%>
                             </div>
+                            <button type="submit" class="btn btn-lg btn-primary btn-block">Sign in</button>
 
+                            <!--<div class="text-center m-t m-b">-->
+                                <!--<a href="#">-->
+                                    <!--<small>Forgot password?</small>-->
+                                <!--</a>-->
+                            <!--</div>-->
+                            <!--<div class="line line-dashed">-->
+
+                            <!--</div> <p class="text-muted text-center"><small>Do not have an account?</small></p> <a href="signup.html" class="btn btn-lg btn-default btn-block">Create an account</a> </form>-->
                         </form>
+
+                        <!--<form class="form-horizontal" role="form" action="/login" method="post">-->
+                            <!--<div class="form-group">-->
+                                <!--<div class="col-sm-10">-->
+                                    <!--<input type="email" class="form-control" id="email" name="email" placeholder="Email">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<div class="col-sm-10">-->
+                                    <!--<input type="password" class="form-control" id="password" name="password" placeholder="Password">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<div class="col-sm-10">-->
+                                    <!--<button type="submit" class="btn btn-default">Sign in</button>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                        <!--</form>-->
 
                     </div>
 
