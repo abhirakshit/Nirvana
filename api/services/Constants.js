@@ -21,4 +21,6 @@ consts.define('ENQ_STATUS_TO_CALL', 'To Call');
 consts.define('ENQ_STATUS_ENROLLED', 'Enrolled');
 
 consts.define('STUDENT', 'student');
+consts.define('STAFF', 'staff');
+consts.define('ADMIN', 'admin');
 consts.define('ENQUIRY', 'enquiry');

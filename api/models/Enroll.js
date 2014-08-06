@@ -11,7 +11,7 @@ module.exports = {
 
         enrollDate: {type: 'datetime'},
 
-        totalFee: {type: 'string'},
+        totalFee: {type: 'float'},
 
         //Associations
         //One to Many: Student to Enroll

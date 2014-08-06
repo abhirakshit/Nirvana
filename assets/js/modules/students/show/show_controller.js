@@ -264,7 +264,7 @@ define([
                 var addedStaff = new Application.Entities.StaffCollection(student.get('staff'));
                 var addedStaffIdList = addedStaff.pluck("id");
 
-                var addedLocations = new Application.Entities.LocationCollection(student.get('user').locations);
+                var addedLocations = new Application.Entities.LocationCollection(student.get('locations'));
                 var addedLocationIdList = addedLocations.pluck("id");
 
 

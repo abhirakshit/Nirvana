@@ -1,6 +1,8 @@
 firstName,lastName,email,encryptedPassword,phone,address,dob,gender,enquiryStatus,followUp,enquiryDate,parentFirstName,parentLastName,parentEmail,parentPhone,intake,intakeYear,major,degree,remarks,source
-Abhishek,Rakshit,abhi@abhi.com,Abhishek,898989898,45 Pond ST,2014-07-28 07:26:11-04,,enrolled,2014-07-28 07:26:11-04,2014-07-28 07:26:11-04,Rupendra,Rakshit,ru@ru.com,898989899,,,,,,
-Noopur,Dutta,,Noopur,,45 Pond ST,2014-07-28 07:26:11-04,,enrolled,2014-07-28 07:26:11-04,2014-07-28 07:26:11-04,,,,898989899,PG,2015,,,Some bloody remarks,
+Abhishek,Rakshit,abhi@abhi.com,Abhishek,898989898,45 Pond ST,2014-07-28 07:26:11-04,,Enrolled,2014-07-28 07:26:11-04,2014-07-28 07:26:11-04,Rupendra,Rakshit,ru@ru.com,898989899,,,,,,
+Noopur,Dutta,,Noopur,,45 Pond ST,2014-07-28 07:26:11-04,,Enrolled,2014-07-28 07:26:11-04,2014-07-28 07:26:11-04,,,,898989899,PG,2015,,,Some bloody remarks,
+Jhampak,,,Jhampak,,45 Pond ST,2014-07-28 07:26:11-04,,In Progress,2014-07-28 07:26:11-04,2014-07-28 07:26:11-04,,,,898989899,PG,2015,,,Some bloody remarks,
+Pyare,Lal,,Pyare,,45 Pond ST,2014-07-28 07:26:11-04,,Closed,2014-07-28 07:26:11-04,2014-07-28 07:26:11-04,,,,898989899,PG,2015,,,Some bloody remarks,
 ,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,

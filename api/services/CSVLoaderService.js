@@ -4,7 +4,6 @@ var _ = require('lodash'),
     consts = require('consts'),
     fs = require('fs'),
     csv = require('fast-csv');
-//    csv = require('csv');
 
 module.exports = {
     loadCountries: function (path, fileName, callback) {
@@ -231,7 +230,7 @@ module.exports = {
 
     },
 
-    loadUserLocation: function (path, fileName, callback) {
+    loadUserLocations: function (path, fileName, callback) {
         var that = this;
         var rowsRead = 0,
             rowsWritten = 0;
@@ -242,6 +241,7 @@ module.exports = {
                 var updatedData = that.compactObject(data);
                 if (!updatedData.location ||
                     (!updatedData.email && !updatedData.firstName)) {
+                    console.log(new Error("Illegal arguments: " + updatedData));
                     return;
                 }
 
@@ -259,20 +259,44 @@ module.exports = {
                     function (locationId, cb) {
                         if (updatedData.email) {
                             //Staff will have a email for sure, student may or may not
-                            User.findOneByEmail(updatedData.email).populate('locations').exec(function (err, user) {
-                                if (err || !user) {
-                                    return Utils.logQueryError(err, user, "No user for email: " + updatedData.email, cb)
-                                }
-
-                                user.locations.add(locationId);
-                                user.save(function (err, updatedUser) {
-                                    if (err || !updatedUser) {
-                                        return Utils.logQueryError(err, updatedUser, "Could not save location", cb)
+                            User.findOneByEmail(updatedData.email)
+                                .populate('staff')
+                                .populate('student')
+                                .exec(function (err, user) {
+                                    if (err || !user) {
+                                        return Utils.logQueryError(err, user, "No user for email: " + updatedData.email, cb)
                                     }
-                                    cb(null);
-                                })
 
-                            })
+                                    var options = {
+                                        locations: [locationId]
+                                    };
+                                    if (user.role == consts.STUDENT) {
+                                        options.id = user.student.id;
+                                        Student.assignLocations(options, cb, function (err, updatedUser) {
+                                            if (err || !updatedUser) {
+                                                return Utils.logQueryError(err, updatedUser, "Could not save location", cb)
+                                            }
+                                            cb(null);
+                                        });
+                                    } else {
+                                        options.id = user.staff.id;
+                                        Staff.assignLocations(options, cb, function (err, updatedUser) {
+                                            if (err || !updatedUser) {
+                                                return Utils.logQueryError(err, updatedUser, "Could not save location", cb)
+                                            }
+                                            cb(null);
+                                        });
+                                    }
+
+//                                user.locations.add(locationId);
+//                                user.save(function (err, updatedUser) {
+//                                    if (err || !updatedUser) {
+//                                        return Utils.logQueryError(err, updatedUser, "Could not save location", cb)
+//                                    }
+//                                    cb(null);
+//                                })
+
+                                })
 
                         } else {
                             //If no email check student by name
@@ -285,13 +309,11 @@ module.exports = {
                                     }
 
                                     var options = {
-                                        id: student.user.id,
+                                        id: student.id,
                                         locations: [locationId]
                                     };
 
-                                    console.log(options);
-
-                                    User.assignLocations(options, cb, function (err, updatedUser) {
+                                    Student.assignLocations(options, cb, function (err, updatedUser) {
                                         if (err || !updatedUser) {
                                             return Utils.logQueryError(err, updatedUser, "Could not save location", cb)
                                         }
@@ -335,6 +357,7 @@ module.exports = {
                 var updatedData = that.compactObject(data);
                 if (!updatedData.staff ||
                     (!updatedData.email && !updatedData.firstName)) {
+                    console.log(new Error("Illegal arguments: " + updatedData));
                     return;
                 }
 
@@ -415,7 +438,7 @@ module.exports = {
 
     },
 
-    loadStudentCountry: function (path, fileName, callback) {
+    loadStudentCountries: function (path, fileName, callback) {
         var that = this;
         var rowsRead = 0,
             rowsWritten = 0;
@@ -426,6 +449,7 @@ module.exports = {
                 var updatedData = that.compactObject(data);
                 if (!updatedData.country ||
                     (!updatedData.email && !updatedData.firstName)) {
+                    console.log(new Error("Illegal arguments: " + updatedData));
                     return;
                 }
 
@@ -506,7 +530,7 @@ module.exports = {
 
     },
 
-    loadStudentService: function (path, fileName, callback) {
+    loadStudentServices: function (path, fileName, callback) {
         var that = this;
         var rowsRead = 0,
             rowsWritten = 0;
@@ -517,6 +541,7 @@ module.exports = {
                 var updatedData = that.compactObject(data);
                 if (!updatedData.service ||
                     (!updatedData.email && !updatedData.firstName)) {
+                    console.log(new Error("Illegal arguments: " + updatedData));
                     return;
                 }
 
@@ -597,7 +622,7 @@ module.exports = {
 
     },
 
-    loadStudentComment: function (path, fileName, callback) {
+    loadStudentComments: function (path, fileName, callback) {
         var that = this;
         var rowsRead = 0,
             rowsWritten = 0;
@@ -608,6 +633,7 @@ module.exports = {
                 var updatedData = that.compactObject(data);
                 if (!updatedData.staffEmail ||
                     (!updatedData.email && !updatedData.firstName)) {
+                    console.log(new Error("Illegal arguments: " + updatedData));
                     return;
                 }
 
@@ -671,7 +697,207 @@ module.exports = {
                 console.log("****Read all students to update comment");
             });
 
+    },
+
+    loadStudentEnrollments: function (path, fileName, callback) {
+        var that = this;
+        var rowsRead = 0,
+            rowsWritten = 0;
+        var csvStream = csv
+            .fromPath(path + fileName, {headers: true, ignoreEmpty: true})
+            .on("record", function (data) {
+                rowsRead++;
+                var updatedData = that.compactObject(data);
+                if (!updatedData.service || !updatedData.totalFee || !updatedData.enrollDate ||
+                    (!updatedData.email && !updatedData.firstName)) {
+                    console.log(new Error("Illegal arguments: " + updatedData));
+                    return;
+                }
+
+                async.waterfall([
+                    function (cb) {
+                        //Find student from user
+                        if (updatedData.email) {
+                            //Staff will have a email for sure, student may or may not
+                            User.findOneByEmail(updatedData.email).populate('student').exec(function (err, user) {
+                                if (err || !user) {
+                                    return Utils.logQueryError(err, user, "No user for email: " + updatedData.email, cb)
+                                }
+                                cb(null, user.student.id);
+                            })
+
+                        } else {
+                            //If no email check student by name
+                            Student.findOne({firstName: updatedData.firstName, lastName: updatedData.lastName})
+                                .exec(function (err, student) {
+                                    if (err || !student) {
+                                        return Utils.logQueryError(err, student, "No student for name: " + updatedData.firstName, cb)
+                                    }
+                                    cb(null, student.id);
+                                })
+                        }
+                    },
+
+                    function (studentId, cb) {
+                        //Find service id from name
+                        Service.findOneByName(updatedData.service).exec(function (err, service) {
+                            if (err || !service) {
+                                return Utils.logQueryError(err, service, "No service for name: " + updatedData.service, cb)
+                            }
+
+                            cb(null, studentId, service.id);
+                        })
+                    },
+
+                    //Create Enrollment
+                    function (studentId, serviceId, cb) {
+                        var values = {student: studentId, service: serviceId,
+                            totalFee: updatedData.totalFee, enrollDate: updatedData.enrollDate };
+                        Enroll.create(values).exec(function (err, enroll) {
+                            if (err || !enroll) {
+                                return Utils.logQueryError(err, enroll, "Could not create enrollment: " + values, cb)
+                            }
+                            cb(null);
+                        });
+                    }
+                ], function (err) {
+                    if (err) {
+                        sails.log.error(err);
+                    }
+                    console.log("**Updated student enrollment");
+                    console.log(updatedData);
+
+                    /**
+                     * The async code make the csv reader not wait for the row to be updated in the
+                     * DB. This code forces the callback to wait until all rows have been processed.
+                     */
+                    rowsWritten++;
+                    if (rowsRead === rowsWritten) {
+                        console.log("****Updated enrollments for all students");
+                        callback(null);
+                    }
+                });
+            })
+            .on("end", function () {
+                console.log("****Read all students to update enrollments");
+            });
+
+    },
+
+    loadStudentPayments: function (path, fileName, callback) {
+        var that = this;
+        var rowsRead = 0,
+            rowsWritten = 0;
+        var csvStream = csv
+            .fromPath(path + fileName, {headers: true, ignoreEmpty: true})
+            .on("record", function (data) {
+                rowsRead++;
+                var updatedData = that.compactObject(data);
+                if (!updatedData.receivedBy || !updatedData.totalFee ||
+                    (!updatedData.email && !updatedData.firstName)) {
+                    console.log(new Error("Illegal arguments: " + updatedData));
+                    return;
+                }
+
+                async.waterfall([
+                    function (cb) {
+                        //Find student from user
+                        if (updatedData.email) {
+                            //Staff will have a email for sure, student may or may not
+                            User.findOneByEmail(updatedData.email).populate('student').exec(function (err, user) {
+                                if (err || !user) {
+                                    return Utils.logQueryError(err, user, "No user for email: " + updatedData.email, cb)
+                                }
+                                cb(null, user.student.id);
+                            })
+
+                        } else {
+                            //If no email check student by name
+                            Student.findOne({firstName: updatedData.firstName, lastName: updatedData.lastName})
+                                .exec(function (err, student) {
+                                    if (err || !student) {
+                                        return Utils.logQueryError(err, student, "No student for name: " + updatedData.firstName, cb)
+                                    }
+                                    cb(null, student.id);
+                                })
+                        }
+                    },
+
+                    function (studentId, cb) {
+                        //Find service id from name
+                        Service.findOneByName(updatedData.service).exec(function (err, service) {
+                            if (err || !service) {
+                                return Utils.logQueryError(err, service, "No service for name: " + updatedData.service, cb)
+                            }
+
+                            cb(null, studentId, service.id);
+                        })
+                    },
+
+                    //Find Enrollment Id
+                    function (studentId, serviceId, cb) {
+                        var options = {student: studentId,
+                            service: serviceId,
+                            totalFee: Number(updatedData.totalFee)
+                        };
+                        Enroll.findOne(options).exec(function (err, enroll) {
+                            if (err || !enroll) {
+                                console.log(options);
+                                return Utils.logQueryError(err, enroll, "Could not find enrollment: " + options, cb)
+                            }
+                            cb(null, enroll.id);
+                        })
+                    },
+
+                    //Find staff from receivedBy
+                    function (enrollId, cb) {
+                        //Find staff id from email
+                        User.findOneByEmail(updatedData.receivedBy).populate('staff').exec(function (err, user) {
+                            if (err || !user) {
+                                return Utils.logQueryError(err, user, "No user for email: " + updatedData.receivedBy, cb)
+                            }
+
+                            cb(null, enrollId, user.staff.id);
+                        })
+                    },
+
+                    //Create payment
+                    function (enrollId, staffId, cb) {
+                        var values = {amount: updatedData.amount, method: updatedData.method, enroll: enrollId,
+                            receiptNumber: updatedData.receiptNumber, paymentDate: updatedData.paymentDate,
+                            receivedBy: staffId };
+                        //create a enrollment for a student id
+                        Payment.create(values).exec(function (err, payment) {
+                            if (err || !payment) {
+                                return Utils.logQueryError(err, payment, "Could not create payment: " + values, cb)
+                            }
+                            cb(null);
+                        });
+                    }
+                ], function (err) {
+                    if (err) {
+                        sails.log.error(err);
+                    }
+                    console.log("**Updated student payment");
+                    console.log(updatedData);
+
+                    /**
+                     * The async code make the csv reader not wait for the row to be updated in the
+                     * DB. This code forces the callback to wait until all rows have been processed.
+                     */
+                    rowsWritten++;
+                    if (rowsRead === rowsWritten) {
+                        console.log("****Updated payments for all students");
+                        callback(null);
+                    }
+                });
+            })
+            .on("end", function () {
+                console.log("****Read all students to update payment");
+            });
+
     }
+
 };
 
 

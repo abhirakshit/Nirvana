@@ -13,7 +13,7 @@ module.exports = {
 
 	attributes: {
 
-        amount: {type: 'string'},
+        amount: {type: 'float'},
 
         receiptNumber: {type: 'string'},
 

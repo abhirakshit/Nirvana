@@ -24,11 +24,11 @@ module.exports = {
         gender: {type: 'string', defaultsTo: 'male'},
 
         //Many to Many: Location to User
-//        locations: {
-//            collection: 'Location',
-//            via: 'staff',
-//            dominant: true
-//        },
+        locations: {
+            collection: 'Location',
+            via: 'staff',
+            dominant: true
+        },
 
         //One to One: User to Staff
         user: {
@@ -76,6 +76,26 @@ module.exports = {
                 return this.firstName;
         }
 
+    },
+
+    /**
+     //     * Assign a user in one or more locations.
+     //     * @param  {Object}   options
+     //     *            => locations {Array} list of location ids
+     //     *            => id {Integer} id of the enrolling user
+     //     * @param  {Function} cb
+     //     */
+    assignLocations: function (options, errCb, cb) {
+        Staff.findOne(options.id).exec(function (err, theUser) {
+            if (err || !theUser) {
+                return Utils.logQueryError(err, theUser, 'User not found.', errCb);
+            }
+
+            _.forEach(options.locations, function(locationId){
+                theUser.locations.add(locationId);
+            });
+            theUser.save(cb);
+        });
     }
 
 };
