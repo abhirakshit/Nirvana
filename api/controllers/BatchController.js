@@ -122,6 +122,34 @@ removeStudent = function (batchId, staffId, removeStudentId, res) {
 
 module.exports = {
 
+    find: function (req, res) {
+        var id = req.param('id');
+        if (!id) {
+            // Find all batches
+            Batch.find()
+                .populate('service').exec(function (err, batches) {
+                    if (err || !batches) {
+                        return res.badRequest('Could not find batches');
+                    }
+
+                    return res.json(batches);
+
+                })
+        } else {
+            Batch.findOne(id).
+                populate('service').
+                populate('students').
+                populate('classes').
+                exec(function (err, batch) {
+                    if (err || !batch) {
+                        console.log(err);
+                        res.badRequest('Could not find batch for id: ' + id);
+                    }
+                    res.json(batch);
+                })
+        }
+    },
+
     create: function (req, res) {
         var batchId = req.param('id'),
             staffId = UserService.getCurrentStaffUserId(req);
@@ -194,7 +222,7 @@ module.exports = {
             .populate('classes')
             .populate('students')
             .exec(function (err, batchList) {
-                if (err) {
+                if (err || !batchList) {
                     return res.json(err);
                 }
 

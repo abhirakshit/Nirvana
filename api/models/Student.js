@@ -24,7 +24,7 @@ module.exports = {
 
         dob: {type: 'datetime'},
 
-        gender: {type: 'string', defaultsTo: 'male'},
+        gender: {type: 'string', defaultsTo: 'M'},
 
         parentFirstName: {type: 'string'},
 

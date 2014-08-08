@@ -17,52 +17,54 @@ module.exports.bootstrap = function (cb) {
   // It's very important to trigger this callback method when you are finished
   // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
 
+//    var dataDir = "data/";
+    var dataDir = "data1/";
     var populate = function(cb) {
         async.series([
             //Meta Data
+//            function(callback) {
+//                CSVLoaderService.loadCountries(dataDir, "countries.csv", callback);
+//            },
+//            function(callback) {
+//                CSVLoaderService.loadServices(dataDir, "services.csv", callback);
+//            },
             function(callback) {
-                CSVLoaderService.loadCountries("data/", "countries.csv", callback);
+                CSVLoaderService.loadStatusTypes(dataDir, "statusTypes.csv", callback);
             },
+//            function(callback) {
+//                CSVLoaderService.loadLocations(dataDir, "locations.csv", callback);
+//            },
+//
+//            //Add Users
+//            function(callback) {
+//                CSVLoaderService.loadStaff(dataDir, "staff.csv", callback);
+//            },
             function(callback) {
-                CSVLoaderService.loadServices("data/", "services.csv", callback);
-            },
-            function(callback) {
-                CSVLoaderService.loadStatusTypes("data/", "statusTypes.csv", callback);
-            },
-            function(callback) {
-                CSVLoaderService.loadLocations("data/", "locations.csv", callback);
-            },
-
-            //Add Users
-            function(callback) {
-                CSVLoaderService.loadStaff("data/", "staff.csv", callback);
-            },
-            function(callback) {
-                CSVLoaderService.loadStudents("data/", "students.csv", callback);
+                CSVLoaderService.loadStudents(dataDir, "students.csv", callback);
             },
 
             //Student Associations
-            function(callback) { //Location
-                CSVLoaderService.loadUserLocations("data/", "user_locations.csv", callback);
-            },
-            function(callback) { //Staff
-                CSVLoaderService.loadStudentStaff("data/", "student_staff.csv", callback);
-            },
-            function(callback) { //Country
-                CSVLoaderService.loadStudentCountries("data/", "student_country.csv", callback);
-            },
-            function(callback) { //Service
-                CSVLoaderService.loadStudentServices("data/", "student_services.csv", callback);
-            },
-            function(callback) { //Comment
-                CSVLoaderService.loadStudentComments("data/", "student_comments.csv", callback);
-            },
-            function(callback) { //Enrollments
-                CSVLoaderService.loadStudentEnrollments("data/", "student_enrollments.csv", callback);
-            },
-            function(callback) { //Payments
-                CSVLoaderService.loadStudentPayments("data/", "student_payments.csv", callback);
-            }
+//            function(callback) { //Location
+//                CSVLoaderService.loadUserLocations(dataDir, "user_locations.csv", callback);
+//            },
+//            function(callback) { //Staff
+//                CSVLoaderService.loadStudentStaff(dataDir, "student_staff.csv", callback);
+//            },
+//            function(callback) { //Country
+//                CSVLoaderService.loadStudentCountries(dataDir, "student_country.csv", callback);
+//            },
+//            function(callback) { //Service
+//                CSVLoaderService.loadStudentServices(dataDir, "student_services.csv", callback);
+//            },
+//            function(callback) { //Comment
+//                CSVLoaderService.loadStudentComments(dataDir, "student_comments.csv", callback);
+//            },
+//            function(callback) { //Enrollments
+//                CSVLoaderService.loadStudentEnrollments(dataDir, "student_enrollments.csv", callback);
+//            },
+//            function(callback) { //Payments
+//                CSVLoaderService.loadStudentPayments(dataDir, "student_payments.csv", callback);
+//            }
 
         ], function(err, results){
             if (err) {
@@ -71,6 +73,6 @@ module.exports.bootstrap = function (cb) {
             cb();
         });
     };
-//    populate(cb);
-  cb();
+    populate(cb);
+//  cb();
 };

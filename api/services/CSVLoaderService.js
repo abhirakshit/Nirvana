@@ -101,12 +101,16 @@ module.exports = {
             .on("record", function (data) {
                 rowsRead++;
                 var updatedData = that.compactObject(data);
+                if (!updatedData.firstName || !updatedData.email || !updatedData.encryptedPassword) {
+                    console.log(new Error("Illegal arguments: " + updatedData));
+                    return;
+                }
+
                 async.waterfall([
                     function (cb) {
                         User.create(updatedData).exec(function (err, user) {
-                            if (err) {
-                                console.log("Could not create user: " + err);
-                                cb(err);
+                            if (err || !user) {
+                                return Utils.logQueryError(err, user, "Could not create user: " + updatedData.email, cb);
                             }
                             cb(null, user.id);
                         });
@@ -116,11 +120,13 @@ module.exports = {
                         Staff.create(updatedData).exec(function (err, newStaff) {
                             if (err) {
                                 console.log("Could not create staff: " + err);
-                                cb(err);
+//                                return cb(err);
+                                return Utils.logQueryError(err, newStaff, "Could not create staff: " + updatedData.email, cb);
                             }
                             User.update({id: userId}, {staff: newStaff.id}).exec(function (err, updatedUser) {
                                 if (err || !updatedUser) {
-                                    return cb(err);
+//                                    return cb(err);
+                                    return Utils.logQueryError(err, updatedUser, "Could not find user.", cb);
                                 }
 
                                 cb(null, newStaff);
@@ -131,7 +137,7 @@ module.exports = {
                     if (err) {
                         sails.log.error(err);
                     }
-                    console.log("**Created Staff: " + staff);
+                    console.log("**Created Staff: " + staff.fullName);
 
                     /**
                      * The async code make the csv reader not wait for the row to be updated in the
@@ -166,6 +172,10 @@ module.exports = {
             .on("record", function (data) {
                 rowsRead++;
                 var updatedData = that.compactObject(data);
+                if (!updatedData.firstName || !updatedData.encryptedPassword) {
+                    console.log(new Error("Illegal arguments: " + updatedData));
+                    return;
+                }
                 async.waterfall([
                     function (cb) {
                         if (!updatedData.email) {
@@ -173,8 +183,10 @@ module.exports = {
                         }
                         User.create(updatedData).exec(function (err, user) {
                             if (err || !user) {
-                                console.log("Could not create user: " + err);
-                                cb(err);
+                                console.log("Could not create user: " + updatedData.firstName);
+                                console.log(err);
+//                                return cb(err);
+                                return Utils.logQueryError(err, user, "Could not create user: " + updatedData.firstName, cb);
                             }
                             cb(null, user.id);
                         });
@@ -183,23 +195,25 @@ module.exports = {
                         updatedData.user = userId;
 
                         if (!updatedData.enquiryStatus) {
-                            updatedData.enquiryStatus = "In Progress"
+                            updatedData.enquiryStatus = "In-Progress"
                         }
 
                         EnquiryStatus.findOne({name: updatedData.enquiryStatus}).exec(function (err, enquiry) {
                             if (err || !enquiry) {
-                                return cb(err);
+                                return Utils.logQueryError(err, enquiry, "Could not find enquiry status", cb);
                             }
 
                             updatedData.enquiryStatus = enquiry.id;
                             Student.create(updatedData).exec(function (err, newStudent) {
                                 if (err || !newStudent) {
                                     console.log("Could not create student: " + err);
-                                    return cb(err);
+                                    console.log(updatedData);
+                                    return Utils.logQueryError(err, newStudent, "Could not create student", cb);
                                 }
                                 User.update({id: userId}, {student: newStudent.id}).exec(function (err, updatedUser) {
                                     if (err || !updatedUser) {
-                                        return cb(err);
+                                        console.log("Could not update user: " + err);
+                                        return Utils.logQueryError(err, updatedUser, "Could not update user", cb);
                                     }
 
                                     cb(null, newStudent);
@@ -208,10 +222,13 @@ module.exports = {
                         })
                     }
                 ], function (err, student) {
-                    if (err) {
-                        sails.log.error(err);
+                    if (err || !student) {
+                        console.log(err);
+                        console.log("Could not create student--");
+                        console.log(updatedData);
+                    } else {
+                        console.log("**Created Student: " + student.firstName);
                     }
-                    console.log("**Created Student: " + student);
 
                     /**
                      * The async code make the csv reader not wait for the row to be updated in the
@@ -270,7 +287,8 @@ module.exports = {
                                     var options = {
                                         locations: [locationId]
                                     };
-                                    if (user.role == consts.STUDENT) {
+                                    console.log(user);
+                                    if (user.role === consts.STUDENT) {
                                         options.id = user.student.id;
                                         Student.assignLocations(options, cb, function (err, updatedUser) {
                                             if (err || !updatedUser) {
