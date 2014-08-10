@@ -137,7 +137,7 @@ module.exports = {
                     if (err) {
                         sails.log.error(err);
                     }
-                    console.log("**Created Staff: " + staff.fullName);
+                    console.log("**Created Staff: " + staff.firstName);
 
                     /**
                      * The async code make the csv reader not wait for the row to be updated in the

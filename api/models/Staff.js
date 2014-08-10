@@ -15,13 +15,13 @@ module.exports = {
 
         lastName: {type: 'string'},
 
-        phoneNumber: {type: 'string', defaultsTo: '1112223333', required: true},
+        phoneNumber: {type: 'string', defaultsTo: 'unknown', required: true},
 
         address: {type: 'text'},
 
         dob: {type: 'datetime'},
 
-        gender: {type: 'string', defaultsTo: 'male'},
+        gender: {type: 'string', defaultsTo: 'M'},
 
         //Many to Many: Location to User
         locations: {

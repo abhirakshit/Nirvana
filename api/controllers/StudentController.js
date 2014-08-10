@@ -893,11 +893,14 @@ module.exports = {
                     else
                         closedId = enquiry.id;
                 }
+                console.log("Enrolled: " + enrolledId);
+                console.log("Closed: " + closedId);
 
-                Student
-                    .find({
+                Student.find(
+                    {
                         enquiryStatus: {'!': [closedId, enrolledId]}
-                    })
+                    }
+                )
                     .populate('services')
                     .populate('countries')
                     .populate('staff')
@@ -908,6 +911,8 @@ module.exports = {
                         }
                         res.json(students);
                     });
+
+//                res.json("Hello thr");
 
             });
     },
