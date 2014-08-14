@@ -180,7 +180,7 @@ define([
             createNewClass: function(evt) {
                 evt.preventDefault();
                 var data = Backbone.Syphon.serialize(this);
-                this.model.set(data);
+                this.model.set(Application.Views.trimFormData(data));
 
                 if (!data.name) {
                     var val = _.find(this.options.allTopics, function(topic){

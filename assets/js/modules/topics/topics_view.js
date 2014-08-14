@@ -143,7 +143,7 @@ define([
             submit: function(evt) {
                 evt.preventDefault();
                 var data = Backbone.Syphon.serialize(this);
-                this.model.set(data);
+                this.model.set(Application.Views.trimFormData(data));
 
                 var isValid = this.model.isValid(true);
                 if (isValid) {

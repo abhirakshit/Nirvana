@@ -24,7 +24,7 @@ define([
 //                    "sDom": "<'row'<'col-sm-6'l><'col-sm-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>",
 //                    "bJQueryUI": true,
 //                    "bLengthChange" : false,
-                "sPaginationType": "full_numbers"
+                "sPaginationType": "full_numbers",
 //                "bFilter" : false
 //                    "bInfo": false
 
@@ -75,6 +75,17 @@ define([
                     confirmBtnClass: confirmBtnClass
                 })
             })
+        };
+
+        Views.trimFormData = function (formData) {
+            _.each(formData, function (value, prop) {
+                if (value) {
+                    formData[prop] = value.trim();
+                }
+            });
+
+            console.log(formData);
+            return formData;
         }
 
 

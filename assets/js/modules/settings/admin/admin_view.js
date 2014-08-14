@@ -105,7 +105,7 @@ define([], function () {
                 var data = Backbone.Syphon.serialize(this);
                 data.existingNames = this.options.existingNames;
 
-                this.model.set(data);
+                this.model.set(Application.Views.trimFormData(data));
                 var isValid = this.model.isValid(true);
                 if (isValid) {
                     Application.Views.hideModal(this.options.modalId);

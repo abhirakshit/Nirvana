@@ -1,16 +1,16 @@
 define([
     "modules/enquiries/content/all/all_view"
 //    "modules/enquiries/content/base/base_view"
-], function(){
-    Application.module("Enquiries.Content.All", function(All, Application, Backbone, Marionette, $, _) {
+], function () {
+    Application.module("Enquiries.Content.All", function (All, Application, Backbone, Marionette, $, _) {
 
         All.Controller = Application.Controllers.Base.extend({
-            initialize: function() {
+            initialize: function () {
                 var user = Application.request(Application.GET_LOGGED_USER);
                 var allEnquiries = Application.request(Application.GET_ENQUIRIES);
                 this.layout = this.getLayout();
 
-                this.listenTo(this.layout, Application.SHOW, function(){
+                this.listenTo(this.layout, Application.SHOW, function () {
                     if (this.options.byDate)
                         this.setupAllDateTabContent(user, allEnquiries);
                     else
@@ -24,7 +24,7 @@ define([
                 });
             },
 
-            setupTabContent: function(user, allEnquiries) {
+            setupTabContent: function (user, allEnquiries) {
                 var columns = new Application.Entities.Collection([
                     new Application.Entities.Model({columnName: "Name"}),
                     new Application.Entities.Model({columnName: "Created"}),
@@ -36,12 +36,11 @@ define([
                     new Application.Entities.Model({columnName: "Assigned To"})
                 ]);
                 this.setUpEnquiryTableView(allEnquiries.models, columns, "Enquiries", "allTable", this.layout.pendingEnquiriesRegion);
-//                this.setUpEnquiryTableView(allEnquiries, columns, "Enquiries", "allTable", this.layout.pendingEnquiriesRegion);
             },
 
-            setupAllDateTabContent: function(user, allEnquiries) {
+            setupAllDateTabContent: function (user, allEnquiries) {
                 var pendingModels = _.filter(allEnquiries.models,
-                    function(enquiry){
+                    function (enquiry) {
                         return moment().isAfter(enquiry.get('followUp'), 'day');
                     }
                 );
@@ -57,12 +56,11 @@ define([
                     new Application.Entities.Model({columnName: "Assigned To"})
                 ]);
                 var title = '<i style="color: red;" class="fa fa-exclamation-triangle"></i>&nbsp;Pending Enquiries';
-//                this.setUpEnquiryTableView(pendingModels, pendingColumns, "Pending Enquiries", "pendingTable",this.layout.pendingEnquiriesRegion);
-                this.setUpEnquiryTableView(pendingModels, pendingColumns, title, "pendingTable",this.layout.pendingEnquiriesRegion);
+                this.setUpEnquiryTableView(pendingModels, pendingColumns, title, "pendingTable", this.layout.pendingEnquiriesRegion);
 
 
                 //Todays
-                var todaysModels = _.filter(allEnquiries.models, function(enquiry){
+                var todaysModels = _.filter(allEnquiries.models, function (enquiry) {
                     return moment().isSame(enquiry.get('followUp'), 'day');
                 });
                 var todaysColumns = new Application.Entities.Collection([
@@ -74,34 +72,34 @@ define([
                     new Application.Entities.Model({columnName: "Status"}),
                     new Application.Entities.Model({columnName: "Assigned To"})
                 ]);
-                
-     var todaysEnquiries = '<i style="color: green;" class="i i-phone2"></i>&nbsp;Todays Enquiries'
 
-        this.setUpEnquiryTableView(todaysModels, todaysColumns, todaysEnquiries, "todaysTable", this.layout.todaysEnquiriesRegion);
+                var todaysEnquiries = '<i style="color: green;" class="i i-phone2"></i>&nbsp;Todays Enquiries'
+
+                this.setUpEnquiryTableView(todaysModels, todaysColumns, todaysEnquiries, "todaysTable", this.layout.todaysEnquiriesRegion);
 
                 //Future
-                var futureModels = _.filter(allEnquiries.models, function(student){
+                var futureModels = _.filter(allEnquiries.models, function (student) {
                     return moment().isBefore(student.get('followUp'), 'day');
 //                    return moment().isBefore(student.get('followUp'));
                 });
 
-               var futureEnquiries = '<i style="color: orange;" class="i i-paperplane"></i>&nbsp;Future Enquiries'
+                var futureEnquiries = '<i style="color: orange;" class="i i-paperplane"></i>&nbsp;Future Enquiries'
 
-                this.setUpEnquiryTableView(futureModels, pendingColumns, futureEnquiries, "futureTable",this.layout.futureEnquiriesRegion);
+                this.setUpEnquiryTableView(futureModels, pendingColumns, futureEnquiries, "futureTable", this.layout.futureEnquiriesRegion);
             },
 
-            setUpEnquiryTableView: function(rowModels, headerColumns, tableTitle, tableId, region) {
+            setUpEnquiryTableView: function (rowModels, headerColumns, tableTitle, tableId, region) {
                 var rows = new Application.Entities.StudentCollection(rowModels);
                 var tableComposite = this.getTableView(tableId, tableTitle, headerColumns, rows);
 
                 var that = this;
-                this.listenTo(tableComposite, Application.ENQUIRY_SHOW, function(studentId){
+                this.listenTo(tableComposite, Application.ENQUIRY_SHOW, function (studentId) {
                     Application.execute(Application.ENQUIRY_SHOW, that.options.region, studentId);
                 });
                 region.show(tableComposite);
             },
 
-            getTableView: function(tableId, title, theadColumns, rows) {
+            getTableView: function (tableId, title, theadColumns, rows) {
                 return new All.views.TableComposite({
 //                return new All.parent.views.TableComposite({
                     model: new Application.Entities.Model({
@@ -113,13 +111,12 @@ define([
                 });
             },
 
-            getLayout: function() {
+            getLayout: function () {
 //                return new All.parent.views.Layout();
                 return new All.views.Layout();
             }
 
         });
-
 
 
     });

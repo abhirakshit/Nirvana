@@ -104,7 +104,7 @@ define([
             createEnrollment: function (evt) {
                 evt.preventDefault();
                 var data = Backbone.Syphon.serialize(this);
-                this.model.set(data);
+                this.model.set(Application.Views.trimFormData(data));
 
                 //console.log(data);
 
@@ -144,7 +144,7 @@ define([
                 evt.preventDefault();
                 var data = Backbone.Syphon.serialize(this);
                 data.enroll = this.options.enroll;
-                this.model.set(data);
+                this.model.set(Application.Views.trimFormData(data));
 
                 console.log(data);
 
@@ -263,7 +263,7 @@ define([
             createEducationInfo: function (evt) {
                 evt.preventDefault();
                 var data = Backbone.Syphon.serialize(this);
-                this.model.set(data);
+                this.model.set(Application.Views.trimFormData(data));
 
                 var isValid = this.model.isValid(true);
                 if (isValid) {

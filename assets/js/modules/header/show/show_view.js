@@ -122,19 +122,13 @@ define([
 
             onRender: function() {
                 Backbone.Validation.bind(this);
-
-//                console.log("Add picker");
-
                 this.renderRoleSelect(this.options.roleTypes, "#role");
 
                 //Add datetime field
                 Application.Views.addDateTimePicker(this.$el.find('#followUpDiv'));
 
                 //TODO Add Assigned to
-
-
                 //TODO Add status
-
             },
 
             renderRoleSelect :function (list, element) {
@@ -147,7 +141,7 @@ define([
             createNewUser: function(evt) {
                 evt.preventDefault();
                 var data = Backbone.Syphon.serialize(this);
-                this.model.set(data);
+                this.model.set(Application.Views.trimFormData(data));
 
                 var isValid = this.model.isValid(true);
                 if (isValid) {

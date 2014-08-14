@@ -878,6 +878,7 @@ module.exports = {
     },
 
     getEnquiries: function (req, res) {
+
         EnquiryStatus
             .find()
             .where({name: [consts.ENQ_STATUS_ENROLLED, consts.ENQ_STATUS_CLOSED]})
@@ -893,14 +894,9 @@ module.exports = {
                     else
                         closedId = enquiry.id;
                 }
-                console.log("Enrolled: " + enrolledId);
-                console.log("Closed: " + closedId);
 
-                Student.find(
-                    {
-                        enquiryStatus: {'!': [closedId, enrolledId]}
-                    }
-                )
+                Student.find({enquiryStatus: {'!': [closedId, enrolledId]}})
+                    .limit(5)
                     .populate('services')
                     .populate('countries')
                     .populate('staff')
@@ -911,9 +907,6 @@ module.exports = {
                         }
                         res.json(students);
                     });
-
-//                res.json("Hello thr");
-
             });
     },
 

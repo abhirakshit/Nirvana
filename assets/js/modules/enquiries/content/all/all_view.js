@@ -21,17 +21,6 @@ define([
         });
 
 
-//        var tableTitleHtml = "<%=args.title%>";
-//        All.views.TableTitle = Application.Views.ItemView.extend({
-//            template: function(serialized_model) {
-//                return _.template(tableTitleHtml,
-//                    {title: serialized_model.title},
-//                    {variable: 'args'});
-//            },
-//            tagName:"span"
-//        });
-
-
         //Table Head
         All.views.TableHeadColumn = Application.Views.ItemView.extend({
             template: function(serialized_model){
@@ -127,8 +116,15 @@ define([
 
                 this.$el.find("thead").append(theadView.render().el);
 
+                var options = {
+                    "sPaginationType": "full_numbers",
+                    "processing": true,
+                    "serverSide": true,
+                    "deferRender": true,
+                    "ajax": $('#' + this.model.get('tableId')).data("/student/enquiry")
+                };
                 //Add Datatables
-                Application.Views.addDatatable(this.$el.find('#' + this.model.get('tableId')));
+                Application.Views.addDatatable(this.$el.find('#' + this.model.get('tableId')), options);
             }
         });
 
