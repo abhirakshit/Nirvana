@@ -4,7 +4,14 @@ module.exports = {
     },
 
     logQueryError: function(err, model, msg, cb) {
-        if (err) return cb(err);
-        if (!model) return cb(new Error(msg));
+        if (err) {
+            console.log(err);
+            return cb(err);
+        }
+        if (!model) {
+            var error = new Error(msg);
+            console.log(error);
+            return cb(error);
+        }
     }
 };

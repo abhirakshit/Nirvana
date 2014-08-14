@@ -878,36 +878,44 @@ module.exports = {
     },
 
     getEnquiries: function (req, res) {
+        EnquiryView.find().exec(function (err, enquiries) {
+            if(err || !enquiries) {
+                return Utils.logQueryError(err, enquiries, "Could not find enquiries.", function(err) {
+                    res.badRequest(err);
+                });
+            }
+            res.json(enquiries);
+        })
 
-        EnquiryStatus
-            .find()
-            .where({name: [consts.ENQ_STATUS_ENROLLED, consts.ENQ_STATUS_CLOSED]})
-            .exec(function (err, enqStatusList) {
-                if (err || !enqStatusList) {
-                    return res.badRequest("Could not find enquiry status list." + "\n" + err);
-                }
-                var enrolledId, closedId;
-                while (enqStatusList.length) {
-                    var enquiry = enqStatusList.pop();
-                    if (enquiry.name === consts.ENQ_STATUS_ENROLLED)
-                        enrolledId = enquiry.id;
-                    else
-                        closedId = enquiry.id;
-                }
-
-                Student.find({enquiryStatus: {'!': [closedId, enrolledId]}})
-                    .limit(5)
-                    .populate('services')
-                    .populate('countries')
-                    .populate('staff')
-                    .populate('enquiryStatus')
-                    .exec(function (err, students) {
-                        if (err || !students) {
-                            return res.badRequest("Could not find students." + "\n" + err);
-                        }
-                        res.json(students);
-                    });
-            });
+//        EnquiryStatus
+//            .find()
+//            .where({name: [consts.ENQ_STATUS_ENROLLED, consts.ENQ_STATUS_CLOSED]})
+//            .exec(function (err, enqStatusList) {
+//                if (err || !enqStatusList) {
+//                    return res.badRequest("Could not find enquiry status list." + "\n" + err);
+//                }
+//                var enrolledId, closedId;
+//                while (enqStatusList.length) {
+//                    var enquiry = enqStatusList.pop();
+//                    if (enquiry.name === consts.ENQ_STATUS_ENROLLED)
+//                        enrolledId = enquiry.id;
+//                    else
+//                        closedId = enquiry.id;
+//                }
+//
+//                Student.find({enquiryStatus: {'!': [closedId, enrolledId]}})
+//                    .limit(5)
+//                    .populate('services')
+//                    .populate('countries')
+//                    .populate('staff')
+//                    .populate('enquiryStatus')
+//                    .exec(function (err, students) {
+//                        if (err || !students) {
+//                            return res.badRequest("Could not find students." + "\n" + err);
+//                        }
+//                        res.json(students);
+//                    });
+//            });
     },
 
     getClosedEnquiries: function (req, res) {

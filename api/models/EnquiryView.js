@@ -23,7 +23,7 @@ module.exports = {
 
         countries: {type: 'string'},
 
-        assinedTo: {type: 'string'}
+        assignedTo: {type: 'string'}
 
 
 	}
