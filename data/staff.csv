@@ -1,1 +1,25 @@
-firstName,lastName,email,encryptedPassword,phone,role,address,dob,genderAdmin,,admin@admin.com,admin,999999999,admin,,2014-07-28 07:26:11-04,Ankita,Rakshit,ankita@ankita.com,1,898989898,staff,,2014-07-28 07:26:11-04,Ashish,Gupta,ashish@ashish.com,1,88888888,staff,,2014-07-28 07:26:11-04,
+firstName,lastName,email,encryptedPassword,phone,role,address,dob,gender
+Andleeb,Kamaal,akamaal@mnemoniceducation.com,andleeb,0,staff,,,
+Ashima,Sethi,asethi@mnemoniceducatiopn.com,ashima,9873244765,"staff               ",E-99 1st floor  Amar Colony Lajpat Nagar-4 New Delhi Delhi 110024,1984-08-17 07:26:11-04,F
+Bee,Hokishe,bhokishe@mnemoniceducation.com,bee,8860553478,"staff               ","1564/1  1st floor  Tula Nagar  Kotla Mubarakpur  Near South Extension Part-1 New Delhi Delhi ",1974-07-30 07:26:11-04,M
+Chetna,Mishra,cmishra@mnemoniceducation.com,chetna,9899943862,staff,406 Paradise Apartments  Plot no.1  Sec-9  Dwarka New Delhi Delhi 110075,1989-01-10 07:26:11-04,F
+Chetali,Sharma,csharma@mnemoniceducation.com,chetali,9891437782,staff,105 Kapil Vihar Pitampura New Delhi Delhi 110034,1989-04-05 07:26:11-04,F
+Ekjot,Bamra,ebamra@mnemoniceducation.com,ekjot,9582247570,"staff               ",863   Rani Bagh Delhi 110034,1988-03-16 07:26:11-04,F
+Hitesh,Wadhwa,hwadhwa@mnemoniceducation.com,hitesh,9999154221,"staff               ",CG-4  Shiva Enclave  A-9  Paschim Vihar New Delhi Delhi 110063,1983-11-26 07:26:11-04,M
+Meenakshi,Rana,mrana@mnemoniceducation.com,meenakshi,9718326001,"staff               ","   ",1989-06-07 07:26:11-04,F
+Nitika,Chhabra,nchhabra@mnemoniceducation.com,nitika,8377017731,staff,H No-4405  Kh No-117/26  IIIrd Floor  Street No-110/5  Block-B  Sant Nagar  Burari Delhi 110084,1990-08-28 07:26:11-04,F
+Neha,Lawania,nlawania@mnemoniceducation.com,neha,0,staff,,,
+Piiyush,Garg,pgarg@mnemoniceducation.com,piiyush,7503341833,"staff               ","   ",1990-02-06 07:26:11-04,M
+"Parul ",Gupta,pgupta@mnemoniceducation.com,"parul ",9811993349,staff,"   ",1990-04-06 07:26:11-04,F
+Puneet,Mukherjee,pmukherjee@mnemoniceducation.com,puneet,7838194919,"staff               ",12/20  First Floor  Tilak Nagar Delhi 110018,1978-12-13 07:26:11-04,F
+Priya,Luthra,priya@mnemoniceducation.com,priya,9999478811,staff,384-Nirankari Colony   Near Dr. Mukherjee Nagar Delhi 110009,1983-06-02 07:26:11-04,F
+Rajshree,Prasad,rajshree@mnemoniceducation.com,rajshree,8826449041,"staff               ","   ",1988-12-11 07:26:11-04,F
+Rahul,Arora,rarora@mnemoniceducation.com,rahul,9810505072,staff,186/8 Faridabad Haryana 12006,1986-12-09 07:26:11-04,M
+Rajdeep,Guha,rguha@mnemoniceducation.com,rajdeep,8447109331,"staff               ",4  Utpal Dutta Sarani  (Formerly 130 Atul Prasad Sarani  East Vivekananda Pally Siliguri WEst Bengal 734006,1982-12-25 07:26:11-04,M
+Rekha,Rana,rrana@mnemoniceducation.com,rekha,9871144145,staff,WZ-3219 / 3220  3rd Floor Mahindra Park  Rani Bagh Delhi 110034,1980-08-21 07:26:11-04,F
+Smita,Banerjee,sbanerjee@mnemoniceducation.com,smita,0,staff,,,
+Surbhi,Gupta,sgupta@mnemoniceducation.com,surbhi,9999662056,"staff               ",7991-94  IIIrd Floor  Kharia Street  Roshnara Road Delhi 110007,1991-04-23 07:26:11-04,F
+Shirish,Gupta,shirish.g@mnemoniceducation.com,shirish,9910791181,staff,703 Naveen Apartments Pitampura Delhi 110034,1984-01-29 07:26:11-04,M
+Sadaf,Khan,skhan@mnemoniceducation.com,sadaf,7503686200,"staff               ","   ",,F
+Sumiti,Singh,ssingh@mnemoniceducation.com,sumiti,08447498879,staff,"Block-5  QR:NO-\'M\' CPWD Complex  Vasant Vihar New Delhi Delhi 110057",1984-11-22 07:26:11-04,F
+Suhaila,Gurmukhani,suhaila@mnemoniceducation.com,suhaila,9871545758,staff,703 Naveen Apartment Pitam Pura Delhi 110034,1986-05-24 07:26:11-04,F
