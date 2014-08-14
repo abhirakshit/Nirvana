@@ -13,6 +13,8 @@ module.exports = {
 
         name: {type: 'string'},
 
+        enquiryStatus: {type: 'string'},
+
         enquiryDate: {type: 'datetime'},
 
         followUp: {type: 'datetime'},

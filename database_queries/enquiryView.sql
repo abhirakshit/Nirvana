@@ -1,3 +1,4 @@
+ CREATE VIEW enquiryview AS
  SELECT aa.student_id AS id,
     aa.name,
     aa."enquiryDate",
@@ -39,19 +40,19 @@
                            FROM student s,
                             enquirystatus es
                           WHERE (s."enquiryStatus" = es.id)) st
-              LEFT JOIN ( SELECT string_agg(ser.name, ','::text) AS services,
+              LEFT JOIN ( SELECT string_agg(ser.name, ', '::text) AS services,
                             ss.student_services
                            FROM service_students__student_services ss,
                             service ser
                           WHERE (ser.id = ss.service_students)
                           GROUP BY ss.student_services) serv ON ((st.student_id = serv.student_services)))) ssc
-      LEFT JOIN ( SELECT string_agg(cc.name, ','::text) AS countries,
+      LEFT JOIN ( SELECT string_agg(cc.name, ', '::text) AS countries,
                     sc.student_countries
                    FROM country_students__student_countries sc,
                     country cc
                   WHERE (sc.country_students = cc.id)
                   GROUP BY sc.student_countries) scc ON ((scc.student_countries = ssc.student_id)))) aa
-   LEFT JOIN ( SELECT string_agg(((st."firstName" || ' '::text) || st."lastName"), ','::text) AS "assignedTo",
+   LEFT JOIN ( SELECT string_agg(((st."firstName" || ' '::text) || st."lastName"), ', '::text) AS "assignedTo",
             sas.student_staff
            FROM staff_students__student_staff sas,
             staff st,

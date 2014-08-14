@@ -12,7 +12,6 @@ define([
 
 
         My.views.Layout = Application.Views.Layout.extend({
-//            template: "enquiries/content/my/templates/layout",
             template: "enquiries/content/templates/layout",
             regions: {
                 pendingEnquiriesRegion: "#pending-enquiries",
@@ -20,17 +19,6 @@ define([
                 futureEnquiriesRegion: "#future-enquiries"
             }
         });
-
-
-//        var tableTitleHtml = "<%=args.title%>";
-//        My.views.TableTitle = Application.Views.ItemView.extend({
-//            template: function(serialized_model) {
-//                return _.template(tableTitleHtml,
-//                    {title: serialized_model.title},
-//                    {variable: 'args'});
-//            },
-//            tagName:"span"
-//        });
 
 
         //Table Head
@@ -54,17 +42,16 @@ define([
 
 
         My.views.Row_Today = Application.Views.ItemView.extend({
-//            template: "enquiries/content/my/templates/row_today",
             template: "enquiries/content/templates/row_today",
             tagName: "tr",
 
-            serializeData: function() {
-                var data = this.model.toJSON();
-                data.serviceNames = _.pluck(data.services, 'name').join(', ');
-                data.countryNames = _.pluck(data.countries, 'name').join(', ');
-                data.statusName = data.enquiryStatus.name;
-                return data;
-            },
+//            serializeData: function() {
+//                var data = this.model.toJSON();
+//                data.serviceNames = _.pluck(data.services, 'name').join(', ');
+//                data.countryNames = _.pluck(data.countries, 'name').join(', ');
+//                data.statusName = data.enquiryStatus.name;
+//                return data;
+//            },
 
             events: {
                 "click": "click"
@@ -77,7 +64,6 @@ define([
         });
 
         My.views.Row = Application.Views.ItemView.extend({
-//            template: "enquiries/content/my/templates/row",
             template: "enquiries/content/templates/row",
             tagName: "tr",
 
@@ -85,13 +71,13 @@ define([
                 console.log("Init....");
             },
 
-            serializeData: function() {
-                var data = this.model.toJSON();
-                data.serviceNames = _.pluck(data.services, 'name').join(', ');
-                data.countryNames = _.pluck(data.countries, 'name').join(', ');
-                data.statusName = data.enquiryStatus.name;
-                return data;
-            },
+//            serializeData: function() {
+//                var data = this.model.toJSON();
+//                data.serviceNames = _.pluck(data.services, 'name').join(', ');
+//                data.countryNames = _.pluck(data.countries, 'name').join(', ');
+//                data.statusName = data.enquiryStatus.name;
+//                return data;
+//            },
 
             events: {
                 "click": "click"
@@ -134,26 +120,7 @@ define([
 
                 //Add Datatables
                 Application.Views.addDatatable(this.$el.find('#' + this.model.get('tableId')));
-//                this.$el.find('#' + this.model.get('tableId')).dataTable();
-//                this.$el.find('#' + this.model.get('tableId')).DataTable();
             }
-
-//            events: {
-//                "click #createBtn" : "validate"
-//            },
-//
-//            validate: function(evt) {
-//                evt.preventDefault();
-//                console.log("Validate");
-//                this.parselyForm= $('#registration_form').parsley();
-//                console.log($('input[name=firstname]'));
-//                $('input[name=firstname]').parsley('addConstraint', {required:true})
-//
-////                console.dir(this.parselyForm);
-////                $('#registration_form').parsley('validate');
-//                var isValid = this.parselyForm.validate();
-////                console.log(isValid);
-//            }
         });
 
     });
