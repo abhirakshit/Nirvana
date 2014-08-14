@@ -1,0 +1,9 @@
+email,firstName,lastName,service,totalFee,receivedBy,amount,receiptNumber,method,paymentDate,nextPaymentDate
+abhi@abhi.com,Abhishek,Rakshit,GRE,50000,ashish@ashish.com,10000,45,Cheque,2014-07-28 07:26:11-04,2014-07-28 07:26:11-04
+abhi@abhi.com,Abhishek,Rakshit,GRE,50000,ashish@ashish.com,15000,46,Cheque,2014-07-28 07:26:11-04,2014-07-28 07:26:11-04
+abhi@abhi.com,Abhishek,Rakshit,GMAT,40000,ankita@ankita.com,15000,2,Cash,2014-07-28 07:26:11-04,2014-07-28 07:26:11-04
+,Noopur,Dutta,GRE,25000,ashish@ashish.com,5000,4,Cash,2014-07-28 07:26:11-04,2014-07-28 07:26:11-04
+,Noopur,Dutta,GRE,25000,ashish@ashish.com,15000,5,Cheque,2014-07-28 07:26:11-04,2014-07-28 07:26:11-04
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,

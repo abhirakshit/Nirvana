@@ -18,7 +18,7 @@ module.exports.bootstrap = function (cb) {
   // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
 
 //    var dataDir = "data/";
-    var dataDir = "data1/";
+    var dataDir = "data/";
     var populate = function(cb) {
         async.series([
             //Meta Data
@@ -73,6 +73,6 @@ module.exports.bootstrap = function (cb) {
             cb();
         });
     };
-//    populate(cb);
-  cb();
+    //populate(cb);
+cb();
 };

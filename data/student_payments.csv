@@ -1,9 +1,474 @@
-email,firstName,lastName,service,totalFee,receivedBy,amount,receiptNumber,method,paymentDate,nextPaymentDate
-abhi@abhi.com,Abhishek,Rakshit,GRE,50000,ashish@ashish.com,10000,45,Cheque,2014-07-28 07:26:11-04,2014-07-28 07:26:11-04
-abhi@abhi.com,Abhishek,Rakshit,GRE,50000,ashish@ashish.com,15000,46,Cheque,2014-07-28 07:26:11-04,2014-07-28 07:26:11-04
-abhi@abhi.com,Abhishek,Rakshit,GMAT,40000,ankita@ankita.com,15000,2,Cash,2014-07-28 07:26:11-04,2014-07-28 07:26:11-04
-,Noopur,Dutta,GRE,25000,ashish@ashish.com,5000,4,Cash,2014-07-28 07:26:11-04,2014-07-28 07:26:11-04
-,Noopur,Dutta,GRE,25000,ashish@ashish.com,15000,5,Cheque,2014-07-28 07:26:11-04,2014-07-28 07:26:11-04
-,,,,,,,,,,,
-,,,,,,,,,,,
-,,,,,,,,,,,
+email,firstName,lastName,service,enrollDate,totalFee,receivedBy,amount,receiptNumber,method,paymentDate,nextPaymentDate
+royalrauz2929@gmail.com,Rahul,Singh,IELTS,2013-07-17,4990,csharma@mnemoniceducation.com,1990,1950,cash,2013-07-19,2013-07-19
+royalrauz2929@gmail.com,Rahul,Singh,IELTS,2013-07-17,4990,csharma@mnemoniceducation.com,3000,1948,cash,2013-07-17,2013-07-17
+theclairvoyantastrophysicist@gmail.com,Hetal,Rathore,application,2014-01-07,3500,csharma@mnemoniceducation.com,3500,2632,check,2014-01-07,2014-01-07
+theclairvoyantastrophysicist@gmail.com,Hetal,Rathore,application,2013-12-30,5600,csharma@mnemoniceducation.com,5600,2625,check,2013-12-30,2013-12-30
+theclairvoyantastrophysicist@gmail.com,Hetal,Rathore,application,2013-07-12,30000,csharma@mnemoniceducation.com,30000,1943,check,2013-07-12,2013-07-12
+smartgal.kam@gmail.com,Kamakshi,Dhingra,IELTS,2013-04-24,4990,csharma@mnemoniceducation.com,4990,1860,cash,2013-04-24,2013-04-24
+shivendra1711@gmail.com,Shivendra,Goel,SAT,2013-04-24,19100,csharma@mnemoniceducation.com,19100,1862,cash,2013-04-24,2013-04-24
+kapriser@gmail.com,"Varun ",Kapur,SATPackage,2013-04-06,44100,csharma@mnemoniceducation.com,44100,1852,cash,2013-04-06,2013-04-06
+sushilmatthew18@gmail.com,Sushil,Kumar,IELTS,2013-07-07,4990,csharma@mnemoniceducation.com,4990,1938,cash,2013-07-07,2013-07-07
+monikamadan78@gmail.com,Monika,Madan,IELTS,2013-04-03,4990,csharma@mnemoniceducation.com,4990,1851,cash,2013-04-03,2013-04-03
+khanna.shikha@ymail.com,Shikha,Khanna,IELTS,2013-04-07,4990,csharma@mnemoniceducation.com,4990,1854,cash,2013-04-07,2013-04-07
+shubham423@gmail.com,Shubham,Sharma,application,2013-07-05,25000,csharma@mnemoniceducation.com,25000,1933,cash,2013-07-05,2013-07-05
+shubham423@gmail.com,Shubham,Sharma,TOEFL,2013-06-12,4990,csharma@mnemoniceducation.com,4990,1902,cash,2013-06-12,2013-06-12
+shubham423@gmail.com,Shubham,Sharma,SAT,2013-05-08,19100,csharma@mnemoniceducation.com,19100,1825,cash,2013-05-08,2013-05-08
+mrigendra.transtutors@gmail.com,Mrigendra,Pandey,GMAT,2013-05-10,12000,csharma@mnemoniceducation.com,12000,1828,cash,2013-05-10,2013-05-10
+sumitasthana14@gmail.com,Sumit,Asthana,application,2013-11-11,22500,csharma@mnemoniceducation.com,2500,2631,banktransfer,2014-01-02,2014-01-02
+sumitasthana14@gmail.com,Sumit,Asthana,TOEFL,2013-12-18,5600,csharma@mnemoniceducation.com,5600,2607,banktransfer,2013-12-18,2013-12-18
+sumitasthana14@gmail.com,Sumit,Asthana,application,2013-11-11,22500,csharma@mnemoniceducation.com,20000,2181,banktransfer,2013-11-11,2013-11-11
+sumitasthana14@gmail.com,Sumit,Asthana,GRE,2013-05-11,18000,csharma@mnemoniceducation.com,8000,1841,cash,2013-06-02,2013-06-02
+sumitasthana14@gmail.com,Sumit,Asthana,GRE,2013-05-11,18000,csharma@mnemoniceducation.com,10000,1829,cash,2013-05-11,2013-05-11
+raghav_sewta@yahoo.com,Raghav,Singh,IELTS,2013-05-13,4990,csharma@mnemoniceducation.com,4990,1832,cash,2013-05-13,2013-05-13
+anjukapoor04@hotmail.com,Sidhant,Kapoor,application,2013-07-17,25000,csharma@mnemoniceducation.com,25000,1949,check,2013-07-17,2013-07-17
+anjukapoor04@hotmail.com,Sidhant,Kapoor,SAT,2013-05-17,1500,csharma@mnemoniceducation.com,1500,-,cash,2013-05-17,2013-05-17
+anjukapoor04@hotmail.com,Sidhant,Kapoor,SAT,2013-05-17,500,csharma@mnemoniceducation.com,500,1833,cash,2013-05-17,2013-05-17
+sumeenprothi@gmail.com,Sumeen,Prothi,application,2013-11-07,14000,csharma@mnemoniceducation.com,7000,2175,cash,2013-11-07,2013-11-07
+sumeenprothi@gmail.com,Sumeen,Prothi,SAT,2013-05-17,2000,csharma@mnemoniceducation.com,2000,1834,cash,2013-05-17,2013-05-17
+sumeenprothi@gmail.com,Sumeen,Prothi,application,2013-07-06,30000,csharma@mnemoniceducation.com,30000,1936,cash,2013-07-06,2013-07-06
+luthraangad693@gmail.com,Angad,Luthra,SATPackage,2013-05-19,44100,csharma@mnemoniceducation.com,44100,1835,check,2013-05-19,2013-05-19
+varshavaid91@gmail.com,Varsha,Vaid,TOEFL,2013-05-26,4990,csharma@mnemoniceducation.com,4990,1839,cash,2013-05-26,2013-05-26
+rhldb85@gmail.com,Rahul,Dubey,TOEFL,2013-05-27,4990,csharma@mnemoniceducation.com,4990,1840,cash,2013-05-27,2013-05-27
+ritu.lima@gmail.com,Ritu,Lima,TOEFL,2013-06-05,4990,csharma@mnemoniceducation.com,4990,1845,cash,2013-06-05,2013-06-05
+ojasagarwal@gmail.com,Ojas,Agarwal,GMAT,2013-06-05,16200,csharma@mnemoniceducation.com,8200,1844,cash,2013-06-05,2013-06-06
+moinanhad@gmail.com,Anhad,Jakhmola,SAT,2013-06-04,19100,csharma@mnemoniceducation.com,19100,1843,check,2013-06-04,2013-06-04
+rachitooohhh@gmail.com,Rachit,Sehrawat,application,2013-07-24,28000,csharma@mnemoniceducation.com,28000,1653,cash,2013-07-24,2013-07-24
+rachitooohhh@gmail.com,Rachit,Sehrawat,TOEFL,2013-06-05,4990,csharma@mnemoniceducation.com,4990,1846,banktransfer,2013-06-05,2013-06-05
+rachitooohhh@gmail.com,Rachit,Sehrawat,SAT,2013-06-05,19100,csharma@mnemoniceducation.com,19100,1846,banktransfer,2013-06-05,2013-06-05
+sambhavi_96@yahoo.co.in,Sambhavi,Bellary,application,2013-06-12,25000,csharma@mnemoniceducation.com,25000,1903,check,2013-06-12,2013-06-12
+anuva.93@gmail.com,Anuva,Agarwal,GMAT,2013-06-13,500,csharma@mnemoniceducation.com,500,1904,cash,2013-06-13,2013-06-13
+garrysingh68@yahoo.in,Gurinder,Singh,IELTS,2013-04-08,4990,csharma@mnemoniceducation.com,4990,1855,cash,2013-04-08,2013-04-08
+sivcansingh@me.com,Sivcan,Singh,SAT,2013-06-13,19100,csharma@mnemoniceducation.com,100,1654,cash,2013-07-26,2013-07-26
+sivcansingh@me.com,Sivcan,Singh,SAT,2013-06-13,19100,csharma@mnemoniceducation.com,9000,1651,cash,2013-07-25,2013-07-25
+sivcansingh@me.com,Sivcan,Singh,SAT,2013-06-13,19100,csharma@mnemoniceducation.com,10000,1905,cash,2013-06-13,2013-06-13
+ashish3116@gmail.com,Ashish,Ahluwalia,IELTS,2013-04-13,4990,csharma@mnemoniceducation.com,4990,1857,cash,2013-04-13,2013-04-13
+mantoosaid@gmail.com,Said,Khursheed,IELTS,2013-05-29,4500,nchhabra@mnemoniceducation.com,500,1886,cash,2013-06-02,2013-06-02
+mantoosaid@gmail.com,Said,Khursheed,IELTS,2013-05-29,4500,nchhabra@mnemoniceducation.com,4000,1884,cash,2013-05-29,2013-05-29
+mantoosaid@gmail.com,Said,Khursheed,SAT,2013-04-23,10000,nchhabra@mnemoniceducation.com,10000,1859,cash,2013-04-23,2013-04-23
+sanvit_pamila@yahoo.co.in,Sanvit,Chalna,IELTS,2013-04-24,4990,csharma@mnemoniceducation.com,4990,1861,cash,2013-04-24,2013-04-24
+sagarar41@gmail.com,Sagar,Arora,TOEFL,2013-05-07,3000,csharma@mnemoniceducation.com,3000,"1864,  1869",cash,2013-05-07,2013-05-07
+pankajch@hotmail.com,Pankaj,Chauhan,GMAT,2013-05-05,17100,csharma@mnemoniceducation.com,17100,1865,cash,2013-05-05,2013-05-05
+aarchiebhatia111@gmail.com,Archie,Bhatnagar,IELTS,2013-05-06,4990,csharma@mnemoniceducation.com,4990,1867,cash,2013-05-06,2013-05-06
+yugesh.sharma001@gmail.com,Yugesh,Sharma,SATPackage,2013-04-21,40000,nchhabra@mnemoniceducation.com,40000,1858  1868,check,2013-04-21,2013-04-21
+karandutt0900@gmail.com,Karan,Dutt,application,2013-05-08,18000,csharma@mnemoniceducation.com,18000,1871,cash,2013-05-08,2013-05-08
+karandutt0900@gmail.com,Karan,Dutt,application,2013-05-08,18000,csharma@mnemoniceducation.com,18000,1871,cash,2013-05-08,2013-05-08
+ackku_123@yahoo.in,Akriti,Marwah,TOEFL,2013-05-15,4990,csharma@mnemoniceducation.com,4990,1873,cash,2013-05-15,2013-05-15
+coolrhea1995@yahoo.co.in,Rhea,Ahluwalia,IELTS,2013-05-22,4990,csharma@mnemoniceducation.com,4990,1876,cash,2013-05-22,2013-05-22
+manavkalra@rocketmail.com,Charanjit,Kalra,IELTS,2013-07-30,4740,nchhabra@mnemoniceducation.com,4740,1729,cash,2013-07-30,2013-07-30
+manavkalra@rocketmail.com,Charanjit,Kalra,IELTS,2013-05-22,4990,nchhabra@mnemoniceducation.com,4990,1875,cash,2013-05-22,2013-05-22
+isb_online@satyam.net.in,Kartik,Kejriwal,SAT,2013-05-25,19100,csharma@mnemoniceducation.com,19100,"1877 , 1879",cash,2013-05-25,2013-05-25
+bhavyaw12@gmail.com,Bhavya,Wadhwa,GRE,2013-06-15,17000,csharma@mnemoniceducation.com,17000,1909,check,2013-06-15,2013-06-15
+sarvleen.singh@gmail.com,Sarvleen,Lamba,GRE,2013-06-15,17000,csharma@mnemoniceducation.com,5000,1911,cash,2013-06-16,2013-06-16
+sarvleen.singh@gmail.com,Sarvleen,Lamba,GRE,2013-06-15,17000,csharma@mnemoniceducation.com,12000,1910,cash,2013-06-15,2013-06-15
+shouryakhanna@outlook.com,"Shourya ",Khanna,SAT,2013-11-11,13500,csharma@mnemoniceducation.com,13500,2182,check,2013-11-11,2013-11-11
+shouryakhanna@outlook.com,"Shourya ",Khanna,SATPackage,2013-06-18,28500,csharma@mnemoniceducation.com,28500,1913,cash,2013-06-18,2013-06-18
+chin220792@gmail.com,Chinmay,Sharma,GRE,2013-06-20,18000,csharma@mnemoniceducation.com,8000,1917,cash,2013-06-22,2013-06-22
+chin220792@gmail.com,Chinmay,Sharma,GRE,2013-06-20,18000,csharma@mnemoniceducation.com,10000,1914,cash,2013-06-20,2013-06-20
+chin220792@gmail.com,Chinmay,Sharma,TOEFL,2013-06-11,500,csharma@mnemoniceducation.com,500,1901,cash,2013-06-11,2013-06-11
+chin220792@gmail.com,Chinmay,Sharma,application,2013-06-08,20000,csharma@mnemoniceducation.com,8000,1848,cash,2013-06-10,2013-06-10
+chin220792@gmail.com,Chinmay,Sharma,application,2013-06-08,20000,csharma@mnemoniceducation.com,12000,1847,cash,2013-06-08,2013-06-08
+jyoti.ralhan731@gmail.com,Jyoti,Ralhan,IELTS,2013-06-23,4990,csharma@mnemoniceducation.com,4990,1919,cash,2013-06-23,2013-06-23
+ksud96@gmail.com,Kalindi,Sood,application,2013-12-24,3500,csharma@mnemoniceducation.com,3500,2616,cash,2013-12-24,2013-12-24
+ksud96@gmail.com,Kalindi,Sood,application,2013-06-23,25000,csharma@mnemoniceducation.com,10000,-,cash,2013-09-28,2013-09-28
+ksud96@gmail.com,Kalindi,Sood,application,2013-06-23,25000,csharma@mnemoniceducation.com,15000,1922,cash,2013-06-23,2013-06-23
+ishita.singh@hotmail.com,Ishita,Singh,GMAT,2013-06-29,18000,csharma@mnemoniceducation.com,18000,1925,cash,2013-06-29,2013-06-29
+Arshpreetsingh1991@gmail.com,Arshpreet,Singh,IELTS,2013-07-03,4990,csharma@mnemoniceducation.com,4990,1930,cash,2013-07-03,2013-07-03
+jasmeetgaba@gmail.com,Jasmeet,Singh,IELTS,2013-06-30,4990,csharma@mnemoniceducation.com,4490,1935,cash,2013-07-06,2013-07-06
+jasmeetgaba@gmail.com,Jasmeet,Singh,IELTS,2013-06-30,4990,csharma@mnemoniceducation.com,500,1927,cash,2013-06-30,2013-06-30
+bhaviniarora28@gmail.com,Bhavini,Arora,SATPackage,2013-07-14,44100,csharma@mnemoniceducation.com,44100,1945,check,2013-07-14,2013-07-14
+akshatchanana@gmail.com,Akshat,Chanana,TOEFL,2013-07-07,4990,csharma@mnemoniceducation.com,4990,1940,cash,2013-07-07,2013-07-07
+akshatchanana@gmail.com,Akshat,Chanana,TOEFL,2013-06-30,500,csharma@mnemoniceducation.com,500,1926,cash,2013-06-30,2013-06-30
+Gajendra7112007@yahoo.com,Gajendra,Singh,IELTS,2013-07-08,4990,csharma@mnemoniceducation.com,4990,1941,cash,2013-07-08,2013-07-08
+priyankabhanot18@yahoo.com,Priyanka,Bhanot,application,2013-07-09,10000,csharma@mnemoniceducation.com,10000,1942,cash,2013-07-09,2013-07-09
+nidhipopli9909@gmail.com,Nidhi,Popli,IELTS,2013-07-25,4990,csharma@mnemoniceducation.com,4990,1652,cash,2013-07-25,2013-07-25
+pawandeep_sunny@yahoo.co.in,Pawandeep,Singh,IELTS,2013-05-24,4990,csharma@mnemoniceducation.com,4990,1878,cash,2013-05-24,2013-05-24
+shrutikataria86@gmail.com,Shruti,Sharma,IELTS,2013-05-27,4990,csharma@mnemoniceducation.com,4990,1880,cash,2013-05-27,2013-05-27
+dhruvgulia04@gmail.com,Dharmender,Gulia,TOEFL,2013-05-28,4990,csharma@mnemoniceducation.com,4990,1881,cash,2013-05-28,2013-05-25
+amit.khajuria2@gmail.com,Nidhi,Khajuria,IELTS,2013-05-29,4990,csharma@mnemoniceducation.com,4990,1882,cash,2013-05-29,2013-05-29
+aman_dhiman91@yahoo.in,Amandeep,Dhiman,IELTS,2013-05-24,4990,csharma@mnemoniceducation.com,4990,1878,cash,2013-05-24,2013-05-24
+amarjeetphysio@gmail.com,Amarjeet,Singh,TOEFL,2013-10-20,2809,nchhabra@mnemoniceducation.com,2809,2058,cash,2013-10-20,2013-10-20
+amarjeetphysio@gmail.com,Amarjeet,Singh,TOEFL,2013-06-02,4990,csharma@mnemoniceducation.com,4990,1885,cash,2013-06-02,2013-06-02
+aayushmaanmathur@gmail.com,"Navin ",Mathur,IELTS,2013-06-05,4990,csharma@mnemoniceducation.com,4990,"1887, 1890",check,2013-06-05,2013-06-05
+niniraj007@gmail.com,Neeru,Chaudhary,IELTS,2013-06-05,4990,csharma@mnemoniceducation.com,4990,"1888, 1889",cash,2013-06-05,2013-06-05
+manish_bansal1986@yahoo.com,Manish,Bansal,TOEFL,2013-06-06,4990,csharma@mnemoniceducation.com,4990,1892,cash,2013-06-06,2013-06-06
+divyanshleo@gmail.com,Divyansh,Dungarwal,SAT,2013-06-08,18100,csharma@mnemoniceducation.com,18100,1893,check,2013-06-08,2013-06-08
+prachi27101995@gmail.com,Prachi,Gupta,SATPackage,2013-06-11,44100,csharma@mnemoniceducation.com,44100,1895,check,2013-06-11,2013-06-11
+priyanshu96.goyal@gmail.com,Priyanshu,Goyal,SATPackage,2013-06-11,44100,csharma@mnemoniceducation.com,22100,1731,check,2003-08-08,2013-08-08
+priyanshu96.goyal@gmail.com,Priyanshu,Goyal,SATPackage,2013-06-11,44100,csharma@mnemoniceducation.com,22000,1896,check,2013-06-11,2013-06-11
+rainy_raj@yahoo.co.in,Rajbir,Kaur,IELTS,2013-06-14,2500,csharma@mnemoniceducation.com,2500,1897,cash,2013-06-14,2013-06-14
+sonalraju1@gmail.com,Sonal,Raju,IELTS,2013-06-18,4990,csharma@mnemoniceducation.com,4990,1899,cash,2013-06-18,2013-06-18
+garimasinghal30@yahoo.com,Garima,Singhal,TOEFL,2013-06-21,4990,csharma@mnemoniceducation.com,4990,1704,cash,2013-06-21,2013-06-21
+anupambcool@gmail.com,Anupam,Bhatia,SATPackage,2013-09-02,46000,csharma@mnemoniceducation.com,46000,"1706, 1727, 1743, 17",cash,2013-09-02,2013-09-02
+aggarwalvaibhav91@hotmail.com,Vaibhav,Aggarwal,IELTS,2013-06-29,4990,csharma@mnemoniceducation.com,4990,1708,cash,2013-06-29,2013-06-29
+asdfprateek@gmail.com,Prateek,Saxena,application,2013-10-20,20000,nchhabra@mnemoniceducation.com,20000,2053,check,2013-10-20,2013-10-20
+asdfprateek@gmail.com,Prateek,Saxena,GRE,2013-06-30,18000,csharma@mnemoniceducation.com,17000,1709,check,2013-06-30,2013-06-30
+ishmeet.kaur1930@gmail.com,Ishmeet,Kaur,IELTS,2013-07-03,4990,csharma@mnemoniceducation.com,4990,1711,cash,2013-07-03,2013-07-03
+harjot656@gmail.com,Harjot,Sahota,IELTS,2013-05-20,4990,csharma@mnemoniceducation.com,4990,1836,cash,2013-05-20,2013-05-20
+meenaahuja30@yahoo.com,Parmjit,Ahuja,application,2013-07-05,22500,csharma@mnemoniceducation.com,22500,1713,check,2013-07-05,2013-07-05
+manish29malhotra@gmail.com,Manish,Malhotra,IELTS,2013-07-07,4990,csharma@mnemoniceducation.com,4990,1715,cash,2013-07-07,2013-07-07
+damanjeet.maan@gmail.com,Damanjeet,Maan,IELTS,2013-07-07,4990,csharma@mnemoniceducation.com,4990,1716,cash,2013-07-07,2013-07-07
+yashpreetkmaan@yahoo.co.in,Yaspreet,Maan,IELTS,2013-07-07,4740,csharma@mnemoniceducation.com,4740,1717,cash,2013-07-07,2013-07-07
+divaysmit@gmail.com,Divaysmit,Mudgal,IELTS,2013-07-09,4990,csharma@mnemoniceducation.com,4990,1718,cash,2013-07-09,2013-07-09
+tithimohanty@gmail.com,Tithi,Mohanty,TOEFL,2013-07-12,4990,csharma@mnemoniceducation.com,4990,1719,check,2013-07-12,2013-07-12
+shubhamgagneja27@gmail.com,Shubham,Gagneja,IELTS,2013-07-14,4990,csharma@mnemoniceducation.com,4990,1721,check,2013-07-14,2013-07-14
+zaidkhurshaid@gmail.com,Zaid,Khurshiad,IELTS,2013-07-22,4990,csharma@mnemoniceducation.com,4990,1724,cash,2013-07-22,2013-07-22
+abhaydeep2@hotmail.com,Abhaydeep,Luthra,application,2013-09-24,25000,csharma@mnemoniceducation.com,25000,-,check,2013-09-24,2013-09-24
+saksham171194@gmail.com,"Saksham ",Goel,SAT,2013-06-17,19100,csharma@mnemoniceducation.com,9100,1679,cash,2013-08-29,2013-08-29
+saksham171194@gmail.com,"Saksham ",Goel,SAT,2013-06-17,19100,csharma@mnemoniceducation.com,10000,1912,check,2013-06-17,2013-06-17
+ayuoikaur@yahoo.com,Baksheen,Kaur,application,2013-05-01,25000,csharma@mnemoniceducation.com,10000,1821,cash,2013-05-01,2013-05-01
+svsingh9034@gmail.com,"Vikram ",Singh,IELTS,2013-05-05,4990,csharma@mnemoniceducation.com,4990,1822,check,2013-05-05,2013-05-05
+asthagupta93@yahoo.in,Astha,Gupta,GMAT,2013-06-10,500,csharma@mnemoniceducation.com,500,1850,cash,2013-06-10,2013-06-10
+rsbatra@pfmsindia.com,Raja,Batra,IELTS,0013-07-28,4990,csharma@mnemoniceducation.com,4990,1655,cash,2013-07-28,2013-07-28
+sameerakhurana1996@yahoo.co.in,Sameera," Khurana",SAT,2013-08-03,19100,csharma@mnemoniceducation.com,19100,1658,check,2013-08-03,2013-08-03
+farhan4few@gmail.com,Farhan,Khan,GRE,2013-06-02,500,csharma@mnemoniceducation.com,500,1842,cash,2013-06-02,2013-06-02
+rishav95@yahoo.co.uk,Rishav,Bhattacharya,SATPackage,2013-07-03,44100,csharma@mnemoniceducation.com,44100,1931,check,2013-07-03,2013-07-03
+arorataniya26@gmail.com,Taniya,Arora,SAT,2013-08-03,19100,csharma@mnemoniceducation.com,19100,1659,check,2013-08-03,2013-08-03
+ravi4691@yahoo.com,Vardhman,Palakodeti,SAT,2013-06-10,19100,csharma@mnemoniceducation.com,10000,1849,cash,2013-06-10,2013-06-10
+meghakadian1984@gmail.com,Jyoti,Kadian,IELTS,2013-06-14,4990,csharma@mnemoniceducation.com,2990,1908,cash,2013-06-15,2013-06-15
+meghakadian1984@gmail.com,Jyoti,Kadian,IELTS,2013-06-14,4990,csharma@mnemoniceducation.com,2000,1906,cash,2013-06-14,2013-06-14
+nishantbais@gmail.com,Nishant,Bais,application,2013-12-11,5618,csharma@mnemoniceducation.com,5618,2606,check,2013-12-11,2013-12-11
+nishantbais@gmail.com,Nishant,Bais,application,2013-06-23,30000,csharma@mnemoniceducation.com,5000,-,banktransfer,2013-09-23,2013-09-23
+nishantbais@gmail.com,Nishant,Bais,SAT,2013-06-29,500,csharma@mnemoniceducation.com,500,1924,cash,2013-06-29,2013-06-29
+nishantbais@gmail.com,Nishant,Bais,application,2013-06-23,30000,csharma@mnemoniceducation.com,25000,1921,check,2013-06-23,2013-06-23
+utsavgoel96@gmail.com,Utsav,Goel,application,2014-01-25,10500,csharma@mnemoniceducation.com,10500,2641,check,2014-01-25,2014-01-25
+utsavgoel96@gmail.com,Utsav,Goel,application,2013-06-23,25000,csharma@mnemoniceducation.com,25000,1920,check,2013-06-23,2013-06-23
+devashish.singer@gmail.com,"Devashish ",Agarwal,application,2013-07-07,25000,csharma@mnemoniceducation.com,12500,-,banktransfer,2013-08-24,2013-08-24
+devashish.singer@gmail.com,"Devashish ",Agarwal,application,2013-07-07,25000,csharma@mnemoniceducation.com,12500,1937,check,2013-07-07,2013-07-07
+devashish.singer@gmail.com,"Devashish ",Agarwal,IELTS,2013-06-23,500,csharma@mnemoniceducation.com,500,1918,cash,2013-06-23,2013-06-23
+devashish.singer@gmail.com,"Devashish ",Agarwal,SAT,2013-06-22,500,csharma@mnemoniceducation.com,500,1916,cash,2013-06-22,2013-06-22
+devashish.singer@gmail.com,"Devashish ",Agarwal,SAT,2013-09-12,500,csharma@mnemoniceducation.com,500,1694,cash,2013-09-12,2013-09-12
+devashish.singer@gmail.com,"Devashish ",Agarwal,SAT,2013-09-07,2000,csharma@mnemoniceducation.com,2000,1686,cash,2013-09-07,2013-09-07
+das.pranit@hotmail.com,Pranit,Das,application,2013-06-21,30000,csharma@mnemoniceducation.com,10000,1668,cash,2013-08-12,2013-08-12
+das.pranit@hotmail.com,Pranit,Das,application,2013-06-21,30000,csharma@mnemoniceducation.com,20000,1915,cash,2013-06-21,2013-06-21
+shyam_8jan@yahoo.com,Gajendra,Yadav,IELTS,2013-08-31,4990,csharma@mnemoniceducation.com,4990,1681,cash,2013-08-31,2013-08-31
+anurag.makhloga@gmail.com,Anurag,Makhloga,GRE,2013-08-13,18000,csharma@mnemoniceducation.com,17000,1672,cash,2013-08-19,2013-08-19
+anurag.makhloga@gmail.com,Anurag,Makhloga,GRE,2013-08-13,18000,csharma@mnemoniceducation.com,1000,1669,cash,2013-08-13,2013-08-13
+anjali.taneja92@gmail.com,Anjali,"Taneja                                            ",VISA,2013-12-30,5000,csharma@mnemoniceducation.com,5000,2624,cash,2013-12-30,2013-12-30
+anjali.taneja92@gmail.com,Anjali,"Taneja                                            ",application,2013-08-26,22500,csharma@mnemoniceducation.com,12500,-,cash,2013-09-22,2013-09-22
+anjali.taneja92@gmail.com,Anjali,"Taneja                                            ",application,2013-08-26,22500,csharma@mnemoniceducation.com,10000,1676,cash,2013-08-26,2013-08-26
+anjali.taneja92@gmail.com,Anjali,"Taneja                                            ",GRE,2013-09-05,18000,csharma@mnemoniceducation.com,18000,1684,cash,2013-09-05,2013-09-05
+anjali.taneja92@gmail.com,Anjali,"Taneja                                            ",TOEFL,2013-08-01,4990,csharma@mnemoniceducation.com,4990,1656,cash,2013-08-01,2013-08-01
+anantgupta7@yahoo.com,Anant,Gupta,application,2013-11-15,20000,csharma@mnemoniceducation.com,20000,2185,cash,2013-11-15,2011-11-15
+anantgupta7@yahoo.com,Anant,Gupta,TOEFL,2013-11-15,500,csharma@mnemoniceducation.com,500,2184,cash,2013-11-15,2013-11-15
+anantgupta7@yahoo.com,Anant,Gupta,application,2013-08-11,25000,csharma@mnemoniceducation.com,25000,1667,cash,2013-08-11,2013-08-11
+anantgupta7@yahoo.com,Anant,Gupta,SAT,2013-08-03,500,csharma@mnemoniceducation.com,500,1662,cash,2013-08-03,2013-08-03
+akshat_bansal@ymail.com,Akshat,Bansal,application,2013-12-18,13483,csharma@mnemoniceducation.com,13483,2614,banktransfer,2013-12-18,2013-12-18
+akshat_bansal@ymail.com,Akshat,Bansal,application,2013-08-11,25000,csharma@mnemoniceducation.com,25000,1666,cash,2013-08-11,2013-08-11
+akshat_bansal@ymail.com,Akshat,Bansal,SAT,2013-08-03,500,csharma@mnemoniceducation.com,500,1661,cash,2013-08-03,2013-08-03
+nimritsingh@yahoo.com,"Nimrit ",Singh,application,2013-08-05,25000,csharma@mnemoniceducation.com,25000,1663,cash,2013-08-05,2013-08-05
+dsharmaevergreen@gmail.com,Tushar,Sharma,application,2013-11-18,39320,csharma@mnemoniceducation.com,39320,2188,cash,2013-11-18,2013-11-18
+dsharmaevergreen@gmail.com,Tushar,Sharma,SATPackage,2013-08-09,44100,csharma@mnemoniceducation.com,44100,1664,cash,2013-08-09,2013-08-09
+arora.somya1@yahoo.com,Somya,Arora,SAT,2013-08-11,19100,csharma@mnemoniceducation.com,18100,1670,check,2013-08-17,2013-08-17
+arora.somya1@yahoo.com,Somya,Arora,SAT,2013-08-11,19100,csharma@mnemoniceducation.com,1000,1665,cash,2013-08-11,2013-08-11
+ruchil@live.in,Ruchil,Kawatra,IELTS,2013-08-31,4990,csharma@mnemoniceducation.com,4990,1682,cash,2013-08-31,2013-08-31
+eshaan.vijan@yahoo.com,Eshaan,Vijan,TOEFL,2013-09-24,3500,csharma@mnemoniceducation.com,3500,-,cash,2013-09-24,2013-09-24
+eshaan.vijan@yahoo.com,Eshaan,Vijan,application,2013-08-03,20000,csharma@mnemoniceducation.com,10000,-,check,2013-09-24,2013-09-24
+eshaan.vijan@yahoo.com,Eshaan,Vijan,application,2013-08-03,20000,csharma@mnemoniceducation.com,10000,1660,check,2013-08-03,2013-08-03
+pankajmadan2005@gmail.com,Pankaj,Madan,IELTS,2013-08-06,4990,csharma@mnemoniceducation.com,3000,1730,cash,2013-08-06,2013-08-06
+shoubhik.physio@gmail.com,Shoubhik,Nandi,IELTS,2013-08-08,4990,csharma@mnemoniceducation.com,4990,1732,cash,2013-08-08,2013-08-08
+kusharora892@gmail.com,"Kush ",Arora,GMAT,2013-08-10,18000,csharma@mnemoniceducation.com,18000,1733,cash,2013-08-10,2013-08-10
+malhotratanmay@yahoo.co.in,Tanmay,Malhotra,application,2013-08-12,25000,csharma@mnemoniceducation.com,25000,1735,check,2013-08-12,2013-08-12
+avreenb@gmail.com,Avreen,Bains,IELTS,2013-08-12,4990,csharma@mnemoniceducation.com,4990,1734,cash,2013-08-12,2013-08-12
+shubhammahapatra95@gmail.com,Shubham,Mahapatra,SAT,0013-08-21,19100,csharma@mnemoniceducation.com,19100,1673,cash,2013-08-21,2013-08-21
+gautamdurga23@gmail.com,Gautam,Durga,IELTS,2013-08-19,4990,csharma@mnemoniceducation.com,4990,"1738,1740",cash,2013-08-19,2013-08-25
+aakshgulati88@gmail.com,Aakash,Gulati,GMAT,2013-09-17,18000,csharma@mnemoniceducation.com,18000,-+,cash,2013-09-17,2013-09-17
+shivam.aora21@gmail.com,"Shivam ",Arora,IELTS,2013-09-12,4990,csharma@mnemoniceducation.com,4990,1695,cash,2013-09-12,2013-09-12
+aklaxman17@gmail.com,Abhishek,Raja,SATPackage,2013-08-18,44100,csharma@mnemoniceducation.com,22100,2153,check,2013-10-12,2013-10-12
+aklaxman17@gmail.com,Abhishek,Raja,SATPackage,2013-08-18,44100,csharma@mnemoniceducation.com,22000,1671,check,2013-08-18,2013-08-18
+anandita_kale@yahoo.in,Anandita,Kale,SAT,2013-08-25,500,csharma@mnemoniceducation.com,500,1675,cash,2013-08-25,2013-08-25
+guru.chem30@gmail.com,K,Guruprasad,application,2013-09-18,20000,csharma@mnemoniceducation.com,10000,2199,cash,2013-11-27,2013-11-27
+guru.chem30@gmail.com,K,Guruprasad,application,2013-09-18,20000,csharma@mnemoniceducation.com,10000,1697,cash,2013-09-18,2013-09-18
+guru.chem30@gmail.com,K,Guruprasad,GRE,2013-08-25,500,csharma@mnemoniceducation.com,500,1674,cash,2013-08-25,2013-08-25
+yourita@itclindia.com,Amol,Jha,application,2013-10-04,25000,csharma@mnemoniceducation.com,25000,-,check,2013-10-04,2013-10-04
+yourita@itclindia.com,Amol,Jha,SAT,2013-10-04,7500,csharma@mnemoniceducation.com,7500,-,check,2013-10-04,2013-10-04
+yourita@itclindia.com,Amol,Jha,SAT,2013-08-28,500,csharma@mnemoniceducation.com,500,1677,cash,2013-08-28,2013-08-28
+thelaser@gmail.com,Taabish,Alam,application,2013-08-30,25000,csharma@mnemoniceducation.com,25000,1680,cash,2013-08-30,2013-08-30
+bad_hunk@yahoo.com,Vaibhav,Dabas,SAT,2013-09-15,19100,nchhabra@mnemoniceducation.com,9100,2060,cash,2013-10-21,2013-10-21
+bad_hunk@yahoo.com,Vaibhav,Dabas,SAT,2013-09-15,19100,csharma@mnemoniceducation.com,10000,-,check,2013-09-15,2013-09-15
+jai.wardhan51@gmail.com,Jai,Wardhan,IELTS,2013-09-08,4990,csharma@mnemoniceducation.com,4990,1747  -  1749,cash,2013-09-08,2013-09-08
+skylinecouriercongo@gmail.com,"Ahmed ",Mustafa,TOEFL,2013-12-27,13100,csharma@mnemoniceducation.com,100,2619,cash,2013-12-27,2013-12-27
+skylinecouriercongo@gmail.com,"Ahmed ",Mustafa,TOEFL,2013-12-27,13100,csharma@mnemoniceducation.com,13000,2618,check,2013-12-27,2013-12-27
+skylinecouriercongo@gmail.com,"Ahmed ",Mustafa,GRE,2013-10-20,8000,csharma@mnemoniceducation.com,8000,2162,check,2013-10-20,2013-10-20
+rupinder_u@rediffmail.com,Rupinder,Kaur,IELTS,2013-09-01,500,csharma@mnemoniceducation.com,500,1683,cash,2013-09-01,2013-09-01
+rupinder_u@rediffmail.com,Rupinder,Kaur,IELTS,2013-09-07,4990,csharma@mnemoniceducation.com,4990,1689,cash,2013-09-07,2013-09-07
+grusha.agarwal2201@gmail.com,"Grusha ",Aggarwal,application,2013-06-05,25000,csharma@mnemoniceducation.com,25000,1891,check,2013-06-05,2013-06-05
+shivam6279@gmail.com,shivam,sharma,SAT,2013-08-03,500,csharma@mnemoniceducation.com,500,1657,cash,2013-08-03,2013-08-03
+shivam6279@gmail.com,shivam,sharma,SAT,2013-09-09,19100,csharma@mnemoniceducation.com,19100,1687,check,2013-09-07,2013-09-07
+saad.mst@gmail.com,Saad,Mustafa,SAT,2013-09-08,19100,csharma@mnemoniceducation.com,9100,2161,check,2013-10-20,2013-10-20
+saad.mst@gmail.com,Saad,Mustafa,SAT,2013-09-08,19100,csharma@mnemoniceducation.com,10000,1690,check,2013-09-08,2013-09-08
+habib.amini553@gmail.com,Habibullah,-,IELTS,2013-09-06,4990,csharma@mnemoniceducation.com,3990,1688,cash,2013-09-07,2013-09-07
+habib.amini553@gmail.com,Habibullah,-,IELTS,2013-09-06,4990,csharma@mnemoniceducation.com,1000,1685,cash,2013-09-06,2013-09-06
+aayushi.liferox@gmail.com,Aayushi,Singh,SATPackage,2013-09-08,44100,csharma@mnemoniceducation.com,24100,1692,check,2013-09-08,2013-09-08
+aayushi.liferox@gmail.com,Aayushi,Singh,SATPackage,2013-09-08,44100,csharma@mnemoniceducation.com,20000,1691,cash,2013-09-08,2013-09-08
+ramneesh86@gmail.com,Ramneesh,Vohra,TOEFL,2013-08-09,4990,csharma@mnemoniceducation.com,4990,1748,cash,2013-09-08,2013-09-08
+rajat360@gmail.com,Rajat,Gupta,application,2013-10-04,25000,csharma@mnemoniceducation.com,25000,-,cash,2013-10-04,2013-10-04
+rajat360@gmail.com,Rajat,Gupta,GRE,2013-09-09,18000,csharma@mnemoniceducation.com,18000,1693,cash,2013-09-09,2013-09-09
+jatinbhambri89@gmail.com,Jatin,Bhambri,IELTS,2013-09-09,4990,csharma@mnemoniceducation.com,4990,-,check,2013-09-09,2013-09-09
+saurabhsharma79@rediffmail.com,"Saurabh ",Sharma,IELTS,2013-09-18,4990,csharma@mnemoniceducation.com,4990,-,cash,2013-10-04,2013-10-04
+saurabhsharma79@rediffmail.com,"Saurabh ",Sharma,GMAT,2013-09-18,27000,csharma@mnemoniceducation.com,13000,-,cash,2013-10-04,2013-10-04
+saurabhsharma79@rediffmail.com,"Saurabh ",Sharma,GMAT,2013-09-18,27000,csharma@mnemoniceducation.com,7000,1699,cash,2013-09-19,2013-09-19
+saurabhsharma79@rediffmail.com,"Saurabh ",Sharma,GMAT,2013-09-18,27000,csharma@mnemoniceducation.com,7000,1698,cash,2013-09-18,2013-09-18
+agarwal.arpit21@gmail.com,Arpit,Agarwal,IELTS,2013-10-19,5000,csharma@mnemoniceducation.com,5000,2158,cash,2013-10-19,2013-10-19
+sanskriti_1991@yahoo.com,Sanskriti,-,application,2013-07-15,19990,csharma@mnemoniceducation.com,10000,1946,cash,2013-07-15,2013-07-15
+manojtiwari3886@gmail.com,Manoj,Tiwari,IELTS,2013-11-30,5600,nchhabra@mnemoniceducation.com,5600,2601,cash,2013-11-30,2013-11-30
+singhrony8@gmail.com,Ronit,Bhahbra,IELTS,2013-09-17,4990,csharma@mnemoniceducation.com,4990,-,check,2013-09-17,2013-09-17
+singhsarman13@gmail.com,Sarmandeep,Sidhu,application,2013-09-30,25000,csharma@mnemoniceducation.com,25000,-,banktransfer,2013-09-30,2013-09-30
+1996harshjain@gmail.com,Harsh,Jain,application,2013-10-12,28050,csharma@mnemoniceducation.com,24550,2157,cash,2013-10-19,2013-10-19
+1996harshjain@gmail.com,Harsh,Jain,application,2013-10-12,28050,csharma@mnemoniceducation.com,3500,2152,cash,2013-10-12,2013-10-12
+1996harshjain@gmail.com,Harsh,Jain,SAT,2013-10-12,21500,csharma@mnemoniceducation.com,21500,2152,cash,2013-10-12,2013-10-12
+1996harshjain@gmail.com,Harsh,Jain,SAT,2013-10-05,500,csharma@mnemoniceducation.com,500,-,cash,2013-10-05,2013-10-05
+vaibhav.garg93@gmail.com,Vaibhav,Garg,GMAT,2013-09-21,12000,csharma@mnemoniceducation.com,12000,-,cash,2013-09-21,2013-09-21
+maninder.sains@gmail.com,Maninder,Singh,IELTS,2013-09-22,4990,csharma@mnemoniceducation.com,4990,-,cash,2013-09-22,2013-09-22
+mrinal_mittal21@yahoo.co.in,Mrinaal,Mittal,SAT,2013-10-05,13500,csharma@mnemoniceducation.com,13500,2051,cash,2013-10-05,2013-10-05
+akashyadav07@gmail.com,Aakash,Yadav,SAT,2013-10-05,500,csharma@mnemoniceducation.com,500,-,cash,2013-10-05,2013-10-05
+deepak_india2005@hotmail.com,Deepak,Sharma,GMAT,2013-09-26,18000,csharma@mnemoniceducation.com,16000,-,cash,2013-09-30,2013-09-30
+deepak_india2005@hotmail.com,Deepak,Sharma,GMAT,2013-09-26,18000,csharma@mnemoniceducation.com,2000,-,cash,2013-09-26,2013-09-26
+a.makkar8@gmail.com,Akash,Makkar,SATPackage,2013-09-04,46000,csharma@mnemoniceducation.com,40000,"1702, 1705, 1726, 17",cash,2013-09-04,2013-09-04
+ripshamlock@gmail.com,Rippon,Sharma,GRE,2013-07-07,18000,csharma@mnemoniceducation.com,8000,1723,cash,2013-07-22,2013-07-22
+ripshamlock@gmail.com,Rippon,Sharma,GRE,2013-07-07,18000,csharma@mnemoniceducation.com,10000,1714,cash,2013-07-07,2013-07-07
+ashesshbhasin93@gmail.com,Asheesh,Bhasin,GMAT,2013-07-01,9000,csharma@mnemoniceducation.com,9000,1929,check,2013-07-01,2013-07-01
+dilpreet007sidhu@gmail.com,Dilpreet,Kaur,IELTS,2013-08-29,4990,csharma@mnemoniceducation.com,4990,1678,cash,2013-08-29,2013-08-29
+vaibhavagarwal175@gmail.com,Vaibhav,Agarwal,SAT,2013-10-05,500,csharma@mnemoniceducation.com,500,-,cash,2013-10-05,2013-10-05
+vipindevika@gmail.com,Devika,Vipin,application,2013-10-19,20000,csharma@mnemoniceducation.com,20000,2160,check,2013-10-19,2013-10-19
+baljeet_singh01@yahoo.com,Baljeet,Gulati,IELTS,2013-09-29,4990,csharma@mnemoniceducation.com,4990,-,cash,2013-09-29,2013-09-29
+jammi143_2006@yahoo.com,Jasmeen,Gulati,IELTS,2013-09-29,4990,csharma@mnemoniceducation.com,4990,-,cash,2013-09-29,2013-09-29
+amanjitahuja@gmail.com,Aman,Ahuja,application,2013-10-04,9000,csharma@mnemoniceducation.com,9000,-,cash,2013-10-04,2013-10-04
+ashneet.gulati@gmail.com,Ashneet,Singh,IELTS,2013-10-07,500,csharma@mnemoniceducation.com,500,-,cash,2013-10-07,2013-10-07
+aman_1996@hotmail.com,Aahan,Sawhney,application,2013-12-03,11236,csharma@mnemoniceducation.com,11236,2604,check,2013-12-03,2013-12-03
+aman_1996@hotmail.com,Aahan,Sawhney,application,2013-10-08,25000,csharma@mnemoniceducation.com,25000,-,check,2013-10-09,2013-10-09
+parimarjannegi@gmail.com,Parimarjan,Negi,application,2013-10-15,5000,csharma@mnemoniceducation.com,5000,2155,check,2013-10-15,2013-10-15
+getsingh72@gmail.com,Aakash,Singh,application,2013-10-12,28090,csharma@mnemoniceducation.com,28090,2151,cash,2013-10-12,2013-10-12
+suyash.agrawal@ymail.com,Suyash,Agrawal,SAT,2013-10-06,500,csharma@mnemoniceducation.com,500,2156,cash,2013-10-16,2013-10-16
+budhiraja.komal@gmail.com,Komal,Budhiraja,IELTS,2013-10-05,5600,csharma@mnemoniceducation.com,5600,2053,cash,2013-10-05,2013-10-05
+shrutigoel41@gmail.com,Shruti,Goel,application,2013-10-18,22500,nchhabra@mnemoniceducation.com,22500,2056,check,2013-10-18,2013-10-18
+Ar_anu67@yahoo.com,Prateek,Gandotra,TOEFL,2013-11-10,500,csharma@mnemoniceducation.com,500,2178,cash,2013-11-10,2013-11-10
+Ar_anu67@yahoo.com,Prateek,Gandotra,TOEFL,2013-10-26,500,csharma@mnemoniceducation.com,500,2166,cash,2013-10-26,2013-10-26
+Ar_anu67@yahoo.com,Prateek,Gandotra,application,2013-10-14,28090,csharma@mnemoniceducation.com,28090,2154,check,2013-10-14,2013-10-14
+shaurya1996@yahoo.com,Shaurya,Gupta,application,2013-10-16,28090,nchhabra@mnemoniceducation.com,28090,2055,cash,2013-10-16,2013-10-16
+sahil.049@gmail.com,"Sahil ",Gupta,IELTS,2014-01-16,5600,nchhabra@mnemoniceducation.com,5600,2224,cash,2014-01-16,2014-01-16
+aaushi.92@gmail.com,Ayushi,Batra,application,2013-10-25,22500,csharma@mnemoniceducation.com,22500,2165,banktransfer,2013-10-25,2013-10-25
+gj22891@gmail.com,Gaurang,Jhalani,SAT,2013-10-19,21500,csharma@mnemoniceducation.com,21500,2159,cash,2013-10-19,2013-10-19
+anurag6699@rediffmail.com,Jhilmil,Anurag,SAT,2013-11-24,500,csharma@mnemoniceducation.com,500,2196,cash,2013-11-24,2013-11-24
+anurag6699@rediffmail.com,Jhilmil,Anurag,SAT,2013-11-07,2500,csharma@mnemoniceducation.com,1250,2176,cash,2013-11-07,2013-11-07
+anurag6699@rediffmail.com,Jhilmil,Anurag,application,2013-10-25,25000,csharma@mnemoniceducation.com,25000,2164,banktransfer,2013-10-25,2013-10-25
+samuelroshanpeter@gmail.com,Samuel,Peter,IELTS,2013-10-26,5600,nchhabra@mnemoniceducation.com,5600,2061,check,2013-10-26,2013-10-26
+shantanu.667singh@gmail.com,Shantanu,Singh,SAT,2013-11-02,500,csharma@mnemoniceducation.com,500,2171,cash,2013-11-02,2013-11-02
+shantanu.667singh@gmail.com,Shantanu,Singh,application,2013-10-27,28090,csharma@mnemoniceducation.com,28090,2168,cash,2013-10-27,2013-10-27
+pankaj198782@gmail.com,Pankaj,Sharma,IELTS,2013-10-25,5600,csharma@mnemoniceducation.com,5600,2163,cash,2013-10-25,2013-10-25
+nikhilsb@yahoo.co.in,Nikhil,Bharadwaj,application,2013-10-26,28090,csharma@mnemoniceducation.com,28090,2167,cash,2013-10-06,2013-10-26
+oberoi.tanveer@gmail.com,Tanveer,Oberoi,application,2013-11-06,28090,csharma@mnemoniceducation.com,28090,2174,cash,2013-11-06,2013-11-06
+charud90@gmail.com,Charu,Datta,IELTS,2013-10-28,5600,csharma@mnemoniceducation.com,5600,2169,cash,2013-10-28,2013-10-28
+mridul_arul1@hotmail.com,Mridul,Seth,application,2013-10-30,28090,csharma@mnemoniceducation.com,28090,2170,check,2013-10-30,2013-10-30
+arora.rashmi.r@gmail.com,Gaurav,Bhalla,IELTS,2013-10-29,5600,nchhabra@mnemoniceducation.com,5600,2062,cash,2013-10-29,2013-10-29
+palshkachhy@yahoo.co.in,Palash,Kachhy,SATPackage,2013-11-06,42100,csharma@mnemoniceducation.com,42100,2173,check,2013-11-06,2013-11-06
+timmidudeja@yahoo.com,Timmi,Dudeja,IELTS,2013-11-08,5600,nchhabra@mnemoniceducation.com,5600,2064,cash,2013-11-08,2013-11-08
+saraf.priyamvada@gmail.com,Priyamvada,Saraf,application,2013-11-12,28090,nchhabra@mnemoniceducation.com,28090,.,banktransfer,2013-11-12,2013-11-12
+pgautam0411@gmail.com,Prasoon,Gautam,application,2013-11-05,28090,csharma@mnemoniceducation.com,28090,2172,cash,2013-11-05,2013-11-05
+anita.educator@gmail.com,Anita,Sachdev,IELTS,2013-11-08,5600,csharma@mnemoniceducation.com,5600,2177,cash,2013-11-08,2013-11-08
+hansaa12@gmail.com,Deepanshu,Phuloria,SAT,2013-11-29,500,csharma@mnemoniceducation.com,500,2200,cash,2013-11-29,2013-11-29
+hansaa12@gmail.com,Deepanshu,Phuloria,application,2013-11-20,28090,csharma@mnemoniceducation.com,28090,2192,cash,2013-11-20,2013-11-20
+suraj17poddar@gmail.com,Suraj,Poddar,TOEFL,2013-11-14,4000,nchhabra@mnemoniceducation.com,4000,2067,cash,2013-11-14,2013-11-14
+suraj17poddar@gmail.com,Suraj,Poddar,GMAT,2013-11-14,20000,nchhabra@mnemoniceducation.com,20000,2067,cash,2013-11-14,2013-11-14
+aishwarya.narayan20@gmail.com,Aishwarya,Narayan,application,2013-11-06,28090,nchhabra@mnemoniceducation.com,28090,2066,banktransfer,2013-11-06,2013-11-06
+trish_bajpai@yahoo.co.in,Trishti,Bajpai,application,2013-11-20,9500,csharma@mnemoniceducation.com,9500,2191,cash,2013-11-20,2013-11-20
+trish_bajpai@yahoo.co.in,Trishti,Bajpai,application,2014-03-15,2500,csharma@mnemoniceducation.com,2500,2675,cash,2014-03-15,2014-03-15
+mith6692@gmail.com,Mithilesh,Kumar,GRE,2014-01-10,20000,csharma@mnemoniceducation.com,20000,2633,cash,2014-01-10,2014-01-10
+pawanalal33@gmail.com,Pawan,Kumar,application,2013-11-18,5000,nchhabra@mnemoniceducation.com,5000,2070,cash,2013-11-18,2013-11-18
+hardev_9@rediffmail.com,Hardev,Singh,IELTS,2013-11-12,5600,csharma@mnemoniceducation.com,2600,2186,cash,2013-11-17,2013-11-17
+hardev_9@rediffmail.com,Hardev,Singh,IELTS,2013-11-12,5600,csharma@mnemoniceducation.com,3000,2183,cash,2013-11-12,2013-11-12
+jayamudliar@yahoo.com,Jaya,Mudliar,IELTS,2013-11-21,5600,csharma@mnemoniceducation.com,1000,2193,cash,2013-11-21,2013-11-21
+arshrandhawa16@gmail.com,Arshdeep,Randhawa,application,2014-01-28,14000,csharma@mnemoniceducation.com,14000,2642,cash,2014-01-28,2014-01-28
+arshrandhawa16@gmail.com,Arshdeep,Randhawa,application,2013-11-19,22500,csharma@mnemoniceducation.com,22500,2190,cash,2013-11-19,2013-11-19
+sakshi757@gmail.com,Sakshi,Singh,application,2013-11-18,28090,csharma@mnemoniceducation.com,28090,2187,cash,2013-11-18,2013-11-18
+singh_mohit79@rediffmail.com,Mohit,Saini,IELTS,2013-11-19,5600,nchhabra@mnemoniceducation.com,5600,2071,cash,2013-11-19,2013-11-19
+angadgoomber@yahoo.com,Angad,Singh,GMAT,2013-12-03,20000,nchhabra@mnemoniceducation.com,20000,2202,cash,2013-12-03,2013-12-03
+dr.shikha28@gmail.com,Shikha,Saini,IELTS,2013-11-23,5600,csharma@mnemoniceducation.com,5600,2194,cash,2013-11-23,2013-11-23
+patiyat_ankit1@yahoo.com,Ankit,Patiyat,IELTS,2013-11-23,5600,csharma@mnemoniceducation.com,5600,2195,check,2013-11-23,2013-11-23
+mal.aanchal@gmail.com,Aanchal,Mal,application,2013-11-26,28090,csharma@mnemoniceducation.com,20000,2197,check,2013-11-26,2013-11-26
+mal.aanchal@gmail.com,Aanchal,Mal,application,2013-11-26,28090,csharma@mnemoniceducation.com,8090,2197,cash,2013-11-26,2013-11-26
+vickey1729@gmail.com,Vikash,Mahar,IELTS,2013-12-02,500,csharma@mnemoniceducation.com,500,2603,cash,2013-12-02,2013-12-02
+wahegurusatnam24@gmail.com,Harpreet,Kaur,TOEFL,2013-12-02,5600,nchhabra@mnemoniceducation.com,5600,2201,cash,2013-12-02,2013-12-02
+tusharmailer@gmail.com,Tushar,Bajaj,IELTS,2014-05-28,5600,nchhabra@mnemoniceducation.com,5600,2546,cash,2014-05-28,2014-05-28
+nehapathaknayak@gmail.com,Neha,Pathak,application,2013-12-18,28090,csharma@mnemoniceducation.com,28090,2609,check,2013-12-18,2013-12-18
+shuchi.vaid@yahoo.com,Shuchi,Vaid,application,2013-12-07,28090,csharma@mnemoniceducation.com,28090,2608,banktransfer,2013-12-17,2013-12-17
+yogijaglan@gmail.com,Yogesh,Kumar,IELTS,2013-12-19,5600,csharma@mnemoniceducation.com,4600,2612,cash,2013-12-23,2013-12-23
+yogijaglan@gmail.com,Yogesh,Kumar,IELTS,2013-12-19,5600,csharma@mnemoniceducation.com,1000,2610,cash,2013-12-19,2013-12-19
+sukhjeetsinghsains@gmail.com,Sukhjeet,Singh,IELTS,2013-12-23,5600,nchhabra@mnemoniceducation.com,5600,2209,cash,2013-12-23,2013-12-23
+amitiangurpreet@gmail.com,Gurpreet,Juneja,application,2013-12-21,28090,csharma@mnemoniceducation.com,26090,2615,check,2013-12-23,2013-12-23
+amitiangurpreet@gmail.com,Gurpreet,Juneja,application,2013-12-21,28090,csharma@mnemoniceducation.com,2000,2611,cash,2013-12-21,2013-12-21
+amit.cadengg@gmail.com,Amit,Kumar,IELTS,2014-02-01,5040,nchhabra@mnemoniceducation.com,5040,2236,cash,2014-02-01,2014-02-01
+pandays1ps@hotmail.com,Sunder,Pandey,IELTS,2014-01-12,5600,nchhabra@mnemoniceducation.com,5600,2223,cash,2014-01-12,2014-01-12
+kanikarathee015@gmail.com,Kanika,Rathee,GRE,2013-12-24,20000,nchhabra@mnemoniceducation.com,15000,2214,cash,2013-12-26,2013-12-26
+kanikarathee015@gmail.com,Kanika,Rathee,GRE,2013-12-24,20000,nchhabra@mnemoniceducation.com,5000,2211,cash,2013-12-24,2013-12-26
+jaglan.saurabh@gmail.com,Saurabh,Jaglan,IELTS,2013-12-22,5600,nchhabra@mnemoniceducation.com,5600,2208,cash,2013-12-22,2013-12-22
+merlbads@rediffmail.com,Merlyn,Fernandes,IELTS,2013-12-21,5600,nchhabra@mnemoniceducation.com,5600,2206,cash,2013-12-21,2013-12-21
+m2deepak@gmail.com,Deepak,Singh,IELTS,2013-12-23,5600,nchhabra@mnemoniceducation.com,5600,2210,cash,2013-12-23,2013-12-23
+framinghanley44@yahoo.com,Mohit,Singh,IELTS,2014-01-20,5600,csharma@mnemoniceducation.com,5600,2640,cash,2014-01-20,2014-01-20
+framinghanley44@yahoo.com,Mohit,Singh,application,2013-12-24,10000,csharma@mnemoniceducation.com,10000,2617,cash,2013-12-24,2013-12-24
+chaitsharma@gmail.com,Chaitanya,Sharma,GMAT,2013-12-26,20000,nchhabra@mnemoniceducation.com,20000,2213,cash,2013-12-26,2013-12-26
+bobalsanjay@yahoo.co.in,Dr. Sanjay,Bobal,IELTS,2013-12-26,5600,nchhabra@mnemoniceducation.com,5600,2215,cash,2013-12-26,2013-12-26
+arora.rishabh4@gmail.com,Rishabh,Arora,application,2014-01-16,15000,csharma@mnemoniceducation.com,15000,2636,cash,2014-01-16,2014-01-16
+dilsherbhangal999@gmail.com,Dilsher,Bhangal,GRE,2014-01-01,500,csharma@mnemoniceducation.com,500,2627,cash,2014-01-01,2014-01-01
+dilsherbhangal999@gmail.com,Dilsher,Bhangal,application,2013-12-22,22500,csharma@mnemoniceducation.com,22500,2613,banktransfer,2013-12-22,2013-12-22
+prachikaistha@yahoo.com,Prachi,Kaistha,application,2014-01-19,22500,csharma@mnemoniceducation.com,20000,2639,cash,2014-01-19,2014-01-19
+prachikaistha@yahoo.com,Prachi,Kaistha,TOEFL,2013-12-27,25600,csharma@mnemoniceducation.com,20600,2622,cash,2013-12-29,2013-12-29
+prachikaistha@yahoo.com,Prachi,Kaistha,TOEFL,2013-12-27,25600,csharma@mnemoniceducation.com,5000,2620,cash,2013-12-27,2013-12-27
+prachikaistha@yahoo.com,Prachi,Kaistha,application,2014-01-19,22500,csharma@mnemoniceducation.com,2500,2646,banktransfer,2014-01-21,2014-01-21
+uzmacute31@gmail.com,Uzma,Khan,application,2013-12-29,28090,csharma@mnemoniceducation.com,23090,2626,banktransfer,2013-12-30,2013-12-30
+uzmacute31@gmail.com,Uzma,Khan,application,2013-12-29,28090,csharma@mnemoniceducation.com,5000,2623,cash,2013-12-29,2013-12-29
+poudeljyotsna@yahoo.com,Jyotsana,Poudel,IELTS,2014-01-06,5600,nchhabra@mnemoniceducation.com,5600,2221,cash,2014-01-06,2014-01-06
+ginnibraha@gmail.com,Pushpinder,Braha,IELTS,2014-01-02,5600,nchhabra@mnemoniceducation.com,5600,2219,cash,2014-01-02,2014-01-02
+ginnibraha@gmail.com,Pushpinder,Braha,IELTS,2014-02-10,2800,nchhabra@mnemoniceducation.com,2800,2238,cash,2014-02-10,2014-02-10
+gof.anuradha@gmail.com,Digvijay,Kushwaha,TOEFL,2014-01-05,27100,csharma@mnemoniceducation.com,27100,2630,check,2014-01-05,2014-01-05
+aj_trivedi@hotmail.com,Akriti,Trivedi,application,2014-01-03,28090,csharma@mnemoniceducation.com,28090,2629,banktransfer,2014-01-03,2014-01-03
+thapar.sahir@yahoo.com,Sahir,Thapar,application,2014-01-18,5000,csharma@mnemoniceducation.com,5000,2637,cash,2014-01-18,2014-01-18
+advashist@rediffmail.com,Apurva,Aggarwal,application,2014-01-11,5000,csharma@mnemoniceducation.com,5000,2634,cash,2014-01-11,2014-01-11
+jindal_somya@yahoo.com,Somya,Jindal,GMATPackage,2014-01-03,40000,nchhabra@mnemoniceducation.com,40000,2220,cash,2014-01-03,2014-01-03
+ritusolanki16@gmail.com,Ritu,Solanki,IELTS,2014-01-16,5600,csharma@mnemoniceducation.com,5600,2635,cash,2014-01-16,2014-01-16
+a.kapils45@gmail.com,Ashish,Kapila,IELTS,2014-02-24,5600,nchhabra@mnemoniceducation.com,5600,2245,cash,2014-02-24,2014-02-24
+sukhijasapna@gmail.com,Sapna,Sukhija,IELTS,2014-01-18,5600,csharma@mnemoniceducation.com,5600,2638,cash,2014-01-18,2014-01-18
+sakshi1084@yahoo.com,Sakshi,Chopra,IELTS,2014-01-20,5600,nchhabra@mnemoniceducation.com,5600,2229,cash,2014-01-20,2014-01-20
+cool.malik09@gmail.com,Ankush,Malik,GRE,2014-02-01,20000,nchhabra@mnemoniceducation.com,20000,2233,check,2014-02-01,2014-02-01
+piyushbhaskar1991@gmail.com,Piyush,Bhaskar,application,2014-02-24,20250,nchhabra@mnemoniceducation.com,20250,2246,cash,2014-02-24,2014-02-24
+piyushbhaskar1991@gmail.com,Piyush,Bhaskar,IELTS,2014-01-23,5600,nchhabra@mnemoniceducation.com,5600,2230,cash,2014-01-24,2014-01-24
+jobs4sumitsharma@gmail.com,Sumit,_,IELTS,2014-01-30,5600,csharma@mnemoniceducation.com,5600,2644,cash,2014-01-30,2014-01-30
+garg.aditi1990@gmail.com,Aditi,Garg,application,2014-01-25,28090,nchhabra@mnemoniceducation.com,28090,2231,cash,2014-01-25,2014-01-25
+rahulkhanna9717@gmail.com,Rahul,Khanna,application,2014-01-30,28090,suhaila@mnemoniceducation.com,28090,2643,cash,2014-01-30,2014-01-30
+rahulkhanna9717@gmail.com,Rahul,Khanna,IELTS,2014-02-18,500,csharma@mnemoniceducation.com,500,2652,cash,2014-02-18,2014-02-18
+ngel.tyagi17@gmail.com,Aanchal,Tyagi,GRE,2014-02-01,20000,nchhabra@mnemoniceducation.com,20000,2235,cash,2014-02-01,2014-02-01
+sidzcancerian@gmail.com,"Siddharth ",Jain,application,2014-01-31,6300,nchhabra@mnemoniceducation.com,6300,2232,cash,2014-01-31,2014-01-31
+seema.14rana@gmail.com,Seema,Rana,GRE,2014-02-01,20000,nchhabra@mnemoniceducation.com,20000,2234,check,2014-02-01,2014-02-01
+astha@gmail.com,Aastha,Chowdhary,IELTS,2014-01-30,2500,csharma@mnemoniceducation.com,2500,2645,cash,2014-01-30,2014-01-30
+hena_delhi18@yahoo.com,Heena,Sehgal,IELTS,2014-02-15,5600,csharma@mnemoniceducation.com,4600,2661,cash,2014-03-04,2014-03-04
+hena_delhi18@yahoo.com,Heena,Sehgal,IELTS,2014-02-15,5600,csharma@mnemoniceducation.com,1000,2649,cash,2014-02-15,2014-02-15
+nitinvohra_uni@yahoo.com,Nitin,Vohra,IELTS,2014-02-07,5600,csharma@mnemoniceducation.com,5600,2647,cash,2014-02-07,2014-02-07
+deepak.rana333@gmail.com,Deepak,Rana,IELTS,2014-02-08,5600,csharma@mnemoniceducation.com,5600,2648,cash,2014-02-08,2014-02-08
+agg.shreyansh@gmail.com,Shreyansh,Aggarwal,application,2014-02-12,26000,nchhabra@mnemoniceducation.com,26000,2239,cash,2014-02-12,2014-02-12
+kamal24gupta@gmail.com,Kamal,Gupta,IELTS,2014-02-16,5600,csharma@mnemoniceducation.com,5100,2655,cash,2014-02-22,2014-02-22
+kamal24gupta@gmail.com,Kamal,Gupta,IELTS,2014-02-16,5600,csharma@mnemoniceducation.com,500,2650,cash,2014-02-16,2014-02-16
+adibhar97@gmail.com,Aditya,Bharti,application,2014-03-12,33700,csharma@mnemoniceducation.com,33700,2672,check,2014-03-12,2014-03-12
+sidwine29@gmail.com,Sidddharth,Chadha,IELTS,2014-02-18,500,csharma@mnemoniceducation.com,500,2651,cash,2014-02-18,2014-02-18
+denounce_ss@yahoo.com,Shubham,Sharma,IELTS,2014-02-18,1320,nchhabra@mnemoniceducation.com,20,0000,cash,2014-03-04,2014-03-04
+denounce_ss@yahoo.com,Shubham,Sharma,IELTS,2014-02-18,1320,nchhabra@mnemoniceducation.com,1300,2251,cash,2014-03-04,2014-03-04
+denounce_ss@yahoo.com,Shubham,Sharma,IELTS,2014-02-18,4000,nchhabra@mnemoniceducation.com,4000,2241,cash,2014-02-18,2014-02-18
+mangapraveen@yahoo.com,Uddish,Msnga,application,2014-02-21,30000,csharma@mnemoniceducation.com,15000,2658,cash,2014-02-28,2014-02-28
+mangapraveen@yahoo.com,Uddish,Msnga,application,2014-02-21,30000,csharma@mnemoniceducation.com,10000,2657,cash,2014-02-25,2014-02-25
+mangapraveen@yahoo.com,Uddish,Msnga,application,2014-02-21,30000,csharma@mnemoniceducation.com,5000,2656,cash,2014-02-21,2014-02-21
+vidish.tantia@gmail.com,Vidish,Tantia,application,2014-03-18,28090,csharma@mnemoniceducation.com,28090,2676,cash,2014-03-18,2014-03-18
+navjotgill68@gmail.com,"Navjot ",Gill,application,2014-02-18,28090,nchhabra@mnemoniceducation.com,28090,2242,banktransfer,2014-02-18,2014-02-18
+r.raunakisthebest@gmail.com,Raunak,Rakesh,application,2014-02-15,28090,nchhabra@mnemoniceducation.com,28090,2240,banktransfer,2014-02-15,2014-02-15
+nishak18@gmail.com,Nisha,Kumari,IELTS,2014-02-22,2000,csharma@mnemoniceducation.com,2000,2653,cash,2014-02-22,2014-02-22
+nitin1.kapoor@gmail.com,Nitin,Kapoor,IELTS,2014-02-22,2000,csharma@mnemoniceducation.com,2000,2654,cash,2014-02-22,2014-02-22
+noble.hundiyi187@yahoo.com,Noble,Joseph,IELTS,2014-02-28,5600,nchhabra@mnemoniceducation.com,5600,2247,cash,2014-02-28,2014-02-28
+praditkul@gmail.com,Pradit,Kulshreshtha,application,2014-03-13,28090,csharma@mnemoniceducation.com,28090,2673,cash,2014-03-13,2014-03-13
+reachbhasker@gmail.com,Bhasker,Mehta,GRE,2014-03-15,20000,csharma@mnemoniceducation.com,20000,2674,cash,2014-03-15,2014-03-15
+rajuhemant@gmail.com,Hemant,Sharma,IELTS,2014-03-08,5600,csharma@mnemoniceducation.com,5600,2668,check,2014-03-08,2014-03-08
+db22267@gmail.com,Bhawna,Sharma,IELTS,2014-03-07,2936,csharma@mnemoniceducation.com,2936,2664,cash,2014-03-07,2014-03-07
+db22267@gmail.com,Bhawna,Sharma,IELTS,2014-03-07,2664,csharma@mnemoniceducation.com,2664,2664,cash,2014-03-07,2014-03-07
+binza.lama@yahoo.com,Binza,Lama,TOEFL,2014-03-04,5600,csharma@mnemoniceducation.com,4600,2663,cash,2014-03-06,2014-03-06
+binza.lama@yahoo.com,Binza,Lama,TOEFL,2014-03-04,5600,csharma@mnemoniceducation.com,1000,2662,cash,2014-03-04,2014-03-04
+aditya29power@gmail.com,Aditya,Chaudhary,IELTS,2014-03-07,5600,nchhabra@mnemoniceducation.com,5600,2252,cash,2014-03-07,2014-03-07
+dhruvkhurana2193@gmail.com,Dhruv,Khurana,IELTS,2014-03-08,5600,csharma@mnemoniceducation.com,4600,2254,cash,2014-03-08,2014-03-08
+dhruvkhurana2193@gmail.com,Dhruv,Khurana,IELTS,2014-03-08,5600,csharma@mnemoniceducation.com,1000,2254,cash,2014-03-08,2014-03-08
+shalabh.gupta50@gmail.com,Shalabh,Gupta,IELTS,2014-03-08,5600,csharma@mnemoniceducation.com,5600,2253,cash,2014-03-08,2014-03-08
+neil.nayak1990@gmail.com,Neel,Nayak,GRE,2014-03-08,1250,csharma@mnemoniceducation.com,1250,2665,cash,2014-03-08,2014-03-08
+write2sagararora@gmail.com,Sagar,Arora,IELTS,2014-03-08,5600,csharma@mnemoniceducation.com,1000,2666,cash,2014-03-08,2014-03-08
+siddharthkr1@gmail.com,Siddharth,Kumar,IELTS,2014-03-08,5600,csharma@mnemoniceducation.com,4600,2669,cash,2014-03-09,2014-03-09
+siddharthkr1@gmail.com,Siddharth,Kumar,IELTS,2014-03-08,5600,csharma@mnemoniceducation.com,1000,2667,cash,2014-03-08,2014-03-08
+ashish.nitkkr@gmail.com,Ashish,Gupta,GRE,2014-03-11,16850,csharma@mnemoniceducation.com,50,2671,cash,2014-03-12,2014-03-12
+ashish.nitkkr@gmail.com,Ashish,Gupta,GRE,2014-03-11,16850,csharma@mnemoniceducation.com,16800,2670,cash,2014-03-11,2014-03-11
+chandniashisharora@gmail.com,Chandini,Arora,IELTS,2014-03-26,5600,nchhabra@mnemoniceducation.com,5600,2263,check,2014-03-26,2014-03-26
+singh.amrit1985@gmail.com,Amrit,Singh,IELTS,2014-03-13,5600,nchhabra@mnemoniceducation.com,5100,2257,cash,2014-03-14,2014-03-14
+singh.amrit1985@gmail.com,Amrit,Singh,IELTS,2014-03-13,5600,nchhabra@mnemoniceducation.com,500,2256,cash,2014-03-13,2014-03-13
+garvitbatra1@gmail.com,Garvit,Batra,TOEFL,2014-03-13,25420,nchhabra@mnemoniceducation.com,3920,2262,cash,2014-03-24,2014-03-24
+garvitbatra1@gmail.com,Garvit,Batra,TOEFL,2014-03-13,25420,nchhabra@mnemoniceducation.com,11500,2259,cash,2014-03-20,2014-03-20
+garvitbatra1@gmail.com,Garvit,Batra,TOEFL,2014-03-13,25420,nchhabra@mnemoniceducation.com,10000,2258,cash,2014-03-13,2014-03-13
+vickymedwar@gmail.com,Vikas,Kumar,IELTS,2014-03-14,5600,csharma@mnemoniceducation.com,5600,2908,cash,2014-03-14,2014-03-14
+suhag.deepak92@gmail.com,Deepak,Suhag,IELTS,2014-04-02,3099,nchhabra@mnemoniceducation.com,3099,2501,cash,2014-04-02,2014-04-02
+suhag.deepak92@gmail.com,Deepak,Suhag,IELTS,2014-04-02,2501,nchhabra@mnemoniceducation.com,2501,2501,cash,2014-04-02,2014-04-02
+gursevakrai@gmail.com,Gursevak,Singh,IELTS,2014-04-11,5600,nchhabra@mnemoniceducation.com,5600,2508,cash,2014-04-11,2014-04-11
+arpitarora2806@gmail.com,Arpit,Arora,SAT,2014-04-20,21500,nchhabra@mnemoniceducation.com,11500,2540,check,2014-05-18,2014-05-18
+arpitarora2806@gmail.com,Arpit,Arora,SAT,2014-04-20,21500,nchhabra@mnemoniceducation.com,10000,2515,check,2014-04-20,2014-04-20
+prashantc80@gmail.com,Prashant,Chadha,IELTS,2014-04-08,5600,nchhabra@mnemoniceducation.com,5600,2507,cash,2014-04-08,2014-04-08
+ravidudi@gmail.com,Rubina,Sinwer,IELTS,2014-04-06,5600,nchhabra@mnemoniceducation.com,4600,2503,cash,2014-04-07,2014-04-07
+ravidudi@gmail.com,Rubina,Sinwer,IELTS,2014-04-06,5600,nchhabra@mnemoniceducation.com,1000,2502,cash,2014-04-06,2014-04-06
+dbakshi80@gmail.com,Deepika,Honda,IELTS,2014-04-07,5600,nchhabra@mnemoniceducation.com,2800,2506,cash,2014-04-07,2014-04-07
+vidur.a19@gmail.com,Vidur,Agarwal,GMAT,2014-04-07,500,nchhabra@mnemoniceducation.com,500,2504,cash,2014-04-07,2014-04-07
+adwaittomar@gmail.com,Adwait,Tomar,SAT,2014-04-11,21500,nchhabra@mnemoniceducation.com,11500,2526,cash,2014-05-02,2014-05-02
+adwaittomar@gmail.com,Adwait,Tomar,SAT,2014-04-11,21500,nchhabra@mnemoniceducation.com,10000,2509,cash,2014-04-11,2014-04-11
+durvishsehgal@gmail.com,Durvish,Sehgal,IELTS,2014-04-16,5600,nchhabra@mnemoniceducation.com,1600,2512,cash,2014-04-15,2014-04-15
+durvishsehgal@gmail.com,Durvish,Sehgal,IELTS,2014-04-16,5600,nchhabra@mnemoniceducation.com,4000,2501,cash,2014-04-14,2014-04-14
+money02.24@gmail.com,Pragat,Singh,IELTS,2014-04-15,5600,nchhabra@mnemoniceducation.com,4600,2514,cash,2014-04-16,2014-04-16
+money02.24@gmail.com,Pragat,Singh,IELTS,2014-04-15,5600,nchhabra@mnemoniceducation.com,1000,2511,cash,2014-04-15,2014-04-15
+panehasuri@gmail.com,Paneha,Suri,IELTS,2014-04-20,5600,nchhabra@mnemoniceducation.com,5600,2359,cash,2014-04-20,2014-04-20
+bansalashutosh55@gmail.com,Ashutosh,Bansal,SATPackage,2014-04-28,49590,nchhabra@mnemoniceducation.com,29590,2524,cash,2014-04-30,2014-04-30
+bansalashutosh55@gmail.com,Ashutosh,Bansal,SATPackage,2014-04-28,49590,nchhabra@mnemoniceducation.com,20000,2521,cash,2014-04-28,2014-04-28
+singhpuneet448@gmail.com,Pankaj,Gaba,IELTS,2014-04-23,5600,nchhabra@mnemoniceducation.com,5600,2517,cash,2014-04-23,2014-04-23
+dilshersingh212004@yahoo.co.in,Jasraman,Kaur,IELTS,2014-04-22,5600,nchhabra@mnemoniceducation.com,1600,2518,cash,2014-04-24,2014-04-24
+dilshersingh212004@yahoo.co.in,Jasraman,Kaur,IELTS,2014-04-22,5600,nchhabra@mnemoniceducation.com,4000,2516,cash,2014-04-22,2014-04-22
+naveendabas000@gmail.com,Naveen,Dabas,TOEFL,2014-04-28,5600,nchhabra@mnemoniceducation.com,5600,2520,cash,2014-04-28,2014-04-28
+jatin.mehta.372@gmail.com,Jatin,.,IELTS,2014-05-11,5600,nchhabra@mnemoniceducation.com,5500,2533,cash,2014-05-11,2014-05-11
+jitesh161993@gmail.com,Jitesh,Kumar,TOEFL,2014-05-04,32250,nchhabra@mnemoniceducation.com,12250,2536,cash,2014-05-14,2014-05-14
+jitesh161993@gmail.com,Jitesh,Kumar,TOEFL,2014-05-04,32250,nchhabra@mnemoniceducation.com,20000,2527,cash,2014-05-04,2014-05-04
+chahalldh@hotmail.com,Gurpreet,Chahal,IELTS,2014-05-07,5600,nchhabra@mnemoniceducation.com,5600,2532,cash,2014-05-07,2014-05-07
+anujbansal.in@gmail.com,Anuj,Bansal,GMATPackage,2014-05-04,4250,nchhabra@mnemoniceducation.com,4250,2528,cash,2014-05-04,2014-05-04
+anshul.shml5@gmail.com,Karan,Bahri,IELTS,2014-05-07,5600,nchhabra@mnemoniceducation.com,5600,2531,cash,2014-05-07,2014-05-07
+karanbahri@hotmail.com,Karan,Bahri,GMATPackage,2014-05-04,4250,nchhabra@mnemoniceducation.com,4250,2529,cash,2014-05-04,2014-05-04
+nehabhatia23@gmail.com,Neha,Arya,IELTS,2014-05-11,5040,nchhabra@mnemoniceducation.com,5040,2535,check,2014-05-11,2014-05-11
+girikavashist@gmail.com,Girika,Vashist,SATPackage,2014-07-23,55190,nchhabra@mnemoniceducation.com,55190,2530,cash,2014-05-06,2014-05-06
+harithkaushik9211@gmail.com,Vijay,Kaushik,GREPackage,2014-05-17,42500,nchhabra@mnemoniceducation.com,20000,2537,cash,2014-05-17,2014-05-17
+a20sharma@gmail.com,"Yogesh ",Sharma,IELTS,2014-05-11,5600,nchhabra@mnemoniceducation.com,5600,2534,cash,2014-05-11,2014-05-11
+ranjit595@hotmail.com,"Jasleen ",Kaur,IELTS,2014-05-31,5600,nchhabra@mnemoniceducation.com,3600,2552,cash,2014-06-01,2014-06-01
+ranjit595@hotmail.com,"Jasleen ",Kaur,IELTS,2014-05-31,5600,nchhabra@mnemoniceducation.com,2000,2548,cash,2014-05-31,2014-05-31
+nishant691989@gmail.com,Nishant,Sharma,GRE,2014-05-17,20000,nchhabra@mnemoniceducation.com,10000,2562,cash,2014-06-14,2014-06-14
+nishant691989@gmail.com,Nishant,Sharma,GRE,2014-05-17,20000,nchhabra@mnemoniceducation.com,10000,2538,cash,2014-05-17,2014-05-17
+priyanka12llb050@itmindia.edu,Priyanka,Talwar,IELTS,2014-05-20,5600,nchhabra@mnemoniceducation.com,5600,2541,cash,2014-05-20,2014-05-20
+nehal.red28@gmail.com,Nehal,Gupta,SAT,2014-05-22,6000,nchhabra@mnemoniceducation.com,6000,2543,cash,2014-05-22,2014-05-22
+supriya.malik1@gmail.com,"Dr. Supriya ",Malik,IELTS,2014-05-23,5600,nchhabra@mnemoniceducation.com,4600,2545,cash,2014-05-27,2014-05-27
+supriya.malik1@gmail.com,"Dr. Supriya ",Malik,IELTS,2014-05-23,5600,nchhabra@mnemoniceducation.com,1000,2544,cash,2014-05-23,2014-05-23
+abhayisaac@gmail.com,Abhay,Isaac,GMAT,2014-05-31,20000,nchhabra@mnemoniceducation.com,19500,2556,cash,2014-06-05,2014-06-05
+abhayisaac@gmail.com,Abhay,Isaac,GMAT,2014-05-31,20000,nchhabra@mnemoniceducation.com,500,2550,cash,2014-05-31,2014-05-31
+sunitisehgal30@gmail.com,Suniti,Sehgal,IELTS,2014-07-07,5300,nchhabra@mnemoniceducation.com,5300,2588,cash,2014-07-07,2014-07-07
+vijit.khare@rediffmail.com,Dr. Vijit,Khare,GMAT,2014-05-31,20000,nchhabra@mnemoniceducation.com,5000,2575,cash,2014-06-27,2014-06-27
+vijit.khare@rediffmail.com,Dr. Vijit,Khare,GMAT,2014-05-31,20000,nchhabra@mnemoniceducation.com,9000,2558,cash,2014-06-09,2014-06-09
+vijit.khare@rediffmail.com,Dr. Vijit,Khare,GMAT,2014-05-31,20000,nchhabra@mnemoniceducation.com,5000,2555,cash,2014-06-05,2014-06-05
+vijit.khare@rediffmail.com,Dr. Vijit,Khare,GMAT,2014-05-31,20000,nchhabra@mnemoniceducation.com,1000,2551,cash,2014-05-31,2014-05-31
+riya_291989@yahoo.in,Riya,Singh,IELTS,2014-05-31,500,nchhabra@mnemoniceducation.com,500,2549,cash,2014-05-31,2014-05-31
+rajnishv@hotmail.com,Rajnish,Verma,IELTS,2014-06-09,5600,nchhabra@mnemoniceducation.com,5600,2557,cash,2014-06-09,2014-06-09
+cvanika87@gmail.com,Vanika,Chawla,IELTS,2014-06-18,5300,nchhabra@mnemoniceducation.com,5300,2568,check,2014-06-18,2014-06-18
+sheoransumit@gmail.com,Sunit,Sheoran,IELTS,2014-06-17,5600,nchhabra@mnemoniceducation.com,5600,2566,cash,2014-06-17,2014-06-17
+mpsingh107@yahoo.co.in,Manvinder,Singh,IELTS,2014-06-19,5040,nchhabra@mnemoniceducation.com,5040,2572,cash,2014-06-19,2014-06-19
+kushal9811126065@gmail.com,Kushal,Kaura,IELTS,2014-06-18,5600,nchhabra@mnemoniceducation.com,5600,2570,cash,2014-06-18,2014-06-18
+dinesh.kumar616@gmail.com,Dinesh,Kumar,IELTS,2014-06-18,5300,nchhabra@mnemoniceducation.com,5300,2567,cash,2014-06-18,2014-06-18
+mmunny93@gmail.com,Rishabh,Kaura,IELTS,2014-06-18,5600,nchhabra@mnemoniceducation.com,5600,2569,cash,2014-06-18,2014-06-18
+aman.sahni85@rediffmail.com,Aman,Sahni,IELTS,2014-07-12,5600,nchhabra@mnemoniceducation.com,4100,2595,cash,2014-07-13,2014-07-13
+aman.sahni85@rediffmail.com,Aman,Sahni,IELTS,2014-07-12,5600,nchhabra@mnemoniceducation.com,1500,2592,cash,2014-07-12,2014-07-12
+sachingoaler@gmail.com,Ankush,.,IELTS,2014-07-09,5600,nchhabra@mnemoniceducation.com,5600,2591,cash,2014-07-09,2014-07-09
+mukhi.ayushi@gmail.com,Ayush,Mukhi,IELTS,2014-06-24,5600,nchhabra@mnemoniceducation.com,5600,2573,cash,2014-06-23,2014-06-23
+samir.karir@rediffmail.com,Sameer,Karir,IELTS,2014-06-29,5600,nchhabra@mnemoniceducation.com,5600,2577,cash,2014-06-29,2014-06-29
+sanjaymangtani@yahoo.in,Sanjay,.,GMAT,2014-06-29,20000,nchhabra@mnemoniceducation.com,5000,2578,cash,2014-06-29,2014-06-29
+azamhussain89@yahoo.com,Sanya,Parvez,IELTS,2014-07-01,5600,nchhabra@mnemoniceducation.com,5600,2581,cash,2014-07-01,2014-07-01
+jasmeet.batra16@yahoo.co.in,Hardeep,Kaur,IELTS,2014-07-03,5600,nchhabra@mnemoniceducation.com,4600,2584,cash,2014-07-05,2014-07-05
+jasmeet.batra16@yahoo.co.in,Hardeep,Kaur,IELTS,2014-07-03,5600,nchhabra@mnemoniceducation.com,1000,2582,cash,2014-07-03,2014-07-03
+charu.dhingra519@gmail.com,Charu,Dhingra,GRE,2014-07-12,20000,nchhabra@mnemoniceducation.com,20000,2593,cash,2014-07-12,2014-07-12
+aditisingla1@gmail.com,Aditi,Singla,GMAT,2014-07-07,20000,nchhabra@mnemoniceducation.com,10000,3004,cash,2014-07-19,2014-07-19
+aditisingla1@gmail.com,Aditi,Singla,GMAT,2014-07-07,20000,nchhabra@mnemoniceducation.com,10000,2589,check,2014-07-07,2014-07-07
+tomer.rachna18@gmail.com,Rachna,Tomer,IELTS,2014-07-13,5300,nchhabra@mnemoniceducation.com,5300,2597,cash,2014-07-13,2014-07-13
+shriyasarin@gmail.com,Shriya,Sarin,application,2014-08-04,20000,nchhabra@mnemoniceducation.com,20000,3019,cash,2014-08-04,2014-08-04
+jaspreet_0806@yahoo.com,Jaspreet,Kaur,IELTS,2014-07-12,5600,nchhabra@mnemoniceducation.com,5600,2594,cash,2014-07-12,2014-07-12
+tarushi98@gmail.com,Arushi,.,SAT,2014-07-19,21000,nchhabra@mnemoniceducation.com,21000,3002,cash,2014-07-19,2014-07-19
+iamampabla@gmail.com,Amanpreet,Singh,IELTS,2014-07-15,5600,nchhabra@mnemoniceducation.com,3600,3001,cash,2014-07-17,2014-07-17
+iamampabla@gmail.com,Amanpreet,Singh,IELTS,2014-07-15,5600,nchhabra@mnemoniceducation.com,2000,2600,cash,2014-07-15,2014-07-15
+aytida_094@yahoo.co.in,Aditya,Singh,GMAT,2014-07-26,20000,nchhabra@mnemoniceducation.com,20000,3011,cash,2014-07-26,2014-07-26
+abhikheraster@gmail.com,Abhishek,Khera,IELTS,2014-07-26,5600,nchhabra@mnemoniceducation.com,5600,3009,cash,2014-07-26,2014-07-26
+Luvish18@gmail.com,Luvish,Sardana,IELTS,2014-07-21,5600,nchhabra@mnemoniceducation.com,3600,3007,cash,2014-07-22,2014-07-22
+Luvish18@gmail.com,Luvish,Sardana,IELTS,2014-07-21,5600,nchhabra@mnemoniceducation.com,2000,3006,check,2014-07-21,2014-07-21
+aniljangid27@yahoo.com,Anil,Jangid,GRE,2014-07-25,20000,nchhabra@mnemoniceducation.com,20000,3008,check,2014-07-25,2014-07-25
+shreyasharma_9@yahoo.co.in,Shreya,Sharma,IELTS,2014-07-26,5600,nchhabra@mnemoniceducation.com,5600,3012,cash,2014-07-26,2014-07-26
+dhruvbhagat1992@gmail.com,Dhruv,Bhagat,IELTS,2014-07-26,5600,nchhabra@mnemoniceducation.com,4600,3015,cash,2014-07-31,2014-07-31
+dhruvbhagat1992@gmail.com,Dhruv,Bhagat,IELTS,2014-07-26,5600,nchhabra@mnemoniceducation.com,1000,3010,cash,2014-07-26,2014-07-26
+dr.skumar34@yahoo.com,Sunil,Kumar,IELTS,2014-07-27,5600,nchhabra@mnemoniceducation.com,5600,3013,cash,2014-07-27,2014-07-27
+nishantsachdeva2002@gmail.com,Nishant,Sachdeva,IELTS,2014-08-02,5600,nchhabra@mnemoniceducation.com,4600,3017,cash,2014-08-03,2014-08-03
+nishantsachdeva2002@gmail.com,Nishant,Sachdeva,IELTS,2014-08-02,5600,nchhabra@mnemoniceducation.com,1000,3016,cash,2014-08-02,2014-08-02
+jasminderkakkar@gmail.com,Jasminder,Kaur,IELTS,2014-08-03,5600,nchhabra@mnemoniceducation.com,5600,3018,cash,2014-08-03,2014-08-03
+singhjaspreet22@hotmail.com,Jaspreet,Singh,TOEFL,2014-08-07,5600,nchhabra@mnemoniceducation.com,5600,3024,cash,2014-08-07,2014-08-07
