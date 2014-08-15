@@ -1,5 +1,5 @@
 /**
-* EnquiryView.js
+* EnrollView.js
 *
 * @description :: TODO: You might write a short summary of how this model works and what it represents here.
 * @docs        :: http://sailsjs.org/#!documentation/models
@@ -7,13 +7,9 @@
 
 module.exports = {
 
-    migrate: 'safe',
+  attributes: {
 
-	attributes: {
-
-        name: {type: 'string'},
-
-        enquiryStatus: {type: 'string'},
+  	    name: {type: 'string'},
 
         enquiryDate: {type: 'datetime'},
 
@@ -29,9 +25,16 @@ module.exports = {
 
         assignedTo: {type: 'string'},
 
-        locations: {type: 'string'}
+        locations: {type: 'string'},
+
+        totalFee: {type: 'float'},
+
+        totalPaid: {type: 'float'},
+
+        totalDue: {type: 'float'}
 
 
-	}
+
+  }
 };
 
