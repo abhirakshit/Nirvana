@@ -49,27 +49,11 @@ module.exports = {
             }
             Staff.findOne(id).populate('students').exec(function(err, staff){
                 var students = staff.students;
-                var studentCollection = [];
-                async.each(students, function(student, callback){
-                    Student.findOne(student.id).populate('countries').populate('services').populate('enquiryStatus').exec(function(err, stud){
-                        if (err) {
-                            console.log("Error handling comment:  " + student.id + "\n" + err);
-                            callback(err);
-                        }
+                var studentIds = _.pluck(students, "id");
 
-                        if (stud.enquiryStatus.id != enrolledId && stud.enquiryStatus.id != closedId) // Only return non joined or closed enquiries
-                            studentCollection.push(stud);
-                        callback();
-                    })
-                }, function(err){
-                    if (err) {
-                        console.log("Could not process students. " + err);
-                        res.badRequest(err);
-                    }
-
-                    res.json(studentCollection);
-                });
-
+                EnquiryView.find(studentIds).exec(function(err, students) {
+                    res.json(students);
+                })
             });
         });
     },
@@ -100,10 +84,6 @@ module.exports = {
 
                 var toRemove = _.difference(oldLocations,newLocationsArray);
                 var toAdd = _.difference(newLocationsArray,oldLocations);
-
-                console.log(oldLocations);
-                console.log(toRemove);
-                console.log(toAdd);
 
                 _.forEach(toRemove, function(id){
                     staff.locations.remove(id);

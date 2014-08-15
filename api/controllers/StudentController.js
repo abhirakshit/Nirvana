@@ -33,11 +33,9 @@ getCommentStrFromUpdateFields = function (updateFields, student) {
         //Check for other String updates
         if (oldVal) {
             comment.str = "<b>" + Utils.capitalizeFirst(key) + ":</b> <i>'" + oldVal + "'</i> to <i>'" + newVal + "'</i>"
-//            comment.type = "change";
             comment.type = consts.COMMENT_CHANGE;
         } else {
             comment.str = "<b>" + Utils.capitalizeFirst(key) + ":</b> " + newVal;
-//            comment.type = "add";
             comment.type = consts.COMMENT_ADD;
         }
     });
@@ -835,14 +833,14 @@ module.exports = {
         }
     },
 
-    find: function (req, res) {
-        var id = req.param('id');
-        if (!id) {
-            return res.badRequest('No id provided.');
-        } else {
-            return res.json(findStudent(id));
-        }
-    },
+//    find: function (req, res) {
+//        var id = req.param('id');
+//        if (!id) {
+//            return res.badRequest('No id provided.');
+//        } else {
+//            return res.json(findStudent(id));
+//        }
+//    },
 
     getComments: function (req, res) {
         var id = req.param('id');
@@ -885,37 +883,7 @@ module.exports = {
                 });
             }
             res.json(enquiries);
-        })
-
-//        EnquiryStatus
-//            .find()
-//            .where({name: [consts.ENQ_STATUS_ENROLLED, consts.ENQ_STATUS_CLOSED]})
-//            .exec(function (err, enqStatusList) {
-//                if (err || !enqStatusList) {
-//                    return res.badRequest("Could not find enquiry status list." + "\n" + err);
-//                }
-//                var enrolledId, closedId;
-//                while (enqStatusList.length) {
-//                    var enquiry = enqStatusList.pop();
-//                    if (enquiry.name === consts.ENQ_STATUS_ENROLLED)
-//                        enrolledId = enquiry.id;
-//                    else
-//                        closedId = enquiry.id;
-//                }
-//
-//                Student.find({enquiryStatus: {'!': [closedId, enrolledId]}})
-//                    .limit(5)
-//                    .populate('services')
-//                    .populate('countries')
-//                    .populate('staff')
-//                    .populate('enquiryStatus')
-//                    .exec(function (err, students) {
-//                        if (err || !students) {
-//                            return res.badRequest("Could not find students." + "\n" + err);
-//                        }
-//                        res.json(students);
-//                    });
-//            });
+        });
     },
 
     getClosedEnquiries: function (req, res) {
