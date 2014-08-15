@@ -172,7 +172,8 @@ define([
 
             getAllEnquiries: function () {
                 Entities.allEnquiries = new Entities.StudentCollection();
-                Entities.allEnquiries.url = Entities.studentUrl + Entities.enquiryUrl;
+//                Entities.allEnquiries.url = Entities.studentUrl + Entities.enquiryUrl;
+                Entities.allEnquiries.url = Entities.enquiryUrl;
                 Entities.allEnquiries.fetch();
 
                 return Entities.allEnquiries;
@@ -180,7 +181,8 @@ define([
 
             getAllClosedEnquiries: function () {
                 Entities.allEnquiries = new Entities.StudentCollection();
-                Entities.allEnquiries.url = Entities.studentUrl + Entities.enquiryUrl + Entities.closedUrl;
+//                Entities.allEnquiries.url = Entities.studentUrl + Entities.enquiryUrl + Entities.closedUrl;
+                Entities.allEnquiries.url = Entities.enquiryUrl + Entities.closedUrl;
                 Entities.allEnquiries.fetch();
 
                 return Entities.allEnquiries;

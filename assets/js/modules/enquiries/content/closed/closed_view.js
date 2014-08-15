@@ -56,14 +56,14 @@ define([
             template: "enquiries/content/closed/templates/row",
             tagName: "tr",
 
-            serializeData: function() {
-                var data = this.model.toJSON();
-                data.serviceNames = _.pluck(data.services, 'name').join(', ');
-                data.countryNames = _.pluck(data.countries, 'name').join(', ');
-                data.staffNames = _.pluck(data.staff, 'name').join(', ');
-                data.statusName = data.enquiryStatus.name;
-                return data;
-            },
+//            serializeData: function() {
+//                var data = this.model.toJSON();
+//                data.serviceNames = _.pluck(data.services, 'name').join(', ');
+//                data.countryNames = _.pluck(data.countries, 'name').join(', ');
+//                data.staffNames = _.pluck(data.staff, 'name').join(', ');
+//                data.statusName = data.enquiryStatus.name;
+//                return data;
+//            },
 
             events: {
                 "click": "click"

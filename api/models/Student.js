@@ -92,7 +92,7 @@ module.exports = {
             model: 'EnquiryStatus'
         },
 
-        //Many to many Comments added for a User
+        //Many to one Comments added for a User
         commentsReceived: {
             collection: 'Comment',
             via: 'received'

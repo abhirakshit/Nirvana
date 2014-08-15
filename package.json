@@ -5,7 +5,7 @@
   "description": "Tracking application",
   "keywords": [],
   "dependencies": {
-    "sails": "^0.10.2",
+    "sails": "^0.10.4",
     "sails-disk": "^0.10.3",
     "rc": "^0.5.0",
     "include-all": "^0.1.6",
@@ -31,7 +31,7 @@
     "consts": "^0.0.2",
     "gake": "^0.1.2",
     "sails-migrations": "^0.1.0",
-    "fast-csv": "^0.4.2"
+    "fast-csv": "^0.4.3"
   },
   "scripts": {
     "start": "node app.js",

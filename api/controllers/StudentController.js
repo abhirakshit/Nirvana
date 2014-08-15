@@ -675,62 +675,6 @@ addPayment = function (id, staffId, method, amount, receiptNumber, paymentDate, 
 
 };
 
-/**
- * This will get all the relations. Populate comments with creator info. Update enrollements
- * with payment info.
- * @param id: Student Id
- */
-findStudent = function (id) {
-    Student.findOne(id)
-        .populate('commentsReceived')
-        .populate('services')
-        .populate('countries')
-//        .populate('locations')
-        .populate('staff')
-        .populate('enquiryStatus')
-        .populate('enrollments')
-        .exec(function (err, student){
-            if (err || !student) {
-
-                async.parallel([
-                    function(callback) {
-                        //Populate comments
-                        var commentsReceived = student.commentsReceived;
-                        var commentCollection = [];
-                        async.each(commentsReceived, function (comment, callback) {
-                            Comment.findOne(comment.id).populate('added').exec(function (err, comm) {
-                                if (err) {
-                                    console.log("Error handling comment:  " + comment.id + "\n" + err);
-                                    callback(err);
-                                }
-                                commentCollection.push(comm);
-                                callback();
-                            })
-                        }, function (err) {
-                            if (err) {
-                                console.log("Could not process comments. " + err);
-                                return res.badRequest("Could not process comment. " + err);
-                            }
-
-                            res.json(_.sortBy(commentCollection, 'createdAt').reverse());
-                        });
-                    },
-
-                    function(callback) {
-                        //Populate Enrollments
-
-                    }
-
-                ], function(err, results) {
-
-                });
-
-
-                //Enrollments
-            }
-        });
-};
-
 stringCleanUp = function (strArr) {
     return strArr.join(", ");
 };
@@ -833,14 +777,34 @@ module.exports = {
         }
     },
 
-//    find: function (req, res) {
-//        var id = req.param('id');
-//        if (!id) {
-//            return res.badRequest('No id provided.');
-//        } else {
-//            return res.json(findStudent(id));
-//        }
-//    },
+    /**
+     * TODO: For some reason blueprint is not populating the associations properly
+     * @param req
+     * @param res
+     * @returns {*}
+     */
+    find: function (req, res) {
+        var id = req.param('id');
+        if (!id) {
+            return res.badRequest('No id provided.');
+        } else {
+            Student.findOne(id)
+                .populate('services')
+                .populate('countries')
+                .populate('locations')
+                .populate('staff')
+                .populate('enquiryStatus')
+                .populate('enrollments')
+                .exec(function (err, student) {
+                    if (err || !student) {
+                        Utils.logQueryError(err, student, "Clould not find student with id: " + id, function (err) {
+                            return res.badRequest(err);
+                        })
+                    }
+                    res.json(student);
+                });
+        }
+    },
 
     getComments: function (req, res) {
         var id = req.param('id');
@@ -877,8 +841,8 @@ module.exports = {
 
     getEnquiries: function (req, res) {
         EnquiryView.find().exec(function (err, enquiries) {
-            if(err || !enquiries) {
-                return Utils.logQueryError(err, enquiries, "Could not find enquiries.", function(err) {
+            if (err || !enquiries) {
+                return Utils.logQueryError(err, enquiries, "Could not find enquiries.", function (err) {
                     res.badRequest(err);
                 });
             }
@@ -887,19 +851,20 @@ module.exports = {
     },
 
     getClosedEnquiries: function (req, res) {
-        EnquiryStatus.findOne().where({name: consts.ENQ_STATUS_CLOSED}).exec(function (err, enqStatus) {
-            Student.find({enquiryStatus: enqStatus.id})
-                .populate('services')
-                .populate('countries')
-                .populate('staff')
-                .populate('enquiryStatus')
-                .exec(function (err, students) {
+        EnquiryStatus.findOne()
+            .where({name: consts.ENQ_STATUS_CLOSED})
+            .populate('students')
+            .exec(function (err, enqStatus) {
+                var studentIds = _.pluck(enqStatus.students, "id");
+                EnquiryView.find(studentIds).exec(function (err, students) {
                     if (err || !students) {
-                        return res.badRequest("Could not find students." + "\n" + err);
+                        Utils.logQueryError(err, students, 'Could not find closed enquiries.', function (err) {
+                            return res.json(err);
+                        });
                     }
                     res.json(students);
                 });
-        });
+            });
     },
 
     getEnrolledStudents: function (req, res) {
@@ -1001,7 +966,6 @@ module.exports = {
                             console.log("Could not process payment information. " + err);
                             return res.badRequest("Could not process payment information. " + err);
                         }
-                        //  console.log(studentCollection);
                         res.json(studentCollection);
 
 
