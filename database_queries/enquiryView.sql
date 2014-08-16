@@ -1,3 +1,4 @@
+ CREATE VIEW enquiryview AS
  SELECT stu_enq_con_staff.student_id AS id,
     stu_enq_con_staff.name,
     stu_enq_con_staff."enquiryDate",
@@ -50,7 +51,7 @@
                                     es.name AS "enquiryStatus"
                                    FROM student s,
                                     enquirystatus es
-                                  WHERE (s."enquiryStatus" = es.id)) st
+                                  WHERE s."enquiryStatus" = es.id and es.name != 'Enrolled') st
                       LEFT JOIN ( SELECT string_agg(ser.name, ','::text) AS services,
                                     ss.student_services
                                    FROM service_students__student_services ss,

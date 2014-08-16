@@ -62,6 +62,9 @@ module.exports.bootstrap = function (cb) {
             function(callback) { //Enrollments
                 CSVLoaderService.loadStudentEnrollments(dataDir, "student_enrollments.csv", callback);
             },
+            function(callback) { //Education
+                CSVLoaderService.loadStudentEducation(dataDir, "student_education.csv", callback);
+            },
             function(callback) { //Payments
                 CSVLoaderService.loadStudentPayments(dataDir, "student_payments.csv", callback);
             }
@@ -73,6 +76,6 @@ module.exports.bootstrap = function (cb) {
             cb();
         });
     };
-    //populate(cb);
+//    populate(cb);
 cb();
 };

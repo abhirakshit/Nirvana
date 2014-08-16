@@ -1,4 +1,8 @@
 <span id="<%=programName%>">
-        <span><%=programName%>: <%=score%> : <%= passingYear%></span>
+    <% if(passingYear) {%>
+        <span><%=programName%>: </span><span style="color: #3c4144"><%=score%> : <%= passingYear%></span>
+    <% } else { %>
+        <span><%=programName%>: </span><span style="color: #3c4144"><%=score%></span>
+    <% }%>
         <a href="#" ><i class="i i-cancel display-none" style="color: #ff0000"></i></a>
 </span>

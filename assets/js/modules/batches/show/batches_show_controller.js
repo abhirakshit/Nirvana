@@ -9,6 +9,7 @@ define([
                 var batch = Application.request(Application.GET_BATCH, this.options.batchId);
 
                 //TODO: Get students who are enrolled for service matching the batch service
+                // send the batch id and let it find and get the enrolled students
 //                var enrolledStudents = Application.request(Application.GET_STUDENTS_ENROLLED);
 
                 var allServices = Application.request(Application.GET_SERVICES);

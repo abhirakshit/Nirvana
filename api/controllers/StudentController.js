@@ -795,9 +795,10 @@ module.exports = {
                 .populate('staff')
                 .populate('enquiryStatus')
                 .populate('enrollments')
+                .populate('educationList')
                 .exec(function (err, student) {
                     if (err || !student) {
-                        Utils.logQueryError(err, student, "Clould not find student with id: " + id, function (err) {
+                        Utils.logQueryError(err, student, "Could not find student with id: " + id, function (err) {
                             return res.badRequest(err);
                         })
                     }
@@ -840,6 +841,7 @@ module.exports = {
     },
 
     getEnquiries: function (req, res) {
+        console.log("Get enquiries");
         EnquiryView.find().exec(function (err, enquiries) {
             if (err || !enquiries) {
                 return Utils.logQueryError(err, enquiries, "Could not find enquiries.", function (err) {
@@ -868,110 +870,119 @@ module.exports = {
     },
 
     getEnrolledStudents: function (req, res) {
-        EnquiryStatus.findOne({name: consts.ENQ_STATUS_ENROLLED}).exec(function (err, enqStatusEnrolled) {
-            if (err || !enqStatusEnrolled) {
-                return res.badRequest("Could not find Enrolled enquiry status." + "\n" + err);
-            }
-            Student.find({enquiryStatus: enqStatusEnrolled.id})
-                .populate('services')
-                .populate('countries')
-//                .populate('locations')
-                .populate('staff')
-                .populate('enquiryStatus')
-                .populate('enrollments').
-                exec(function (err, enrolledStudents) {
-                    if (err || !enrolledStudents) {
-                        return res.badRequest("Could not find enrolled students." + "\n" + err);
-                    }
-
-                    var studentCollection = [];
-                    async.each(enrolledStudents, function (student, callback) {
-                        var id = student.id;
-                        if (!id) {
-                            return res.badRequest('No id provided.');
-                        }
-
-                        var enrollmentList = student.enrollments;
-                        var enrollmentCollection = [];
-
-                        var paid = {};
-                        async.each(enrollmentList, function (enroll, callback) {
-                            Enroll.findOne(enroll.id).populate('payments').populate('service').exec(function (err, enr) {
-                                if (err || !enr) {
-                                    callback(err);
-                                }
-                                var sum = _.reduce(_.pluck(enr.payments, 'amount'), function (mem, payment) {
-                                    return Number(mem) + Number(payment);
-                                });
-
-                                if (!sum) {
-                                    sum = 0;
-                                }
-                                enr.totalPaid = sum;
-                                enr.due = Number(enr.totalFee) - Number(enr.totalPaid);
-
-                                enrollmentCollection.push(enr);
-                                callback();
-                            });
-                        }, function (err) {
-                            if (err) {
-                                console.log("Could not process payment information. " + err);
-                                return res.badRequest("Could not process payment information. " + err);
-                            }
-
-                            var payment = {};
-
-                            var totalDue = _.reduce(_.pluck(enrollmentCollection, 'due'), function (mem, due) {
-                                return Number(mem) + Number(due);
-                            });
-
-                            var totalPaid = _.reduce(_.pluck(enrollmentCollection, 'totalPaid'), function (mem, totalPaid) {
-                                return Number(mem) + Number(totalPaid);
-                            });
-
-                            var totalFee = _.reduce(_.pluck(enrollmentCollection, 'totalFee'), function (mem, totalFee) {
-                                return Number(mem) + Number(totalFee);
-                            });
-
-                            if (totalFee === null) {
-                                totalFee = 0;
-                            } else {
-                                student.totalFee = Number(totalFee);
-                            }
-                            if (totalPaid === null) {
-                                totalPaid = 0;
-                            } else {
-                                student.totalPaid = Number(totalPaid);
-                            }
-
-                            if (totalDue === null) {
-                                totalDue = 0;
-                            } else {
-                                student.totalDue = Number(totalDue);
-                            }
-
-                            //student.totalPaid = Number(totalPaid);
-                            // student.totalDue = totalDue;
-
-
-                            studentCollection.push(student);
-                            callback();
-
-
-                        });
-
-
-                    }, function (err) {
-                        if (err) {
-                            console.log("Could not process payment information. " + err);
-                            return res.badRequest("Could not process payment information. " + err);
-                        }
-                        res.json(studentCollection);
-
-
-                    });
+        EnrollView.find().exec(function(err, enrolledStudents){
+            if (err || !enrolledStudents) {
+                return Utils.logQueryError(err, enrolledStudents, "Could not find enrolled students.", function (err) {
+                    res.badRequest(err);
                 });
-        })
+            }
+            res.json(enrolledStudents);
+        });
+
+//        EnquiryStatus.findOne({name: consts.ENQ_STATUS_ENROLLED}).exec(function (err, enqStatusEnrolled) {
+//            if (err || !enqStatusEnrolled) {
+//                return res.badRequest("Could not find Enrolled enquiry status." + "\n" + err);
+//            }
+//            Student.find({enquiryStatus: enqStatusEnrolled.id})
+//                .populate('services')
+//                .populate('countries')
+////                .populate('locations')
+//                .populate('staff')
+//                .populate('enquiryStatus')
+//                .populate('enrollments').
+//                exec(function (err, enrolledStudents) {
+//                    if (err || !enrolledStudents) {
+//                        return res.badRequest("Could not find enrolled students." + "\n" + err);
+//                    }
+//
+//                    var studentCollection = [];
+//                    async.each(enrolledStudents, function (student, callback) {
+//                        var id = student.id;
+//                        if (!id) {
+//                            return res.badRequest('No id provided.');
+//                        }
+//
+//                        var enrollmentList = student.enrollments;
+//                        var enrollmentCollection = [];
+//
+//                        var paid = {};
+//                        async.each(enrollmentList, function (enroll, callback) {
+//                            Enroll.findOne(enroll.id).populate('payments').populate('service').exec(function (err, enr) {
+//                                if (err || !enr) {
+//                                    callback(err);
+//                                }
+//                                var sum = _.reduce(_.pluck(enr.payments, 'amount'), function (mem, payment) {
+//                                    return Number(mem) + Number(payment);
+//                                });
+//
+//                                if (!sum) {
+//                                    sum = 0;
+//                                }
+//                                enr.totalPaid = sum;
+//                                enr.due = Number(enr.totalFee) - Number(enr.totalPaid);
+//
+//                                enrollmentCollection.push(enr);
+//                                callback();
+//                            });
+//                        }, function (err) {
+//                            if (err) {
+//                                console.log("Could not process payment information. " + err);
+//                                return res.badRequest("Could not process payment information. " + err);
+//                            }
+//
+//                            var payment = {};
+//
+//                            var totalDue = _.reduce(_.pluck(enrollmentCollection, 'due'), function (mem, due) {
+//                                return Number(mem) + Number(due);
+//                            });
+//
+//                            var totalPaid = _.reduce(_.pluck(enrollmentCollection, 'totalPaid'), function (mem, totalPaid) {
+//                                return Number(mem) + Number(totalPaid);
+//                            });
+//
+//                            var totalFee = _.reduce(_.pluck(enrollmentCollection, 'totalFee'), function (mem, totalFee) {
+//                                return Number(mem) + Number(totalFee);
+//                            });
+//
+//                            if (totalFee === null) {
+//                                totalFee = 0;
+//                            } else {
+//                                student.totalFee = Number(totalFee);
+//                            }
+//                            if (totalPaid === null) {
+//                                totalPaid = 0;
+//                            } else {
+//                                student.totalPaid = Number(totalPaid);
+//                            }
+//
+//                            if (totalDue === null) {
+//                                totalDue = 0;
+//                            } else {
+//                                student.totalDue = Number(totalDue);
+//                            }
+//
+//                            //student.totalPaid = Number(totalPaid);
+//                            // student.totalDue = totalDue;
+//
+//
+//                            studentCollection.push(student);
+//                            callback();
+//
+//
+//                        });
+//
+//
+//                    }, function (err) {
+//                        if (err) {
+//                            console.log("Could not process payment information. " + err);
+//                            return res.badRequest("Could not process payment information. " + err);
+//                        }
+//                        res.json(studentCollection);
+//
+//
+//                    });
+//                });
+//        })
     },
 
     getEnrollments: function (req, res) {

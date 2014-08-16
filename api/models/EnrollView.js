@@ -32,9 +32,6 @@ module.exports = {
         totalPaid: {type: 'float'},
 
         totalDue: {type: 'float'}
-
-
-
   }
 };
 

@@ -30,8 +30,6 @@ module.exports = {
         assignedTo: {type: 'string'},
 
         locations: {type: 'string'}
-
-
 	}
 };
 

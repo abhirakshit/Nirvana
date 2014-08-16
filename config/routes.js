@@ -47,12 +47,10 @@ module.exports.routes = {
 
     'get           /enquiry':                     'StudentController.getEnquiries',
     'get           /enquiry/closed':              'StudentController.getClosedEnquiries',
-    'get           /student/enrolled':            'StudentController.getEnrolledStudents',
     'get           /student/:id/enrollment':      'StudentController.getEnrollments',
-//    'get /student/:id/enrollment':      'StudentController.getEnrollments',
     'get           /student/:id/totalpayment':    'StudentController.getTotalPayments',
     'get           /student/service/:id':         'StudentController.getServiceEnrolledStudents',
-
+    'get           /enrolled/student':            'StudentController.getEnrolledStudents',
 
     'get           /staff/:id/student':           'StaffController.getAssignedStudents',
     'get           /staff/:id/location':          'StaffController.getLocation',

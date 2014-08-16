@@ -260,14 +260,15 @@ define([
 
             getEnrolledStudents: function () {
                 Entities.allEnrolled = new Entities.StudentCollection();
-                Entities.allEnrolled.url = Entities.studentUrl + Entities.enrolledUrl;
+                Entities.allEnrolled.url = Entities.enrolledUrl + Entities.studentUrl;
                 Entities.allEnrolled.fetch();
                 return Entities.allEnrolled;
             },
 
             getStudentsEnrolledInService: function (serviceId) {
                 Entities.allServiceEnrolled = new Entities.StudentCollection();
-                Entities.allServiceEnrolled.url = Entities.studentUrl + Entities.serviceUrl + "/" + serviceId;
+//                Entities.allServiceEnrolled.url = Entities.studentUrl + Entities.serviceUrl + "/" + serviceId;
+                Entities.allServiceEnrolled.url = Entities.serviceUrl + "/" + serviceId + "/" + "students";
                 Entities.allServiceEnrolled.fetch({async: false});
                 return Entities.allServiceEnrolled;
             }
@@ -331,6 +332,7 @@ define([
             return API.getEnrolledStudents();
         });
 
+        //TODO: Fix this route as well using batch id
         Application.reqres.setHandler(Application.GET_STUDENTS_ENROLLED_SERVICE, function (serviceId) {
             return API.getStudentsEnrolledInService(serviceId);
         });

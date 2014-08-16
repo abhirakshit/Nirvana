@@ -802,6 +802,80 @@ module.exports = {
 
     },
 
+    loadStudentEducation: function (path, fileName, callback) {
+        var that = this;
+        var rowsRead = 0,
+            rowsWritten = 0;
+        var csvStream = csv
+            .fromPath(path + fileName, {headers: true, ignoreEmpty: true})
+            .on("record", function (data) {
+                rowsRead++;
+                var updatedData = that.compactObject(data);
+                if (!updatedData.programName || !updatedData.score ||
+                    (!updatedData.email && !updatedData.firstName)) {
+                    console.log(new Error("Illegal arguments: " + updatedData));
+                    return;
+                }
+
+                async.waterfall([
+                    function (cb) {
+                        //Find student from user
+                        if (updatedData.email) {
+                            //Staff will have a email for sure, student may or may not
+                            User.findOneByEmail(updatedData.email).populate('student').exec(function (err, user) {
+                                if (err || !user) {
+                                    return Utils.logQueryError(err, user, "No user for email: " + updatedData.email, cb)
+                                }
+                                cb(null, user.student.id);
+                            })
+
+                        } else {
+                            //If no email check student by name
+                            Student.findOne({firstName: updatedData.firstName, lastName: updatedData.lastName})
+                                .exec(function (err, student) {
+                                    if (err || !student) {
+                                        return Utils.logQueryError(err, student, "No student for name: " + updatedData.firstName, cb)
+                                    }
+                                    cb(null, student.id);
+                                })
+                        }
+                    },
+
+                    //Create Education
+                    function (studentId, cb) {
+                        var values = {student: studentId,
+                            programName: updatedData.programName, score: updatedData.score };
+                        Education.create(values).exec(function (err, education) {
+                            if (err || !education) {
+                                return Utils.logQueryError(err, education, "Could not create education: " + values, cb)
+                            }
+                            cb(null);
+                        });
+                    }
+                ], function (err) {
+                    if (err) {
+                        sails.log.error(err);
+                    }
+                    console.log("**Updated student education");
+                    console.log(updatedData);
+
+                    /**
+                     * The async code make the csv reader not wait for the row to be updated in the
+                     * DB. This code forces the callback to wait until all rows have been processed.
+                     */
+                    rowsWritten++;
+                    if (rowsRead === rowsWritten) {
+                        console.log("****Updated education for all students");
+                        callback(null);
+                    }
+                });
+            })
+            .on("end", function () {
+                console.log("****Read all students to update education");
+            });
+
+    },
+
     loadStudentPayments: function (path, fileName, callback) {
         var that = this;
         var rowsRead = 0,
