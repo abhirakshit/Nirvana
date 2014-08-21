@@ -1,3 +1,11 @@
  CREATE VIEW topicview AS
-select top."name", top."section", top.duration, s."name" service, top.description
-from topic top, service s where s."id" = top.service
+ SELECT top.name,
+    top.section,
+    top.duration,
+    s.name AS service,
+    top.description,
+    top.id,
+    top.service AS ser_id
+   FROM topic top,
+    service s
+  WHERE (s.id = top.service)
