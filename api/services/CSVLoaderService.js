@@ -637,7 +637,6 @@ module.exports = {
             .on("end", function () {
                 console.log("****Read all students to update services");
             });
-
     },
 
     loadStudentComments: function (path, fileName, callback) {
@@ -714,7 +713,6 @@ module.exports = {
             .on("end", function () {
                 console.log("****Read all students to update comment");
             });
-
     },
 
     loadStudentEnrollments: function (path, fileName, callback) {
@@ -843,11 +841,13 @@ module.exports = {
 
                     //Create Education
                     function (studentId, cb) {
-                        var values = {student: studentId,
-                            programName: updatedData.programName, score: updatedData.score };
-                        Education.create(values).exec(function (err, education) {
+//                        var values = {student: studentId,
+//                            programName: updatedData.programName, score: updatedData.score };
+//                        Education.create(values).exec(function (err, education) {
+                        Education.create(updatedData).exec(function (err, education) {
                             if (err || !education) {
-                                return Utils.logQueryError(err, education, "Could not create education: " + values, cb)
+//                                return Utils.logQueryError(err, education, "Could not create education: " + values, cb)
+                                return Utils.logQueryError(err, education, "Could not create education for student Id: " + studentId, cb)
                             }
                             cb(null);
                         });
