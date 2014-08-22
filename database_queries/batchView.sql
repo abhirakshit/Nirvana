@@ -1,26 +1,32 @@
  CREATE VIEW batchview AS
- SELECT batch_topic.name,
+  SELECT batch_topic.name,
     batch_topic."startDate",
     batch_topic."endDate",
     batch_topic.service,
     batch_topic.type,
     batch_topic.id,
     batch_topic."totalTopic",
-    clas."totalClass"
+    clas."totalClass",
+    batch_topic."createdAt",
+    batch_topic."updatedAt"
    FROM (( SELECT bach.name,
             bach."startDate",
             bach."endDate",
             bach.service,
             bach.type,
             bach.id,
-            top."totalTopic"
+            top."totalTopic",
+            bach."createdAt",
+            bach."updatedAt"
            FROM (( SELECT b.name,
                     b."startDate",
                     b."endDate",
                     s.name AS service,
                     b.type,
                     b.id,
-                    b.service AS ser_id
+                    b.service AS ser_id,
+                    b."createdAt",
+                    b."updatedAt"
                    FROM batch b,
                     service s
                   WHERE (s.id = b.service)) bach
