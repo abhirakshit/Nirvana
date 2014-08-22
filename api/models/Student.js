@@ -30,7 +30,7 @@ module.exports = {
 
         parentLastName: {type: 'string'},
 
-        parentPhoneNumber: {type: 'integer'},
+        parentPhoneNumber: {type: 'string'},
 
         parentEmail: {type: 'email', unique: true},
 
