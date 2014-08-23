@@ -23,6 +23,8 @@ module.exports = {
 
         services: {type: 'string'},
 
+        enrolledIn: {type: 'string'},
+
         countries: {type: 'string'},
 
         assignedTo: {type: 'string'},
