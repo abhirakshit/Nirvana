@@ -22,17 +22,17 @@ define([
             template: "batches/list/templates/row",
             tagName: "tr",
 
-            serializeData: function() {
-                var data = this.model.toJSON();
-                var service = data.service;
-                if (service.name) {
-                    data.serviceName = service.name;
-                } else {
-                    console.log(service);
-                }
-//                data.serviceName = data.service.name;
-                return data;
-            },
+//            serializeData: function() {
+//                var data = this.model.toJSON();
+//                var service = data.service;
+//                if (service.name) {
+//                    data.serviceName = service.name;
+//                } else {
+//                    console.log(service);
+//                }
+////                data.serviceName = data.service.name;
+//                return data;
+//            },
 
             events: {
                 "click": "click"

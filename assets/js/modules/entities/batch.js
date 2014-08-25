@@ -50,7 +50,6 @@ define([], function () {
                     batch.fetch();
                 }
                 return batch;
-//                return this.getAllBatches().get(batchId);
             },
 
             getAllBatches: function () {

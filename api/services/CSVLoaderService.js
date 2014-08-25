@@ -844,10 +844,12 @@ module.exports = {
 //                        var values = {student: studentId,
 //                            programName: updatedData.programName, score: updatedData.score };
 //                        Education.create(values).exec(function (err, education) {
+                        updatedData.student = studentId;
+//                        console.log(updatedData);
                         Education.create(updatedData).exec(function (err, education) {
                             if (err || !education) {
-//                                return Utils.logQueryError(err, education, "Could not create education: " + values, cb)
-                                return Utils.logQueryError(err, education, "Could not create education for student Id: " + studentId, cb)
+                                return Utils.logQueryError(err, education, "Could not create education for student Id: "
+                                    + studentId, cb)
                             }
                             cb(null);
                         });

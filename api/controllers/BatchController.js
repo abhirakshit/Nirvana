@@ -126,15 +126,13 @@ module.exports = {
         var id = req.param('id');
         if (!id) {
             // Find all batches
-            Batch.find()
-                .populate('service').exec(function (err, batches) {
-                    if (err || !batches) {
-                        return res.badRequest('Could not find batches');
-                    }
+            BatchView.find().exec(function(err, batches) {
+                if (err || !batches) {
+                    return res.badRequest('Could not find batches');
+                }
 
-                    return res.json(batches);
-
-                })
+                return res.json(batches);
+            })
         } else {
             Batch.findOne(id).
                 populate('service').
@@ -217,10 +215,10 @@ module.exports = {
     },
 
     getCurrentBatches: function (req, res) {
-        Batch.find({endDate: { '>': moment().toDate()}})
-            .populate('service')
-            .populate('classes')
-            .populate('students')
+        BatchView.find({endDate: { '>': moment().toDate()}})
+//            .populate('service')
+//            .populate('classes')
+//            .populate('students')
             .exec(function (err, batchList) {
                 if (err || !batchList) {
                     return res.json(err);

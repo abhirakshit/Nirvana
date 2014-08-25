@@ -1,6 +1,6 @@
 #!/bin/sh
 DB="Nirvana"
-USER="admin"
+USER="postgres"
 DIR="database_queries"
 psql $DB $USER -a -f $DIR/studentView.sql
 psql $DB $USER -a -f $DIR/staffView.sql
