@@ -1,0 +1,4 @@
+DROP VIEW IF EXISTS studentview;
+DROP VIEW IF EXISTS staffview;
+DROP VIEW IF EXISTS batchview;
+DROP VIEW IF EXISTS topicview;

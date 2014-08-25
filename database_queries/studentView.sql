@@ -78,7 +78,7 @@
                                     enquirystatus es
                                   WHERE ((s."enquiryStatus" = es.id) )) stu
                       LEFT JOIN ( SELECT enr_ser.student,
-                                    string_agg(enr_ser.serv, ','::text) AS services,
+                                    string_agg(enr_ser.serv, ', '::text) AS services,
                                     sum(enr_ser."totalFee") AS "totalFee",
                                     sum(COALESCE(pmt.amount, (0)::double precision)) AS "TotalPaid"
                                    FROM (( SELECT e."totalFee",
@@ -90,25 +90,25 @@
                                           WHERE (e.service = s.id)) enr_ser
                               LEFT JOIN payment pmt ON ((enr_ser.enroll_id = pmt.enroll)))
                              GROUP BY enr_ser.student) paym ON ((paym.student = stu.student_id)))) stu_pay
-              LEFT JOIN ( SELECT string_agg(cc.name, ','::text) AS countries,
+              LEFT JOIN ( SELECT string_agg(cc.name, ', '::text) AS countries,
                             sc.student_countries
                            FROM country_students__student_countries sc,
                             country cc
                           WHERE (sc.country_students = cc.id)
                           GROUP BY sc.student_countries) stu_con ON ((stu_con.student_countries = stu_pay.student_id)))) stu_pay_con
-      LEFT JOIN ( SELECT string_agg(((st."firstName" || ' '::text) || st."lastName"), ','::text) AS "assignedTo",
+      LEFT JOIN ( SELECT string_agg(((st."firstName" || ' '::text) || st."lastName"), ', '::text) AS "assignedTo",
                     sas.student_staff
                    FROM staff_students__student_staff sas,
                     staff st
                   WHERE (st.id = sas.staff_students)
                   GROUP BY sas.student_staff) stf ON ((stu_pay_con.student_id = stf.student_staff)))) stu_pay_con_staff
    LEFT JOIN ( SELECT sloc.student_locations,
-            string_agg(sas.name, ','::text) AS locations
+            string_agg(sas.name, ', '::text) AS locations
            FROM location sas,
             location_students__student_locations sloc
           WHERE (sloc.location_students = sas.id)
           GROUP BY sloc.student_locations) loc ON ((stu_pay_con_staff.student_id = loc.student_locations)))) STUD
-LEFT JOIN (SELECT string_agg(ser.name, ','::text) AS services,
+LEFT JOIN (SELECT string_agg(ser.name, ', '::text) AS services,
                             ss.student_services
                            FROM service_students__student_services ss,
                             service ser

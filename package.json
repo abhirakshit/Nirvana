@@ -31,7 +31,8 @@
     "consts": "^0.0.2",
     "gake": "^0.1.2",
     "sails-migrations": "^0.1.0",
-    "fast-csv": "^0.4.3"
+    "fast-csv": "^0.4.3",
+    "grunt-shell": "^1.0.1"
   },
   "scripts": {
     "start": "node app.js",

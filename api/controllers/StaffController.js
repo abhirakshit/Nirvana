@@ -34,7 +34,7 @@ module.exports = {
             var students = staff.students;
             var studentIds = _.pluck(students, "id");
 
-            EnquiryView
+            StudentView
                 .find(studentIds)
                 .where({enquiryStatus: {'!': consts.ENQ_STATUS_CLOSED}})
                 .exec(function (err, students) {
