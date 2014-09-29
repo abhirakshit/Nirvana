@@ -11,17 +11,17 @@ define([
        // });
 
         var API = {
-            show: function (enqContentRegion, staffId) {
+            show: function (contentRegion, staffId) {
                 new Show.Controller({
-                    region: enqContentRegion,
+                    region: contentRegion,
                     staffId: staffId
                 });
             }
         };
 
-        Application.commands.setHandler(Application.SELECTED_STAFF, function (enqContentRegion, staffId) {
+        Application.commands.setHandler(Application.SELECTED_STAFF, function (contentRegion, staffId) {
             console.log("Show staff: " + staffId);
-            API.show(enqContentRegion, staffId);
+            API.show(contentRegion, staffId);
             Application.navigate(Show.rootRoute + "/" +staffId);
         });
 

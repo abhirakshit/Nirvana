@@ -1,5 +1,5 @@
-define([], function(){
-    Application.module("Entities", function(Entities, Application, Backbone, Marionette, $, _) {
+define([], function () {
+    Application.module("Entities", function (Entities, Application, Backbone, Marionette, $, _) {
 
         Entities.topicUrl = "/topic";
 
@@ -9,25 +9,35 @@ define([], function(){
                 name: {required: true},
                 section: {required: true},
                 duration_hr: {
-//                    required: false,
-                    range: [1, 5],
+                    required: function (value, attr, computedState) {
+                        console.dir(attr);
+                        console.dir(value);
+                        console.dir(computedState);
+                        if (!value) {
+                            if (!computedState.duration_min || computedState.duration_min === '')
+                                return true;
+                        }
+                        return false;
+                    },
                     pattern: 'digits',
-                    msg: 'Hour between 1-5 and Min between 0-59'
+                    range: [1, 5],
+                    msg: 'Hour between 1-5 or Min between 0-59'
                 },
 
                 duration_min: {
                     required: false,
                     pattern: 'digits',
                     range: [0, 59],
-                    msg: 'Hour between 1-5 and Min between 0-59'
-//                    msg: 'Hour between 1-5 and Min between 1-59'
+                    msg: 'Hour between 1-5 or Min between 1-59'
                 },
+
                 sequence: {
                     required: false,
                     pattern: 'digits',
                     range: [1, 20]
                 }
             }
+
         });
 
         Entities.TopicCollection = Entities.Collection.extend({
@@ -36,18 +46,18 @@ define([], function(){
         });
 
         var API = {
-            getTopic: function(topicId) {
+            getTopic: function (topicId) {
                 if (!topicId)
                     return new Entities.Topic();
 
                 return this.getAllTopics(true).get(topicId);
             },
 
-            getAllTopics: function(waitForFetch) {
-                if (!Entities.allTopics){
+            getAllTopics: function (waitForFetch) {
+                if (!Entities.allTopics) {
                     Entities.allTopics = new Entities.TopicCollection();
                     if (waitForFetch) {
-                        Entities.allTopics.fetch({async:false});
+                        Entities.allTopics.fetch({async: false});
                     } else {
                         Entities.allTopics.fetch();
                     }
@@ -55,8 +65,8 @@ define([], function(){
                 return Entities.allTopics;
             },
 
-            getAllTopicsForService: function(serviceId) {
-                var topicArr = _.filter(this.getAllTopics(true).models, function(topic) {
+            getAllTopicsForService: function (serviceId) {
+                var topicArr = _.filter(this.getAllTopics(true).models, function (topic) {
                     return topic.get('service').id == serviceId;
                 });
 
@@ -64,15 +74,15 @@ define([], function(){
             }
         };
 
-        Application.reqres.setHandler(Application.GET_TOPICS, function(){
+        Application.reqres.setHandler(Application.GET_TOPICS, function () {
             return API.getAllTopics();
         });
 
-        Application.reqres.setHandler(Application.GET_TOPICS_SERVICE, function(serviceId){
+        Application.reqres.setHandler(Application.GET_TOPICS_SERVICE, function (serviceId) {
             return API.getAllTopicsForService(serviceId);
         });
 
-        Application.reqres.setHandler(Application.GET_TOPIC, function(topicId){
+        Application.reqres.setHandler(Application.GET_TOPIC, function (topicId) {
             return API.getTopic(topicId);
         });
 

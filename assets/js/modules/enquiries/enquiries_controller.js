@@ -66,9 +66,6 @@ define([
             showNavTabs: function (tabId) {
                 var tabContainerView = new Enquiries.views.TabContainer({
                     collection: tabCollection
-//                    model: new Application.Entities.Model({
-//                        modalId: Enquiries.addStudentModalFormId
-//                    })
                 });
                 this.layout.enqTabRegion.show(tabContainerView);
                 if (tabId) {
@@ -86,7 +83,6 @@ define([
             },
 
             showTab: function (tabId) {
-//                Application.execute(Application.ENQUIRIES_CONTENT_SHOW, this.layout.enqContentRegion, tabId);
                 if (Enquiries.MY_TAB === tabId) {
                     Application.execute(Application.ENQUIRIES_CONTENT_MY, this.layout.enqContentRegion);
                 } else if (Enquiries.ALL_TAB === tabId) {

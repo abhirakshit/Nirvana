@@ -44,6 +44,7 @@ define([], function () {
                 value: initialValue,
                 source: source, //For DropDowns/Selects
                 placement: placement,
+//                toggle: 'manual',
                 success: successCB
             })
         };

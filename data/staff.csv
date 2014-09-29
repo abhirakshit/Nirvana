@@ -1,4 +1,4 @@
-firstName,lastName,email,encryptedPassword,phone,role,address,dob,gender
+firstName,lastName,email,encryptedPassword,phoneNumber,role,address,dob,gender
 Andleeb,Kamaal,akamaal@mnemoniceducation.com,andleeb,0,staff,,,
 Ashima,Sethi,asethi@mnemoniceducation.com,ashima,9873244765,"staff               ",E-99 1st floor  Amar Colony Lajpat Nagar-4 New Delhi Delhi 110024,1984-08-17 07:26:11-04,F
 Bee,Hokishe,bhokishe@mnemoniceducation.com,bee,8860553478,"staff               ","1564/1  1st floor  Tula Nagar  Kotla Mubarakpur  Near South Extension Part-1 New Delhi Delhi ",1974-07-30 07:26:11-04,M

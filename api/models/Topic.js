@@ -17,7 +17,7 @@ module.exports = _.merge(_.cloneDeep(infoTable), {
 
         homework: {type: 'string'},
 
-        sequence: {type: 'integer'},
+        sequence: {type: 'integer', defaultsTo: 1},
 
         //Association
 

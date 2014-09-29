@@ -153,6 +153,8 @@ var dependencies = [
     "dataTablesBootstrap",
     "jasnyBootstrap",
     "jGrowl",
+    "select2",
+    "moment",
 //    "parsley",
 
 
@@ -160,9 +162,7 @@ var dependencies = [
     "templateLoader",
     "marionette_config_application",
     "marionette_config_module",
-    "backbone_config_sync",
-    "select2",
-    "moment"
+    "backbone_config_sync"
 
     //Theme
 //    "app",
@@ -183,8 +183,6 @@ require(dependencies,
         require([
             "modules/main/main_app"
         ], function () {
-//            console.log("Setup...");
-
             Application.addRegions({
                 headerRegion: "#header-region",
                 sidebarRegion: "#sidebar-region",

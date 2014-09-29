@@ -218,16 +218,6 @@ define([
                 this.on(Application.CHILD_VIEW + ":" + Show.showAddPaymentModalEvt, function (childView, model) {
                     that.trigger(Show.showAddPaymentModalEvt, childView);
                 });
-
-
-// contactsListView.on("itemview:contact:show", function(childView,model){
-// //   ContactManager.navigate("contacts/" + model.get("id"));
-// // ContactManager.ContactsApp.Show.Controller.showContact(model);
-
-// ContactManager.trigger("contact:show", model.get('id'));
-// });
-
-
             },
 
             serializeData: function () {
@@ -344,9 +334,9 @@ define([
             }
         });
 
-//        Show.dateFormat = "ddd, MMM Do 'YY, h:mm a";
         Show.views.Comment = Application.Views.ItemView.extend({
-            template: "students/show/templates/comment_view",
+//            template: "students/show/templates/comment_view",
+            template: "students/show/templates/comment_view_row",
 
             serializeData: function () {
                 var comment = this.model.toJSON();
@@ -371,7 +361,8 @@ define([
         });
 
         Show.views.History = Application.Views.CompositeView.extend({
-            template: "students/show/templates/history_view",
+//            template: "students/show/templates/history_view",
+            template: "students/show/templates/history_view_table",
 
             itemView: Show.views.Comment,
             itemViewContainer: "#historySection",
@@ -382,13 +373,22 @@ define([
 
             onRender: function () {
                 Backbone.Validation.bind(this);
+                var options = {
+                    //                    "sDom": "<'row'<'col-sm-6'l><'col-sm-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>",
+                    "oLanguage": {
+                        "sEmptyTable": "No comments yet"
+                    },
+                    "sPaginationType": "full_numbers",
+                    "iDisplayLength": 5,
+                    "bFilter" : false,
+                    "bLengthChange": false
+                };
+                Application.Views.addDatatable(this.$el.find('#historyTable'), options);
             },
 
             addComment: function (evt) {
                 evt.preventDefault();
                 var data = Backbone.Syphon.serialize(this);
-//                data.type = "comment";
-                console.log(data);
                 this.trigger(Show.addCommentEvt, data);
             }
         });
@@ -414,7 +414,6 @@ define([
         //TODO All these need to be moved to the controller
         Show.setupEditableBox = function (el, model, id, emptyText, initialValue, type, source, placement) {
             var successCB = function (response, value) {
-//                console.log("[" + id + ":" + value + "]");
                 model.save(id, value, {
                     wait: true,
                     patch: true,
@@ -435,7 +434,6 @@ define([
 
         Show.setupDateTimeEditableBox = function (el, model, id, emptyText, initialValue) {
             var successCB = function (response, value) {
-//                console.log("[" + id + ":" + value + "]");
                 if (!value) {
                     console.log("No value!!!");
                     return;

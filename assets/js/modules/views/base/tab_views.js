@@ -21,7 +21,7 @@ define([
 
             showView: function(evt) {
                 evt.preventDefault();
-                console.log("Show Tab Content: " + this.model.get('text'));
+//                console.log("Show Tab Content: " + this.model.get('text'));
                 this.trigger(Application.TAB_SELECTED, this);
             }
 

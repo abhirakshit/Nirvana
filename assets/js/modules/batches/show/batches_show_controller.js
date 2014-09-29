@@ -87,9 +87,6 @@ define([
                 var classSectionLayout = new Show.views.ClassSectionLayout();
                 this.layout.classesRegion.show(classSectionLayout);
 
-//                var allClasses = Application.request(Application.GET_BATCH_CLASSES, batch.get("id"));
-//                var allClasses = Application.request(Application.GET_BATCH_CLASSES, batch.get("id"));
-
                 //Add Class Btn
                 var addClassButtonView = new Show.views.AddClassButton({
                     model: new Application.Entities.Model({
@@ -100,12 +97,10 @@ define([
                 var that = this;
                 this.listenTo(addClassButtonView, Show.SHOW_NEW_CLASS_MODAL, function(){
                     that.showNewClassModal(batch, allTopics, allStaff, batchClasses);
-//                    that.showNewClassModal(batch, allTopics, allStaff, allClasses)
                 });
                 classSectionLayout.addClassBtnRegion.show(addClassButtonView);
 
                 //Add Classes Table
-//                this.showClassesTable(classSectionLayout.classTableRegion, allClasses, allTopics, allStaff);
                 this.showClassesTable(classSectionLayout.classTableRegion, batchClasses, allTopics, allStaff);
             },
 
@@ -193,7 +188,6 @@ define([
                 newClass.attributes.modalId = Show.addClassModalFormId;
                 newClass.attributes.formHeader = "Add Class";
                 newClass.attributes.formBtnText = "Create";
-                console.dir(newClass);
                 var addClassFormView = new Show.views.ClassForm({
                     model: newClass,
                     allTopics: allTopics.getIdToTextMap("name"),

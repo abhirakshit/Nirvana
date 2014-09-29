@@ -32,27 +32,20 @@ define([
             getStaffSideBarOptionCollection: function () {
                 return new Application.Entities.Collection([
                     new Application.Entities.Model({id: Application.ENQUIRIES_SHOW, name: "Enquiries", icon: "fa fa-home"}),
-//                    new Application.Entities.Model({id: Application.PAYMENTS_SHOW, name: "Payments", icon: "fa fa-rupee"}),
                     new Application.Entities.Model({id: Application.BATCHES_SHOW, name: "Batches", icon: "fa fa-calendar"}),
                     new Application.Entities.Model({id: Application.TOPICS_SHOW, name: "Topics", icon: "i i-book"}),
-//                    new Application.Entities.Model({id: "students:show", name: "Students", icon: "fa fa-users"}),
                     new Application.Entities.Model({id: Application.STUDENTS_SHOW, name: "Students", icon: "fa fa-users"}),
-//                    new Application.Entities.Model({id: "staff:show", name: "Staff", icon: "fa fa-user-md"})
                     new Application.Entities.Model({id: Application.STAFF_SHOW, name: "Staff", icon: "fa fa-user-md"}),
                     new Application.Entities.Model({id: Application.SETTINGS_SHOW, name: "Settings", icon: "fa fa-cogs"})
-
                 ]);
             },
 
             getStudentSideBarOptionCollection: function () {
                 return new Application.Entities.Collection([
                     new Application.Entities.Model({id: Application.ENQUIRIES_SHOW, name: "Enquiries", icon: "fa fa-home"}),
-//                    new Application.Entities.Model({id: Application.PAYMENTS_SHOW, name: "Payments", icon: "fa fa-rupee"}),
                     new Application.Entities.Model({id: Application.BATCHES_SHOW, name: "Batches", icon: "fa fa-calendar"}),
                     new Application.Entities.Model({id: Application.TOPICS_SHOW, name: "Topics", icon: "i i-book"}),
-//                    new Application.Entities.Model({id: "students:show", name: "Students", icon: "fa fa-users"}),
                     new Application.Entities.Model({id: Application.STUDENTS_SHOW, name: "Students", icon: "fa fa-users"}),
-//                new Application.Entities.Model({id: "staff:show", name: "Staff", icon: "fa fa-user-md"})
                     new Application.Entities.Model({id: Application.STAFF_SHOW, name: "Staff", icon: "fa fa-user-md"}),
                     new Application.Entities.Model({id: Application.SETTINGS_SHOW, name: "Settings", icon: "fa fa-cogs"})
                 ]);

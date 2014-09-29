@@ -69,6 +69,8 @@ define([], function(){
         Application.GET_STUDENTS_ENROLLED = "get:students:enrolled";
         Application.GET_STUDENTS_ENROLLED_SERVICE = "get:students:enrolled:service";
 
+        Application.GET_ACTIVE_STAFF = "get:active:staff";
+        Application.GET_CLOSED_STAFF = "get:closed:staff";
         Application.GET_ALL_STAFF = "get:all:staff";
         Application.GET_STAFF = "get:staff";
         Application.GET_STAFF_NAME = "get:staff:name";
@@ -146,6 +148,11 @@ define([], function(){
         Application.STUDENTS_LIST_ACTIVE = "students:list:active";
         Application.STUDENTS_LIST_ALL = "students:list:all";
 
+        Application.STAFF_LIST_ACTIVE = "staff:list:active";
+        Application.STAFF_LIST_CLOSED = "staff:list:closed";
+        Application.STAFF_LIST_ALL = "staff:list:all";
+        Application.STAFF_LIST = "staff:list";
+
         Application.PAYMENTS_SHOW = "payments:show";
         Application.PAYMENT_SHOW = "payment:show";
         Application.PAYMENTS_LIST_CURRENT = "payments:list:current";
@@ -160,12 +167,9 @@ define([], function(){
         Application.CAREER_NAV_SHOW = "career:nav:show";
         Application.CAREER_CONTENT_SHOW = "career:content:show";
 
-//        Enquiries.SELECTED_ENQUIRY = "selected:enquiry";
-//        Application.ENQUIRY_SELECTED = "enquiry:show";
         Application.ENQUIRIES_SHOW = "enquiries:show";
         Application.ENQUIRY_SHOW = "enquiry:show";
         Application.ENQUIRIES_NAV_SHOW = "enquiries:nav:show";
-//        Application.ENQUIRIES_CONTENT_SHOW = "enquiries:content:show";
         Application.ENQUIRIES_CONTENT_MY = "enquiries:content:my";
         Application.ENQUIRIES_CONTENT_ALL = "enquiries:content:all";
         Application.ENQUIRIES_CONTENT_ALL_BY_DATE = "enquiries:content:all:by:date";
@@ -182,7 +186,9 @@ define([], function(){
 
         Application.CONTROLLER_ID = "controller";
 
-//        Application.USER_URL = '/user';
+        Application.USER_STATUS_ACTIVE = "active";
+        Application.USER_STATUS_INACTIVE = "inactive";
+        Application.TAB_SELECTED = "tab:selected";
         Application.TAB_SELECTED = "tab:selected";
         Application.GET_LOGGED_USER = "get:logged:user";
         Application.GET_USER = "get:user";

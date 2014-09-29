@@ -141,7 +141,7 @@ module.exports = {
                 exec(function (err, batch) {
                     if (err || !batch) {
                         console.log(err);
-                        res.badRequest('Could not find batch for id: ' + id);
+                        return res.badRequest('Could not find batch for id: ' + id);
                     }
                     res.json(batch);
                 })
@@ -152,12 +152,12 @@ module.exports = {
         var batchId = req.param('id'),
             staffId = UserService.getCurrentStaffUserId(req);
         var batchAttr = _.merge({}, req.params.all(), req.body);
-        console.log(_.merge({}, req.params.all(), req.body));
+//        console.log(_.merge({}, req.params.all(), req.body));
 
         //Create batch
         Batch.create(batchAttr).exec(function (err, batch) {
             if (err || !batch) {
-                res.json(err);
+                return res.badRequest(err);
             }
 
             Batch.findOne(batch.id).
@@ -166,9 +166,8 @@ module.exports = {
 //                populate('classes').
                 exec(function (err, updatedBatch) {
                     if (err || !batch) {
-                        res.json(err);
+                        return res.badRequest(err);
                     }
-                    console.log(updatedBatch);
                     res.json(updatedBatch);
                 })
         });
@@ -221,7 +220,7 @@ module.exports = {
 //            .populate('students')
             .exec(function (err, batchList) {
                 if (err || !batchList) {
-                    return res.json(err);
+                    return res.badRequest(err);
                 }
 
                 res.json(batchList);

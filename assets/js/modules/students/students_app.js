@@ -47,9 +47,6 @@ define([
 
                 Application.commands.execute(Application.SET_SIDEBAR, Application.STUDENTS_SHOW);
             }
-
-
-
         };
 
         Students.setup = function () {

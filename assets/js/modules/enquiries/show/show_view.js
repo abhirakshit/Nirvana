@@ -161,9 +161,7 @@ define([
             }
         });
 
-//        Show.dateFormat = "ddd, MMM Do 'YY, h:mm a";
         Show.views.Comment = Application.Views.ItemView.extend({
-//            template: "enquiries/show/templates/comment_view",
             template: "enquiries/show/templates/comment_view_row",
             tagName: "tr",
 
@@ -187,6 +185,7 @@ define([
                 comment.iconColor = iconColor;
                 return comment;
             }
+
         });
 
         Show.views.History = Application.Views.CompositeView.extend({
@@ -201,15 +200,18 @@ define([
             },
 
             onRender: function() {
+                console.log("On render");
                 Backbone.Validation.bind(this);
-                var options = {
-//                    "sDom": "<'row'<'col-sm-6'l><'col-sm-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>",
-//                    "sDom": "<'row'<'col-sm-6'l><'col-sm-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>",
-                    "sPaginationType": "full_numbers",
-                    "bFilter" : false,
-                    "bLengthChange": false
-                };
-                Application.Views.addDatatable(this.$el.find('#historyTable'), options);
+                    var options = {
+                        "oLanguage": {
+                            "sEmptyTable": "No comments yet"
+                        },
+                        "sPaginationType": "full_numbers",
+                        "iDisplayLength": 5,
+                        "bFilter" : false,
+                        "bLengthChange": false
+                    };
+                    Application.Views.addDatatable(this.$el.find('#historyTable'), options);
             },
 
             addComment: function(evt) {
@@ -240,7 +242,6 @@ define([
         //TODO All these need to be moved to the controller
         Show.setupEditableBox = function(el, model, id, emptyText, initialValue, type, source, placement){
             var successCB = function (response, value) {
-//                console.log("[" + id + ":" + value + "]");
                 model.save(id, value, {
                     wait: true,
                     patch: true,

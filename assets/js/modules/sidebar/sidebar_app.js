@@ -13,7 +13,6 @@ define([
 
             setSidebar: function(sidebarId) {
                 Sidebar.controller.activateSidebarTab(sidebarId);
-//                Sidebar.controller.layout.selectTabView(sidebarId);
             }
         };
 

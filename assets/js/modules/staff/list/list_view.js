@@ -1,7 +1,7 @@
 define([], function(){
-    Application.module("Staff", function(Staff, Application, Backbone, Marionette, $, _) {
+    Application.module("Staff.List", function(List, Application, Backbone, Marionette, $, _) {
         //Setup
-        this.prefix = "Staff";
+        this.prefix = "Staff.List";
         this.templatePath = "js/modules/";
         this.views = {};
 
@@ -13,26 +13,14 @@ define([], function(){
 
         //*************
 
-//        Staff.views.Layout = Application.Views.Layout.extend({
-//            template: "staff/templates/staff_layout",
-//
-//            regions : {
-//                profileRegion: "#profileSection",
-//                changePasswordRegion: "#changePasswordSection",
-//                adminRegion: "#adminSection"
-//            }
-//        });
-
-        Staff.views.Layout = Application.Views.Layout.extend({
-            template: "views/templates/page_layout",
+        List.views.Layout = Application.Views.Layout.extend({
+            template: "staff/list/templates/layout",
             regions: {
-                tabsRegion: "#tabs",
-                addButtonRegion: "#addButton",
-                contentRegion: "#content"
+                staffListRegion: "#staff-list"
             }
         });
 
-        Staff.views.Show = Application.Views.ItemView.extend({
+        List.views.Show = Application.Views.ItemView.extend({
             className: 'staffClass',
             template: 'staff/templates/show_staff',
             events: {
@@ -43,13 +31,26 @@ define([], function(){
                 evt.preventDefault();
                 console.log("Show selected staff: " + this.model);
                 this.trigger('staffs:show', this.model);
-
             }
 
         });
 
-        Staff.views.StaffCollection = Application.Views.CollectionView.extend({
-            itemView: Staff.views.Show,
+        List.views.Row = Application.Views.ItemView.extend({
+            template: "staff/list/templates/row",
+            tagName: "tr",
+
+            events: {
+                "click": "click"
+            },
+
+            click: function(evt) {
+                evt.preventDefault();
+                this.trigger(Application.SELECTED_STAFF, this);
+            }
+        });
+
+        List.views.StaffCollection = Application.Views.CollectionView.extend({
+            itemView: List.views.Show,
             template: 'staff/templates/show_all_staff',
 
             initialize: function(){

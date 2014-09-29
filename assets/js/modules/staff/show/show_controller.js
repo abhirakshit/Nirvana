@@ -1,11 +1,11 @@
 define([
     "modules/staff/show/show_view",
     "modules/entities/location"
-    
+
 ], function () {
     Application.module("Staff.Show", function (Show, Application, Backbone, Marionette, $, _) {
 
-    
+
         Show.Controller = Application.Controllers.Base.extend({
             initialize: function () {
 
@@ -16,65 +16,49 @@ define([
                 this.layout = this.getLayout();
 
                 this.listenTo(this.layout, Application.SHOW, function () {
-
-                    this.showStaff(staff,allLocations);
+                    this.showStaff(staff, allLocations);
                 });
 
 
                 this.show(this.layout, {
-                    loading: { 
-                        entities: [staff, allLocations] 
+                    loading: {
+                        entities: [staff, allLocations]
                     }
                 });
 
             },
 
-            showStaff: function (staff,allLocations) {
-
-                this.showPersonalView(staff,allLocations);
-
-
-
-
+            showStaff: function (staff, allLocations) {
+                this.showPersonalView(staff, allLocations);
             },
 
-            showPersonalView: function(staff, allLocations) {
-
+            showPersonalView: function (staff, allLocations) {
                 var addedLocation = new Application.Entities.LocationCollection(staff.get('locations'));
                 var addedLocationIdList = addedLocation.pluck("id");
 
-                // console.dir(addedLocation);
-                // console.dir(allLocations);
-                // console.dir(allLocations.getIdToTextMap('name'));
-
                 var personalView = new Show.views.Personal({
-                    model: staff, 
-                    allLocations: allLocations.getIdToTextMap('name'), 
+                    model: staff,
+                    allLocations: allLocations.getIdToTextMap('name'),
                     addedLocation: addedLocationIdList
                 });
 
-                this.listenTo(personalView,Show.STAFF_EDIT_SAVE,function(model,id,value){
-
-                    // console.log('edit function called! ' + model + 'ID: ' + id + 'Value: ' + value);
-
-                    model.save(id,value,{
-
+                this.listenTo(personalView, Show.STAFF_EDIT_SAVE, function (model, id, value) {
+                    model.save(id, value, {
                         wait: true,
-                        patch:true,
-                        success: function(updateStaff){
+                        patch: true,
+                        success: function (updateStaff) {
+                            console.dir(updateStaff);
                             console.log("saved on server");
                         },
 
-                        error: function(x,response){
+                        error: function (x, response) {
+                            console.dir(response);
                             console.log("Error on server!");
                         }
-
                     });
                 });
 
                 this.layout.personalRegion.show(personalView);
-
-
             },
 
 

@@ -53,19 +53,19 @@ define([], function () {
             },
 
             getAllBatches: function () {
-                if (!Entities.allBatches) {
+//                if (!Entities.allBatches) {
                     Entities.allBatches = new Entities.BatchCollection();
                     Entities.allBatches.fetch();
-                }
+//                }
                 return Entities.allBatches;
             },
 
             getCurrentBatches: function () {
-                if (!Entities.currentBatches) {
+//                if (!Entities.currentBatches) {
                     Entities.currentBatches = new Entities.BatchCollection();
                     Entities.currentBatches.url = Entities.batchUrl + "/current";
                     Entities.currentBatches.fetch();
-                }
+//                }
                 return Entities.currentBatches;
             },
 

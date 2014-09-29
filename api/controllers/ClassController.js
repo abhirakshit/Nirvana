@@ -16,7 +16,7 @@ module.exports = {
         //Create batch
         Class.create(classAttr).exec(function(err, newClass) {
             if (err || !newClass) {
-                res.json(err);
+                return res.badRequest(err);
             }
 
             Class.findOne(newClass.id).
@@ -25,7 +25,7 @@ module.exports = {
 //                populate('classes').
                 exec(function(err, updatedClass){
                     if (err || !updatedClass) {
-                        res.json(err);
+                        return res.badRequest(err);
                     }
                     res.json(updatedClass);
                 })

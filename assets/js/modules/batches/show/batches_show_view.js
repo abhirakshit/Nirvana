@@ -154,12 +154,10 @@ define([
             },
 
             onRender: function() {
-
                 Backbone.Validation.bind(this);
-
                 this.renderSelect(this.options.allTopics, "#topic", this.model.get('topic'));
                 this.renderSelect(this.options.allStaff, "#staff", this.model.get('staff'));
-//
+
 //                //Add datetime field
                 Application.Views.addDateTimePicker(this.$el.find('#dateDiv'), moment(this.model.get('date')));
             },
@@ -182,15 +180,16 @@ define([
                 var data = Backbone.Syphon.serialize(this);
                 this.model.set(Application.Views.trimFormData(data));
 
-                if (!data.name) {
-                    var val = _.find(this.options.allTopics, function(topic){
-                        return topic.id == data.topic;
-                    });
-                    data.name = val.text;
-                }
+//                if (!data.name) {
+//                    var val = _.find(this.options.allTopics, function(topic){
+//                        return topic.id == data.topic;
+//                    });
+//                    data.name = val.text;
+//                }
 
-                var isValid = this.model.isValid(true);
-                if (isValid) {
+//                var isValid = this.model.isValid(true);
+//                if (isValid) {
+                if (this.model.isValid(true)) {
                     Application.Views.hideModal(Show.addClassModalFormId);
                     this.trigger(Show.CREATE_CLASS, this, data);
                 }
@@ -204,6 +203,7 @@ define([
 
             serializeData: function() {
                 var data = this.model.toJSON();
+                data.topicName = data.topic.name;
                 data.staffName = "";
                 if (data.staff){
                     data.staffName = data.staff.name;

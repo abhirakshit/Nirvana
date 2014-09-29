@@ -1,24 +1,22 @@
 /**
  * Class.js
  *
- * @description :: TODO: You might write a short summary of how this model works and what it represents here.
+ * @description :: This does not inherit from info tables as classes do not have names and are associated to topics
  * @docs		:: http://sailsjs.org/#!documentation/models
  */
 
-var infoTable = require('../baseModels/InfoTable'),
-    _ = require('lodash');
-
-module.exports = _.merge(_.cloneDeep(infoTable), {
+module.exports = {
     attributes: {
 
         date: {type: 'datetime'},
 
-        //Merge startTime with date
-//        startTime: {type: 'datetime'},
+        description: {
+            type: 'text'
+        },
 
-
-//        endTime: {type: 'datetime'},
-
+        remarks: {
+            type: 'string'
+        },
 
         //Association
 
@@ -44,17 +42,6 @@ module.exports = _.merge(_.cloneDeep(infoTable), {
             via: 'classesAttended'
         },
 
-//        //One to One: course to class
-//        topic: {
-//            model: 'Topic'
-//        },
-
-        //Many to One Classes to Topic
-//        topics: {
-//            collection: 'Topic',
-//            via: 'class'
-//        },
-
         //Many to One Classes to Topic
         topic: {
             model: 'Topic'
@@ -67,4 +54,4 @@ module.exports = _.merge(_.cloneDeep(infoTable), {
 
 	}
 
-});
+};

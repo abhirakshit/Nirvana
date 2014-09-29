@@ -111,21 +111,49 @@ define([
                 return studentsAssigned;
             },
 
-            getAllStaff: function (update) {
-                if (!Entities.allStaff || update) {
+            getAllStaff: function (wait) {
+//                if (!Entities.allStaff) {
                     Entities.allStaff = new Entities.StaffCollection();
                     Entities.allStaff.url = Entities.staffUrl;
-                    Entities.allStaff.fetch();
-                }
+                    if (wait) {
+                        Entities.allStaff.fetch({async:false});
+                    } else {
+                        Entities.allStaff.fetch();
+                    }
+//                }
 
                 return Entities.allStaff;
+            },
+
+            getActiveStaff: function () {
+                return new Entities.StaffCollection(
+                    _.filter(this.getAllStaff(true).models, function (staff) {
+                        return staff.attributes.user.status == "active";
+                    })
+                )
+            },
+
+            getClosedStaff: function () {
+                return new Entities.StaffCollection(
+                    _.filter(this.getAllStaff(true).models, function (staff) {
+                        return staff.attributes.user.status != "active";
+                    })
+                )
             },
 
             getStaff: function (staffId) {
                 if (!staffId)
                     return new Entities.Staff();
 
-                return this.getAllStaff().get(staffId);
+                var staff = new Entities.Staff({id: staffId});
+                staff.fetch({
+                    error: function (model, xhr, options) {
+                        console.log(model);
+                        console.log(xhr);
+                        console.log(options);
+                    }
+                });
+                return staff;
             },
 
             getStaffName: function (staffId) {
@@ -194,7 +222,7 @@ define([
 
                 var student = new Entities.Student({id: userId});
                 student.fetch({
-                    error: function(model, xhr, options) {
+                    error: function (model, xhr, options) {
                         console.log(model);
                         console.log(xhr);
                         console.log(options);
@@ -350,7 +378,7 @@ define([
         });
 
         Application.reqres.setHandler(Application.GET_ENQUIRIES_CLOSED, function () {
-            return API.getAllClosedEnquiries(false);
+            return API.getAllClosedEnquiries();
         });
 
 
@@ -359,7 +387,15 @@ define([
          */
 
         Application.reqres.setHandler(Application.GET_ALL_STAFF, function (update) {
-            return API.getAllStaff(update);
+            return API.getAllStaff();
+        });
+
+        Application.reqres.setHandler(Application.GET_ACTIVE_STAFF, function () {
+            return API.getActiveStaff();
+        });
+
+        Application.reqres.setHandler(Application.GET_CLOSED_STAFF, function () {
+            return API.getClosedStaff();
         });
 
         Application.reqres.setHandler(Application.GET_STAFF, function (staffId) {

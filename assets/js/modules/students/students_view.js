@@ -22,14 +22,6 @@ define([], function(){
                 addButtonRegion: "#addButton",
                 contentRegion: "#content"
             }
-
-//            template: "students/templates/students_layout",
-//
-//            regions : {
-//                profileRegion: "#profileSection",
-//                changePasswordRegion: "#changePasswordSection",
-//                adminRegion: "#adminSection"
-//            }
         });
 
 

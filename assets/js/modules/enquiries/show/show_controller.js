@@ -26,7 +26,7 @@ define([
 
                 this.show(this.layout, {
                     loading: {
-                        entities: [student, allCountries, allServices, allStaff, allStatus]
+                        entities: [student, allCountries, allServices, allStaff, allStatus, studentComments]
                     }
                 });
 
@@ -62,7 +62,6 @@ define([
             },
 
             showAcademicView: function(student) {
-                //todo Any better way for this
                 var educationCollection = new Application.Entities.EducationCollection(student.get('educationList'));
 
                 var that = this;

@@ -24,7 +24,7 @@ define([
 //                    "sDom": "<'row'<'col-sm-6'l><'col-sm-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>",
 //                    "bJQueryUI": true,
 //                    "bLengthChange" : false,
-                "sPaginationType": "full_numbers",
+                    "sPaginationType": "full_numbers",
 //                "bFilter" : false
 //                    "bInfo": false
 
@@ -47,7 +47,7 @@ define([
             $.jGrowl(msg, options);
         };
 
-        Views.getTableView =  function(tableId, title, theadColumns, rows, childClickEvt, rowView, dataTableOptions) {
+        Views.getTableView = function (tableId, title, theadColumns, rows, childClickEvt, rowView, dataTableOptions) {
             return new Views.Base.views.TableComposite({
                 model: new Application.Entities.Model({
                     tableId: tableId,
@@ -86,6 +86,36 @@ define([
 
             console.log(formData);
             return formData;
+        };
+
+        /**
+         * Taken from bootply example - http://www.bootply.com/92189
+         * @param btnId
+         */
+        Views.toggleBtnState = function (el, btnId) {
+//            var btn = $(btnId);
+            var btn = el.find(btnId);
+
+            btn.find('.btn').toggleClass('active');
+
+            if (btn.find('.btn-primary').size() > 0) {
+                btn.find('.btn').toggleClass('btn-primary');
+            }
+
+            if (btn.find('.btn-danger').size() > 0) {
+                btn.find('.btn').toggleClass('btn-danger');
+            }
+
+            if (btn.find('.btn-success').size() > 0) {
+                btn.find('.btn').toggleClass('btn-success');
+            }
+
+            if (btn.find('.btn-info').size() > 0) {
+                btn.find('.btn').toggleClass('btn-info');
+            }
+
+            btn.find('.btn').toggleClass('btn-default');
+
         }
 
 

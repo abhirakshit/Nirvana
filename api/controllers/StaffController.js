@@ -16,7 +16,7 @@ updateEmail = function (id, staffId, updateFields, res) {
                 return res.badRequest(err);
             }
 
-            res.json(updatedStaffList)
+            res.json(updatedStaffList[0]);
         });
     });
 };
@@ -52,7 +52,6 @@ module.exports = {
         } else if (req.body.email) {
 //           updateEmail(id, UserService.getCurrentStaffUserId(req), req.body, res);
         } else if (req.body.location) {
-
             var newLocationsArray = _.map(req.body.location, function (locationId) {
                 return parseInt(locationId);
             });
@@ -82,11 +81,24 @@ module.exports = {
                 res.json(staff);
             });
             //
-        }
+        } else if (req.body.status) {
+            //Update user status - active/inactive
+            console.log("Update user status: " + req.body.status);
 
+            Staff.findOne(id).exec(function (err, staff) {
+                if (err || !staff) {
+                    return res.badRequest("Could not find staff for id: " + id + "\n" + err);
+                }
 
-        else {
+                User.update({id: staff.user}, {status: req.body.status}).exec(function (err, user) {
+                    if (err || !user) {
+                        return res.badRequest("Could not find user for id: " + staff.user + "\n" + err);
+                    }
 
+                    res.json(staff);
+                })
+            })
+        } else {
             var updateFields = _.merge({}, req.params.all(), req.body);
             Staff.update(id, updateFields, function (err, updated) {
                 if (err) {

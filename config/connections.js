@@ -68,7 +68,7 @@ module.exports.connections = {
     host      : 'localhost',
     port      : 5432,
     user      : 'postgres',
-    password  : '',
+    password  : 'postgres',
     database  : 'Nirvana',
     schema    : true
   }

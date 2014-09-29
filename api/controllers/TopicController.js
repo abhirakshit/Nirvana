@@ -17,7 +17,7 @@ module.exports = {
             if (err || !topic) {
                 console.log("Error creating topic: \n" + topicAttr);
                 console.log(err);
-                return res.json(err);
+                return res.badRequest(err);
             }
 
             Topic.findOne(topic.id).

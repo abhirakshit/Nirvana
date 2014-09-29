@@ -18,7 +18,9 @@ define([
         //Enquiry Tab Id's
         Topics.CURRENT_TAB = "current";
         Topics.ALL_TAB = "all";
-//        Topics.CLOSED_TAB = "closed";
+
+
+        Topics.DEFAULT_SEQ = 1;
 
         var tabCollection = new Application.Entities.Collection([
 //            new Application.Entities.Model({text:"Current", id: Topics.CURRENT_TAB}),
@@ -104,7 +106,10 @@ define([
                         hours: data.duration_hr
                     });
 
-                    data.duration = duration._milliseconds
+                    if (!data.sequence) {
+                        data.sequence = 1;
+                    }
+                    data.duration = duration._milliseconds;
 
                     newTopic.save(data, {
                         wait: true,
@@ -114,7 +119,7 @@ define([
                         },
 
                         error: function(x, response) {
-                            Application.Views.showErrorMsg("Could not update topic: " + newTopic.get('name'));
+                            Application.Views.showErrorMsg("Could not create topic: " + newTopic.get('name'));
                             console.log("Error on server!! -- " + response.text);
                             return response;
                         }
