@@ -203,7 +203,14 @@ define([
 
             serializeData: function() {
                 var data = this.model.toJSON();
-                data.topicName = data.topic.name;
+
+                //This is to handle when a topic is deleted but is still assigned to a class
+                data.topicName = "";
+                if (data.topic) {
+                    data.topicName = data.topic.name;
+                }
+
+                //This is to handle when the associated staff is deleted
                 data.staffName = "";
                 if (data.staff){
                     data.staffName = data.staff.name;

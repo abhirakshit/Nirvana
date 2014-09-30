@@ -45,7 +45,7 @@ define([
                 var that = this;
                 //Edit
                 this.listenTo(tableComposite, Application.TOPIC_SHOW, function(topicId){
-                    that.showEditTopicModal(topicId, allServices, allTopics);
+                    that.showEditTopicModal(topicId, allServices, allTopics, tableComposite);
                 });
 
                 //Delete Class
@@ -79,7 +79,7 @@ define([
                 Application.modalRegion.show(confirmationView);
             },
 
-            showEditTopicModal: function(topicId, allServices, allTopics) {
+            showEditTopicModal: function(topicId, allServices, allTopics, tableView) {
                 var topic = allTopics.get(topicId);
                 topic.attributes.modalId = "editTopicModal";
                 topic.attributes.formTitle = "Edit Topic";
@@ -96,7 +96,7 @@ define([
                         minutes: data.duration_min,
                         hours: data.duration_hr
                     });
-                    data.duration = duration._milliseconds
+                    data.duration = duration._milliseconds;
 
                     topic.save(data, {
                         wait: true,
@@ -104,7 +104,7 @@ define([
                             Application.Views.showSuccessMsg("Updated topic: " + newTopic.get('name'));
                         },
 
-                        error: function(x, response) {
+                        error: function(newTopic, response) {
                             Application.Views.showErrorMsg("Could not update topic: " + newTopic.get('name'));
                             console.log("Error on server!! -- " + response.text);
                             return response;

@@ -78,27 +78,27 @@ define([
             },
 
 
-            showAllStaff: function (user) {
-                var allStaffView = new Staff.views.StaffCollection({collection: user});
-//                this.layout.changePasswordRegion.show(allStaffView);
-                this.layout.contentRegion.show(allStaffView);
-                var that = this;
-                this.listenTo(allStaffView, Application.SELECTED_STAFF, function (staffId) {
-//                    Application.execute(Application.SELECTED_STAFF, that.options.region, staffId);
-                    Application.execute(Application.SELECTED_STAFF, that.layout.contentRegion, staffId);
-                });
-            },
-
-            showSelectedStaff: function (userId) {
-
-                // var that = this;
-                // this.listenTo(showAllStaff.allStaffView, Application.SELECTED_STAFF, function(staffId){
-                //     Application.execute(Application.SELECTED_STAFF, that.options.region, staffId);
-                //     console.log('Its Working!');
-                // });
-
-
-            },
+//            showAllStaff: function (user) {
+//                var allStaffView = new Staff.views.StaffCollection({collection: user});
+////                this.layout.changePasswordRegion.show(allStaffView);
+//                this.layout.contentRegion.show(allStaffView);
+//                var that = this;
+//                this.listenTo(allStaffView, Application.SELECTED_STAFF, function (staffId) {
+////                    Application.execute(Application.SELECTED_STAFF, that.options.region, staffId);
+//                    Application.execute(Application.SELECTED_STAFF, that.layout.contentRegion, staffId);
+//                });
+//            },
+//
+//            showSelectedStaff: function (userId) {
+//
+//                // var that = this;
+//                // this.listenTo(showAllStaff.allStaffView, Application.SELECTED_STAFF, function(staffId){
+//                //     Application.execute(Application.SELECTED_STAFF, that.options.region, staffId);
+//                //     console.log('Its Working!');
+//                // });
+//
+//
+//            },
 
 
             getLayout: function () {

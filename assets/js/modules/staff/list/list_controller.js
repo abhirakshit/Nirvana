@@ -49,7 +49,7 @@ define([
                 var title = '<i style="color: green;" class="i i-users3"></i>&nbsp;Staff';
                 var tableComposite = this.getTableView("staffTable", title, headerColumns, staffList, List.views.Row, Application.SELECTED_STAFF);
                 this.listenTo(tableComposite, Application.SELECTED_STAFF, function (studentId) {
-                    Application.execute(Application.SELECTED_STAFF, that.layout.contentRegion, studentId);
+                    Application.execute(Application.SELECTED_STAFF, that.options.region, studentId);
                 });
                 this.layout.staffListRegion.show(tableComposite);
             },

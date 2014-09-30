@@ -139,14 +139,15 @@ define([
                 this.listenTo(confirmationView, Application.CONFIRM, function() {
                     //Call delete with model
                     var classModel = allClasses.get(classId);
-                    console.log("Delete class" + classModel);
                     classModel.destroy({
                         wait: true,
                         success: function (deletedClass){
                             console.dir(deletedClass);
+                            Application.Views.showSuccessMsg("Removed class: " + deletedClass.get('topic').name);
                         },
 
-                        error: function(x, response) {
+                        error: function(deleteClass, response) {
+                            Application.Views.showErrorMsg("Could not remove class: " + deleteClass.get('topic').name);
                             console.log("Error on server!! -- " + response.text);
                             return response;
                         }
@@ -171,10 +172,12 @@ define([
                         wait: true,
                         success: function(newClass){
                             allClasses.add(newClass);
+                            Application.Views.showSuccessMsg("Added class: " + newClass.get('topic').name);
                         },
 
-                        error: function(x, response) {
-                            console.log("Error on server!! -- " + response.text);
+                        error: function(newClass, response) {
+                            Application.Views.showErrorMsg("Could not add class: " + newClass.get('topic').name);
+                            console.log("Error on server!! -- " + response);
                             return response;
                         }
                     });
@@ -196,20 +199,17 @@ define([
 
 //                var that = this;
                 addClassFormView.on(Show.CREATE_CLASS, function(modalFormView, data){
-                    console.log("Create Class");
                     data.batch = batch.id;
-                    console.dir(data);
                     modalFormView.model.save(data, {
                         wait: true,
                         success: function(newClass){
-                            console.log("Saved on server!!");
-                            console.dir(newClass);
                             allClasses.add(newClass);
-
+                            Application.Views.showSuccessMsg("Added class: " + newClass.get('topic').name);
                         },
 
-                        error: function(x, response) {
-                            console.log("Error on server!! -- " + response.text);
+                        error: function(newClass, response) {
+                            Application.Views.showErrorMsg("Could not add class: " + newClass.get('topic').name);
+                            console.log("Error on server!! -- " + response);
                             return response;
                         }
                     });

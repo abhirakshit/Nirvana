@@ -1,5 +1,5 @@
-define([], function(){
-    Application.module("Staff.List", function(List, Application, Backbone, Marionette, $, _) {
+define([], function () {
+    Application.module("Staff.List", function (List, Application, Backbone, Marionette, $, _) {
         //Setup
         this.prefix = "Staff.List";
         this.templatePath = "js/modules/";
@@ -27,7 +27,7 @@ define([], function(){
                 "click": "selectedStaff"
             },
 
-             selectedStaff: function(evt) {
+            selectedStaff: function (evt) {
                 evt.preventDefault();
                 console.log("Show selected staff: " + this.model);
                 this.trigger('staffs:show', this.model);
@@ -43,7 +43,7 @@ define([], function(){
                 "click": "click"
             },
 
-            click: function(evt) {
+            click: function (evt) {
                 evt.preventDefault();
                 this.trigger(Application.SELECTED_STAFF, this);
             }
@@ -53,11 +53,10 @@ define([], function(){
             itemView: List.views.Show,
             template: 'staff/templates/show_all_staff',
 
-            initialize: function(){
+            initialize: function () {
                 var that = this;
-                this.on(Application.CHILD_VIEW + ":" + Application.SELECTED_STAFF, function(childView){
+                this.on(Application.CHILD_VIEW + ":" + Application.SELECTED_STAFF, function (childView) {
                     that.trigger(Application.SELECTED_STAFF, childView.model.get('id'));
-
                 });
             }
         });

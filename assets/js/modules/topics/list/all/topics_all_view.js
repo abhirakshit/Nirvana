@@ -34,6 +34,10 @@ define([
                 "click .delete": "delete"
             },
 
+            onRender: function() {
+                console.log("Render row.")
+            },
+
 //            click: function(evt) {
 //                evt.preventDefault();
 //                this.trigger(Application.TOPIC_SHOW, this);

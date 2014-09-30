@@ -10,9 +10,6 @@ define([], function () {
                 section: {required: true},
                 duration_hr: {
                     required: function (value, attr, computedState) {
-                        console.dir(attr);
-                        console.dir(value);
-                        console.dir(computedState);
                         if (!value) {
                             if (!computedState.duration_min || computedState.duration_min === '')
                                 return true;
@@ -56,12 +53,15 @@ define([], function () {
             getAllTopics: function (waitForFetch) {
                 if (!Entities.allTopics) {
                     Entities.allTopics = new Entities.TopicCollection();
+                }
+//                if (!Entities.allTopics) {
+//                    Entities.allTopics = new Entities.TopicCollection();
                     if (waitForFetch) {
                         Entities.allTopics.fetch({async: false});
                     } else {
                         Entities.allTopics.fetch();
                     }
-                }
+//                }
                 return Entities.allTopics;
             },
 
