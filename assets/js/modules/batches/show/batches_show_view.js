@@ -142,7 +142,6 @@ define([
                 evt.preventDefault();
                 this.trigger(Show.SHOW_NEW_CLASS_MODAL);
             }
-
         });
 
 
@@ -155,6 +154,7 @@ define([
 
             onRender: function() {
                 Backbone.Validation.bind(this);
+
                 this.renderSelect(this.options.allTopics, "#topic", this.model.get('topic'));
                 this.renderSelect(this.options.allStaff, "#staff", this.model.get('staff'));
 
@@ -162,9 +162,14 @@ define([
                 Application.Views.addDateTimePicker(this.$el.find('#dateDiv'), moment(this.model.get('date')));
             },
 
-            renderSelect :function (idToTextMap, element, selectedId) {
+            renderSelect :function (idToTextMap, element, selectedModel) {
                 var that = this;
-                console.log(selectedId);
+                var selectedId;
+
+                if (selectedModel) {
+                    selectedId = selectedModel.id;
+                }
+
                 _.each(idToTextMap, function(select){
                     if (selectedId && select.id === selectedId) {
                         that.$el.find(element).append("<option value=" + select.id + " selected=selected" + ">" + select.text + "</option>");

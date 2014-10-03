@@ -118,13 +118,11 @@ define([
                 var that = this;
                 //Edit Class
                 this.listenTo(tableComposite, Application.CLASS_SHOW, function(classId){
-                    console.log("Show Class");
-                    that.showClassModal(allTopics, allStaff, batchClasses, classId);
+                    that.showEditClassModal(allTopics, allStaff, batchClasses, classId);
                 });
 
                 //Delete Class
                 this.listenTo(tableComposite, Application.DELETE, function(classId){
-//                    console.log("Delete Class");
                     that.showDeleteClassModal(batchClasses, classId);
                 });
 
@@ -142,7 +140,6 @@ define([
                     classModel.destroy({
                         wait: true,
                         success: function (deletedClass){
-                            console.dir(deletedClass);
                             Application.Views.showSuccessMsg("Removed class: " + deletedClass.get('topic').name);
                         },
 
@@ -156,8 +153,8 @@ define([
                 Application.modalRegion.show(confirmationView);
             },
 
-            showClassModal: function(allTopics, allStaff, allClasses, classId) {
-                var classModel = allClasses.get(classId);
+            showEditClassModal: function(allTopics, allStaff, batchClasses, classId) {
+                var classModel = batchClasses.get(classId);
                 classModel.attributes.modalId = Show.addClassModalFormId;
                 classModel.attributes.formHeader = "Edit Class";
                 classModel.attributes.formBtnText = "Update";
@@ -171,7 +168,6 @@ define([
                     classModel.save(data, {
                         wait: true,
                         success: function(newClass){
-                            allClasses.add(newClass);
                             Application.Views.showSuccessMsg("Added class: " + newClass.get('topic').name);
                         },
 
@@ -186,7 +182,7 @@ define([
 
             },
 
-            showNewClassModal: function(batch, allTopics, allStaff, allClasses) {
+            showNewClassModal: function(batch, allTopics, allStaff, batchClasses) {
                 var newClass = Application.request(Application.GET_CLASS);
                 newClass.attributes.modalId = Show.addClassModalFormId;
                 newClass.attributes.formHeader = "Add Class";
@@ -197,13 +193,12 @@ define([
                     allStaff: allStaff.getIdToTextMap("name")
                 });
 
-//                var that = this;
                 addClassFormView.on(Show.CREATE_CLASS, function(modalFormView, data){
                     data.batch = batch.id;
                     modalFormView.model.save(data, {
                         wait: true,
                         success: function(newClass){
-                            allClasses.add(newClass);
+                            batchClasses.add(newClass);
                             Application.Views.showSuccessMsg("Added class: " + newClass.get('topic').name);
                         },
 
@@ -218,7 +213,6 @@ define([
             },
 
 
-//            showStudents: function(batch, enrolledStudents) {
             showStudents: function(batch) {
                 /* This is called here we need the service information from the batch which might not have been received
                  * at the initialize
@@ -264,8 +258,6 @@ define([
                         wait: true,
                         patch: true,
                         success: function(updatedBatch){
-                            console.log("Saved on server!!");
-                            console.dir(updatedBatch);
 //                            enrolledStudents.add(studentModel);
                             that.showStudents(updatedBatch);
                         },
@@ -282,10 +274,6 @@ define([
                         wait: true,
                         patch: true,
                         success: function(updatedBatch){
-                            console.log("Saved on server!!");
-                            console.dir(updatedBatch);
-//                            enrolledStudents.add()
-
                             that.showStudents(updatedBatch);
                         },
 

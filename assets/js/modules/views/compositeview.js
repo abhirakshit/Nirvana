@@ -7,14 +7,26 @@ define([], function(){
 //                "change": "refreshView"
 //            },
 //
-//            collectionEvents: {
+            collectionEvents: {
 //                "add": "refreshView",
 //                "change": "refreshView"
-//            },
-//
-//            refreshView: function() {
+                "add": "refreshOnAdd",
+                "change": "refreshOnChange"
+            },
+
+            refreshOnAdd: function() {
+                console.log("Refresh View on Add");
+            },
+
+            refreshOnChange: function() {
+                console.log("Refresh View on Change");
+                this.render();
+            },
+
+            refreshView: function() {
+                console.log("Refresh View");
 //                this.render();
-//            }
+            }
         });
     });
 });
