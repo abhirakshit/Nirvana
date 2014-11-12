@@ -11,8 +11,9 @@ module.exports = {
 
     index: function (req, res) {
         if (req.session.isAuthenticated) {
+            res.locals.layout = 'layout_index';
             return res.view('main/index', {
-                _layoutFile: '../layout_index',
+//                _layoutFile: '../layout_index',
                 loggedUser: req.session.user
             });
         } else {

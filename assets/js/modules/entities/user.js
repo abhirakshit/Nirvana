@@ -101,7 +101,6 @@ define([
 
             getEnquiriesAssigned: function (staffId) {
                 if (!staffId) {
-                    console.log("Staff id not found");
                     staffId = Entities.loggedUser.get('id');
                 }
 

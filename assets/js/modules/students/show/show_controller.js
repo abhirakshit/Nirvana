@@ -235,8 +235,6 @@ define([
             },
 
             showHistoryView: function (student, studentComments) {
-//            showHistoryView: function (student) {
-//                var studentComments = new Application.Entities.CommentCollection(student.get('commentsReceived'));
                 var historyView = new Show.views.History({
                     model: student,
                     collection: studentComments

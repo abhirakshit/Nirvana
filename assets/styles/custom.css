@@ -177,3 +177,8 @@ div.jGrowlError {
     background: #e56371 !important;
     opacity: 1 !important;
 }
+
+/*Overwrite datatable empty class*/
+.dataTables_empty {
+    padding-left: .85em;
+}

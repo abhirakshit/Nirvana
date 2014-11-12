@@ -210,12 +210,13 @@ require(dependencies,
                 Application.module("Sidebar").start();
                 Application.module("Settings").start();
                 Application.module("Enquiries").start();
-                Application.module("Batches").start();
-                Application.module("Topics").start();
+                /*
+                Hiding batch and topics for now
+                 */
+//                Application.module("Batches").start();
+//                Application.module("Topics").start();
                 Application.module("Students").start();
                 Application.module("Staff").start();
-                //Application.module("Student").start();
-//                Application.module("Payments").start();
 
             });
 
@@ -225,13 +226,11 @@ require(dependencies,
                 "modules/footer/footer_app",
                 "modules/sidebar/sidebar_app",
                 "modules/enquiries/enquiries_app",
-                "modules/batches/batches_app",
-                "modules/topics/topics_app",
+//                "modules/batches/batches_app",
+//                "modules/topics/topics_app",
                 "modules/settings/settings_app",
                 "modules/students/students_app",
                 "modules/staff/staff_app"
-               // "modules/student/student_app",
-//                "modules/payments/payments_app"
 
             ], function () {
                 console.log("Start Application...");

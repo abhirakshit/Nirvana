@@ -199,7 +199,6 @@ define([
             },
 
             onRender: function() {
-                console.log("On render");
                 Backbone.Validation.bind(this);
                     var options = {
                         "oLanguage": {

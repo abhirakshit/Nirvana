@@ -578,7 +578,6 @@ updateEmail = function (id, staffId, updateFields, res) {
 addComment = function (id, staffId, comment, res) {
     async.series([
         function (callback) {
-//            console.log(req.body.comment);
             var commentStr = "<b>Comment:</b> " + comment.commentText;
 //            UserService.createComment(staffId, id, commentStr, "comment", callback)
             UserService.createComment(staffId, id, commentStr, consts.COMMENT_ADD, callback)
