@@ -204,7 +204,7 @@ define([
                         "oLanguage": {
                             "sEmptyTable": "No comments yet"
                         },
-                        "sPaginationType": "full_numbers",
+                        "sPaginationType": "simple_numbers",
                         "iDisplayLength": 5,
                         "bFilter" : false,
                         "bLengthChange": false

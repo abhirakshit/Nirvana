@@ -1,10 +1,5 @@
 requirejs.config({
 
-    /**
-     * Local Setup
-     */
-//    baseUrl: 'assets/javascripts',
-
     paths: {
         //Build
         jquery: "lib/jquery/jquery.min",
@@ -26,6 +21,7 @@ requirejs.config({
         jquerySpin: "lib/spin/jquery.spin",
         jqueryUI: "lib/jquery-ui/jquery-ui.min",
         dataTables: "lib/datatables/jquery.dataTables.min",
+//        dataTables: "lib/datatables/jquery.dataTables",
         dataTablesBootstrap: "lib/datatables/dataTables.bootstrap",
         jasnyBootstrap: "lib/jasny-bootstrap/jasny-bootstrap.min",
         bootstrapDateTimePicker: "lib/bootstrap-datetimepicker/bootstrap-datetimepicker",
@@ -121,15 +117,6 @@ requirejs.config({
             deps: ["jquery"]
         }
 
-//        //Theme
-//        app : {
-//
-//        },
-//
-//        appPlugin: {
-//
-//        }
-
     }
 
 });
@@ -144,9 +131,7 @@ var dependencies = [
     "backboneSyphon",
     "bootstrapEditable",
     "bootstrapDateTimePicker",
-//    "backboneModal",
 
-    //Utils
     "jquerySpin",
     "jqueryUI",
     "dataTables",
@@ -155,7 +140,6 @@ var dependencies = [
     "jGrowl",
     "select2",
     "moment",
-//    "parsley",
 
 
     //App Addons
@@ -164,12 +148,37 @@ var dependencies = [
     "marionette_config_module",
     "backbone_config_sync"
 
-    //Theme
-//    "app",
-//    "appPlugin"
 ];
 
-require(dependencies,
+require([
+        "marionette",
+        "bootstrap",
+
+
+        //Add-On's
+        "backboneValidation",
+        "backboneSyphon",
+        "bootstrapEditable",
+        "bootstrapDateTimePicker",
+
+        //Utils
+        "jquerySpin",
+        "jqueryUI",
+        "dataTables",
+        "dataTablesBootstrap",
+        "jasnyBootstrap",
+        "jGrowl",
+        "select2",
+        "moment",
+
+
+        //App Addons
+        "templateLoader",
+        "marionette_config_application",
+        "marionette_config_module",
+        "backbone_config_sync"
+
+    ],
     function (Marionette) {
         console.log("Init Application...");
         window.Application = new Marionette.Application();
@@ -211,7 +220,7 @@ require(dependencies,
                 Application.module("Settings").start();
                 Application.module("Enquiries").start();
                 /*
-                Hiding batch and topics for now
+                 Hiding batch and topics for now
                  */
 //                Application.module("Batches").start();
 //                Application.module("Topics").start();

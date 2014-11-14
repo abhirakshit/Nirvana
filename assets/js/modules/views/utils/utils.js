@@ -24,7 +24,7 @@ define([
 //                    "sDom": "<'row'<'col-sm-6'l><'col-sm-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>",
 //                    "bJQueryUI": true,
 //                    "bLengthChange" : false,
-                    "sPaginationType": "full_numbers",
+                    "sPaginationType": "simple_numbers",
 //                "bFilter" : false
 //                    "bInfo": false
 

@@ -111,7 +111,7 @@ define([
                     new Application.Entities.Model({columnName: "Assigned To"}),
                     new Application.Entities.Model({columnName: "Edit/Del"})
                 ]);
-                var dataTableOptions = {"bLengthChange" : false, "sPaginationType": "full_numbers", "bFilter" : false};
+                var dataTableOptions = {"bLengthChange" : false, "sPaginationType": "simple_numbers", "bFilter" : false};
                 var tableComposite = Application.Views.getTableView("classTable", "Classes", columns, batchClasses,
                     Application.CLASS_SHOW, Show.views.ClassRow, dataTableOptions);
 

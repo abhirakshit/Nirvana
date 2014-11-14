@@ -99,7 +99,7 @@ define([
                 this.$el.find("thead").append(theadView.render().el);
 
                 var options = {
-                    "sPaginationType": "full_numbers",
+                    "sPaginationType": "simple_numbers",
                     "processing": true,
                     "serverSide": true,
                     "deferRender": true,

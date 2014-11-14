@@ -178,7 +178,26 @@ div.jGrowlError {
     opacity: 1 !important;
 }
 
-/*Overwrite datatable empty class*/
+/***********
+* Overwrite datatable classes to make the theme css compatible
+* with Datatable 1.10
+***********/
 .dataTables_empty {
     padding-left: .85em;
 }
+
+.dataTables_length,
+.dataTables_filter {
+    padding: 10px 10px 0px 10px;
+}
+.dataTables_info,
+.dataTables_paginate {
+    padding: 0px 10px 0px 10px;
+}
+
+.dataTables_wrapper .table {
+    border: 1px solid #eee;
+    border-width: 1px 0;
+}
+/*****************/
+
